@@ -1,0 +1,121 @@
+"use client"
+
+import { useRouter } from 'next/navigation';
+import React, { useState, useEffect } from 'react'
+import { 
+    MdKeyboardArrowRight, 
+    MdKeyboardArrowUp, 
+    MdLogin, 
+    MdContactSupport, 
+    MdOutlineDashboard,
+    MdOutlinePendingActions, 
+    MdAttachMoney,
+    MdOutlineAdminPanelSettings,
+    MdDeliveryDining  
+    } from "react-icons/md";
+import Image from 'next/image';
+import Link from 'next/link'; 
+import { SignOut } from '@/lib/auth';
+import { jwtDecode } from 'jwt-decode';
+
+export default function Menu({ access, refresh } : {access : string | undefined, refresh : string | undefined}) {
+
+
+    const router = useRouter();
+
+    const [isFaqOpen, setIsFaqOpen] = useState(Array(4).fill(false));
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const handleMenu = () => setIsMenuOpen(!isMenuOpen);
+
+    function handleClick(index: number) {
+        setIsFaqOpen((prevExpanded) => prevExpanded.map((isExpanded, i) => (i === index ? !isExpanded : isExpanded))
+        );
+    }
+    const handleSubmit = async () => {
+        
+            const result = await SignOut({access, refresh});
+    
+            if(result){
+                router.push('/role');
+            }
+    
+          };
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 760) {
+                setIsMenuOpen(false);
+            } else {
+                setIsMenuOpen(true);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        // Initial check
+        handleResize();
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+  return (
+    <>
+        <div onClick={handleMenu} className={`fixed z-50 top-6 left-3 transition-all ${isMenuOpen ? "translate-x-64" : "" } flex flex-col justify-center gap-y-2 w-10 h-9 cursor-pointer md:hidden`}>
+                <div className={`relative w-full h-1.5 bg-third transition-all duration-500 ${isMenuOpen ? 'top-3.5 -rotate-45' : ''} `}></div>
+                <div className={`w-full h-1.5 bg-third transition-all duration-500 ${isMenuOpen ? ' -rotate-45' : ''} `}></div>
+                <div className={`relative w-full h-1.5 bg-third transition-all duration-500 ${isMenuOpen ? '-top-3.5  rotate-45' : ''} `}></div>
+            </div>
+    <div className={`fixed z-40 text-white top-0 overflow-y-auto md:overflow-y-hidden left-0 bottom-0 transition-all md:-translate-x-0  ${isMenuOpen ? "" : "-translate-x-80"}  bg-primer w-80 px-5`}>
+        <Link onClick={handleMenu} href="/" className='flex flex-col justify-center'>
+            <Image height={100} width={100} src="/tawsil-start.png" alt="Tawsil" className='w-40 cursor-pointer mx-auto' />
+        </Link>
+            <div className='flex flex-col gap-2 py-3'>
+                <Link onClick={handleMenu} href="/role" className='flex justify-between bg-slate-600 hover:bg-slate-600 p-3 items-center font-bold text-xl cursor-pointer'>
+                    <h1 className='flex items-center gap-2'><MdOutlineDashboard /> Dashboard</h1>
+                    <MdKeyboardArrowRight />
+                </Link>
+                <Link onClick={handleMenu} href="/role/actions" className='flex justify-between hover:bg-slate-600 p-3 items-center font-bold text-xl cursor-pointer'>
+                    <h1 className='flex items-center gap-2'><MdOutlinePendingActions /> Les Action</h1>
+                    <MdKeyboardArrowRight />
+                </Link>
+                <Link onClick={handleMenu} href="/role/caisses" className='flex justify-between hover:bg-slate-600 p-3 items-center font-bold text-xl cursor-pointer'>
+                    <h1 className='flex items-center gap-2'><MdAttachMoney  /> Les caisses</h1>
+                    <MdKeyboardArrowRight />
+                </Link>
+                <div onClick={() => handleClick(1)} className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>
+                        <h1 className='flex items-center gap-2'><MdOutlineAdminPanelSettings /> Agent administratif</h1>
+                        <MdKeyboardArrowUp className={`${isFaqOpen[1] ? 'rotate-180' : ''}`} />
+                    </div>
+                    <div className={`transition-all duration-200 overflow-hidden ${isFaqOpen[1] ? 'max-h-screen' : 'max-h-0'}`}>
+                        <ul className='flex flex-col gap-2 p-3 ml-5'>
+                            <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/role/ajoute_agent"> Ajouté Agent</Link></li>
+                        </ul>
+                        <ul className='flex flex-col gap-2 p-3 ml-5'>
+                            <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/role/modifie_agent"> Modifié Agent</Link></li>
+                        </ul>
+                    </div>
+                    <Link onClick={handleMenu} href="/role/deliveries" className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>
+                        <h1 className='flex items-center gap-2'><MdDeliveryDining /> livraisons</h1>
+                        <MdKeyboardArrowRight />
+                    </Link>
+                    <Link onClick={handleMenu} href="/role/apple_center" className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>
+                        <h1 className='flex items-center gap-2'><MdContactSupport /> Center d'apple</h1>
+                        <MdKeyboardArrowRight />
+                    </Link>
+                    <div onClick={() => handleClick(0)} className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>
+                        <h1 className='flex items-center gap-2'><MdLogin /> Authentication</h1>
+                        <MdKeyboardArrowUp className={`${isFaqOpen[0] ? 'rotate-180' : ''}`} />
+                    </div>
+                    <div className={`transition-all duration-200 overflow-hidden ${isFaqOpen[0] ? 'max-h-screen' : 'max-h-0'}`}>
+                        <ul className='flex flex-col gap-2 p-3 ml-5'>
+                            {access ? <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><span onClick={handleSubmit} className='cursor-pointer'> Log Out</span></li> :<li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/login"> Login</Link></li> }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </>
+  )
+}

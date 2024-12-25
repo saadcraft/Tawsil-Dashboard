@@ -9,19 +9,31 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "axios": "^1.7.9",
+    "next": "15.1.2",
+    "next-auth": "^4.24.11",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "next": "15.1.2"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
+    "dotenv": "^16.4.7",
     "eslint": "^9",
     "eslint-config-next": "15.1.2",
-    "@eslint/eslintrc": "^3"
+    "i": "^0.3.7",
+    "iron-session": "^8.0.4",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
+    "next-client-cookies": "^2.0.0",
+    "npm": "^10.9.2",
+    "postcss": "^8",
+    "react-hot-toast": "^2.4.1",
+    "react-icons": "^5.4.0",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
   }
 }
