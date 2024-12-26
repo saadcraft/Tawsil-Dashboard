@@ -14,7 +14,7 @@ import {
     MdDeliveryDining  
     } from "react-icons/md";
 import Image from 'next/image';
-import Link from 'next/link'; 
+import Link from 'next/link';
 import { SignOut } from '@/lib/auth';
 import { jwtDecode } from 'jwt-decode';
 

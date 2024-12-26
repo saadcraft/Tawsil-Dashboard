@@ -4,6 +4,7 @@
 import axios from 'axios';
 import { DateTime } from 'next-auth/providers/kakao';
 import  { toast } from 'react-hot-toast';
+import { cookies } from 'next/headers';
 
 type User = {
     username: string;
@@ -71,8 +72,9 @@ export async function SignOut({ access, refresh }: { access: string | undefined 
             }
         })
         if(res){
-            toast.success('Succesfull Logging Out',  {id: loadingToastId})
-
+            toast.success('Succesfull Logging Out',  {id: loadingToastId});
+            (await cookies()).delete('access_token');
+            (await cookies()).delete('refresh_token');
             return res.data
         }
     }catch (error){
