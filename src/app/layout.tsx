@@ -2,7 +2,7 @@ import { CookiesProvider } from 'next-client-cookies/server';
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/header/header";
-import MenuServer from "@/components/menu/menu_server";
+import Menu from "@/components/menu/menu";
 import { Toaster } from 'react-hot-toast';
 
 
@@ -22,11 +22,13 @@ export default function RootLayout({
         className={`antialiased bg-six`}
       >
         <Toaster position='top-center' reverseOrder={false}></Toaster>
-            <MenuServer />
-            <Header />
-          <main className='relative z-80 top-20 md:ml-80'>
-              {children}
-          </main>
+        <CookiesProvider>
+              <Menu />
+              <Header />
+            <main className='relative z-80 top-20 md:ml-80'>
+                {children}
+            </main>
+          </CookiesProvider>
       </body>
     </html>
   );

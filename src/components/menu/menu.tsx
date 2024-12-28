@@ -17,9 +17,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { SignOut } from '@/lib/auth';
 import { jwtDecode } from 'jwt-decode';
+import { useCookies } from "next-client-cookies";
 
-export default function Menu({ access, refresh } : {access : string, refresh : string}) {
+export default function Menu() {
 
+
+    const cookies = useCookies()
+    const access = cookies.get('access_token');
+    const refresh = cookies.get('refresh_token');
 
     const router = useRouter();
 
