@@ -2,7 +2,7 @@
 
 import React, { SelectHTMLAttributes, useState } from 'react'
 import Link from 'next/link'
-import { AddAgent, Data } from '@/lib/auth'
+import { AddAgent, Data } from '@/lib/actions'
 
 export default function AjouteAgent({ token } : { token : string}) {
 

@@ -22,5 +22,15 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }: { addUtilities: (utilities: Record<string, any>) => void }) {
+      addUtilities({
+        '.no-arrows': {
+          '-webkit-appearance': 'none', /* Chrome, Safari */
+          '-moz-appearance': 'textfield', /* Firefox */
+          'appearance': 'textfield', /* General */
+        },
+      });
+    },
+  ],
 } satisfies Config;
