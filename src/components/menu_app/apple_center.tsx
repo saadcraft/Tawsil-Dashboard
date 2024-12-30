@@ -3,22 +3,49 @@
 import React, {useState} from 'react'
 import Link from 'next/link'
 import { FaSearch } from 'react-icons/fa'
+import { Partner } from "@/lib/type_module/center_type"
+import { IoDocumentTextOutline } from "react-icons/io5";
+import { MdClose } from "react-icons/md"
+import Comment from "../windows/comment"
 
-export default function AppleCenter() {
+type Props = {
+  parteners: Partner[];
+};
 
-  const [select, setSelect] = useState(Array(20).fill(false))
+export default function AppleCenter({ parteners } : Props) {
+
+  const [activePartnerId, setActivePartnerId] = useState<number | null>(null);
+
+  const handleCommentClick = (id: number) => {
+    setActivePartnerId(activePartnerId === id ? null : id); // Toggle visibility
+  };
+
+  const handleClose = () => {setActivePartnerId(null)}
   
-    const handleCheck = (index: Number) => {
-      setSelect((prevExpanded) => prevExpanded.map((isChecked, i) => (i === index ? !isChecked : isChecked)));
-    }
-    const handleCheckAll = () => {
-      // Check if all items are selected
-      const allSelected = select.every((isChecked) => isChecked);
-  
-      // If all selected, unselect all, otherwise select all
-      setSelect(select.map(() => !allSelected));
-    };
-
+    const pertener = parteners.map((pre, index) => {
+      return (
+        <tr key={index} className="bg-white border-b text-black hover:bg-gray-50">
+        <td className="px-6 py-4">
+          {pre.id}
+        </td>
+        <td className="px-6 py-4">
+          {pre.user.username}
+        </td>
+        <td className="px-6 py-4">
+          {pre.user.phone_number_1}
+        </td>
+        <td className="px-6 py-4">
+          {pre.user.is_active ? "true" : "false"}
+        </td>
+        <td className="px-6 py-4 text-center">
+          <button className='text-xl'><IoDocumentTextOutline /></button>
+        </td>
+        <td className="px-6 py-4 text-right">
+            <button onClick={() => handleCommentClick(pre.id)} className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Comment</button>
+        </td>
+      </tr>
+      )
+    })
 
 
   return (
@@ -28,28 +55,26 @@ export default function AppleCenter() {
         <h1 className='font-bold'>Centre d'appel</h1>
       </div>
       <div className='p-10 bg-white gap-10 rounded-md shadow-md'>
-        <div className='mb-7 flex items-center'>
+        <div className='mb-7 flex justify-between items-center'>
           <FaSearch className='absolute text-slate-500' />
           <input type="text" name="search" placeholder='Search to table' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+            <button  className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Add comment</button>
         </div>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left">
             <thead className="text-xs text-gray-500 uppercase bg-primer">
               <tr>
                 <th className="px-6 py-3">
-                  <input type="checkbox" name='check' id="check" onChange={handleCheckAll} checked={select.every(Boolean)} />
+                  ID
                 </th>
                 <th className="px-6 py-3">
-                  Employé
+                  Partner
                 </th>
                 <th className="px-6 py-3">
-                  Client
+                  Number
                 </th>
                 <th className="px-6 py-3">
                   action
-                </th>
-                <th className="px-6 py-3">
-                  id
                 </th>
                 <th className="px-6 py-3 text-right">
                   commentaire
@@ -60,11 +85,17 @@ export default function AppleCenter() {
               </tr>
             </thead>
             <tbody className='odd:bg-six even:bg-fifth'>
-
+              {pertener}
             </tbody>
           </table>
         </div>
       </div>
+      {activePartnerId !== null && (
+        <div>
+          <button onClick={handleClose} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
+          <Comment id={activePartnerId} />
+        </div>
+      )}
     </div>
   )
 }

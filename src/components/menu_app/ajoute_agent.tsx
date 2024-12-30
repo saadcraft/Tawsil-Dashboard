@@ -1,8 +1,9 @@
 "use client"
 
-import React, { SelectHTMLAttributes, useState } from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
-import { AddAgent, Data } from '@/lib/actions'
+import { AddAgent, Data } from '@/lib/action_client'
+import { toast } from "react-hot-toast"
 
 export default function AjouteAgent({ token } : { token : string}) {
 
@@ -28,11 +29,15 @@ export default function AjouteAgent({ token } : { token : string}) {
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        const loadingToastId = toast.loading('Adding agent...');
           event.preventDefault();
-          const result = await AddAgent(token ,formData);
-          if (result !== null){
-            setFormData(data);
+          try{
+              const result = await AddAgent(token ,formData);
+              toast.success(result, { id: loadingToastId });
+          }catch(error : any){
+            toast.error(error.message, { id: loadingToastId });
           }
+          
         };
 
 
