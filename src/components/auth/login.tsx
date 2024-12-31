@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import Image from "next/image";
 import Link from "next/link";
 import { SignIn } from "@/lib/auth";
+import { toast } from "react-hot-toast"
 
 export default function Login() {
 
@@ -15,11 +16,22 @@ export default function Login() {
         const password = formData.get('password') as string;
 
         console.log(username, password);
-    
-        const result = await SignIn({ username, password });
-
-        if(result){
-            router.push('/role');
+        const loadingToastId = toast.loading('Logging in...');
+        try{
+            const result = await SignIn({ username, password });
+            
+            if(result){
+                toast.success('Login successful', { id: loadingToastId });
+                router.push('/role');
+            }else{
+                toast.error('Login failed', { id: loadingToastId });
+            }
+        }catch(error){
+             if (error instanceof Error) {
+                    toast.error(error.message, { id: loadingToastId });
+                } else {
+                    toast.error('An unknown error occurred', { id: loadingToastId });
+                }
         }
 
       };

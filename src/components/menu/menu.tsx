@@ -18,13 +18,14 @@ import Link from 'next/link';
 import { SignOut } from '@/lib/auth';
 import { jwtDecode } from 'jwt-decode';
 import { useCookies } from "next-client-cookies";
+import { toast } from "react-hot-toast"
 
-export default function Menu() {
+export default function Menu({ token, remove }: {token : string, remove : string}) {
 
 
-    const cookies = useCookies()
-    const access = cookies.get('access_token');
-    const refresh = cookies.get('refresh_token');
+    // const cookies = useCookies()
+    // const access = cookies.get('access_token');
+    // const refresh = cookies.get('refresh_token');
 
     const router = useRouter();
 
@@ -38,12 +39,23 @@ export default function Menu() {
         );
     }
     const handleSubmit = async () => {
-        
-            const result = await SignOut({access, refresh});
+
+        const loadingToastId = toast.loading('Logging Out...');
+        try{
+            const result = await SignOut();
     
             if(result){
+                toast.success('Succesfull Logging Out', { id: loadingToastId });
                 router.push('/role');
             }
+
+        }catch(error){
+            if (error instanceof Error) {
+                toast.error(error.message, { id: loadingToastId });
+            } else {
+                toast.error('An unknown error occurred', { id: loadingToastId });
+            }
+        }
     
           };
 
@@ -77,7 +89,10 @@ export default function Menu() {
         <Link onClick={handleMenu} href="/" className='flex flex-col justify-center'>
             <Image height={100} width={100} src="/tawsil-start.png" alt="Tawsil" className='w-40 cursor-pointer mx-auto' />
         </Link>
+
             <div className='flex flex-col gap-2 py-3'>
+                {token ?
+                <>
                 <Link onClick={handleMenu} href="/role" className='flex justify-between bg-slate-600 hover:bg-slate-600 p-3 items-center font-bold text-xl cursor-pointer'>
                     <h1 className='flex items-center gap-2'><MdOutlineDashboard /> Dashboard</h1>
                     <MdKeyboardArrowRight />
@@ -110,13 +125,14 @@ export default function Menu() {
                         <h1 className='flex items-center gap-2'><MdContactSupport /> Center d'apple</h1>
                         <MdKeyboardArrowRight />
                     </Link>
+                    </>: ""}
                     <div onClick={() => handleClick(0)} className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>
                         <h1 className='flex items-center gap-2'><MdLogin /> Authentication</h1>
                         <MdKeyboardArrowUp className={`${isFaqOpen[0] ? 'rotate-180' : ''}`} />
                     </div>
                     <div className={`transition-all duration-200 overflow-hidden ${isFaqOpen[0] ? 'max-h-screen' : 'max-h-0'}`}>
                         <ul className='flex flex-col gap-2 p-3 ml-5'>
-                            {access ? <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><span onClick={handleSubmit} className='cursor-pointer'> Log Out</span></li> :<li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/login"> Login</Link></li> }
+                            {token ? <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><span onClick={handleSubmit} className='cursor-pointer'> Log Out</span></li> :<li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/login"> Login</Link></li> }
                         </ul>
                     </div>
                 </div>
