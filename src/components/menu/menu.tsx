@@ -16,16 +16,9 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { SignOut } from '@/lib/auth';
-import { jwtDecode } from 'jwt-decode';
-import { useCookies } from "next-client-cookies";
 import { toast } from "react-hot-toast"
 
 export default function Menu({ token, remove }: {token : string, remove : string}) {
-
-
-    // const cookies = useCookies()
-    // const access = cookies.get('access_token');
-    // const refresh = cookies.get('refresh_token');
 
     const router = useRouter();
 

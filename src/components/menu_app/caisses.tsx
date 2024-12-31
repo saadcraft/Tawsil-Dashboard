@@ -1,28 +1,21 @@
 "use client"
 
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Link from 'next/link'
 import { FaSearch } from 'react-icons/fa'
 import { CloseCasses, OpenCasses } from "@/lib/action_client"
 import ValideCasses from "../windows/valide_casses"
 import { MdClose } from "react-icons/md"
 import { toast } from "react-hot-toast"
+import { Result } from "@/lib/type_module/casses_type"
+import { useRouter } from "next/navigation"
 
-export default function Caisses({token}: {token : string}) {
+export default function Caisses({token, cass}: {token : string, cass : Result[]}) {
   
     const [select, setSelect] = useState(Array(20).fill(false))
     const [Close , setClose] = useState<boolean>(false)
-  
-    const handleCheck = (index: Number) => {
-      setSelect((prevExpanded) => prevExpanded.map((isChecked, i) => (i === index ? !isChecked : isChecked)));
-    }
-    const handleCheckAll = () => {
-      // Check if all items are selected
-      const allSelected = select.every((isChecked) => isChecked);
-  
-      // If all selected, unselect all, otherwise select all
-      setSelect(select.map(() => !allSelected));
-    };
+    const router = useRouter()
+
 
     const handleWindow = () => {setClose(pre => !pre)}
 
@@ -35,6 +28,8 @@ export default function Caisses({token}: {token : string}) {
 
         if (result) {
           toast.success("Caisse closed successfully!", { id: loadingToastId });
+          setClose(pre => !pre)
+          router.refresh()
         } else {
           toast.error("Failed to close casse. Please try again.", { id: loadingToastId });
         }
@@ -53,6 +48,7 @@ export default function Caisses({token}: {token : string}) {
         const result = await OpenCasses({ access: token })
         if (result) {
           toast.success("Caisse opened successfully!" , { id: loadingToastId });
+          router.refresh()
         } else {
           toast.error("Caisse is already opened." , { id: loadingToastId });
         }
@@ -61,8 +57,29 @@ export default function Caisses({token}: {token : string}) {
       }
 
     }
+   
 
-
+    const casses = cass.map((pre , index) => {
+      return (
+            <tr key={index} className="bg-white border-b text-black hover:bg-gray-50">
+                <td className="px-6 py-4">
+                  {index + 1}
+                </td>
+                <td className="px-6 py-4">
+                  {pre.date_creationn}
+                </td>
+                <td className="px-6 py-4">
+                  {pre.resut}
+                </td>
+                <td className="px-6 py-4">
+                  {pre.prix_reale}
+                </td>
+                <td className="px-6 py-4 text-right">
+                  {pre.etat ? "Ouver" : "Fermé"}
+                </td>
+              </tr>
+      )
+    })
 
   return (
     <div className='py-5 px-5 sm:px-16'>
@@ -88,26 +105,24 @@ export default function Caisses({token}: {token : string}) {
             <thead className="text-xs text-gray-500 uppercase bg-primer">
               <tr>
                 <th className="px-6 py-3">
-                  <input type="checkbox" name='check' id="check" onChange={handleCheckAll} checked={select.every(Boolean)} />
+                  ID
                 </th>
                 <th className="px-6 py-3">
-                  Employé
+                  Date de creation
                 </th>
                 <th className="px-6 py-3">
-                  Client
+                  Montent 
                 </th>
                 <th className="px-6 py-3">
-                  action
-                </th>
-                <th className="px-6 py-3">
-                  id
+                  Montant Réel
                 </th>
                 <th className="px-6 py-3 text-right">
-                  payé
+                  Etat
                 </th>
               </tr>
             </thead>
             <tbody className='odd:bg-six even:bg-fifth'>
+              {casses}
             </tbody>
           </table>
         </div>

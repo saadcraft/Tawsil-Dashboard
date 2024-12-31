@@ -1,9 +1,9 @@
-import { toast } from "react-hot-toast"
+"use server"
+
 import axios from "axios";
 import { DateTime } from 'next-auth/providers/kakao';
-import { headers } from "next/headers";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { cookies } from 'next/headers';
+import { Result } from "./type_module/casses_type"
 
 export type Data = {
     last_name: string;
@@ -82,8 +82,8 @@ export async function CloseCasses({access, prix } : {access: string , prix : str
             return false; // Handle specific cases if needed
           }
         } catch (error) {
-            if (axios.isAxiosError(error) && error.response?.status === 408) {
-                throw new Error("Caisse et vide");
+            if (axios.isAxiosError(error)) {
+                throw new Error(error.response?.data?.message || error.message);
             }else{
                 throw new Error("Network error");
             } 
@@ -109,7 +109,27 @@ export async function OpenCasses({access} : {access : string}) {
           } else {
             throw new Error("Network error"); // Unexpected error
           }
-    }
+    }  
+}
 
+export async function getCasses() : Promise<Result[]>{
+
+    const access = (await cookies()).get("access_token")?.value
+
+    try{
+        const response = await axios.get(`${process.env.SERVER_DOMAIN}/api/v1/chef/cassies`, {
+            headers : {
+                Authorization: `Bearer ${access}`
+            }
+        })
+
+        if(response.status === 200){
+            return response.data.results
+        }else {
+            throw new Error(`Unexpected response status: ${response.status}`);
+            }
     
+        } catch (error) {
+            throw new Error(`Error Network`);
+        }
 }

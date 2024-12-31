@@ -45,7 +45,7 @@ export async function getParteners(): Promise<Partner[]> {
     const access = (await cookies()).get("access_token")?.value
 
     try {
-        const response = await axios.get(`${process.env.SERVER_DOMAIN}/v1/parteners/`, {
+        const response = await axios.get(`${process.env.SERVER_DOMAIN}/api/v1/centreappel/parteners`, {
             headers : {
                 Authorization: `Bearer ${access}`
             }
@@ -53,7 +53,7 @@ export async function getParteners(): Promise<Partner[]> {
 
         if(response.status === 200){
             // The response data is already in the correct format as Partner[]
-            return response.data; 
+            return response.data.results;
         } else {
             throw new Error(`Unexpected response status: ${response.status}`);
         }
