@@ -79,3 +79,23 @@ export async function SignOut() {
         throw error
     }
 }
+
+export async function getUser() : Promise<Users | undefined>{
+    const access = (await cookies()).get("access_token")?.value
+
+    try{
+        const response = await axios.get(`${process.env.SERVER_DOMAIN}/api/v1/user`, {
+            headers:{
+                Authorization: `Bearer ${access}`
+            }
+        })
+
+        if(response){
+            return response.data;
+        }
+    }catch(error){
+        console.error('Axios Error:', error);
+    }
+
+    return undefined;
+}

@@ -71,7 +71,7 @@ type Livreur = {
   
 type Partenaire = {
     id: number;
-    user: User;
+    user: Users;
     nom_de_magasin: string | null;
     adresse: string | null;
     NRC: string | null;
@@ -92,7 +92,7 @@ type Partenaire = {
     type_compte: number;
   }
 
-  type User = {
+  type Users = {
     id: number;
     password: string;
     username: string;
