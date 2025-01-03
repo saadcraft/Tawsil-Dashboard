@@ -26,8 +26,6 @@ export default function Delivery({token ,promise }: Props) {
 
   const router = useRouter()
 
-  console.log(selectedRows)
-
   useEffect(() => {
     setSelect(promise)
 }, [promise])
@@ -66,7 +64,7 @@ export default function Delivery({token ,promise }: Props) {
         const cleint = formData.get('client') as string;
         const validation = formData.get('valide') as string;
         
-        router.push(`?client=${cleint}&valide=${validation}`);
+        router.push(`?livreur=${cleint}&valide=${validation}`);
   }
 
   const handleCheckAll = () => {
