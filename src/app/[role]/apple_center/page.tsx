@@ -18,9 +18,7 @@ export default async function ApplePage() {
 
   const user = await getUser();
 
-  const chef = await getChefCentre()
-
-  console.log(chef)
+  const chef = await getChefCentre();
 
 
   return (

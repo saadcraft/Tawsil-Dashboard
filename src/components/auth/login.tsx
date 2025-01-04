@@ -14,8 +14,7 @@ export default function Login() {
         const formData = new FormData(event.currentTarget);
         const username = formData.get('username') as string;
         const password = formData.get('password') as string;
-
-        console.log(username, password);
+        
         const loadingToastId = toast.loading('Logging in...');
         try{
             const result = await SignIn({ username, password });

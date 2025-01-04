@@ -1,20 +1,55 @@
-import React from 'react'
+"use client"
+
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { FaSearch } from 'react-icons/fa'
 import { FaPen, FaTrashAlt } from "react-icons/fa";
+import { Employer } from '@/lib/type_module/emploi_type';
+import ModifieForm from '../windows/modifie_form'
+import { MdClose } from "react-icons/md";
 
-export default function ModAgent() {
-  return (
-    <div className='py-5 px-5 sm:px-16'>
-      <div className='flex items-center gap-2 px-5 pb-5'>
-            <Link href="/role" className='font-semibold text-xl'>Dashboard /</Link>
-            <h1 className='font-semibold text-xl'>Agent Administratif /</h1>
-            <h1 className='font-bold text-xl'>Modifie Agent</h1>
-        </div>
-        <div className='p-10 bg-white rounded-md shadow-md'>
-                
+export default function ModAgent({ results }: { results: Employer[] }) {
+
+    const [modify, setModify] = useState<Employer | null>(null)
+
+    const hundelModify = (info: Employer) => setModify(info);
+
+
+
+    const result = results.map((pre, index) => {
+        return (
+            <tr key={index} className="bg-white border-b text-black hover:bg-gray-50">
+                <td className="px-6 py-4">
+                    {index + 1}
+                </td>
+                <td className="px-6 py-4">
+                    {pre.first_name} {pre.last_name}
+                </td>
+                <td className="px-6 py-4">
+                    {pre.phone_number_1}
+                </td>
+                <td className="px-6 py-4">
+                    {pre.email}
+                </td>
+                <td className="px-6 py-4 text-right">
+                    <button onClick={() => hundelModify(pre)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500'><FaPen /></button>
+                    <button className='ml-1 bg-red-700 text-white p-1 rounded-md hover:bg-red-500'><FaTrashAlt /></button>
+                </td>
+            </tr>
+        )
+    })
+
+    return (
+        <div className='py-5 px-5 sm:px-16'>
+            <div className='flex items-center gap-2 px-5 pb-5'>
+                <Link href="/role" className='font-semibold text-xl'>Dashboard /</Link>
+                <h1 className='font-semibold text-xl'>Agent Administratif /</h1>
+                <h1 className='font-bold text-xl'>Modifie Agent</h1>
+            </div>
+            <div className='p-10 bg-white rounded-md shadow-md'>
+
                 <div className='mb-7 flex items-center'>
-                    <FaSearch className='absolute text-slate-500'/>
+                    <FaSearch className='absolute text-slate-500' />
                     <input type="text" name="search" placeholder='Search to table' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                 </div>
                 <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -28,13 +63,10 @@ export default function ModAgent() {
                                     Employé
                                 </th>
                                 <th className="px-6 py-3">
-                                    action
+                                    Numéro
                                 </th>
                                 <th className="px-6 py-3">
-                                    id
-                                </th>
-                                <th className="px-6 py-3">
-                                    payé
+                                    Email
                                 </th>
                                 <th className="px-6 py-3 text-right">
                                     Modifie
@@ -42,95 +74,17 @@ export default function ModAgent() {
                             </tr>
                         </thead>
                         <tbody className='odd:bg-six even:bg-fifth'>
-                            <tr className="bg-white border-b text-black hover:bg-gray-50">
-                                <td className="px-6 py-4">
-                                    1
-                                </td>
-                                <td className="px-6 py-4">
-                                    Abdelkader hlima
-                                </td>
-                                <td className="px-6 py-4">
-                                    Colie
-                                </td>
-                                <td className="px-6 py-4">
-                                    10290
-                                </td>
-                                <td className="px-6 py-4">
-                                    12000DA
-                                </td>
-                                <td className="px-6 py-4 text-right">
-                                    <button className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500'><FaPen /></button>
-                                    <button className='ml-1 bg-red-700 text-white p-1 rounded-md hover:bg-red-500'><FaTrashAlt /></button>
-                                </td>
-                            </tr>
-                            <tr className="bg-white border-b hover:bg-gray-50">
-                            <td className="px-6 py-4">
-                                    2
-                                </td>
-                                <td className="px-6 py-4">
-                                    Abdelkader hlima
-                                </td>
-                                <td className="px-6 py-4">
-                                    Colie
-                                </td>
-                                <td className="px-6 py-4">
-                                    10290
-                                </td>
-                                <td className="px-6 py-4">
-                                    12000DA
-                                </td>
-                                <td className="px-6 py-4 text-right">
-                                    <button className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500'><FaPen /></button>
-                                    <button className='ml-1 bg-red-700 text-white p-1 rounded-md hover:bg-red-500'><FaTrashAlt /></button>
-                                </td>
-                            </tr>
-                            <tr className="bg-white hover:bg-gray-50">
-                                <td className="px-6 py-4">
-                                    3
-                                </td>
-                                <td className="px-6 py-4">
-                                    Abdelkader hlima
-                                </td>
-                                <td className="px-6 py-4">
-                                    Colie
-                                </td>
-                                <td className="px-6 py-4">
-                                    10290
-                                </td>
-                                <td className="px-6 py-4">
-                                    12000DA
-                                </td>
-                                <td className="px-6 py-4 text-right">
-                                    <button className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500'><FaPen /></button>
-                                    <button className='ml-1 bg-red-700 text-white p-1 rounded-md hover:bg-red-500'><FaTrashAlt /></button>
-                                </td>
-                            </tr>
-                            <tr className="bg-white hover:bg-gray-50">
-                                <td className="px-6 py-4">
-                                    4
-                                </td>
-                                <td className="px-6 py-4">
-                                    Abdelkader hlima
-                                </td>
-                                <td className="px-6 py-4">
-                                    Colie
-                                </td>
-                                <td className="px-6 py-4">
-                                    10290
-                                </td>
-                                <td className="px-6 py-4">
-                                    12000DA
-                                </td>
-                                <td className="px-6 py-4 text-right">
-                                    <button className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500'><FaPen /></button>
-                                    <button className='ml-1 bg-red-700 text-white p-1 rounded-md hover:bg-red-500'><FaTrashAlt /></button>
-                                </td>
-                            </tr>
+                            {result}
                         </tbody>
                     </table>
                 </div>
-        
+            </div>
+            {modify &&
+                <div className='absolute top-0 right-0 left-0 bg-slate-700 bg-opacity-50'>
+                    <button onClick={() => setModify(null)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
+                    <ModifieForm user={modify} onsub={setModify} />
                 </div>
-    </div>
-  )
+            }
+        </div>
+    )
 }

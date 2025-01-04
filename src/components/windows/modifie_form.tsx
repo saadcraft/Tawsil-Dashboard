@@ -1,0 +1,82 @@
+import { Employer } from '@/lib/type_module/emploi_type';
+import { toast } from "react-hot-toast"
+import { UpdateUser } from '@/lib/call_action';
+import { useRouter } from 'next/navigation'
+
+export default function ModifieForm({ user, onsub } : {user : Employer, onsub: (value: null) => void }) {
+
+    const router = useRouter()
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const loadingToastId = toast.loading('Submite Updating...');
+
+        const formData = new FormData(e.currentTarget)
+        const formObject = Object.fromEntries(formData.entries())
+
+        const password = formData.get("password") as string;
+        const confirmPassword = formData.get("confirm_password") as string;
+
+
+        const filteredData = Object.fromEntries(
+            Object.entries(formObject).filter(([_, value]) => value !== "")
+          );
+
+          if(password !== confirmPassword){
+            toast.error('Passwords do not match.', { id: loadingToastId });
+            return;
+          }
+
+          delete filteredData.confirm_password;
+
+          if (Object.keys(filteredData).length === 0) {
+            toast.error('No fields to update.', { id: loadingToastId });
+            return;
+          }
+
+          const updatedUser = { id: user.id.toString(), ...filteredData };
+
+          console.log(updatedUser)
+
+          try {
+            const res = await UpdateUser(updatedUser)
+            if(res){
+                    toast.success('Updated with Succesfully', { id: loadingToastId });
+                    router.refresh()
+                    onsub(null)
+                  }
+          }catch(error){
+            if (error instanceof Error) {
+                toast.error(error.message, { id: loadingToastId });
+            } else {
+                toast.error('An unknown error occurred', { id: loadingToastId });
+            }
+          }
+
+    }
+
+  return (
+    <div className='p-5'>
+        <div className='max-w-5xl mx-auto p-5 mt-10 bg-white'>
+          <h1 className='mb-5 text-xl text-center'>Modifie Agent</h1>
+          <form onSubmit={handleSubmit} className='flex flex-col gap-10'>
+            <p>Le nom et le prénom</p>
+            <div className='flex gap-5'>
+                <input type='text' name='last_name' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le Nom' defaultValue={user.last_name} />
+                <input type='text' name='first_name' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le prénom' defaultValue={user.first_name}/>
+            </div>
+            <p>Le Numéro de Télephone</p>
+            <input type='text' name='phone_number_1' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le numéro de téléphone' defaultValue={user.phone_number_1}/>
+            <p>Email</p>
+            <input type='email' name='email' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le email' defaultValue={user.email}/>
+            <p>Le mot de passe</p>
+            <input type="password" name="password" className='p-2 border border-slate-300 rounded-md' placeholder='Entre nouvel password'/>
+            <p>Confirmé le mot de passe</p>
+            <input type="password" name="confirm_password" className='p-2 border border-slate-300 rounded-md' placeholder='Entre verifé password'/>
+            <button className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Submite</button>
+          </form>
+      </div>
+    </div>
+  )
+}

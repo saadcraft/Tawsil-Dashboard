@@ -10,19 +10,19 @@ export const metadata: Metadata = {
   };
 
   type props = {
-    searchParams: { page?: string, client?: string, valide?: string};
+    searchParams: { page?: string, livreur?: string, valide?: string};
 }
 
 export default async function DeliveryPage({ searchParams } : props) {
 
   const access = ((await cookies()).get('access_token'))?.value
 
-  const { page , client, valide } = await searchParams;
+  const { page , livreur, valide } = await searchParams;
   const pageNumber = page ?? "1";
-  const client_num = client ?? "";
+  const client_num = livreur ?? "";
   const valide_payment = valide ?? "";
     
-    const {result , totalAct} = await getCommand({ page: pageNumber, client: client_num , valide: valide_payment});
+    const {result , totalAct} = await getCommand({ page: pageNumber, livreur: client_num , valide: valide_payment});
 
     const select = result.map(item => ({ ...item, selected: false }))
 
