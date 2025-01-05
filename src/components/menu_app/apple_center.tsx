@@ -20,8 +20,6 @@ type Props = {
 
 export default function AppleCenter({ parteners, chefs } : Props) {
 
-  console.log(chefs)
-
   const router = useRouter()
 
   const [activePartnerId, setActivePartnerId] = useState<number | null>(null);
@@ -62,7 +60,7 @@ export default function AppleCenter({ parteners, chefs } : Props) {
     const formData = new FormData(event.currentTarget);
         const add = formData.get('group') as string;
     try{
-      const res = await UpdateGroup({id : id , groupe : Number(add)})
+      const res = await UpdateGroup({id : id , groupe : add})
       if(res){
         toast.success('Comment added Succesfully', { id: loadingToastId });
         setResomble(0)

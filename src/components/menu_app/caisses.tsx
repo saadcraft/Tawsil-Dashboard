@@ -9,6 +9,7 @@ import { MdClose } from "react-icons/md"
 import { toast } from "react-hot-toast"
 import { Result } from "@/lib/type_module/casses_type"
 import { useRouter } from "next/navigation"
+import { FormatDate } from "@/lib/tools/timer"
 
 export default function Caisses({ cass }: { cass: Result[] }) {
 
@@ -67,7 +68,7 @@ export default function Caisses({ cass }: { cass: Result[] }) {
           {index + 1}
         </td>
         <td className="px-6 py-4">
-          {pre.date_creationn}
+          {FormatDate(pre.date_creationn)}
         </td>
         <td className="px-6 py-4">
           {pre.resut}

@@ -3,6 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { FaSearch } from "react-icons/fa";
+import { FormatDate } from "@/lib/tools/timer"
 
 export default function Action({ actions }: { actions: Actions[]}) {
 
@@ -19,7 +20,7 @@ export default function Action({ actions }: { actions: Actions[]}) {
                     {pre.livreur.partenneur.user.first_name} {pre.livreur.partenneur.user.last_name}
                 </td>
                 <td className="px-6 py-4">
-                    {pre.date_action}
+                    {FormatDate(pre.date_action)}
                 </td>
                 <td className="px-6 py-4 text-right">
                     {pre.total_amount}

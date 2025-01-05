@@ -38,7 +38,7 @@ export default function ShowComment({ id }: { id: number }) {
 
     return (
         <div className='fixed top-0 flex items-center bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
-            <div className='max-w-5xl mx-auto p-5 bg-white'>
+            <div className='max-w-5xl mx-auto rounded-xl p-5 bg-white'>
                 <h1 className='font-semibold text-2xl'>Commentaires</h1>
                 <div className="relative overflow-x-auto">
                     <table className="w-full text-sm text-left rtl:text-right0">

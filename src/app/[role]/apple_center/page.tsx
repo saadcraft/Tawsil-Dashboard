@@ -15,16 +15,22 @@ export default async function ApplePage() {
 
   const result = await getParteners();
 
-  const allChef = await getAllChef();
-
   const user = await getUser();
 
+  let allChef;
+
+  if(user?.role === "centre_appel" || user?.role === "admin"){
+  
+    allChef = await getAllChef();
+
+  }
+  
   const chef = await getChefCentre();
 
 
   return (
         <div>
-          {user?.role === "centre_appel" || user?.role === "admin" ? <AppleCenter parteners={result} chefs={allChef} /> : <CenterChef parteners={chef} />}
+          {user?.role === "centre_appel" || user?.role === "admin" ? <AppleCenter parteners={result} chefs={allChef!} /> : <CenterChef parteners={chef} />}
         </div>
   );
 }
