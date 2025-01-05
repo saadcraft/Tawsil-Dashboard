@@ -12,15 +12,14 @@ import { useRouter } from "next/navigation"
 import { toast } from "react-hot-toast"
 
 type Props = {
-  token : string;
   promise: Result[];
 };
 
-export default function Delivery({token ,promise }: Props) {
+export default function Delivery({ promise }: Props) {
 
   const [select, setSelect] = useState(promise)
 
-  const [selectedRows, setSelectedRows] = useState<any[]>([])
+  const [selectedRows, setSelectedRows] = useState<Result[]>([])
 
   const [isVisible, setIsVisible] = useState<number>(0);
 
@@ -96,20 +95,21 @@ export default function Delivery({token ,promise }: Props) {
         }
   };
 
-  const handleValidate = () => {setIsVisible(pre => pre = 1)}
-  const handleSecond = () => {setIsVisible(pre => pre = 2)}
-  const handleThird = () => {setIsVisible(pre => pre = 3)}
-  const handleClose = () => {setIsVisible(pre => pre = 0)}
+  const handleValidate = () => {setIsVisible(1)}
+  const handleSecond = () => {setIsVisible(2)}
+  const handleThird = () => {setIsVisible(3)}
+  const handleClose = () => {setIsVisible(0)}
 
   const hundleSubmite = async (ids : number[]) => {
 
     const loadingToastId = toast.loading('Submite Commande...');
 
     try{
-      const result = await SubmitCommande({access: token, id: ids});
+      const result = await SubmitCommande({id: ids});
       if (result){
         toast.success('valider Succesfully', { id: loadingToastId });
-        setIsVisible(pre => pre = 0);
+        setIsVisible(0);
+        setSelectedRows([])
         router.refresh()
       }
     }catch(error){
@@ -217,7 +217,7 @@ export default function Delivery({token ,promise }: Props) {
 {isVisible === 3 ?
       <div>
         <button onClick={handleClose} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
-        <ValideThird command={selectedRows} onEvent={handleClose} onBack={handleSecond} onSub={hundleSubmite}/>
+        <ValideThird command={selectedRows} onBack={handleSecond} onSub={hundleSubmite}/>
       </div>
 : ""}
     </div>

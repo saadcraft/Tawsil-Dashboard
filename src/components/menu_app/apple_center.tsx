@@ -5,20 +5,28 @@ import React, {useState} from 'react'
 import Link from 'next/link'
 import { FaSearch } from 'react-icons/fa'
 import { Partner } from "@/lib/type_module/center_type"
-import { IoDocumentTextOutline } from "react-icons/io5";
+import { FaCommentDots, FaUserGroup } from "react-icons/fa6";
 import { MdClose } from "react-icons/md"
 import Comment from "../windows/comment"
-import { AddComment } from '@/lib/call_action'
+import { AddComment, UpdateGroup } from '@/lib/call_action'
 import ShowComment from '../windows/show-comments'
+import Group from '../windows/group'
+import { useRouter } from 'next/navigation'
 
 type Props = {
   parteners: Partner[];
+  chefs: Users[];
 };
 
-export default function AppleCenter({ parteners } : Props) {
+export default function AppleCenter({ parteners, chefs } : Props) {
+
+  console.log(chefs)
+
+  const router = useRouter()
 
   const [activePartnerId, setActivePartnerId] = useState<number | null>(null);
   const [showComment, setshowComment] = useState<number | null>(null);
+  const [resomble, setResomble] = useState<number>(0);
 
   const handleCommentClick = (id: number) => {
     setActivePartnerId(activePartnerId === id ? null : id); // Toggle visibility
@@ -48,6 +56,27 @@ export default function AppleCenter({ parteners } : Props) {
     }
   }
 
+  const hundleGroup = async (id : number , event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const loadingToastId = toast.loading('Submite Commande...');
+    const formData = new FormData(event.currentTarget);
+        const add = formData.get('group') as string;
+    try{
+      const res = await UpdateGroup({id : id , groupe : Number(add)})
+      if(res){
+        toast.success('Comment added Succesfully', { id: loadingToastId });
+        setResomble(0)
+        router.refresh()
+      }
+    }catch(error){
+      if (error instanceof Error) {
+        toast.error(error.message, { id: loadingToastId });
+      } else {
+        toast.error('An unknown error occurred', { id: loadingToastId });
+      }
+    }
+  }
+
   const handleClose = () => {setActivePartnerId(null)}
   const handleShowClose = () => {setshowComment(null)}
   
@@ -67,7 +96,14 @@ export default function AppleCenter({ parteners } : Props) {
           {pre.user.is_active ? "true" : "false"}
         </td>
         <td className="px-6 py-4 text-center">
-          <button onClick={() => handleShowClick(pre.id)} className='text-xl'><IoDocumentTextOutline /></button>
+          {pre.user.groupe ? pre.user.groupe : 
+          <>
+            <button onClick={() => setResomble(pre.user.id)} className='text-xl'><FaUserGroup /></button>
+          </>
+          }
+        </td>
+        <td className="px-6 py-4 text-center">
+          <button onClick={() => handleShowClick(pre.id)} className='text-xl'><FaCommentDots /></button>
         </td>
         <td className="px-6 py-4 text-right">
             <button onClick={() => handleCommentClick(pre.id)} className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Comment</button>
@@ -81,7 +117,7 @@ export default function AppleCenter({ parteners } : Props) {
     <div className='py-5 px-5 sm:px-16'>
       <div className='flex items-center gap-2 px-5 pb-5 text-xs lg:text-xl'>
         <Link href="/role" className='font-semibold text-third'>Dashboard /</Link>
-        <h1 className='font-bold'>Centre d'appel</h1>
+        <h1 className='font-bold'>{`Centre d'appel`}</h1>
       </div>
       <div className='p-10 bg-white gap-10 rounded-md shadow-md'>
         <div className='mb-7 flex justify-between items-center'>
@@ -103,9 +139,12 @@ export default function AppleCenter({ parteners } : Props) {
                   Number
                 </th>
                 <th className="px-6 py-3">
-                  action
+                  Action
                 </th>
-                <th className="px-6 py-3 text-right">
+                <th className="px-6 py-3 text-center">
+                  Groupe
+                </th>
+                <th className="px-6 py-3 text-center">
                   commentaire
                 </th>
                 <th className="px-6 py-3 text-right">
@@ -131,7 +170,12 @@ export default function AppleCenter({ parteners } : Props) {
           <ShowComment id={showComment} />
         </div>
       )}
-          
+      {resomble > 0 && (
+        <div>
+          <button onClick={() => setResomble(0)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
+          <Group id={resomble} onEvent={hundleGroup} all={chefs} />
+        </div>
+      )}   
     </div>
   )
 }

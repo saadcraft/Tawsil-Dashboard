@@ -40,7 +40,7 @@ export default function CenterChef({ parteners }: { parteners: Partner[] }) {
     <div className='py-5 px-5 sm:px-16'>
       <div className='flex items-center gap-2 px-5 pb-5 text-xs lg:text-xl'>
         <Link href="/role" className='font-semibold text-third'>Dashboard /</Link>
-        <h1 className='font-bold'>Centre d'appel</h1>
+        <h1 className='font-bold'>{`Centre d'appel`}</h1>
       </div>
       <div className='p-10 bg-white gap-10 rounded-md shadow-md'>
         <div className='mb-7 flex justify-between items-center'>
@@ -75,7 +75,7 @@ export default function CenterChef({ parteners }: { parteners: Partner[] }) {
         </div>
       </div>
       {modify &&
-        <div className='absolute top-0 right-0 left-0 bg-slate-700 bg-opacity-50'>
+        <div>
           <button onClick={() => setModify(null)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
           <ComplitDocument user={modify} onsub={setModify} />
         </div>

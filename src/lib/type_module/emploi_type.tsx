@@ -6,6 +6,7 @@ export type Employer = {
     last_name: string;
     email: string;
     is_active: boolean;
+    bloquer: boolean;
     date_de_naissance: string | null; // Using string to represent dates; you may use Date if parsed.
     role: string;
     lieux: string;

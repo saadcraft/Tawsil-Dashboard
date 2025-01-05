@@ -1,6 +1,6 @@
 import { Partner } from '@/lib/type_module/center_type';
 import { toast } from "react-hot-toast"
-import { UpdateDocument, UpdateUser } from '@/lib/call_action';
+import { UpdateDocument } from '@/lib/call_action';
 import { useRouter } from 'next/navigation'
 
 export default function ComplitDocument({ user, onsub } : {user : Partner, onsub: (value: null) => void }) {
@@ -17,7 +17,7 @@ export default function ComplitDocument({ user, onsub } : {user : Partner, onsub
 
 
         const filteredData = Object.fromEntries(
-            Object.entries(formObject).filter(([_, value]) => value !== "")
+            Object.entries(formObject).filter(([, value]) => value !== "")
           );
 
           if (Object.keys(filteredData).length === 0) {
@@ -26,8 +26,6 @@ export default function ComplitDocument({ user, onsub } : {user : Partner, onsub
           }
 
           const updatedUser = { id: user.id.toString(), ...filteredData };
-
-          console.log(updatedUser)
 
           try {
             const res = await UpdateDocument(updatedUser)
@@ -47,10 +45,10 @@ export default function ComplitDocument({ user, onsub } : {user : Partner, onsub
     }
 
   return (
-    <div className='p-5'>
-        <div className='max-w-5xl mx-auto p-5 mt-10 bg-white'>
-          <h1 className='mb-5 text-xl'>Completé le dossie</h1>
-          <form onSubmit={handleSubmit} className='flex flex-col gap-10'>
+    <div className='fixed overflow-auto top-20 flex items-start bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
+        <div className='max-w-5xl mx-auto p-10 mt-10 bg-white'>
+          <h1 className='mb-5 text-xl text-center font-bold'>Completé le dossie</h1>
+          <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
             <p>Adress</p>
             <input type='text' name='adresse' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le Adress' defaultValue={user.adresse || ''}/>
             <p>NRC</p>

@@ -28,6 +28,7 @@ type Client = {
     last_name: string;
     email: string;
     is_active: boolean;
+    bloquer: boolean;
     date_de_naissance: string | null;
     role: string;
     lieux: string | null;
@@ -100,6 +101,7 @@ type Partenaire = {
     last_name: string;
     email: string;
     is_active: boolean;
+    bloquer: boolean;
     date_de_naissance: string | null;
     role: string;
     lieux: string | null;
@@ -113,4 +115,19 @@ type Partenaire = {
     point: number;
     rating: number;
     permission_vlider: boolean;
+};
+
+type actionData = {
+  count: number;
+  next: boolean;
+  previous: boolean;
+  results: Actions[];
+};
+
+type Actions = {
+  id: number;
+  agent: Users;
+  date_action: string;
+  total_amount: string;
+  livreur: Livreur;
 };

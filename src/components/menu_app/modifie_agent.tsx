@@ -7,12 +7,17 @@ import { FaPen, FaTrashAlt } from "react-icons/fa";
 import { Employer } from '@/lib/type_module/emploi_type';
 import ModifieForm from '../windows/modifie_form'
 import { MdClose } from "react-icons/md";
+import Disable from '../windows/disable';
 
 export default function ModAgent({ results }: { results: Employer[] }) {
 
     const [modify, setModify] = useState<Employer | null>(null)
 
+    const [disabled, setDisabled] = useState<number>(0)
+
     const hundelModify = (info: Employer) => setModify(info);
+
+    const hundelDisabled = (id : number) => setDisabled(id);
 
 
 
@@ -32,8 +37,12 @@ export default function ModAgent({ results }: { results: Employer[] }) {
                     {pre.email}
                 </td>
                 <td className="px-6 py-4 text-right">
-                    <button onClick={() => hundelModify(pre)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500'><FaPen /></button>
-                    <button className='ml-1 bg-red-700 text-white p-1 rounded-md hover:bg-red-500'><FaTrashAlt /></button>
+                    {pre.bloquer ? "Blocked" : 
+                    <>
+                        <button onClick={() => hundelModify(pre)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500'><FaPen /></button>
+                        <button onClick={() => hundelDisabled(pre.id)} className='ml-2 bg-red-700 text-white p-1 rounded-md hover:bg-red-500'><FaTrashAlt /></button>
+                    </>
+                    }
                 </td>
             </tr>
         )
@@ -80,9 +89,15 @@ export default function ModAgent({ results }: { results: Employer[] }) {
                 </div>
             </div>
             {modify &&
-                <div className='absolute top-0 right-0 left-0 bg-slate-700 bg-opacity-50'>
+                <div>
                     <button onClick={() => setModify(null)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
                     <ModifieForm user={modify} onsub={setModify} />
+                </div>
+            }
+            {disabled > 0 &&
+                <div>
+                    <button onClick={() => setDisabled(0)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
+                    <Disable onClose={setDisabled} user={disabled} />
                 </div>
             }
         </div>

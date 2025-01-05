@@ -179,7 +179,7 @@ const refreshAccessToken = async (): Promise<string> => {
             sameSite: 'strict',
         });
         return newAccessToken;
-    } catch (error) {
+    } catch {
         throw new Error("Failed to refresh access token");
     }
 };

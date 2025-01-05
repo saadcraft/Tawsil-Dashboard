@@ -20,7 +20,7 @@ export default function ModifieForm({ user, onsub } : {user : Employer, onsub: (
 
 
         const filteredData = Object.fromEntries(
-            Object.entries(formObject).filter(([_, value]) => value !== "")
+            Object.entries(formObject).filter(([, value]) => value !== "")
           );
 
           if(password !== confirmPassword){
@@ -57,10 +57,10 @@ export default function ModifieForm({ user, onsub } : {user : Employer, onsub: (
     }
 
   return (
-    <div className='p-5'>
+    <div className='fixed overflow-auto top-20 flex items-center bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
         <div className='max-w-5xl mx-auto p-5 mt-10 bg-white'>
-          <h1 className='mb-5 text-xl text-center'>Modifie Agent</h1>
-          <form onSubmit={handleSubmit} className='flex flex-col gap-10'>
+          <h1 className='mb-5 text-2xl font-bold text-center'>Modifie Agent</h1>
+          <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
             <p>Le nom et le prénom</p>
             <div className='flex gap-5'>
                 <input type='text' name='last_name' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le Nom' defaultValue={user.last_name} />

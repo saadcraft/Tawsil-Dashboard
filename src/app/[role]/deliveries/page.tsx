@@ -2,38 +2,33 @@ import type { Metadata } from "next";
 import React from 'react'
 import Delivery from "@/components/menu_app/deliveries"
 import { getCommand } from '@/lib/actions'
-import { cookies } from 'next/headers'
 
 export const metadata: Metadata = {
-    title: "livraisons",
-    description: "Tawsil Start Dashbord",
-  };
+  title: "livraisons",
+  description: "Tawsil Start Dashbord",
+};
 
-  type props = {
-    searchParams: { page?: string, livreur?: string, valide?: string};
+type props = {
+  searchParams: Promise<{ page?: string, livreur?: string, valide?: string }>;
 }
 
-export default async function DeliveryPage({ searchParams } : props) {
+export default async function DeliveryPage({ searchParams }: props) {
 
-  const access = ((await cookies()).get('access_token'))?.value
-
-  const { page , livreur, valide } = await searchParams;
+  const { page, livreur, valide } = await searchParams;
   const pageNumber = page ?? "1";
   const client_num = livreur ?? "";
   const valide_payment = valide ?? "";
-    
-    const {result , totalAct} = await getCommand({ page: pageNumber, livreur: client_num , valide: valide_payment});
 
-    const select = result.map(item => ({ ...item, selected: false }))
+  const { result } = await getCommand({ page: pageNumber, livreur: client_num, valide: valide_payment });
 
-    const totalPages = Math.ceil(totalAct / 20);
+  const select = result.map(item => ({ ...item, selected: false }))
 
-    console.log("--------refresh------------")
+  // const totalPages = Math.ceil(totalAct / 20);
 
 
   return (
-        <div>
-            <Delivery token={access!} promise={select} />
-        </div>
+    <div>
+      <Delivery promise={select} />
+    </div>
   );
 }

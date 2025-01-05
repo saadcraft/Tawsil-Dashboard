@@ -33,10 +33,17 @@ export default function AjouteAgent({ token } : { token : string}) {
           event.preventDefault();
           try{
               const result = await AddAgent(token ,formData);
-              toast.success(result, { id: loadingToastId });
-          }catch(error : any){
-            toast.error(error.message, { id: loadingToastId });
-          }
+
+              if(result){
+                  toast.success("User added successfuly", { id: loadingToastId });
+              }
+          }catch (error) {
+                if (error instanceof Error) {
+                    toast.error(error.message, { id: loadingToastId });
+                } else {
+                    toast.error('An unknown error occurred', { id: loadingToastId });
+                }
+            }
           
         };
 
