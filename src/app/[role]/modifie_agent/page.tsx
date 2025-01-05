@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   };
 
   type props = {
-    searchParams: { page?: string, search?: string, valide?: string};
+    searchParams: Promise<{ page?: string, search?: string, valide?: string}>;
 }
 
 export default async function AjoutAgentPage({ searchParams } : props) {
@@ -18,7 +18,7 @@ export default async function AjoutAgentPage({ searchParams } : props) {
   const pageNumber = page ?? "1";
   const search_num = search ?? "";
 
-  const { result , totalAct } = await getAgents({ page : pageNumber , search: search_num });
+  const { result } = await getAgents({ page : pageNumber , search: search_num });
 
   return (
         <div>

@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
-import { jwtDecode } from "jwt-decode";
-import { notFound } from 'next/navigation'
 import { getUser } from "./lib/auth"
 
 // 1. Specify protected and public routes
@@ -16,6 +14,10 @@ export async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname
   const isProtectedRoute = protectedRoutes.some((route) => path.startsWith(route));
   const isPublicRoute = publicRoutes.includes(path)
+
+  const access = (await cookies()).get("access_token")?.value
+
+  if(access) {
   
   try{
     const auth = await getUser();
@@ -28,7 +30,13 @@ export async function middleware(req: NextRequest) {
     if (isProtectedRoute) {
         return NextResponse.redirect(new URL('/login', req.url));
     }
+    throw error
   }
+}else{
+  if (isProtectedRoute) {
+    return NextResponse.redirect(new URL('/login', req.url));
+}
+}
 
   // 3. If the route is protected and the user is not authenticated, redirect to the login page
 

@@ -1,0 +1,23 @@
+import React from 'react'
+
+export default function Group({ id , onEvent, all } : {id : number, onEvent : (id : number , event: React.FormEvent<HTMLFormElement>) => void, all : Users[]}) {
+
+  return (
+    <div className='fixed top-0 flex items-center bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
+        <div className='max-w-5xl mx-auto p-5 mt-10 bg-white'>
+          <h1 className='mb-5'>Regroupé</h1>
+          <form onSubmit={(event) => onEvent(id, event)} className='flex flex-col gap-10'>
+            <select name='group'>
+                <option value="">Seléctionée groupe</option>
+                {all.map((pre, index) =>{
+                    return (
+                    <option key={index} value={pre.groupe!}>{`group : ${pre.groupe} ${pre.wilaya}`}</option>
+                    )
+                })}
+            </select>
+            <button className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Submite</button>
+          </form>
+      </div>
+    </div>
+  )
+}

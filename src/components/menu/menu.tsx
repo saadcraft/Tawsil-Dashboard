@@ -18,7 +18,14 @@ import Link from 'next/link';
 import { SignOut } from '@/lib/auth';
 import { toast } from "react-hot-toast"
 
-export default function Menu({ token, remove }: {token : string, remove : string}) {
+type props = {
+    // token: string,
+    // remove: string,
+    user: Users
+}
+
+export default function Menu({ user }: props) {
+
 
     const router = useRouter();
 
@@ -84,12 +91,14 @@ export default function Menu({ token, remove }: {token : string, remove : string
         </Link>
 
             <div className='flex flex-col gap-2 py-3'>
-                {token ?
+                {user ?
                 <>
                 <Link onClick={handleMenu} href="/role" className='flex justify-between bg-slate-600 hover:bg-slate-600 p-3 items-center font-bold text-xl cursor-pointer'>
                     <h1 className='flex items-center gap-2'><MdOutlineDashboard /> Dashboard</h1>
                     <MdKeyboardArrowRight />
                 </Link>
+                {user.role == "chef_bureau" &&
+                <>
                 <Link onClick={handleMenu} href="/role/actions" className='flex justify-between hover:bg-slate-600 p-3 items-center font-bold text-xl cursor-pointer'>
                     <h1 className='flex items-center gap-2'><MdOutlinePendingActions /> Les Action</h1>
                     <MdKeyboardArrowRight />
@@ -114,8 +123,10 @@ export default function Menu({ token, remove }: {token : string, remove : string
                         <h1 className='flex items-center gap-2'><MdDeliveryDining /> livraisons</h1>
                         <MdKeyboardArrowRight />
                     </Link>
+                    </>
+                             }
                     <Link onClick={handleMenu} href="/role/apple_center" className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>
-                        <h1 className='flex items-center gap-2'><MdContactSupport /> Center d'apple</h1>
+                        <h1 className='flex items-center gap-2'><MdContactSupport /> {`Center d'apple`}</h1>
                         <MdKeyboardArrowRight />
                     </Link>
                     </>: ""}
@@ -125,7 +136,7 @@ export default function Menu({ token, remove }: {token : string, remove : string
                     </div>
                     <div className={`transition-all duration-200 overflow-hidden ${isFaqOpen[0] ? 'max-h-screen' : 'max-h-0'}`}>
                         <ul className='flex flex-col gap-2 p-3 ml-5'>
-                            {token ? <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><span onClick={handleSubmit} className='cursor-pointer'> Log Out</span></li> :<li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/login"> Login</Link></li> }
+                            {user ? <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><span onClick={handleSubmit} className='cursor-pointer'> Log Out</span></li> :<li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/login"> Login</Link></li> }
                         </ul>
                     </div>
                 </div>

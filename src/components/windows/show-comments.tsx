@@ -13,7 +13,7 @@ export default function ShowComment({ id }: { id: number }) {
                 const data = await getCommant(id);
                 setComments(data);
             } catch (err) {
-                setError("Failed to load comments.");
+                setError((err as Error).message || "Failed to load comments.");
             }
         };
 
@@ -37,7 +37,7 @@ export default function ShowComment({ id }: { id: number }) {
     })
 
     return (
-        <div className='fixed top-20 bottom-0 left-0 md:left-80 right-0 p-5 bg-opacity-50 bg-slate-700'>
+        <div className='fixed top-0 flex items-center bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
             <div className='max-w-5xl mx-auto p-5 bg-white'>
                 <h1 className='font-semibold text-2xl'>Commentaires</h1>
                 <div className="relative overflow-x-auto">
@@ -56,7 +56,7 @@ export default function ShowComment({ id }: { id: number }) {
                             </tr>
                         </thead>
                         <tbody>
-                            {mappedComment}
+                            {mappedComment || error}
                         </tbody>
                     </table>
                 </div>

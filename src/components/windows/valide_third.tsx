@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 
-export default function ValideThird({ command , onEvent, onBack, onSub} : {command: Result[], onEvent: () => void, onBack: () => void, onSub: (data: number[]) => void}) {
+export default function ValideThird({ command , onBack, onSub} : {command: Result[], onBack: () => void, onSub: (data: number[]) => void}) {
 
     const ids = command.map((item) => item.id);
 

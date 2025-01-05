@@ -1,4 +1,3 @@
-import { CookiesProvider } from 'next-client-cookies/server';
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/header/header";
