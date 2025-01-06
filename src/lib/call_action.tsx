@@ -126,7 +126,7 @@ export async function UpdateDocument(Data: UpdateData){
     }
 }
 
-export async function UpdateGroup({ id, groupe } : {id : number , groupe : number}){
+export async function UpdateGroup({ id, groupe } : {id : number , groupe : string}){
     try {
         const data = await apiRequest({
             url: `api/v1/user/add/groupe`,

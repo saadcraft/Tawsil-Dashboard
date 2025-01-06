@@ -46,7 +46,7 @@ export default function ComplitDocument({ user, onsub } : {user : Partner, onsub
 
   return (
     <div className='fixed overflow-auto top-20 flex items-start bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
-        <div className='max-w-5xl mx-auto p-10 mt-10 bg-white'>
+        <div className='max-w-5xl mx-auto rounded-xl p-10 mt-10 bg-white'>
           <h1 className='mb-5 text-xl text-center font-bold'>Completé le dossie</h1>
           <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
             <p>Adress</p>

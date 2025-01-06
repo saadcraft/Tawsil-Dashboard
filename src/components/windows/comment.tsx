@@ -4,7 +4,7 @@ export default function Comment({ id , onEvent} : {id: number, onEvent: (id : nu
     
   return (
     <div className='fixed top-0 flex items-center bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
-        <div className='max-w-5xl mx-auto p-5 mt-10 bg-white'>
+        <div className='max-w-5xl mx-auto rounded-xl p-5 mt-10 bg-white'>
           <h1 className='mb-5'>Ajouté un commande</h1>
           <form onSubmit={(event) => onEvent(id, event)} className='flex flex-col gap-10'>
               <textarea name='comment' className='p-2' placeholder='Entre le commentaire'/>
