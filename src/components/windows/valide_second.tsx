@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react'
+import { FormatDate } from '@/lib/tools/timer'
 
-export default function ValideSecond({ command , onEvent, onBack} : {command: Result[], onEvent: () => void, onBack: () => void}) {
+export default function ValideSecond({ command, onEvent, onBack }: { command: Result[], onEvent: () => void, onBack: () => void }) {
 
-    const [total , setTotal] = useState<number>(0)
+    const [total, setTotal] = useState<number>(0)
 
     useEffect(() => {
         const calculatedTotal = command.reduce(
-          (sum, item) => sum + Number(item.delivery_price),
-          0
+            (sum, item) => sum + Number(item.delivery_price),
+            0
         );
         setTotal(calculatedTotal);
-      }, [command]); // Recalculate whenever `command` changes
+    }, [command]); // Recalculate whenever `command` changes
 
-      const taxe = total * 12 / 100
+    const taxe = total * 12 / 100
 
     return (
-        <div className='fixed top-20 bottom-0 md:left-80 right-0 p-5 bg-opacity-50 bg-slate-700'>
-            <div className='max-w-5xl mx-auto p-5 bg-white'>
-                <h1 className='font-semibold text-2xl'>Taxes téches</h1>
-                <div className="relative overflow-x-auto">
+        <div className='fixed z-10 overflow-auto top-20 flex items-start bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
+            <div className='relative overflow-auto w-full h-full mx-auto rounded-xl p-5 bg-white'>
+                <h1 className='font-semibold text-2xl text-center'>Taxes téches</h1>
+                <div className="relative overflow-auto h-5/6  p-4">
                     <table className="w-full text-sm text-left rtl:text-right0">
                         <thead className="text-xs uppercase bg-gray-50 ">
                             <tr>
@@ -47,7 +48,7 @@ export default function ValideSecond({ command , onEvent, onBack} : {command: Re
                                             {item.livreur.partenneur.user.first_name} {item.livreur.partenneur.user.last_name}
                                         </td>
                                         <td className="px-6 py-4">
-                                            {item.created_at} 
+                                            {FormatDate(item.created_at)}
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             {item.delivery_price}DA
@@ -60,12 +61,11 @@ export default function ValideSecond({ command , onEvent, onBack} : {command: Re
                     <h1 className='text-right p-2 font-semibold text-xl'>total {total}.00 DA</h1>
                     <h1 className='text-right p-2 font-semibold text-xl'>Taxe {taxe}.00 DA</h1>
                 </div>
-                <div className='flex gap-2 text-xl justify-end'>
+                <div className='absolute bottom-3 right-3 flex gap-4 text-xl justify-end'>
                     <button onClick={onBack} className='disabled:text-slate-400'>Retour</button>
-                    <button onClick={onEvent}  className=''>Suivant</button>
-                    <button disabled className='disabled:text-green-200'>Submite</button>
+                    <button onClick={onEvent} className=''>Suivant</button>
                 </div>
             </div>
         </div>
-      )
+    )
 }

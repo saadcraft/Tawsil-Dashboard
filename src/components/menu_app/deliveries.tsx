@@ -23,18 +23,26 @@ export default function Delivery({ promise }: Props) {
 
   const [isVisible, setIsVisible] = useState<number>(0);
 
+  console.log(selectedRows)
+
   const router = useRouter()
 
   useEffect(() => {
     setSelect(promise)
-}, [promise])
+    setSelect((prevSelect) =>
+      prevSelect.map((row) => ({
+        ...row,
+        selected: selectedRows.some((selectedRow) => selectedRow.id === row.id), // Update `selected` as true if in `selectedRows`, false otherwise
+      }))
+    );
+  }, [promise])
 
   const handleCheck = (index: number) => {
     setSelect((prev) => {
       return prev.map((row, i) => {
         if (i === index) {
           const newRow = { ...row, selected: !row.selected };
-  
+
           // Add or remove the row from selectedRows when checkbox is toggled
           if (newRow.selected && !newRow.valide_payment) {
             // Add to selectedRows only if it doesn't already exist
@@ -59,18 +67,18 @@ export default function Delivery({ promise }: Props) {
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const cleint = formData.get('client') as string;
-        const validation = formData.get('valide') as string;
-        
-        router.push(`?livreur=${cleint}&valide=${validation}`);
+    const formData = new FormData(event.currentTarget);
+    const cleint = formData.get('client') as string;
+    const validation = formData.get('valide') as string;
+
+    router.push(`?livreur=${cleint}&valide=${validation}`);
   }
 
   const handleCheckAll = () => {
     const nonValideRows = select.filter((row) => !row.valide_payment);
     const allSelected = nonValideRows.every((row) => row.selected);
 
-  // Update the select state (checkbox selection state)
+    // Update the select state (checkbox selection state)
     const updatedSelect = select.map((row) => ({
       ...row,
       selected: row.valide_payment ? row.selected : !allSelected,
@@ -78,55 +86,66 @@ export default function Delivery({ promise }: Props) {
 
     setSelect(updatedSelect);
 
-  // After updating `select`, update selectedRows
-  if (allSelected) {
-    // If all were selected, clear selectedRows
-    setSelectedRows([]);
-  } else {
-    // If not all were selected, add all rows to selectedRows
-    setSelectedRows(updatedSelect.filter((row) => row.selected && !row.valide_payment));
-  }
+    // After updating `select`, update selectedRows
+    if (allSelected) {
+      // If all were selected, clear selectedRows
+      setSelectedRows((prevSelected) =>
+        prevSelected.filter(
+          (selectedRow) => !select.some((pageRow) => pageRow.id === selectedRow.id)
+        ));
+    } else {
+      // If not all were selected, add all rows to selectedRows
+      setSelectedRows((prevSelected) => {
+        // Filter the newly selected rows
+        const newSelections = updatedSelect.filter(
+          (row) => row.selected && !row.valide_payment && !prevSelected.some((selectedRow) => selectedRow.id === row.id)
+        );
+
+        // Combine previous selections with new ones
+        return [...prevSelected, ...newSelections];
+      });
+    }
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue  = (event.target as HTMLInputElement).value;
-        if (!/^\d*$/.test(inputValue)) {
-          (event.target as HTMLInputElement).value = inputValue.replace(/\D/g, ''); // Remove non-numeric characters
-        }
+    const inputValue = (event.target as HTMLInputElement).value;
+    if (!/^\d*$/.test(inputValue)) {
+      (event.target as HTMLInputElement).value = inputValue.replace(/\D/g, ''); // Remove non-numeric characters
+    }
   };
 
-  const handleValidate = () => {setIsVisible(1)}
-  const handleSecond = () => {setIsVisible(2)}
-  const handleThird = () => {setIsVisible(3)}
-  const handleClose = () => {setIsVisible(0)}
+  const handleValidate = () => { setIsVisible(1) }
+  const handleSecond = () => { setIsVisible(2) }
+  const handleThird = () => { setIsVisible(3) }
+  const handleClose = () => { setIsVisible(0) }
 
-  const hundleSubmite = async (ids : number[]) => {
+  const hundleSubmite = async (ids: number[]) => {
 
     const loadingToastId = toast.loading('Submite Commande...');
 
-    try{
-      const result = await SubmitCommande({id: ids});
-      if (result){
+    try {
+      const result = await SubmitCommande({ id: ids });
+      if (result) {
         toast.success('valider Succesfully', { id: loadingToastId });
         setIsVisible(0);
         setSelectedRows([])
         router.refresh()
       }
-    }catch(error){
+    } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message, { id: loadingToastId });
       } else {
         toast.error('An unknown error occurred', { id: loadingToastId });
       }
     }
-}
+  }
 
 
   const Commands = select.map((pre, index) => {
     return (
       <tr key={index} className="bg-white border-b text-black hover:bg-gray-50">
         <td className="px-6 py-4">
-          <input type="checkbox" name='check' id="check" onChange={() => handleCheck(index)} disabled={pre.valide_payment} checked={pre.valide_payment? false : pre.selected} />
+          <input type="checkbox" name='check' id="check" onChange={() => handleCheck(index)} disabled={pre.valide_payment} checked={pre.valide_payment ? false : pre.selected} />
         </td>
         <td className="px-6 py-4">
           {pre.client.first_name} {pre.client.last_name}
@@ -159,11 +178,11 @@ export default function Delivery({ promise }: Props) {
           <input onChange={handleInputChange} type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
           <div className='flex gap-2'>
             <div>
-              <input type="radio" id="noValide" name="valide" defaultChecked value="No" className="peer hidden"/>
+              <input type="radio" id="noValide" name="valide" defaultChecked value="No" className="peer hidden" />
               <label htmlFor="noValide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> No valider</label>
             </div>
             <div>
-              <input type="radio" id="valide" name="valide" value="Yes" className="peer hidden"/>
+              <input type="radio" id="valide" name="valide" value="Yes" className="peer hidden" />
               <label htmlFor="valide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> valider</label>
             </div>
           </div>
@@ -203,23 +222,23 @@ export default function Delivery({ promise }: Props) {
         </div>
       </div>
       {isVisible === 1 ?
-      <div>
-        <button onClick={handleClose} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
-        <ValideCommande command={selectedRows} onEvent={handleSecond} />
-      </div>
-: ""}
-{isVisible === 2 ?
-      <div>
-        <button onClick={handleClose} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
-        <ValideSecond command={selectedRows} onEvent={handleThird} onBack={handleValidate} />
-      </div>
-: ""}
-{isVisible === 3 ?
-      <div>
-        <button onClick={handleClose} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
-        <ValideThird command={selectedRows} onBack={handleSecond} onSub={hundleSubmite}/>
-      </div>
-: ""}
+        <div>
+          <button onClick={handleClose} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+          <ValideCommande command={selectedRows} onEvent={handleSecond} onBack={handleClose} />
+        </div>
+        : ""}
+      {isVisible === 2 ?
+        <div>
+          <button onClick={handleClose} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+          <ValideSecond command={selectedRows} onEvent={handleThird} onBack={handleValidate} />
+        </div>
+        : ""}
+      {isVisible === 3 ?
+        <div>
+          <button onClick={handleClose} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+          <ValideThird command={selectedRows} onBack={handleSecond} onSub={hundleSubmite} />
+        </div>
+        : ""}
     </div>
   )
 }
