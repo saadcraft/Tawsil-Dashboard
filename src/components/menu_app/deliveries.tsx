@@ -35,7 +35,7 @@ export default function Delivery({ promise }: Props) {
         selected: selectedRows.some((selectedRow) => selectedRow.id === row.id), // Update `selected` as true if in `selectedRows`, false otherwise
       }))
     );
-  }, [promise])
+  }, [promise, selectedRows])
 
   const handleCheck = (index: number) => {
     setSelect((prev) => {
