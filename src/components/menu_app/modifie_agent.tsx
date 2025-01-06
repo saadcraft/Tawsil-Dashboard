@@ -8,8 +8,11 @@ import { Employer } from '@/lib/type_module/emploi_type';
 import ModifieForm from '../windows/modifie_form'
 import { MdClose } from "react-icons/md";
 import Disable from '../windows/disable';
+import { useRouter } from "next/navigation"
 
 export default function ModAgent({ results }: { results: Employer[] }) {
+
+    const router = useRouter()
 
     const [modify, setModify] = useState<Employer | null>(null)
 
@@ -17,7 +20,15 @@ export default function ModAgent({ results }: { results: Employer[] }) {
 
     const hundelModify = (info: Employer) => setModify(info);
 
-    const hundelDisabled = (id : number) => setDisabled(id);
+    const hundelDisabled = (id: number) => setDisabled(id);
+
+    const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        const cleint = formData.get('client') as string;
+
+        router.push(`?search=${cleint}`);
+    }
 
 
 
@@ -26,6 +37,9 @@ export default function ModAgent({ results }: { results: Employer[] }) {
             <tr key={index} className="bg-white border-b text-black hover:bg-gray-50">
                 <td className="px-6 py-4">
                     {index + 1}
+                </td>
+                <td className="px-6 py-4">
+                    {pre.username}
                 </td>
                 <td className="px-6 py-4">
                     {pre.first_name} {pre.last_name}
@@ -37,11 +51,11 @@ export default function ModAgent({ results }: { results: Employer[] }) {
                     {pre.email}
                 </td>
                 <td className="px-6 py-4 text-right">
-                    {pre.bloquer ? "Blocked" : 
-                    <>
-                        <button onClick={() => hundelModify(pre)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500'><FaPen /></button>
-                        <button onClick={() => hundelDisabled(pre.id)} className='ml-2 bg-red-700 text-white p-1 rounded-md hover:bg-red-500'><FaTrashAlt /></button>
-                    </>
+                    {pre.bloquer ? "Blocked" :
+                        <>
+                            <button onClick={() => hundelModify(pre)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500'><FaPen /></button>
+                            <button onClick={() => hundelDisabled(pre.id)} className='ml-2 bg-red-700 text-white p-1 rounded-md hover:bg-red-500'><FaTrashAlt /></button>
+                        </>
                     }
                 </td>
             </tr>
@@ -55,18 +69,21 @@ export default function ModAgent({ results }: { results: Employer[] }) {
                 <h1 className='font-semibold text-xl'>Agent Administratif /</h1>
                 <h1 className='font-bold text-xl'>Modifie Agent</h1>
             </div>
-            <div className='p-10 bg-white rounded-md shadow-md'>
-
-                <div className='mb-7 flex items-center'>
+            <div className='p-10 pb-20 bg-white rounded-md shadow-md'>
+                <form onSubmit={handleSearch} className='mb-7 flex items-center gap-2'>
                     <FaSearch className='absolute text-slate-500' />
-                    <input type="text" name="search" placeholder='Search to table' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
-                </div>
+                    <input type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                    <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Submit</button>
+                </form>
                 <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table className="w-full text-sm text-left">
                         <thead className="text-xs text-gray-500 uppercase bg-primer">
                             <tr>
                                 <th className="px-6 py-3">
                                     ID
+                                </th>
+                                <th className="px-6 py-3">
+                                    UserName
                                 </th>
                                 <th className="px-6 py-3">
                                     Employé

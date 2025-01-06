@@ -4,14 +4,13 @@ import { MdClose } from "react-icons/md"
 import { FaSearch } from 'react-icons/fa'
 import React, { useState } from 'react'
 import Link from "next/link";
-import { Partner } from "@/lib/type_module/center_type"
 import ComplitDocument from "../windows/complet_document"
 
-export default function CenterChef({ parteners }: { parteners: Partner[] }) {
+export default function CenterChef({ parteners }: { parteners: Partenaire[] }) {
 
-  const [modify, setModify] = useState<Partner | null>(null)
+  const [modify, setModify] = useState<Partenaire | null>(null)
 
-  const hundelModify = (info: Partner) => setModify(info);
+  const hundelModify = (info: Partenaire) => setModify(info);
 
   const pertener = parteners.map((pre, index) => {
     return (
@@ -42,7 +41,7 @@ export default function CenterChef({ parteners }: { parteners: Partner[] }) {
         <Link href="/role" className='font-semibold text-third'>Dashboard /</Link>
         <h1 className='font-bold'>{`Centre d'appel`}</h1>
       </div>
-      <div className='p-10 bg-white gap-10 rounded-md shadow-md'>
+      <div className='p-10 pb-20 bg-white gap-10 rounded-md shadow-md'>
         <div className='mb-7 flex justify-between items-center'>
           <FaSearch className='absolute text-slate-500' />
           <input type="text" name="search" placeholder='Search to table' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />

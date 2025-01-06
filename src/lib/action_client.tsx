@@ -1,7 +1,7 @@
 "use server"
 
 import { DateTime } from 'next-auth/providers/kakao';
-import { Result } from "./type_module/casses_type"
+import { Result, PaginatedResponse } from "./type_module/casses_type"
 import { apiRequest } from "./request";
 
 export type Data = {
@@ -18,10 +18,15 @@ export type Data = {
     password: string;
 }
 
+type apiCasses = {
+    result: Result[];
+    totalAct: number;
+}
+
 export async function AddAgent(token: string, Data: Data) {
 
     const { last_name, first_name, username, email, date_de_naissance, lieux, sex, phone_number_1, phone_number_2, pass, password } = Data
-    
+
     if (pass !== password) {
         throw new Error("Password and confirm password are not the same");
     }
@@ -68,7 +73,7 @@ export async function CloseCasses({ prix }: { prix: string }) {
             url: "/api/v1/chefbureux/arretcasse",
             data: { prix }
         });
-        if(response){
+        if (response) {
             return true;
         }
 
@@ -86,7 +91,7 @@ export async function OpenCasses() {
             method: "PATCH",
             url: "/api/v1/cassie/chef/ouvrir",
         });
-        if(response){
+        if (response) {
             return true;
         }
 
@@ -98,14 +103,18 @@ export async function OpenCasses() {
     }
 }
 
-export async function getCasses(): Promise<Result[]> {
+export async function getCasses({ page, search }: { page: string, search: string }): Promise<apiCasses> {
     try {
         const response = await apiRequest({
             method: "GET",
             url: "/api/v1/chef/cassies",
+            params: { page, search }
         });
 
-        return response.results;
+        return {
+            result: response.results,
+            totalAct: response.count
+        };
 
     } catch (error) {
         if (error instanceof Error) {

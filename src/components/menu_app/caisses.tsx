@@ -89,7 +89,7 @@ export default function Caisses({ cass }: { cass: Result[] }) {
         <Link href="/role" className='font-semibold text-third'>Dashboard /</Link>
         <h1 className='font-bold'>Les caisses</h1>
       </div>
-      <div className='p-10 bg-white gap-10 rounded-md shadow-md'>
+      <div className='p-10 pb-20 bg-white gap-10 rounded-md shadow-md'>
         <div className='mb-7 flex justify-between items-center'>
           <FaSearch className='absolute text-slate-500' />
           <input type="text" name="search" placeholder='Search to table' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
