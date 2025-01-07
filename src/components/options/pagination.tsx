@@ -17,7 +17,7 @@ export default function Pagination({ currentPage, pages, param1, param2 }: props
 
     const handlePageChange = (page: number) => {
         if (page >= 1 && page <= pages) {
-            router.push(`?&page=${page}&${param1}&${param2}`);
+            router.push(`?page=${page}&${param1}&${param2}`);
         }
     };
 

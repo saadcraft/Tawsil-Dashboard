@@ -60,6 +60,13 @@ export default function Caisses({ cass }: { cass: Result[] }) {
     }
   }
 
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const cleint = formData.get('client') as string;
+    router.push(`?search_date=${cleint}`);
+  }
+
 
   const casses = cass.map((pre, index) => {
     return (
@@ -91,8 +98,11 @@ export default function Caisses({ cass }: { cass: Result[] }) {
       </div>
       <div className='p-10 pb-20 bg-white gap-10 rounded-md shadow-md'>
         <div className='mb-7 flex justify-between items-center'>
-          <FaSearch className='absolute text-slate-500' />
-          <input type="text" name="search" placeholder='Search to table' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+          <form onSubmit={handleSearch} className='flex items-center gap-2'>
+            <FaSearch className='absolute text-slate-500' />
+            <input type="date" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+            <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Submit</button>
+          </form>
           <div className='flex justify-end gap-2'>
             <div className='p-2'>
               <button onClick={handleWindow} className='bg-red-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Close Caisse</button>

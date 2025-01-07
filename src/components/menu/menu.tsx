@@ -16,7 +16,8 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { SignOut } from '@/lib/auth';
-import { toast } from "react-hot-toast"
+import { toast } from "react-hot-toast";
+import { MenuParams } from "./params";
 
 type props = {
     // token: string,
@@ -93,24 +94,13 @@ export default function Menu({ user }: props) {
                 <div className='flex flex-col gap-2 py-3'>
                     {user ?
                         <>
-                            <Link onClick={handleMenu} href="/role" className='flex justify-between bg-slate-600 hover:bg-slate-600 p-3 items-center font-bold text-xl cursor-pointer'>
-                                <h1 className='flex items-center gap-2'><MdOutlineDashboard /> Dashboard</h1>
-                                <MdKeyboardArrowRight />
-                            </Link>
+                            <MenuParams url="/role" title='Dashboard' icon={<MdOutlineDashboard />} onEvent={handleMenu} />
                             {user.role == "chef_bureau" &&
                                 <>
-                                    <Link onClick={handleMenu} href="/role/deliveries" className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>
-                                        <h1 className='flex items-center gap-2'><MdDeliveryDining /> livraisons</h1>
-                                        <MdKeyboardArrowRight />
-                                    </Link>
-                                    <Link onClick={handleMenu} href="/role/actions" className='flex justify-between hover:bg-slate-600 p-3 items-center font-bold text-xl cursor-pointer'>
-                                        <h1 className='flex items-center gap-2'><MdOutlinePendingActions /> Les Action</h1>
-                                        <MdKeyboardArrowRight />
-                                    </Link>
-                                    <Link onClick={handleMenu} href="/role/caisses" className='flex justify-between hover:bg-slate-600 p-3 items-center font-bold text-xl cursor-pointer'>
-                                        <h1 className='flex items-center gap-2'><MdAttachMoney /> Les caisses</h1>
-                                        <MdKeyboardArrowRight />
-                                    </Link>
+                                    <MenuParams url="/role/deliveries" title='livraisons' icon={<MdDeliveryDining />} onEvent={handleMenu} />
+                                    <MenuParams url="/role/actions" title='Les Action' icon={<MdOutlinePendingActions />} onEvent={handleMenu} />
+                                    <MenuParams url="/role/caisses" title='Les caisses' icon={<MdAttachMoney />} onEvent={handleMenu} />
+
                                     <div onClick={() => handleClick(1)} className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>
                                         <h1 className='flex items-center gap-2'><MdOutlineAdminPanelSettings /> Agent administratif</h1>
                                         <MdKeyboardArrowUp className={`${isFaqOpen[1] ? 'rotate-180' : ''}`} />
@@ -125,10 +115,7 @@ export default function Menu({ user }: props) {
                                     </div>
                                 </>
                             }
-                            <Link onClick={handleMenu} href="/role/apple_center" className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>
-                                <h1 className='flex items-center gap-2'><MdContactSupport /> {`Center d'apple`}</h1>
-                                <MdKeyboardArrowRight />
-                            </Link>
+                            <MenuParams url="/role/apple_center" title={`Center d'apple`} icon={<MdContactSupport />} onEvent={handleMenu} />
                         </> : ""}
                     <div onClick={() => handleClick(0)} className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>
                         <h1 className='flex items-center gap-2'><MdLogin /> Authentication</h1>

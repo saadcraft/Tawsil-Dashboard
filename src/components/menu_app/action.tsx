@@ -78,7 +78,6 @@ export default function Action({ actions }: { actions: Actions[] }) {
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </div>
     )

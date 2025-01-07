@@ -44,22 +44,22 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
   }
 
   return (
-    <div className='fixed overflow-auto top-20 flex items-start bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
+    <div className='fixed z-10 overflow-auto top-20 flex items-start bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
       <div className='max-w-5xl mx-auto rounded-xl p-10 mt-10 bg-white'>
         <h1 className='mb-5 text-xl text-center font-bold'>Completé le dossie</h1>
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           <p>Adress</p>
           <input type='text' name='adresse' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le Adress' defaultValue={user.adresse || ''} />
-          <p>NRC</p>
-          <input type='text' name='NRC' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le NRC' defaultValue={user.NRC || ''} />
+          <p>RC</p>
+          <input type='text' name='NRC' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le NRC' defaultValue={user.RC || ''} />
           <p>Nif</p>
           <input type='text' name='Nif' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le numéro de Nif' defaultValue={user.Nif || ''} />
           <p>Numero Act</p>
           <input type='text' name='numero_act' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le Numéro Act' defaultValue={user.numero_act || ''} />
           <p>Numéro de la carte national</p>
           <input type="text" name="card_number" className='p-2 border border-slate-300 rounded-md' placeholder='Entre ID cart' defaultValue={user.card_number || ''} />
-          <p>Numéro de la régister de commerce</p>
-          <input type="text" name="num_commerce" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.num_commerce || ''} />
+          <p>Numéro de matricule</p>
+          <input type="text" name="num_commerce" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.num_de_matricule || ''} />
           <button className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Submite</button>
         </form>
       </div>

@@ -23,7 +23,7 @@ type apiCasses = {
     totalAct: number;
 }
 
-export async function AddAgent(token: string, Data: Data) {
+export async function AddAgent(Data: Data) {
 
     const { last_name, first_name, username, email, date_de_naissance, lieux, sex, phone_number_1, phone_number_2, pass, password } = Data
 
@@ -103,12 +103,12 @@ export async function OpenCasses() {
     }
 }
 
-export async function getCasses({ page, search }: { page: string, search: string }): Promise<apiCasses> {
+export async function getCasses({ page, search_date }: { page: string, search_date: string }): Promise<apiCasses> {
     try {
         const response = await apiRequest({
             method: "GET",
             url: "/api/v1/chef/cassies",
-            params: { page, search }
+            params: { page, search_date }
         });
 
         return {

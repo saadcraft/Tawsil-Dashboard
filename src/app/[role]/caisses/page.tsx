@@ -10,23 +10,23 @@ export const metadata: Metadata = {
 };
 
 type props = {
-  searchParams: Promise<{ page?: string, search?: string }>;
+  searchParams: Promise<{ page?: string, search_date?: string }>;
 }
 
 export default async function CaissePage({ searchParams }: props) {
 
-  const { page, search } = await searchParams;
+  const { page, search_date } = await searchParams;
   const pageNumber = page ?? "1";
-  const search_num = search ?? "";
+  const search_num = search_date ?? "";
 
-  const { result, totalAct } = await getCasses({ page: pageNumber, search: search_num });
+  const { result, totalAct } = await getCasses({ page: pageNumber, search_date: search_num });
 
   const totalPages = Math.ceil(totalAct / 20);
 
   return (
     <div>
       <Caisses cass={result} />
-      <Pagination pages={totalPages} currentPage={Number(pageNumber)} param1={`search=${search_num}`} param2={``} />
+      <Pagination pages={totalPages} currentPage={Number(pageNumber)} param1={`search_date=${search_num}`} param2={``} />
     </div>
   );
 }

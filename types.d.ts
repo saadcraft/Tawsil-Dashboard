@@ -73,9 +73,8 @@ type Livreur = {
 type Partenaire = {
   id: number;
   user: Users;
-  nom_de_magasin: string | null;
   adresse: string | null;
-  NRC: string | null;
+  RC: string | null;
   Nif: string | null;
   numero_act: string | null;
   tax_a_payer: string | null;
@@ -84,13 +83,13 @@ type Partenaire = {
   consement: string | null;
   randement: string | null;
   card_number: string | null;
-  num_commerce: string | null;
   latitude: string | null;
   longitude: string | null;
   pre_en_charge: boolean;
   is_available: boolean;
   type_partener: string | null;
   type_compte: number;
+  num_de_matricule: string | null;
 }
 
 type Users = {
