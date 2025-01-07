@@ -52,7 +52,7 @@ export async function SignOut() {
         const res = await apiRequest({
             method: "POST",
             url: "/api/v1/logout",
-            data: { "refresh_token": refresh},
+            data: { "refresh_token": refresh },
         });
         if (res) {
             CookiesRemover();
@@ -84,7 +84,7 @@ export async function getUser(): Promise<Users> {
     }
 }
 
-export async function BlockUser({ id } : { id : number }){
+export async function BlockUser({ id }: { id: number }) {
     try {
         const response = await apiRequest({
             method: "PATCH",

@@ -1,5 +1,5 @@
 
-import React , { useEffect , useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getCommant } from "@/lib/call_action"
 import { CommentaireData } from "@/lib/type_module/center_type"
 
@@ -22,22 +22,22 @@ export default function ShowComment({ id }: { id: number }) {
 
     const mappedComment = comments.map((pre, index) => {
         return (
-                <tr key={index} className="bg-white border-b dark:border-gray-700">
-                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                        {index + 1}
-                    </th>
-                    <td className="px-6 py-4">
-                        {pre.centre_appel.first_name}
-                    </td>
-                    <td className="px-6 py-4">  
-                        {pre.comm} 
-                    </td>
-                </tr>
+            <tr key={index} className="bg-white border-b dark:border-gray-700">
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                    {index + 1}
+                </th>
+                <td className="px-6 py-4">
+                    {pre.centre_appel.first_name}
+                </td>
+                <td className="px-6 py-4">
+                    {pre.comm}
+                </td>
+            </tr>
         )
     })
 
     return (
-        <div className='fixed top-0 flex items-center bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
+        <div className='fixed z-10 top-0 flex items-center bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
             <div className='max-w-5xl mx-auto rounded-xl p-5 bg-white'>
                 <h1 className='font-semibold text-2xl'>Commentaires</h1>
                 <div className="relative overflow-x-auto">

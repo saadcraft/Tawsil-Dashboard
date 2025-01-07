@@ -185,3 +185,20 @@ export async function getAllChef(): Promise<Users[]> {
         throw new Error("Unexpected error");
     }
 }
+
+export async function ActiveUser({ user_id }: { user_id: number }) {
+    try {
+        const response = await apiRequest({
+            method: "PATCH",
+            url: "api/v1/user/activate",
+            data: { user_id }
+        });
+
+        return response;
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(error.message || "An error occurred");
+        }
+        throw new Error("Unexpected error");
+    }
+}
