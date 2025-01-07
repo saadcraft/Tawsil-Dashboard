@@ -77,6 +77,13 @@ export default function AppleCenter({ parteners, chefs }: Props) {
   const handleClose = () => { setActivePartnerId(null) }
   const handleShowClose = () => { setshowComment(null) }
 
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const cleint = formData.get('client') as string;
+    router.push(`?search=${cleint}`);
+  }
+
   const pertener = parteners.map((pre, index) => {
     return (
       <tr key={index} className="bg-white border-b text-black hover:bg-gray-50">
@@ -117,11 +124,11 @@ export default function AppleCenter({ parteners, chefs }: Props) {
         <h1 className='font-bold'>{`Centre d'appel`}</h1>
       </div>
       <div className='p-10 pb-20 bg-white gap-10 rounded-md shadow-md'>
-        <div className='mb-7 flex justify-between items-center'>
+        <form onSubmit={handleSearch} className='mb-7 flex items-center gap-2'>
           <FaSearch className='absolute text-slate-500' />
-          <input type="text" name="search" placeholder='Search to table' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
-          <button className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Add comment</button>
-        </div>
+          <input type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+          <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Submit</button>
+        </form>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left">
             <thead className="text-xs text-gray-500 uppercase bg-primer">

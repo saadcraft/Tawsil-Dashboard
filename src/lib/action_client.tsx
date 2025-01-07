@@ -1,7 +1,7 @@
 "use server"
 
 import { DateTime } from 'next-auth/providers/kakao';
-import { Result, PaginatedResponse } from "./type_module/casses_type"
+import { Result } from "./type_module/casses_type"
 import { apiRequest } from "./request";
 
 export type Data = {

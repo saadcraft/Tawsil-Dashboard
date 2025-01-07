@@ -23,8 +23,6 @@ export default async function ApplePage({ searchParams }: props) {
   const pageNumber = page ?? "1";
   const search_num = search ?? "";
 
-  let totalPages;
-
   const user = await getUser();
 
   let allChef;
@@ -49,7 +47,7 @@ export default async function ApplePage({ searchParams }: props) {
 
   }
 
-  totalPages = Math.ceil(totalActs / 20);
+  const totalPages = Math.ceil(totalActs / 20);
 
 
 

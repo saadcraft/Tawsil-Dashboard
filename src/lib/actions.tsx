@@ -1,6 +1,5 @@
 "use server"
 
-import { Partner } from "./type_module/center_type"
 import { apiRequest } from "./request";
 
 type apiRequest = {
