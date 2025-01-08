@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import React from 'react'
-import Action from "@/components/menu_app/action"
+import Action from "@/components/chef_app/action"
 import { getAction } from "@/lib/actions";
 import Pagination from "@/components/options/pagination";
 

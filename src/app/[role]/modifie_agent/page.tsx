@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import React from 'react'
-import ModAgent from "@/components/menu_app/modifie_agent"
+import ModAgent from "@/components/chef_app/modifie_agent"
 import { getAgents } from "@/lib/call_action";
 import Pagination from "@/components/options/pagination"
 

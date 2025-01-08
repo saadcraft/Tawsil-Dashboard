@@ -5,9 +5,9 @@ import Link from 'next/link'
 import { FaSearch } from 'react-icons/fa'
 import { FaPen, FaTrashAlt } from "react-icons/fa";
 import { Employer } from '@/lib/type_module/emploi_type';
-import ModifieForm from '../windows/modifie_form'
+import ModifieForm from '../windows/chef_win/modifie_form'
 import { MdClose } from "react-icons/md";
-import Disable from '../windows/disable';
+import Disable from '../windows/chef_win/disable';
 import { useRouter } from "next/navigation"
 
 export default function ModAgent({ results }: { results: Employer[] }) {

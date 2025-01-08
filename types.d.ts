@@ -130,3 +130,10 @@ type Actions = {
   total_amount: string;
   livreur: Livreur;
 };
+
+type MagasinType = {
+  id: number
+  name: string;
+  description: string;
+  tax_tawsile: number;
+}

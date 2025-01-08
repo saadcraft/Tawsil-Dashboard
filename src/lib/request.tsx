@@ -19,7 +19,7 @@ const api: AxiosInstance = axios.create({
 });
 
 // Function to dynamically get the access token
-const getAccessToken = async () : Promise<string | undefined> => {
+const getAccessToken = async (): Promise<string | undefined> => {
     const accessToken = (await cookies()).get("access_token")?.value;
     return accessToken;
 };
@@ -34,13 +34,14 @@ export const refreshAccessToken = async (): Promise<string> => {
 
         if (!refreshToken) throw new Error("No refresh token found");
 
-        const response = await axios.post<TokenResponse>(`${process.env.SERVER_DOMAIN}/api/token/refresh/`, {refresh: refreshToken},{
-            headers:{
+        const response = await axios.post<TokenResponse>(`${process.env.SERVER_DOMAIN}/api/token/refresh/`, { refresh: refreshToken }, {
+            headers: {
                 "Content-Type": "application/json"
             }
         });
 
-        const { access: newAccessToken, refresh: newRefreshToken } = response.data;
+        const newAccessToken = response.data.access
+        const newRefreshToken = response.data.refresh
         // Update cookies or other storage with the new access token
         // For example, if you're using cookies:
         cookiesStore.set('access_token', newAccessToken, {
@@ -58,7 +59,7 @@ export const refreshAccessToken = async (): Promise<string> => {
             sameSite: 'strict',
         });
         return newAccessToken;
-    } catch(error){ 
+    } catch (error) {
         if (axios.isAxiosError(error)) {
             console.error("Error refreshing access token:", error.response?.data || error.message);
         } else {

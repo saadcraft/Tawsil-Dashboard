@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { FaSearch } from 'react-icons/fa'
 import { CloseCasses, OpenCasses } from "@/lib/action_client"
-import ValideCasses from "../windows/valide_casses"
+import ValideCasses from "../windows/chef_win/valide_casses"
 import { MdClose } from "react-icons/md"
 import { toast } from "react-hot-toast"
 import { Result } from "@/lib/type_module/casses_type"

@@ -6,10 +6,10 @@ import Link from 'next/link'
 import { FaSearch } from 'react-icons/fa'
 import { FaCommentDots, FaUserGroup } from "react-icons/fa6";
 import { MdClose } from "react-icons/md"
-import Comment from "../windows/comment"
+import Comment from "../windows/chef_win/comment"
 import { AddComment, UpdateGroup } from '@/lib/call_action'
-import ShowComment from '../windows/show-comments'
-import Group from '../windows/group'
+import ShowComment from '../windows/chef_win/show-comments'
+import Group from '../windows/chef_win/group'
 import { useRouter } from 'next/navigation'
 
 type Props = {

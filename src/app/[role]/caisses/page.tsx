@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import React from 'react'
-import Caisses from "@/components/menu_app/caisses"
+import Caisses from "@/components/chef_app/caisses"
 import { getCasses } from "@/lib/action_client";
 import Pagination from "@/components/options/pagination";
 

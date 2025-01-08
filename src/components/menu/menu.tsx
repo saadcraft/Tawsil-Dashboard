@@ -10,7 +10,9 @@ import {
     MdOutlinePendingActions,
     MdAttachMoney,
     MdOutlineAdminPanelSettings,
-    MdDeliveryDining
+    MdDeliveryDining,
+    MdLocalTaxi,
+    MdOutlineStorefront
 } from "react-icons/md";
 import Image from 'next/image';
 import Link from 'next/link';
@@ -89,7 +91,7 @@ export default function Menu({ user }: props) {
                 </Link>
 
                 <div className='flex flex-col gap-2 py-3'>
-                    {user ?
+                    {user &&
                         <>
                             <MenuParams url="/role" title='Dashboard' icon={<MdOutlineDashboard />} onEvent={handleMenu} />
                             {user.role == "chef_bureau" &&
@@ -112,8 +114,10 @@ export default function Menu({ user }: props) {
                                     </div>
                                 </>
                             }
+                            <MenuParams url="/role/VTC" title={`VTC`} icon={<MdLocalTaxi />} onEvent={handleMenu} />
+                            <MenuParams url="/role/magasin" title={`Magasin`} icon={<MdOutlineStorefront />} onEvent={handleMenu} />
                             <MenuParams url="/role/apple_center" title={`Center d'apple`} icon={<MdContactSupport />} onEvent={handleMenu} />
-                        </> : ""}
+                        </>}
                     <div onClick={() => handleClick(0)} className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>
                         <h1 className='flex items-center gap-2'><MdLogin /> Authentication</h1>
                         <MdKeyboardArrowUp className={`${isFaqOpen[0] ? 'rotate-180' : ''}`} />
