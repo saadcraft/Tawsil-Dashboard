@@ -5,9 +5,9 @@ import { FaSearch, FaRegCheckCircle } from 'react-icons/fa'
 import { MdOutlineDisabledByDefault } from 'react-icons/md'
 import React, { useState } from 'react'
 import Link from "next/link";
-import ComplitDocument from "../windows/complet_document"
+import ComplitDocument from "../windows/chef_win/complet_document"
 import { useRouter } from "next/navigation"
-import ActiveCompte from "../windows/active-compte"
+import ActiveCompte from "../windows/chef_win/active-compte"
 
 export default function CenterChef({ parteners }: { parteners: Partenaire[] }) {
 

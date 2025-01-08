@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import React from 'react'
-import AjouteAgent from "@/components/menu_app/ajoute_agent"
+import AjouteAgent from "@/components/chef_app/ajoute_agent"
 
 
 export const metadata: Metadata = {

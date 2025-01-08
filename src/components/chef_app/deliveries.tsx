@@ -3,10 +3,10 @@
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
-import ValideCommande from '../windows/valide_first'
-import ValideSecond from "../windows/valide_second"
+import ValideCommande from '../windows/chef_win/valide_first'
+import ValideSecond from "../windows/chef_win/valide_second"
 import { MdClose } from "react-icons/md";
-import ValideThird from '../windows/valide_third';
+import ValideThird from '../windows/chef_win/valide_third';
 import { SubmitCommande } from '@/lib/action_client'
 import { useRouter } from "next/navigation"
 import { toast } from "react-hot-toast"

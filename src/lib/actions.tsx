@@ -50,3 +50,40 @@ export async function getAction({ page, search }: { page: string, search: string
         throw new Error("Unexpected error");
     }
 }
+
+type DataType = {
+    [key: string | number]: unknown
+}
+
+export async function AddTypeMagasin(Data: DataType) {
+    try {
+        const response = await apiRequest({
+            method: "POST",
+            url: "/api/v1/commerciale/typecompte/add",
+            data: Data
+        })
+        if (response) {
+            return true
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(error.message || "An error occurred");
+        }
+        throw new Error("Unexpected error");
+    }
+}
+
+export async function getMagasin(): Promise<MagasinType[]> {
+    try {
+        const response = await apiRequest({
+            method: "GET",
+            url: "/api/v1/commerciale/typecomptes"
+        })
+        return response
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(error.message || "An error occurred");
+        }
+        throw new Error("Unexpected error");
+    }
+}

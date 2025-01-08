@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import React from 'react'
-import AppleCenter from "@/components/menu_app/apple_center"
-import CenterChef from "@/components/menu_app/center_chef";
+import AppleCenter from "@/components/chef_app/apple_center"
+import CenterChef from "@/components/chef_app/center_chef";
 import { getParteners } from "@/lib/call_action";
 import { getUser } from "@/lib/auth";
 import { getAllChef, getChefCentre } from "@/lib/call_action";
