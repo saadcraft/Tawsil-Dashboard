@@ -3,7 +3,6 @@
 import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react'
 import {
-    MdKeyboardArrowRight,
     MdKeyboardArrowUp,
     MdLogin,
     MdContactSupport,
@@ -20,8 +19,6 @@ import { toast } from "react-hot-toast";
 import { MenuParams } from "./params";
 
 type props = {
-    // token: string,
-    // remove: string,
     user: Users
 }
 
