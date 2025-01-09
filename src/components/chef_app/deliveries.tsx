@@ -10,6 +10,7 @@ import ValideThird from '../windows/chef_win/valide_third';
 import { SubmitCommande } from '@/lib/action_client'
 import { useRouter } from "next/navigation"
 import { toast } from "react-hot-toast"
+import { FormatDate } from "@/lib/tools/timer"
 
 type Props = {
   promise: Result[];
@@ -148,7 +149,13 @@ export default function Delivery({ promise }: Props) {
           <input type="checkbox" name='check' id="check" onChange={() => handleCheck(index)} disabled={pre.valide_payment} checked={pre.valide_payment ? false : pre.selected} />
         </td>
         <td className="px-6 py-4">
+          {FormatDate(pre.created_at)}
+        </td>
+        <td className="px-6 py-4">
           {pre.client.first_name} {pre.client.last_name}
+        </td>
+        <td className="px-6 py-4">
+          {pre.livreur.partenneur.user.phone_number_1}
         </td>
         <td className="px-6 py-4">
           {pre.livreur.partenneur.user.first_name} {pre.livreur.partenneur.user.last_name}
@@ -156,11 +163,8 @@ export default function Delivery({ promise }: Props) {
         <td className="px-6 py-4">
           {pre.valide_payment ? "true" : "false"}
         </td>
-        <td className="px-6 py-4">
-          {pre.delivery_price}
-        </td>
         <td className="px-6 py-4 text-right">
-          {pre.total_price}
+          {pre.delivery_price}
         </td>
       </tr>
     )
@@ -186,7 +190,7 @@ export default function Delivery({ promise }: Props) {
               <label htmlFor="valide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> valider</label>
             </div>
           </div>
-          <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Submit</button>
+          <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherch</button>
         </form>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg mb-3">
           <table className="w-full text-sm text-left">
@@ -196,19 +200,22 @@ export default function Delivery({ promise }: Props) {
                   <input type="checkbox" name='check' id="check" onChange={handleCheckAll} checked={select.every((row) => (row.selected && !row.valide_payment) || row.valide_payment)} />
                 </th>
                 <th className="px-6 py-3">
-                  Employé
+                  Date
+                </th>
+                <th className="px-6 py-3">
+                  Livreur
+                </th>
+                <th className="px-6 py-3">
+                  Télephone
                 </th>
                 <th className="px-6 py-3">
                   Client
                 </th>
                 <th className="px-6 py-3">
-                  action
-                </th>
-                <th className="px-6 py-3">
-                  id
+                  Validation
                 </th>
                 <th className="px-6 py-3 text-right">
-                  payé
+                  Tax
                 </th>
               </tr>
             </thead>

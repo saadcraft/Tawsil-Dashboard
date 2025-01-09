@@ -22,7 +22,8 @@ export default function AjouteAgent() {
     }
 
     const [formData, setFormData] = useState<Data>(data);
-
+    // TODO const [errors , setError] = useState([]) add errors
+    console.log(formData)
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
@@ -59,30 +60,30 @@ export default function AjouteAgent() {
                 <form onSubmit={handleSubmit} className='flex flex-col gap-4 py-5 px-2 sm:px-5 lg:px-10'>
                     <h1 className="text-xl font-bold">Ajouté agent</h1>
                     <div className='flex flex-col gap-1 p-1'>
-                        <span>Nom et prénome</span>
+                        <p className='flex'><span>Nom et prénome</span><span className='text-red-600 text-2xl'>*</span></p>
                         <div className='flex flex-col lg:flex-row gap-3'>
                             <input type="Text" name="last_name" id="last_name" placeholder='Nom' className='p-3 border border-slate-300 rounded-md' onChange={handleChange} value={formData.last_name} />
                             <input type="Text" name="first_name" id="first_name" placeholder='Prénom' className='p-3 border border-slate-300 rounded-md' onChange={handleChange} value={formData.first_name} />
                         </div>
                     </div>
                     <div className='flex flex-col gap-1 p-1'>
-                        <span>Username</span>
+                        <p className='flex'><span>Username</span><span className='text-red-600 text-2xl'>*</span></p>
                         <input type="Text" name="username" id="username" placeholder='username' className='p-3 border border-slate-300 rounded-md' onChange={handleChange} value={formData.username} />
                     </div>
                     <div className='flex flex-col gap-1 p-1'>
-                        <span>Date de naissance</span>
+                        <p className='flex'><span>Date de naissance</span><span className='text-red-600 text-2xl'>*</span></p>
                         <input type="date" name="date_de_naissance" id="date_de_naissance" className='p-3 border border-slate-300 rounded-md' onChange={handleChange} value={formData.date_de_naissance} />
                     </div>
                     <div className='flex flex-col gap-1 p-1'>
-                        <span>Lieux de naissance</span>
+                        <p className='flex'><span>Lieux de naissance</span><span className='text-red-600 text-2xl'>*</span></p>
                         <input type="Text" name="lieux" id="lieux" placeholder='Lieux de naissance' className='p-3 border border-slate-300 rounded-md' onChange={handleChange} value={formData.lieux} />
                     </div>
                     <div className='flex flex-col gap-1 p-1'>
-                        <span>Email</span>
+                        <p className='flex'><span>Email</span><span className='text-red-600 text-2xl'>*</span></p>
                         <input type="email" name="email" id="email" placeholder='Email' className='p-3 border border-slate-300 rounded-md' onChange={handleChange} value={formData.email} />
                     </div>
                     <div className='flex flex-col gap-1 p-1'>
-                        <span>Sexe</span>
+                        <p className='flex'><span>Sexe</span><span className='text-red-600 text-2xl'>*</span></p>
                         <select className='border p-1' name='sex' id="sex" defaultValue="" onChange={handleChange}>
                             <option value="">Seléctionée</option>
                             <option value="homme">Homme</option>
@@ -90,7 +91,7 @@ export default function AjouteAgent() {
                         </select>
                     </div>
                     <div className='flex flex-col gap-1 p-1'>
-                        <span>Numéro de téléphone 1</span>
+                        <p className='flex'><span>Numéro de téléphone 1</span><span className='text-red-600 text-2xl'>*</span></p>
                         <input type="number" name="phone_number_1" id="phone_number_1" placeholder='phone 1' className='p-3 border border-slate-300 rounded-md' onChange={handleChange} value={formData.phone_number_1} />
                     </div>
                     <div className='flex flex-col gap-1 p-1'>
@@ -98,11 +99,11 @@ export default function AjouteAgent() {
                         <input type="number" name="phone_number_2" id="phone_number_2" placeholder='phone 2' className='p-3 border border-slate-300 rounded-md' onChange={handleChange} value={formData.phone_number_2} />
                     </div>
                     <div className='flex flex-col gap-1 p-1'>
-                        <span>Mot de passe</span>
+                        <p className='flex'><span>Mot de passe</span><span className='text-red-600 text-2xl'>*</span></p>
                         <input type="password" name="password" id="password" placeholder='Password' className='p-3 border border-slate-300 rounded-md' onChange={handleChange} value={formData.password} />
                     </div>
                     <div className='flex flex-col gap-1 p-1'>
-                        <span>Confirmer le mot de passe</span>
+                        <p className='flex'><span>Confirmer le mot de passe</span><span className='text-red-600 text-2xl'>*</span></p>
                         <input type="password" name="pass" id="pass" placeholder='Confirm password' className='p-3 border border-slate-300 rounded-md' onChange={handleChange} value={formData.pass} />
                     </div>
                     <div className="p-2">

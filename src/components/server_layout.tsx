@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers';
-import Menu from './menu';
+import Menu from './menu/menu';
 import { getUser } from '@/lib/auth';
+import Header from './header/header';
 
 export default async function ServerMenu() {
 
@@ -21,6 +22,7 @@ export default async function ServerMenu() {
   return (
     <div>
       <Menu user={users!} />
+      <Header user={users!} />
     </div>
   )
 

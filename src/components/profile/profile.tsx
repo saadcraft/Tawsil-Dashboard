@@ -24,9 +24,9 @@ export default function Profile({ user }: { user: Users }) {
                         <p>{user.email}</p>
                         <p>{user.phone_number_1}</p>
                         <p>{user.role}</p>
-                        <p>{user.date_de_naissance || "?"}</p>
+                        <p>{user.date_de_naissance || "/"}</p>
                         <p>{user.wilaya}</p>
-                        <p>{user.lieux || "?"}</p>
+                        <p>{user.lieux || "/"}</p>
                         <p></p>
                     </div>
                 </div>

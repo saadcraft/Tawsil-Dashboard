@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation'
 
 export default function ComplitDocument({ user, onsub }: { user: Partenaire, onsub: (value: null) => void }) {
 
+  const TypeChoices = ['Moto', 'Classique', 'Confort', 'Noir', 'Utilitaire', 'XXL', 'Harim']
+
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -45,7 +47,7 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
 
   return (
     <div className='fixed z-10 overflow-auto top-20 flex items-start bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
-      <div className='max-w-5xl mx-auto rounded-xl p-10 mt-10 bg-white'>
+      <div className='xl:w-1/3 w-full mx-auto rounded-xl p-10 mt-10 bg-white'>
         <h1 className='mb-5 text-xl text-center font-bold'>Completé le dossie</h1>
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           <p>Adress</p>
@@ -58,8 +60,29 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
           <input type='text' name='numero_act' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le Numéro Act' defaultValue={user.numero_act || ''} />
           <p>Numéro de la carte national</p>
           <input type="text" name="card_number" className='p-2 border border-slate-300 rounded-md' placeholder='Entre ID cart' defaultValue={user.card_number || ''} />
+          <p>Vihucule</p>
+          <input type="text" name="num_commerce" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.modele || ''} />
+          <p>type Vihucule</p>
+          <select name="type_vehicule" className='p-2 border border-slate-300 rounded-md' >
+            <option value={user.vihucule?.type_vehicule || 'Sélecte vihucule'} >{user.vihucule?.type_vehicule || 'Sélecte vihucule'}</option>
+            {TypeChoices.map((pre, index) => {
+              return (
+                <option key={index} value={pre}>{pre}</option>
+              )
+            })}
+          </select>
+          <p>Numéro et date d'assurance</p>
+          <div className="flex gap-3">
+            <input type="text" name="num_assurance" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.num_assurance || ''} />
+            <input type="date" name="date_expiration_assurance" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.Date_expiration_assurance ? new Date(user.vihucule.Date_expiration_assurance).toISOString().split('T')[0] : ""} />
+          </div>
+          <p>Numéro et date scanner</p>
+          <div className="flex gap-3">
+            <input type="text" name="num_scanner" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.num_scanner || ''} />
+            <input type="date" name="date_expiration_scanner" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.Date_expiration_scanner ? new Date(user.vihucule?.Date_expiration_scanner).toISOString().split('T')[0] : ""} />
+          </div>
           <p>Numéro de matricule</p>
-          <input type="text" name="num_commerce" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.num_de_matricule || ''} />
+          <input type="text" name="num_commerce" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.matricule || ''} />
           <button className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Submite</button>
         </form>
       </div>

@@ -50,7 +50,6 @@ export default async function ApplePage({ searchParams }: props) {
   const totalPages = Math.ceil(totalActs / 20);
 
 
-
   return (
     <div>
       {user?.role === "centre_appel" || user?.role === "admin" ? <AppleCenter parteners={results} chefs={allChef!} /> : <CenterChef parteners={results} />}
