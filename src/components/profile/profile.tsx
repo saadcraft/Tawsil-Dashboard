@@ -15,9 +15,9 @@ export default function Profile({ user }: { user: Users }) {
                         <FaRegUser className='text-8xl' />
                     </div>
                 </div>
-                <div className='flex gap-3 justify-center'>
+                <p className='font-semibold text-3xl p-3 text-center'>{user.last_name + " " + user.first_name}</p>
+                <div className='flex gap-3'>
                     <div className='font-bold text-xl p-2 border-r-2'>
-                        <p >Nom et prénom : </p>
                         <p>email :</p>
                         <p>Télephone :</p>
                         <p>Role:</p>
@@ -26,7 +26,6 @@ export default function Profile({ user }: { user: Users }) {
                         <p>Lieux :</p>
                     </div>
                     <div className='text-xl p-2'>
-                        <p >{user.last_name + " " + user.first_name}</p>
                         <p>{user.email}</p>
                         <p>{user.phone_number_1}</p>
                         <p>{user.role}</p>

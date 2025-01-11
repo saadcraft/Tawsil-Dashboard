@@ -18,7 +18,7 @@ export default function ValideCasses({ onEvent }: { onEvent: (data: string) => v
 
 
   return (
-    <div className='fixed z-10 top-20 bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
+    <div className='fixed z-20 top-20 bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
       <div className='max-w-5xl mx-auto p-5 bg-white'>
         <h1 className='mb-5'>Valider le montant</h1>
         <div className='flex flex-col gap-10'>
