@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
+import { FaRegUser } from "react-icons/fa";
 
 export default function Profile({ user }: { user: Users }) {
     return (
@@ -8,8 +9,13 @@ export default function Profile({ user }: { user: Users }) {
                 <Link href="/role" className='font-semibold text-xl'>Dashboard /</Link>
                 <h1 className='font-bold text-xl'>Profile</h1>
             </div>
-            <div className='p-10 pb-20 bg-white gap-10 rounded-md shadow-md'>
-                <div className='flex gap-3'>
+            <div className='relative top-10 p-10 pb-20 max-w-5xl mx-auto bg-white rounded-md shadow-md'>
+                <div className='absolute left-0 -top-20 flex justify-center w-full'>
+                    <div className='rounded-full p-4 bg-slate-100 shadow-md'>
+                        <FaRegUser className='text-8xl' />
+                    </div>
+                </div>
+                <div className='flex gap-3 justify-center'>
                     <div className='font-bold text-xl p-2 border-r-2'>
                         <p >Nom et prénom : </p>
                         <p>email :</p>
