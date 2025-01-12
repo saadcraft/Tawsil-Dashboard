@@ -26,6 +26,7 @@ const getAccessToken = async (): Promise<string | undefined> => {
 
 // Function to refresh the access token
 export const refreshAccessToken = async (): Promise<string> => {
+    "use server"
     const cookiesStore = await cookies();
     try {
         const refreshToken = (await cookies()).get("refresh_token")?.value;

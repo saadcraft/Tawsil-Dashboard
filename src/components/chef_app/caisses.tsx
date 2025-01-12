@@ -101,7 +101,7 @@ export default function Caisses({ cass }: { cass: Result[] }) {
           <form onSubmit={handleSearch} className='flex items-center gap-2'>
             <FaSearch className='absolute text-slate-500' />
             <input type="date" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
-            <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Submit</button>
+            <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherch</button>
           </form>
           <div className='flex justify-end gap-2'>
             <div className='p-2'>

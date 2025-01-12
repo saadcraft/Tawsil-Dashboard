@@ -24,7 +24,7 @@ export default async function DeliveryPage({ searchParams }: props) {
 
   const select = result.map(item => ({ ...item, selected: false }))
 
-  const totalPages = Math.ceil(totalAct / 1);
+  const totalPages = Math.ceil(totalAct / 20);
 
 
   return (

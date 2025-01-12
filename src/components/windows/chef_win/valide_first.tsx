@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function ValideCommande({ command, onEvent, onBack }: { command: Result[], onEvent: () => void, onBack: () => void }) {
     return (
-        <div className='fixed z-10 overflow-auto top-20 flex items-start bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
+        <div className='fixed z-20 overflow-auto top-20 flex items-start bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
             <div className='relative overflow-auto  w-full h-full mx-auto rounded-xl p-5 bg-white'>
                 <h1 className='font-semibold text-2xl text-center'>les information de commande</h1>
                 <div className='flex overflow-auto h-5/6 gap-10 p-10'>

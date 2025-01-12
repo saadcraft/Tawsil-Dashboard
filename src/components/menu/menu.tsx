@@ -26,7 +26,6 @@ type props = {
 
 export default function Menu({ user }: props) {
 
-
     const router = useRouter();
 
     const [isFaqOpen, setIsFaqOpen] = useState(Array(4).fill(false));
@@ -114,8 +113,14 @@ export default function Menu({ user }: props) {
                                     </div>
                                 </>
                             }
-                            <MenuParams url="/role/VTC" title={`VTC`} icon={<MdLocalTaxi />} onEvent={handleMenu} />
-                            <MenuParams url="/role/magasin" title={`Magasin`} icon={<MdOutlineStorefront />} onEvent={handleMenu} />
+                            {
+                                user.role == "gestion_commercial" &&
+                                <>
+                                    <MenuParams url="/role/VTC" title={`VTC`} icon={<MdLocalTaxi />} onEvent={handleMenu} />
+                                    <MenuParams url="/role/magasin" title={`Magasin`} icon={<MdOutlineStorefront />} onEvent={handleMenu} />
+                                </>
+                            }
+
                             <MenuParams url="/role/apple_center" title={`Center d'apple`} icon={<MdContactSupport />} onEvent={handleMenu} />
                         </>}
                     <div onClick={() => handleClick(0)} className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>

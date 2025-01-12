@@ -6,8 +6,6 @@ export default async function GestionPage() {
 
     const result = await getMagasin()
 
-    console.log(result)
-
     return (
         <Magasin allMagasin={result} />
     )

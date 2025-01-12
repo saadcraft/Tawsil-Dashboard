@@ -70,9 +70,22 @@ type Livreur = {
   wilaya: string;
 }
 
+type Vehicule = {
+  id: number;
+  modele: string | null;
+  marque: string | null;
+  matricule: string | null;
+  num_assurance: string | null;
+  num_scanner: string | null;
+  Date_expiration_assurance: Date;
+  Date_expiration_scanner: Date;
+  type_vehicule: string | null;
+}
+
 type Partenaire = {
   id: number;
   user: Users;
+  vihucule: Vehicule;
   adresse: string | null;
   RC: string | null;
   Nif: string | null;
@@ -89,7 +102,6 @@ type Partenaire = {
   is_available: boolean;
   type_partener: string | null;
   type_compte: number;
-  num_de_matricule: string | null;
 }
 
 type Users = {

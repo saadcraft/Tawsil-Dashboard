@@ -50,7 +50,7 @@ export default function Action({ actions }: { actions: Actions[] }) {
                 <form onSubmit={handleSearch} className='mb-7 flex items-center gap-2'>
                     <FaSearch className='absolute text-slate-500' />
                     <input type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
-                    <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Submit</button>
+                    <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherch</button>
                 </form>
                 <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table className="w-full text-sm text-left">
