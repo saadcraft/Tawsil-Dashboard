@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Header from "@/components/header/header";
 import ServerMenu from "@/components/server_layout";
 import { Toaster } from 'react-hot-toast';
 
@@ -20,11 +19,11 @@ export default function RootLayout({
       <body
         className={`antialiased bg-six`}
       >
-        <Toaster position='top-center' reverseOrder={false}></Toaster>
-        <ServerMenu />
-        <main className='relative z-80 top-20 md:ml-80'>
-          {children}
-        </main>
+          <Toaster position='top-center' reverseOrder={false}></Toaster>
+          <ServerMenu />
+          <main className='relative z-80 top-20 md:ml-80'>
+            {children}
+          </main>
       </body>
     </html>
   );
