@@ -87,3 +87,22 @@ export async function getMagasin(): Promise<MagasinType[]> {
         throw new Error("Unexpected error");
     }
 }
+
+
+export async function sendEmail(Data: DataType) {
+    try {
+        const response = await apiRequest({
+            method: "POST",
+            url: "/api/v1/send/email/support/dev",
+            data: Data
+        })
+        if (response) {
+            return true
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(error.message || "An error occurred");
+        }
+        throw new Error("Unexpected error");
+    }
+}
