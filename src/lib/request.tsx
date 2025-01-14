@@ -4,7 +4,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosError, InternalAxiosRequ
 
 
 import { cookies } from "next/headers";
-import CookiesRemover from "./cookies";
+import { CookiesRemover } from "./cookies";
 
 type TokenResponse = {
     access: string;

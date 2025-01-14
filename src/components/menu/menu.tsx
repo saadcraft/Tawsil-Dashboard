@@ -134,8 +134,8 @@ export default function Menu({ user }: props) {
                                     </div>
                                 </>
                             }
-                            {user.role == "chef_bureau" || user.role == "centre_appel" &&
-                                <MenuParams url="/role/apple_center" title={`Center d'apple`} icon={<MdContactSupport />} onEvent={handleMenu} />
+                            {user.role == "chef_bureau" || user.role == "centre_appel" ?
+                                <MenuParams url="/role/apple_center" title={`Center d'apple`} icon={<MdContactSupport />} onEvent={handleMenu} /> : ""
                             }
                             {user.role == "superviseur" &&
                                 <MenuParams url="/role/validation" title={`Validation`} icon={<GrValidate />} onEvent={handleMenu} />

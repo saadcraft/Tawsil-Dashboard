@@ -18,6 +18,16 @@ export async function middleware(req: NextRequest) {
 
     try {
       const auth = await getUser();
+      // const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/user`,{
+      //   method: 'GET'
+      // });
+
+      // if (!response.ok) {
+      //   console.error("Error fetching user data:", response.statusText);
+      //   throw new Error("Failed to fetch user data");
+      // }
+      
+      // const auth = await response.json();
 
       if (auth && isPublicRoute) {
         return NextResponse.redirect(new URL('/role', req.url));

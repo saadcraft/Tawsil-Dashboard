@@ -1,6 +1,6 @@
 "use server"
 
-import CookiesRemover from "./cookies";
+import { CookiesRemover } from "./cookies";
 import { cookies } from 'next/headers';
 import { apiRequest } from "./request";
 

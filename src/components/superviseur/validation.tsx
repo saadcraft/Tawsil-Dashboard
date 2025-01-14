@@ -1,13 +1,17 @@
 "use client"
 
 import Link from 'next/link'
-import React from 'react'
-import { FaSearch } from 'react-icons/fa'
+import React, { useState } from 'react'
+import { FaRegCheckCircle, FaSearch } from 'react-icons/fa'
 import { handleInputChange } from "@/lib/tools/tools"
 import { Wilaya } from '@/lib/tools/named'
 import { useRouter } from "next/navigation"
+import { MdClose, MdOutlineDisabledByDefault } from 'react-icons/md'
+import ActiveCompte from '../windows/chef_win/active-compte'
 
 export default function Validation({ users }: { users: Partenaire[] }) {
+
+    const [user, setUser] = useState<{ id: number, statue: boolean } | null>(null)
 
     const router = useRouter();
 
@@ -43,7 +47,10 @@ export default function Validation({ users }: { users: Partenaire[] }) {
                     {pre.type_compte.name}
                 </td>
                 <td className="px-6 py-4 text-right">
-
+                    {pre.user.is_active ?
+                        <button onClick={() => setUser({ id: pre.user.id, statue: pre.user.is_active })} className='bg-red-700 text-white p-1 rounded-md hover:bg-red-500 flex items-center'>Désactivé <MdOutlineDisabledByDefault /></button> :
+                        <button onClick={() => setUser({ id: pre.user.id, statue: pre.user.is_active })} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500 flex items-center'>Activé <FaRegCheckCircle /></button>
+                    }
                 </td>
             </tr>
         )
@@ -111,6 +118,12 @@ export default function Validation({ users }: { users: Partenaire[] }) {
                     </table>
                 </div>
             </div>
+            {user &&
+                <div>
+                    <button onClick={() => setUser(null)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
+                    <ActiveCompte onClose={setUser} user={user} />
+                </div>
+            }
         </div>
     )
 }
