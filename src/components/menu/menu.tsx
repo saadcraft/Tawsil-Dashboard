@@ -14,6 +14,7 @@ import {
     MdLocalTaxi,
     MdOutlineStorefront
 } from "react-icons/md";
+import { GrValidate } from "react-icons/gr";
 import Image from 'next/image';
 import Link from 'next/link';
 import { SignOut } from '@/lib/auth';
@@ -118,10 +119,27 @@ export default function Menu({ user }: props) {
                                 <>
                                     <MenuParams url="/role/VTC" title={`VTC`} icon={<MdLocalTaxi />} onEvent={handleMenu} />
                                     <MenuParams url="/role/magasin" title={`Magasin`} icon={<MdOutlineStorefront />} onEvent={handleMenu} />
+
+                                    <div onClick={() => handleClick(2)} className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>
+                                        <h1 className='flex items-center gap-2'><MdOutlineAdminPanelSettings /> Superviseur</h1>
+                                        <MdKeyboardArrowUp className={`${isFaqOpen[2] ? 'rotate-180' : ''}`} />
+                                    </div>
+                                    <div className={`transition-all duration-200 overflow-hidden ${isFaqOpen[2] ? 'max-h-screen' : 'max-h-0'}`}>
+                                        <ul className='flex flex-col gap-2 p-3 ml-5'>
+                                            <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/role/ajoute_superviseur"> Créer</Link></li>
+                                        </ul>
+                                        <ul className='flex flex-col gap-2 p-3 ml-5'>
+                                            <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/role/modifie_superviseur"> Modifié</Link></li>
+                                        </ul>
+                                    </div>
                                 </>
                             }
-
-                            <MenuParams url="/role/apple_center" title={`Center d'apple`} icon={<MdContactSupport />} onEvent={handleMenu} />
+                            {user.role == "chef_bureau" || user.role == "centre_appel" &&
+                                <MenuParams url="/role/apple_center" title={`Center d'apple`} icon={<MdContactSupport />} onEvent={handleMenu} />
+                            }
+                            {user.role == "superviseur" &&
+                                <MenuParams url="/role/validation" title={`Validation`} icon={<GrValidate />} onEvent={handleMenu} />
+                            }
                         </>}
                     <div onClick={() => handleClick(0)} className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>
                         <h1 className='flex items-center gap-2'><MdLogin /> Authentication</h1>

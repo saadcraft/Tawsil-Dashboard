@@ -53,7 +53,7 @@ export default async function ApplePage({ searchParams }: props) {
   return (
     <div>
       {user?.role === "centre_appel" || user?.role === "admin" ? <AppleCenter parteners={results} chefs={allChef!} /> : <CenterChef parteners={results} />}
-      <Pagination pages={totalPages} currentPage={Number(pageNumber)} param1={`search=${search_num}`} param2={``} />
+      <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`search=${search_num}`} />
     </div>
   );
 }

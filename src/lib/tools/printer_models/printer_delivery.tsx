@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormatDate } from '@/lib/tools/timer';
+import { FormatDate } from '@/lib/tools/tools';
 
 type PrintableModelProps = {
     command: Result[];

@@ -1,8 +1,8 @@
 "use server"
 
-import { DateTime } from 'next-auth/providers/kakao';
 import { Result } from "./type_module/casses_type"
 import { apiRequest } from "./request";
+import { DateTime } from "next-auth/providers/kakao";
 
 export type Data = {
     last_name: string;
@@ -11,7 +11,7 @@ export type Data = {
     date_de_naissance: DateTime;
     lieux: string;
     email: string;
-    sex: string;
+    sexe: string;
     phone_number_1: string;
     phone_number_2: string;
     pass: string;
@@ -25,7 +25,7 @@ type apiCasses = {
 
 export async function AddAgent(Data: Data) {
 
-    const { last_name, first_name, username, email, date_de_naissance, lieux, sex, phone_number_1, phone_number_2, pass, password } = Data
+    const { last_name, first_name, username, email, date_de_naissance, lieux, sexe, phone_number_1, phone_number_2, pass, password } = Data
 
     if (pass !== password) {
         throw new Error("Password and confirm password are not the same");
@@ -35,7 +35,7 @@ export async function AddAgent(Data: Data) {
         const response = await apiRequest({
             method: "POST",
             url: "/api/v1/users/chef_bureux/agent/create",
-            data: { last_name, first_name, username, email, date_de_naissance, lieux, sex, phone_number_1, phone_number_2, password }
+            data: { last_name, first_name, username, email, date_de_naissance, lieux, sexe, phone_number_1, phone_number_2, password }
         });
         if (response) {
             return true;

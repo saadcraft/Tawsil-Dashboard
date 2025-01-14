@@ -30,7 +30,7 @@ export default async function DeliveryPage({ searchParams }: props) {
   return (
     <div>
       <Delivery promise={select} />
-      <Pagination pages={totalPages} currentPage={Number(pageNumber)} param1={`livreur=${client_num}`} param2={`valide=${valide_payment}`} />
+      <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`livreur=${client_num}&valide=${valide_payment}`} />
     </div>
   );
 }

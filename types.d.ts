@@ -82,6 +82,12 @@ type Vehicule = {
   type_vehicule: string | null;
 }
 
+type typeCompte = {
+  descprtion: string;
+  id: number;
+  name: string
+}
+
 type Partenaire = {
   id: number;
   user: Users;
@@ -101,7 +107,7 @@ type Partenaire = {
   pre_en_charge: boolean;
   is_available: boolean;
   type_partener: string | null;
-  type_compte: number;
+  type_compte: typeCompte;
 }
 
 type Users = {

@@ -10,7 +10,7 @@ import ValideThird from '../windows/chef_win/valide_third';
 import { SubmitCommande } from '@/lib/action_client'
 import { useRouter } from "next/navigation"
 import { toast } from "react-hot-toast"
-import { FormatDate } from "@/lib/tools/timer"
+import { FormatDate, handleInputChange } from "@/lib/tools/tools"
 
 type Props = {
   promise: Result[];
@@ -105,13 +105,6 @@ export default function Delivery({ promise }: Props) {
         // Combine previous selections with new ones
         return [...prevSelected, ...newSelections];
       });
-    }
-  };
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = (event.target as HTMLInputElement).value;
-    if (!/^\d*$/.test(inputValue)) {
-      (event.target as HTMLInputElement).value = inputValue.replace(/\D/g, ''); // Remove non-numeric characters
     }
   };
 

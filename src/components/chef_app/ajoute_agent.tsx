@@ -14,7 +14,7 @@ export default function AjouteAgent() {
         date_de_naissance: '',
         lieux: '',
         email: '',
-        sex: '',
+        sexe: '',
         phone_number_1: '',
         phone_number_2: '',
         pass: '',
