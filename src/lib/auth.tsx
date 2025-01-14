@@ -10,6 +10,10 @@ type User = {
     password: string;
 }
 
+type DataType = {
+    [key: string | number]: unknown
+}
+
 export async function SignIn({ username, password }: User) {
     try {
         const data = await apiRequest({
@@ -18,6 +22,12 @@ export async function SignIn({ username, password }: User) {
             data: { username, password },
             withCredentials: true,
         });
+        // const data = await fetch(`${process.env.SERVER_DOMAIN}/api/v1/login`, {
+        //     method: "POST",
+        //     headers: { "Content-Type": "application/json" },
+        //     credentials: "include",
+        //     body: JSON.stringify({ username, password })
+        // })
 
         const cookiesStore = await cookies();
 
@@ -36,8 +46,9 @@ export async function SignIn({ username, password }: User) {
             httpOnly: true, // Prevent client-side access
             sameSite: "strict",
         });
-
-        return data;
+        if (data) {
+            return data
+        }
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(error.message || "An error occurred during sign-in");
@@ -93,6 +104,48 @@ export async function BlockUser({ id }: { id: number }) {
         });
 
         return response;
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(error.message || "An error occurred");
+        }
+        throw new Error("Unexpected error");
+    }
+}
+
+export async function sendForget(Data: DataType) {
+    try {
+
+        const response = await apiRequest({
+            method: "POST",
+            url: "api/v1/resetpassword",
+            data: Data
+        })
+
+        if (response) {
+            return true
+        }
+
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(error.message || "An error occurred");
+        }
+        throw new Error("Unexpected error");
+    }
+}
+
+export async function changePassword({ new_password, token, uid }: { new_password: string, token: string, uid: string }) {
+    try {
+
+        const response = await apiRequest({
+            method: "POST",
+            url: "api/v1/user/chnagepassword",
+            data: { new_password, token, uid }
+        })
+
+        if (response) {
+            return true
+        }
+
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(error.message || "An error occurred");

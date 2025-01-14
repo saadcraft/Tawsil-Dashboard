@@ -14,22 +14,60 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
     const loadingToastId = toast.loading('Submite Documment...');
 
     const formData = new FormData(e.currentTarget)
-    const formObject = Object.fromEntries(formData.entries())
+    // const formObject = Object.fromEntries(formData.entries())
+
+    const filterEmptyValues = (obj: any): any => {
+      return Object.fromEntries(
+        Object.entries(obj).filter(([key, value]) => {
+          // Check if value is not empty, null, or undefined
+          if (value && value !== "" && value !== null && value !== undefined) {
+            // Recursively filter nested objects (like 'vihucule')
+            if (typeof value === "object" && !Array.isArray(value)) {
+              return [key, filterEmptyValues(value)];
+            }
+            return true; // Keep the key-value pair if value is valid
+          }
+          return false; // Remove the key-value pair if the value is empty
+        })
+      );
+    };
+
+    const data = {
+      id: user.id.toString(),
+      adresse: formData.get('adresse'),
+      RC: formData.get('RC'),
+      Nif: formData.get('Nif'),
+      numero_act: formData.get('numero_act'),
+      card_number: formData.get('card_number'),
+      vihucule: {
+        modele: formData.get('modele'),
+        matricule: formData.get('matricule'),
+        num_assurance: formData.get('num_assurance'),
+        num_scanner: formData.get('num_scanner'),
+        Date_expiration_assurance: formData.get('Date_expiration_assurance'),
+        Date_expiration_scanner: formData.get('Date_expiration_scanner'),
+        type_vehicule: formData.get('type_vehicule'),
+      },
+    }
+
+    const filteredData = filterEmptyValues(data);
 
 
-    const filteredData = Object.fromEntries(
-      Object.entries(formObject).filter(([, value]) => value !== "")
-    );
+    // const filteredData = Object.fromEntries(
+    //   Object.entries(formObject).filter(([, value]) => value !== "")
+    // );
 
     if (Object.keys(filteredData).length === 0) {
       toast.error('No fields to update.', { id: loadingToastId });
       return;
     }
 
-    const updatedUser = { id: user.id.toString(), ...filteredData };
+    // const updatedUser = { id: user.id.toString(), ...filteredData };
+
+    console.log(filteredData)
 
     try {
-      const res = await UpdateDocument(updatedUser)
+      const res = await UpdateDocument(filteredData)
       if (res) {
         toast.success('Updated with Succesfully', { id: loadingToastId });
         router.refresh()
@@ -53,7 +91,7 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
           <p>Adress</p>
           <input type='text' name='adresse' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le Adress' defaultValue={user.adresse || ''} />
           <p>RC</p>
-          <input type='text' name='NRC' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le NRC' defaultValue={user.RC || ''} />
+          <input type='text' name='RC' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le NRC' defaultValue={user.RC || ''} />
           <p>Nif</p>
           <input type='text' name='Nif' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le numéro de Nif' defaultValue={user.Nif || ''} />
           <p>Numero Act</p>
@@ -61,7 +99,7 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
           <p>Numéro de la carte national</p>
           <input type="text" name="card_number" className='p-2 border border-slate-300 rounded-md' placeholder='Entre ID cart' defaultValue={user.card_number || ''} />
           <p>Vihucule</p>
-          <input type="text" name="num_commerce" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.modele || ''} />
+          <input type="text" name="modele" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.modele || ''} />
           <p>type Vihucule</p>
           <select name="type_vehicule" className='p-2 border border-slate-300 rounded-md' >
             <option value={user.vihucule?.type_vehicule || 'Sélecte vihucule'} >{user.vihucule?.type_vehicule || 'Sélecte vihucule'}</option>
@@ -74,15 +112,15 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
           <p>Numéro et date d'assurance</p>
           <div className="flex gap-3">
             <input type="text" name="num_assurance" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.num_assurance || ''} />
-            <input type="date" name="date_expiration_assurance" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.Date_expiration_assurance ? new Date(user.vihucule.Date_expiration_assurance).toISOString().split('T')[0] : ""} />
+            <input type="date" name="Date_expiration_assurance" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.Date_expiration_assurance ? new Date(user.vihucule.Date_expiration_assurance).toISOString().split('T')[0] : ""} />
           </div>
           <p>Numéro et date scanner</p>
           <div className="flex gap-3">
             <input type="text" name="num_scanner" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.num_scanner || ''} />
-            <input type="date" name="date_expiration_scanner" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.Date_expiration_scanner ? new Date(user.vihucule?.Date_expiration_scanner).toISOString().split('T')[0] : ""} />
+            <input type="date" name="Date_expiration_scanner" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.Date_expiration_scanner ? new Date(user.vihucule?.Date_expiration_scanner).toISOString().split('T')[0] : ""} />
           </div>
           <p>Numéro de matricule</p>
-          <input type="text" name="num_commerce" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.matricule || ''} />
+          <input type="text" name="matricule" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.matricule || ''} />
           <button className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Submite</button>
         </form>
       </div>

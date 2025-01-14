@@ -21,7 +21,7 @@ export default async function AjoutAgentPage({ searchParams }: props) {
 
   const { result, totalAct } = await getAgents({ page: pageNumber, search: search_num });
 
-  const totalPages = Math.ceil(totalAct / 1);
+  const totalPages = Math.ceil(totalAct / 20);
 
   return (
     <div>
