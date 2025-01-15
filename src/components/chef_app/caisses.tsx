@@ -9,7 +9,7 @@ import { MdClose } from "react-icons/md"
 import { toast } from "react-hot-toast"
 import { Result } from "@/lib/type_module/casses_type"
 import { useRouter } from "next/navigation"
-import { FormatDate } from "@/lib/tools/timer"
+import { FormatDate } from "@/lib/tools/tools"
 
 export default function Caisses({ cass }: { cass: Result[] }) {
 

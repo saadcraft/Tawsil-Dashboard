@@ -10,8 +10,6 @@ export default function Magasin({ allMagasin }: { allMagasin: MagasinType[] }) {
 
     const [addMagasin, setAddMagasin] = useState<boolean>(false);
 
-    console.log(allMagasin)
-
     const typeMagasin = allMagasin.map((pre, index) => {
         return (
             <tr key={index} className="bg-white border-b text-black hover:bg-gray-50">

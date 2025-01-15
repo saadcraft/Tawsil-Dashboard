@@ -13,7 +13,7 @@ type props = {
   searchParams: Promise<{ page?: string, search?: string }>;
 }
 
-export default async function AjoutAgentPage({ searchParams }: props) {
+export default async function ModyAgentPage({ searchParams }: props) {
 
   const { page, search } = await searchParams;
   const pageNumber = page ?? "1";
@@ -26,7 +26,7 @@ export default async function AjoutAgentPage({ searchParams }: props) {
   return (
     <div>
       <ModAgent results={result} />
-      <Pagination pages={totalPages} currentPage={Number(pageNumber)} param1={`search=${search_num}`} param2={``} />
+      <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`search=${search_num}`} />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { FormatDate } from '@/lib/tools/timer'
+import { FormatDate } from '@/lib/tools/tools'
 
 export default function ValideSecond({ command, onEvent, onBack }: { command: Result[], onEvent: () => void, onBack: () => void }) {
 

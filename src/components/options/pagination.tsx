@@ -7,17 +7,16 @@ import { useRouter } from 'next/navigation'
 type props = {
     currentPage: number;
     pages: number;
-    param1: string;
-    param2: string;
+    params: string;
 }
 
-export default function Pagination({ currentPage, pages, param1, param2 }: props) {
+export default function Pagination({ currentPage, pages, params }: props) {
 
     const router = useRouter()
 
     const handlePageChange = (page: number) => {
         if (page >= 1 && page <= pages) {
-            router.push(`?page=${page}&${param1}&${param2}`);
+            router.push(`?page=${page}&${params}`);
         }
     };
 

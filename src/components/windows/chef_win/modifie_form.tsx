@@ -1,9 +1,8 @@
-import { Employer } from '@/lib/type_module/emploi_type';
 import { toast } from "react-hot-toast"
 import { UpdateUser } from '@/lib/call_action';
 import { useRouter } from 'next/navigation'
 
-export default function ModifieForm({ user, onsub }: { user: Employer, onsub: (value: null) => void }) {
+export default function ModifieForm({ user, onsub }: { user: Users, onsub: (value: null) => void }) {
 
   const router = useRouter()
 

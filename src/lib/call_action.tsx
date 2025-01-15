@@ -1,7 +1,6 @@
 "use server"
 
 import { CommentaireData } from "./type_module/center_type"
-import { Employer } from "./type_module/emploi_type"
 import { apiRequest } from "./request";
 
 type Comment = {
@@ -10,7 +9,7 @@ type Comment = {
 }
 
 type apiRequest = {
-    result: Employer[];
+    result: Users[];
     totalAct: number;
 }
 

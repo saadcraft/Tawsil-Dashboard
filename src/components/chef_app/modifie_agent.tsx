@@ -4,21 +4,20 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { FaSearch } from 'react-icons/fa'
 import { FaPen, FaTrashAlt } from "react-icons/fa";
-import { Employer } from '@/lib/type_module/emploi_type';
 import ModifieForm from '../windows/chef_win/modifie_form'
 import { MdClose } from "react-icons/md";
 import Disable from '../windows/chef_win/disable';
 import { useRouter } from "next/navigation"
 
-export default function ModAgent({ results }: { results: Employer[] }) {
+export default function ModAgent({ results }: { results: Users[] }) {
 
     const router = useRouter()
 
-    const [modify, setModify] = useState<Employer | null>(null)
+    const [modify, setModify] = useState<Users | null>(null)
 
     const [disabled, setDisabled] = useState<number>(0)
 
-    const hundelModify = (info: Employer) => setModify(info);
+    const hundelModify = (info: Users) => setModify(info);
 
     const hundelDisabled = (id: number) => setDisabled(id);
 

@@ -106,3 +106,18 @@ export async function sendEmail(Data: DataType) {
         throw new Error("Unexpected error");
     }
 }
+
+export async function verifyChangeToken({ token, uid }: { token: string, uid: string }) {
+    try {
+        const response = await apiRequest({
+            method: "POST",
+            url: "/api/v1/verifie/token",
+            data: { token, uid }
+        })
+        if (response) {
+            return true
+        }
+    } catch (error) {
+        return false
+    }
+}

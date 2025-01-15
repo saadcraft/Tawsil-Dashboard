@@ -3,7 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { FaSearch } from "react-icons/fa";
-import { FormatDate } from "@/lib/tools/timer"
+import { FormatDate } from "@/lib/tools/tools"
 import { useRouter } from 'next/navigation'
 
 export default function Action({ actions }: { actions: Actions[] }) {
