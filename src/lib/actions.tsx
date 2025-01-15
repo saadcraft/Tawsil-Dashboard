@@ -79,7 +79,7 @@ export async function verifyChangeToken({ token, uid }: { token: string, uid: st
         if (response) {
             return true
         }
-    } catch (error) {
+    } catch {
         return false
     }
 }
