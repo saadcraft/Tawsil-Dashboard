@@ -1,5 +1,5 @@
 import Magasin from '@/components/gestion_app/magasin'
-import { getMagasin } from '@/lib/actions'
+import { getMagasin } from '@/lib/gestion_action'
 import React from 'react'
 
 export default async function GestionPage() {

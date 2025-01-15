@@ -26,7 +26,7 @@ export default async function CaissePage({ searchParams }: props) {
   return (
     <div>
       <Caisses cass={result} />
-      <Pagination pages={totalPages} currentPage={Number(pageNumber)} param1={`search_date=${search_num}`} param2={``} />
+      <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`search_date=${search_num}`} />
     </div>
   );
 }

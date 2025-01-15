@@ -12,7 +12,8 @@ import {
     MdOutlineAdminPanelSettings,
     MdDeliveryDining,
     MdLocalTaxi,
-    MdOutlineStorefront
+    MdOutlineStorefront,
+    MdOutlineReport
 } from "react-icons/md";
 import { GrValidate } from "react-icons/gr";
 import Image from 'next/image';
@@ -138,7 +139,10 @@ export default function Menu({ user }: props) {
                                 <MenuParams url="/role/apple_center" title={`Center d'apple`} icon={<MdContactSupport />} onEvent={handleMenu} /> : ""
                             }
                             {user.role == "superviseur" &&
-                                <MenuParams url="/role/validation" title={`Validation`} icon={<GrValidate />} onEvent={handleMenu} />
+                                <>
+                                    <MenuParams url="/role/validation" title={`Validation`} icon={<GrValidate />} onEvent={handleMenu} />
+                                    <MenuParams url="/role/rapports" title={`Rapports`} icon={<MdOutlineReport />} onEvent={handleMenu} />
+                                </>
                             }
                         </>}
                     <div onClick={() => handleClick(0)} className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>

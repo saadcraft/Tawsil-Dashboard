@@ -35,7 +35,7 @@ export default function AppleCenter({ parteners, chefs }: Props) {
 
   const hundleClick = async (id: number, event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const loadingToastId = toast.loading('Submite Commande...');
+    const loadingToastId = toast.loading('Submite Commante...');
     const formData = new FormData(event.currentTarget);
     const add = formData.get('comment') as string;
     try {

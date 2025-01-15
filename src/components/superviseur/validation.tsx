@@ -6,12 +6,16 @@ import { FaRegCheckCircle, FaSearch } from 'react-icons/fa'
 import { handleInputChange } from "@/lib/tools/tools"
 import { Wilaya } from '@/lib/tools/named'
 import { useRouter } from "next/navigation"
-import { MdClose, MdOutlineDisabledByDefault } from 'react-icons/md'
+import { MdClose, MdOutlineDisabledByDefault, MdOutlineReport } from 'react-icons/md'
 import ActiveCompte from '../windows/chef_win/active-compte'
+import toast from 'react-hot-toast'
+import { AddReport } from '@/lib/super_action'
+import SuperReport from '../windows/gestion_win/super_report'
 
 export default function Validation({ users }: { users: Partenaire[] }) {
 
     const [user, setUser] = useState<{ id: number, statue: boolean } | null>(null)
+    const [activePartnerId, setActivePartnerId] = useState<number | null>(null);
 
     const router = useRouter();
 
@@ -23,6 +27,27 @@ export default function Validation({ users }: { users: Partenaire[] }) {
         const validation = formData.get('valide') as string;
 
         router.push(`?search=${cleint}&wilaya=${wilaya}&is_active=${validation}`);
+    }
+
+    const handleSubmite = async (id: number, event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const loadingToastId = toast.loading('Submite Commante...');
+        const formData = new FormData(event.currentTarget);
+        const add = formData.get('message') as string;
+
+        try {
+            const res = await AddReport({ id: id, message: add })
+            if (res) {
+                toast.success('Report added Succesfully', { id: loadingToastId });
+                setActivePartnerId(null)
+            }
+        } catch (error) {
+            if (error instanceof Error) {
+                toast.error(error.message, { id: loadingToastId });
+            } else {
+                toast.error('An unknown error occurred', { id: loadingToastId });
+            }
+        }
     }
 
     const parteneur = users.map((pre, index) => {
@@ -46,11 +71,14 @@ export default function Validation({ users }: { users: Partenaire[] }) {
                 <td className="px-6 py-4">
                     {pre.type_compte.name}
                 </td>
-                <td className="px-6 py-4 text-right">
+                <td className="px-6 py-4">
                     {pre.user.is_active ?
                         <button onClick={() => setUser({ id: pre.user.id, statue: pre.user.is_active })} className='bg-red-700 text-white p-1 rounded-md hover:bg-red-500 flex items-center'>Désactivé <MdOutlineDisabledByDefault /></button> :
                         <button onClick={() => setUser({ id: pre.user.id, statue: pre.user.is_active })} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500 flex items-center'>Activé <FaRegCheckCircle /></button>
                     }
+                </td>
+                <td className="px-6 py-4 text-right">
+                    <button onClick={() => setActivePartnerId(pre.id)} className='bg-red-700 text-white p-1 rounded-md hover:bg-red-500 inline-flex items-center'>Raport <MdOutlineReport /></button>
                 </td>
             </tr>
         )
@@ -61,10 +89,12 @@ export default function Validation({ users }: { users: Partenaire[] }) {
                 <Link href="/role" className='font-semibold text-third'>Dashboard /</Link>
                 <h1 className='font-bold'>Validation</h1>
             </div>
-            <div className='p-10 pb-20 bg-white rounded-md shadow-md'>
-                <form onSubmit={handleSearch} className='mb-7 flex items-center gap-2'>
-                    <FaSearch className='absolute text-slate-500' />
-                    <input onChange={handleInputChange} type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+            <div className='p-3 pb-20 md:pb-20 bg-white md:p-10 rounded-md shadow-md'>
+                <form onSubmit={handleSearch} className='mb-7 flex flex-col lg:flex-row items-center gap-5'>
+                    <div className='relative'>
+                        <FaSearch className='absolute top-3 text-slate-500' />
+                        <input onChange={handleInputChange} type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                    </div>
                     <div className='flex gap-2'>
                         <div>
                             <input type="radio" id="noValide" name="valide" defaultChecked value="false" className="peer hidden" />
@@ -107,8 +137,11 @@ export default function Validation({ users }: { users: Partenaire[] }) {
                                 <th className="px-6 py-3">
                                     Type de compte
                                 </th>
-                                <th className="px-6 py-3 text-right">
+                                <th className="px-6 py-3">
                                     validation
+                                </th>
+                                <th className="px-6 py-3 text-right">
+                                    Raport
                                 </th>
                             </tr>
                         </thead>
@@ -123,6 +156,12 @@ export default function Validation({ users }: { users: Partenaire[] }) {
                     <button onClick={() => setUser(null)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
                     <ActiveCompte onClose={setUser} user={user} />
                 </div>
+            }
+            {activePartnerId &&
+                <>
+                    <button onClick={() => setActivePartnerId(null)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
+                    <SuperReport onEvent={handleSubmite} id={activePartnerId} />
+                </>
             }
         </div>
     )

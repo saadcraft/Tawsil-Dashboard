@@ -2,13 +2,15 @@
 
 import Link from 'next/link'
 import React, { useState } from 'react'
-import { FaSearch } from 'react-icons/fa'
+import { FaPen, FaSearch } from 'react-icons/fa'
 import { MdClose } from 'react-icons/md'
 import AddMagasin from '../windows/gestion_win/add_magasin';
+import ModifyMagasinWin from '../windows/gestion_win/modify_magasin'
 
 export default function Magasin({ allMagasin }: { allMagasin: MagasinType[] }) {
 
     const [addMagasin, setAddMagasin] = useState<boolean>(false);
+    const [modify, setModify] = useState<MagasinType | null>(null);
 
     const typeMagasin = allMagasin.map((pre, index) => {
         return (
@@ -24,6 +26,9 @@ export default function Magasin({ allMagasin }: { allMagasin: MagasinType[] }) {
                 </td>
                 <td className="px-6 py-4 text-right">
                     {pre.tax_tawsile}
+                </td>
+                <td className="px-6 py-4 text-right">
+                    <button onClick={() => setModify(pre)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500'><FaPen /></button>
                 </td>
             </tr>
         )
@@ -62,6 +67,9 @@ export default function Magasin({ allMagasin }: { allMagasin: MagasinType[] }) {
                                 <th className="px-6 py-3 text-right">
                                     Tax
                                 </th>
+                                <th className="px-6 py-3 text-right">
+                                    Modifie
+                                </th>
                             </tr>
                         </thead>
                         <tbody className='odd:bg-six even:bg-fifth'>
@@ -74,6 +82,12 @@ export default function Magasin({ allMagasin }: { allMagasin: MagasinType[] }) {
                 <div>
                     <button onClick={() => setAddMagasin(false)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
                     <AddMagasin onSub={setAddMagasin} />
+                </div>
+            }
+            {modify &&
+                <div>
+                    <button onClick={() => setModify(null)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
+                    <ModifyMagasinWin magasin={modify} onSub={setModify} />
                 </div>
             }
         </div>
