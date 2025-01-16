@@ -103,7 +103,7 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
 
   return (
     <div className='fixed z-20 overflow-auto top-20 flex items-start bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
-      <div className='xl:w-1/3 w-full mx-auto rounded-xl p-10 mt-10 bg-white'>
+      <div className='xl:w-2/3 w-full mx-auto rounded-xl p-10 mt-10 bg-white'>
         <h1 className='mb-5 text-xl text-center font-bold'>Completé le dossie</h1>
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           <p>Adress</p>
@@ -129,12 +129,12 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
           </select>
           <p>Numéro et date {`d'assurance`}</p>
           <div className="flex gap-3">
-            <input type="text" name="num_assurance" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.num_assurance || ''} />
+            <input type="text" name="num_assurance" className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.num_assurance || ''} />
             <input type="date" name="Date_expiration_assurance" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.Date_expiration_assurance ? new Date(user.vihucule.Date_expiration_assurance).toISOString().split('T')[0] : ""} />
           </div>
           <p>Numéro et date scanner</p>
           <div className="flex gap-3">
-            <input type="text" name="num_scanner" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.num_scanner || ''} />
+            <input type="text" name="num_scanner" className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.num_scanner || ''} />
             <input type="date" name="Date_expiration_scanner" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.Date_expiration_scanner ? new Date(user.vihucule?.Date_expiration_scanner).toISOString().split('T')[0] : ""} />
           </div>
           <p>Numéro de matricule</p>

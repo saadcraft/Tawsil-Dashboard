@@ -118,7 +118,7 @@ export default function Menu({ user }: props) {
                             {
                                 user.role == "gestion_commercial" &&
                                 <>
-                                    <MenuParams url="/role/VTC" title={`VTC`} icon={<MdLocalTaxi />} onEvent={handleMenu} />
+                                    <MenuParams url="/role/partenaire" title={`Partenaire`} icon={<MdLocalTaxi />} onEvent={handleMenu} />
                                     <MenuParams url="/role/magasin" title={`Magasin`} icon={<MdOutlineStorefront />} onEvent={handleMenu} />
 
                                     <div onClick={() => handleClick(2)} className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>
