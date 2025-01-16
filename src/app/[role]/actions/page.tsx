@@ -29,7 +29,7 @@ export default async function ActionPage({ searchParams }: { searchParams: Promi
   return (
     <div>
       <Action actions={result} />
-      <Pagination pages={totalPages} currentPage={Number(pageNumber)} param1={`search=${searchNum}`} param2={``} />
+      <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`search=${searchNum}`} />
     </div>
   );
 }

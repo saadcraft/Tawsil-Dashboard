@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useRef, useCallback } from 'react'
+import React, { useRef } from 'react'
 import { useReactToPrint } from 'react-to-print';
 import PrintableModel from '@/lib/tools/printer_models/printer_delivery';
 

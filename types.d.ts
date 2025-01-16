@@ -155,3 +155,7 @@ type MagasinType = {
   description: string;
   tax_tawsile: number;
 }
+
+type DataType = {
+  [key: string | number]: unknown
+}

@@ -1,8 +1,13 @@
 import { DateTime } from "next-auth/providers/kakao";
 import { apiRequest } from "./request";
+import { Report } from '@/lib/type_module/center_type'
 
 type apiRequestT = {
     result: Users[];
+    totalAct: number;
+}
+type apiRaport = {
+    result: Report[];
     totalAct: number;
 }
 type apiParteneur = {
@@ -88,6 +93,43 @@ export async function getValidation({ page, search, wilaya, is_active }: { page:
             }
 
             // For other errors, rethrow them
+            throw new Error(error.message || "An error occurred");
+        }
+        throw new Error("Unexpected error");
+    }
+}
+
+export async function AddReport({ id, message }: { id: number, message: string }) {
+    try {
+        const response = await apiRequest({
+            method: "POST",
+            url: "/api/v1/suppervisseur/rapport/create",
+            data: { "parteneur": { id }, message }
+        })
+        if (response) {
+            return true
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(error.message || "An error occurred");
+        }
+        throw new Error("Unexpected error");
+    }
+}
+
+export async function ShowReport({ page }: { page: string }): Promise<apiRaport> {
+    try {
+        const response = await apiRequest({
+            method: "GET",
+            url: "/api/v1/superviseur/rapports",
+            params: { page }
+        })
+        return {
+            result: response.results,
+            totalAct: response.count
+        }
+    } catch (error) {
+        if (error instanceof Error) {
             throw new Error(error.message || "An error occurred");
         }
         throw new Error("Unexpected error");

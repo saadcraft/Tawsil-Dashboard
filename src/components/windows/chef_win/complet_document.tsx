@@ -2,6 +2,26 @@ import { toast } from "react-hot-toast"
 import { UpdateDocument } from '@/lib/call_action';
 import { useRouter } from 'next/navigation'
 
+type Vehicle = {
+  modele?: string;
+  matricule?: string;
+  num_assurance?: string;
+  num_scanner?: string;
+  Date_expiration_assurance?: string;
+  Date_expiration_scanner?: string;
+  type_vehicule?: string;
+};
+
+type UserData = {
+  id: string;
+  adresse?: string;
+  RC?: string;
+  Nif?: string;
+  numero_act?: string;
+  card_number?: string;
+  vihucule?: Vehicle;
+};
+
 export default function ComplitDocument({ user, onsub }: { user: Partenaire, onsub: (value: null) => void }) {
 
   const TypeChoices = ['Moto', 'Classique', 'Confort', 'Noir', 'Utilitaire', 'XXL', 'Harim']
@@ -16,7 +36,7 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
     const formData = new FormData(e.currentTarget)
     // const formObject = Object.fromEntries(formData.entries())
 
-    const filterEmptyValues = (obj: any): any => {
+    const filterEmptyValues = (obj: UserData | Vehicle): Partial<UserData | Vehicle> => {
       return Object.fromEntries(
         Object.entries(obj).filter(([key, value]) => {
           // Check if value is not empty, null, or undefined
@@ -34,23 +54,23 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
 
     const data = {
       id: user.id.toString(),
-      adresse: formData.get('adresse'),
-      RC: formData.get('RC'),
-      Nif: formData.get('Nif'),
-      numero_act: formData.get('numero_act'),
-      card_number: formData.get('card_number'),
+      adresse: formData.get('adresse')?.toString() || undefined,
+      RC: formData.get('RC')?.toString() || undefined,
+      Nif: formData.get('Nif')?.toString() || undefined,
+      numero_act: formData.get('numero_act')?.toString() || undefined,
+      card_number: formData.get('card_number')?.toString() || undefined,
       vihucule: {
-        modele: formData.get('modele'),
-        matricule: formData.get('matricule'),
-        num_assurance: formData.get('num_assurance'),
-        num_scanner: formData.get('num_scanner'),
-        Date_expiration_assurance: formData.get('Date_expiration_assurance'),
-        Date_expiration_scanner: formData.get('Date_expiration_scanner'),
-        type_vehicule: formData.get('type_vehicule'),
+        modele: formData.get('modele')?.toString() || undefined,
+        matricule: formData.get('matricule')?.toString() || undefined,
+        num_assurance: formData.get('num_assurance')?.toString() || undefined,
+        num_scanner: formData.get('num_scanner')?.toString() || undefined,
+        Date_expiration_assurance: formData.get('Date_expiration_assurance')?.toString() || undefined,
+        Date_expiration_scanner: formData.get('Date_expiration_scanner')?.toString() || undefined,
+        type_vehicule: formData.get('type_vehicule')?.toString() || undefined,
       },
     }
 
-    const filteredData = filterEmptyValues(data);
+    const filteredData = { id: data.id, ...filterEmptyValues(data) };
 
 
     // const filteredData = Object.fromEntries(
@@ -63,8 +83,6 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
     }
 
     // const updatedUser = { id: user.id.toString(), ...filteredData };
-
-    console.log(filteredData)
 
     try {
       const res = await UpdateDocument(filteredData)
@@ -109,7 +127,7 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
               )
             })}
           </select>
-          <p>Numéro et date d'assurance</p>
+          <p>Numéro et date {`d'assurance`}</p>
           <div className="flex gap-3">
             <input type="text" name="num_assurance" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.num_assurance || ''} />
             <input type="date" name="Date_expiration_assurance" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.Date_expiration_assurance ? new Date(user.vihucule.Date_expiration_assurance).toISOString().split('T')[0] : ""} />

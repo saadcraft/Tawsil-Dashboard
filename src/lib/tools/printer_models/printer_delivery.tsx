@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { FormatDate } from '@/lib/tools/tools';
 
 type PrintableModelProps = {
@@ -13,7 +14,7 @@ const PrintableModel = ({ command, total, tax }: PrintableModelProps) => {
             {/* Header Section */}
             <div className="text-center mb-5">
                 <div className='flex items-center gap-10'>
-                    <img src="/tawsil-start.png" alt="Logo" className="w-40 rounded-xl bg-six" />
+                    <Image height={100} width={100} src="/tawsil-start.png" alt="Logo" className="w-40 rounded-xl bg-six" />
                     <h1 className='font-bold text-5xl'>Tawsil-Star</h1>
                 </div>
                 <h1 className="text-2xl font-bold">Bon de livreur</h1>
