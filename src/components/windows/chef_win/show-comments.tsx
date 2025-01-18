@@ -20,6 +20,8 @@ export default function ShowComment({ id }: { id: number }) {
         fetchComments();
     }, [id]);
 
+    console.log("--------comment Showed----------")
+
     const mappedComment = comments.map((pre, index) => {
         return (
             <tr key={index} className="bg-white border-b dark:border-gray-700">

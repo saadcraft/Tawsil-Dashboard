@@ -30,9 +30,6 @@ export default async function VTCpage({ searchParams }: props) {
 
     const totalPages = Math.ceil(totalAct / 20);
 
-    console.log(result)
-
-
     return (
         <Parteneure users={result} />
     )

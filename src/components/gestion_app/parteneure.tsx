@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react'
 import { FaRegCheckCircle, FaSearch } from 'react-icons/fa'
 import ActiveCompte from '../windows/chef_win/active-compte'
 import { MdClose, MdOutlineDisabledByDefault } from 'react-icons/md'
+import { getGroup } from '@/lib/gestion_action'
 
 export default function Parteneure({ users }: { users: Partenaire[] }) {
 
@@ -16,13 +17,18 @@ export default function Parteneure({ users }: { users: Partenaire[] }) {
     const router = useRouter();
 
 
-    // const handleGroup = async ({wilaya} : {wilaya : string}) => {
-    //     try{
-    //         const data = await getGroup(wilaya)
-    //     }catch{
-
-    //     }
-    // }
+    const handleGroup = async ({wilaya} : {wilaya : string}) => {
+        try{
+            const data = await getGroup({ wilaya })
+            if(data.data.length > 0){
+                setGroup(data.data)
+            }else{
+                setGroup(null)
+            }
+        }catch{
+            setGroup(null)
+        }
+    }
 
     const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -86,21 +92,23 @@ export default function Parteneure({ users }: { users: Partenaire[] }) {
                             <label htmlFor="valide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> valider</label>
                         </div>
                     </div>
-                    <select name="wilaya" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
+                    <select onChange={(e) => handleGroup({ wilaya: e.target.value })} name="wilaya" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
                         <option value="">Sélection Wilaya</option>
-                        {Wilaya.map(pre => {
+                        {Wilaya.map(pre => {     
                             return (
                                 <option key={pre.id} value={pre.name}>{pre.id} - {pre.name}</option>
                             )
                         })}
                     </select>
                     {group &&
-                        <select>
+                        <select name="group" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
                             <option value="">Sélection Groupe</option>
                             {group.map(pre => {
+                                if(pre != null){
                                 return (
                                     <option key={pre} value={pre}>Groupe {pre}</option>
                                 )
+                            }
                             })}
                         </select>
                     }
