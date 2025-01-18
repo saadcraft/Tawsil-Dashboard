@@ -57,15 +57,15 @@ export async function modifyMagasin(Data: DataType) {
     }
 }
 
-export async function getPartenaire(
-    { page, search, valide, type_partener }:
-        { page: string, search: string, valide: string, type_partener: string }
+export async function getCourses(
+    { page, search, valide }:
+        { page: string, search: string, valide: string }
 ): Promise<apiAction> {
     try {
         const response = await apiRequest({
             method: "GET",
-            url: "/api/v1/commercial/perteners",
-            params: { page, search, valide, type_partener }
+            url: "api/v1/course",
+            params: { page, search, valide }
         })
 
         return {

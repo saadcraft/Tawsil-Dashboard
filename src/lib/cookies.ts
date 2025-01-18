@@ -22,7 +22,7 @@ type TokenResponse = {
 };
 
 export const refreshAccessToken = async (): Promise<string | undefined> => {
-        
+
         const cookiesStore = await cookies();
         const refreshToken = cookiesStore.get("refresh_token")?.value;
 
@@ -40,27 +40,27 @@ export const refreshAccessToken = async (): Promise<string | undefined> => {
 
                 if (response.ok) {
 
-                const { access: newAccessToken, refresh: newRefreshToken } = await response.json();
+                        const { access: newAccessToken, refresh: newRefreshToken } = await response.json();
 
-                // Update cookies
+                        // Update cookies
 
-                cookiesStore.set("access_token", newAccessToken, {
-                        path: "/",
-                        maxAge: 24 * 60 * 60, // 1 day
-                        httpOnly: true,
-                        secure: process.env.NODE_ENV === "production",
-                        sameSite: "strict",
-                });
-                cookiesStore.set("refresh_token", newRefreshToken, {
-                        path: "/",
-                        maxAge: 7 * 24 * 60 * 60, // 7 days
-                        httpOnly: true,
-                        secure: process.env.NODE_ENV === "production",
-                        sameSite: "strict",
-                });
+                        cookiesStore.set("access_token", newAccessToken, {
+                                path: "/",
+                                maxAge: 24 * 60 * 60, // 1 day
+                                httpOnly: true,
+                                secure: process.env.NODE_ENV === "production",
+                                sameSite: "strict",
+                        });
+                        cookiesStore.set("refresh_token", newRefreshToken, {
+                                path: "/",
+                                maxAge: 7 * 24 * 60 * 60, // 7 days
+                                httpOnly: true,
+                                secure: process.env.NODE_ENV === "production",
+                                sameSite: "strict",
+                        });
 
-                return newAccessToken;
-        }
+                        return newAccessToken;
+                }
         } catch (error) {
                 if (axios.isAxiosError(error)) {
                         console.error("Error refreshing access token:", error.response?.data || error.message);

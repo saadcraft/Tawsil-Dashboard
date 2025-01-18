@@ -17,15 +17,15 @@ export default function Parteneure({ users }: { users: Partenaire[] }) {
     const router = useRouter();
 
 
-    const handleGroup = async ({wilaya} : {wilaya : string}) => {
-        try{
+    const handleGroup = async ({ wilaya }: { wilaya: string }) => {
+        try {
             const data = await getGroup({ wilaya })
-            if(data.data.length > 0){
+            if (data.data.length > 0) {
                 setGroup(data.data)
-            }else{
+            } else {
                 setGroup(null)
             }
-        }catch{
+        } catch {
             setGroup(null)
         }
     }
@@ -36,8 +36,9 @@ export default function Parteneure({ users }: { users: Partenaire[] }) {
         const cleint = formData.get('client') as string;
         const wilaya = formData.get('wilaya') as string;
         const validation = formData.get('valide') as string;
+        const groupe = formData.get('group') as string;
 
-        router.push(`?search=${cleint}&wilaya=${wilaya}&is_active=${validation}`);
+        router.push(`?search=${cleint}&wilaya=${wilaya}&is_active=${validation}&groupe=${groupe}`);
     }
 
     const parteneur = users.map((pre, index) => {
@@ -94,7 +95,7 @@ export default function Parteneure({ users }: { users: Partenaire[] }) {
                     </div>
                     <select onChange={(e) => handleGroup({ wilaya: e.target.value })} name="wilaya" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
                         <option value="">Sélection Wilaya</option>
-                        {Wilaya.map(pre => {     
+                        {Wilaya.map(pre => {
                             return (
                                 <option key={pre.id} value={pre.name}>{pre.id} - {pre.name}</option>
                             )
@@ -104,11 +105,11 @@ export default function Parteneure({ users }: { users: Partenaire[] }) {
                         <select name="group" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
                             <option value="">Sélection Groupe</option>
                             {group.map(pre => {
-                                if(pre != null){
-                                return (
-                                    <option key={pre} value={pre}>Groupe {pre}</option>
-                                )
-                            }
+                                if (pre != null) {
+                                    return (
+                                        <option key={pre} value={pre}>Groupe {pre}</option>
+                                    )
+                                }
                             })}
                         </select>
                     }

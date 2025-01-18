@@ -5,7 +5,7 @@ import { cookies } from 'next/headers';
 
 // 1. Specify protected and public routes
 const protectedRoutes = ['/role']
-const publicRoutes = ['/login']
+const publicRoutes = ['/login', '/forget', '/reset-password']
 
 export async function middleware(req: NextRequest) {
 
@@ -17,7 +17,7 @@ export async function middleware(req: NextRequest) {
   const access = req.cookies.get("access_token")?.value;
   const refresh = req.cookies.get("refresh_token")?.value;
 
-  if (access) {
+  if (access || refresh) {
 
     try {
       const auth = await getUser();
@@ -86,7 +86,7 @@ export async function middleware(req: NextRequest) {
 //           console.log("refresh here : ", newRefreshToken)
 
 //           // Set the refreshed tokens as cookies
-          
+
 //           cookiesStore.set('access_token', newAccessToken, {
 //             path: '/',
 //             maxAge: 24 * 60 * 60, // 1 day
@@ -157,93 +157,6 @@ export async function middleware(req: NextRequest) {
 // }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// export async function middleware(request: NextRequest) {
-
-//   const accessToken = request.cookies.get('access_token')
-//   const refreshToken = request.cookies.get('refresh_token')
-
-
-//   // If no tokens exist, redirect to login
-//   if (!accessToken && !refreshToken) {
-//     console.log("redirecting ......")
-//     return NextResponse.redirect(new URL('/login', request.url))
-//   }
-
-//   // If access token exists, continue
-//   if (accessToken) {
-//     return NextResponse.next()
-//   }
-
-//   // If only refresh token exists, try to refresh
-//   if (refreshToken) {
-//     try {
-//       const { access, refresh } = await refreshAccessToken2(
-//         refreshToken.value
-//       )
-
-//       // Create response and set new access token
-//       const response = NextResponse.next()
-//       response.cookies.set({
-//         name: 'access_token',
-//         value: access,
-//         httpOnly: true,
-//         secure: process.env.NODE_ENV === 'production',
-//         sameSite: 'strict',
-//         maxAge: 24 * 60 * 60
-//       })
-//       response.cookies.set({
-//         name: 'refresh_token',
-//         value: refresh,
-//         httpOnly: true,
-//         secure: process.env.NODE_ENV === 'production',
-//         sameSite: 'strict',
-//         maxAge: 7 * 24 * 60 * 60
-//       })
-
-//       return response
-//     } catch (error) {
-//       // If refresh fails, clear all tokens and redirect to login
-//       const response = NextResponse.redirect(new URL('/login', request.url))
-//       response.cookies.delete('accessToken')
-//       response.cookies.delete('refreshToken')
-//       return response
-//     }
-//   }
-// }
-
-
 export const config = {
-  matcher: ['/((?!api|_next|fonts|icons|images|login).*)', '/role'],
+  matcher: ['/((?!api|_next|fonts|icons|images|login).*)', '/role', '/login', '/forget', '/reset-password'],
 };

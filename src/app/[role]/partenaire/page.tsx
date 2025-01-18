@@ -10,18 +10,19 @@ export const metadata: Metadata = {
 };
 
 type props = {
-    searchParams: Promise<{ page?: string, search?: string, is_active?: string, wilaya?: string }>;
+    searchParams: Promise<{ page?: string, search?: string, is_active?: string, wilaya?: string, groupe?: string }>;
 }
 
 export default async function VTCpage({ searchParams }: props) {
 
-    const { page, search, is_active, wilaya } = await searchParams;
+    const { page, search, is_active, wilaya, groupe } = await searchParams;
     const pageNumber = page ?? "1";
     const search_num = search ?? "";
     const active = is_active ?? "";
     const location = wilaya ?? "";
+    const chef = groupe ?? "";
 
-    const data = await getValidation({ page: pageNumber, search: search_num, wilaya: location, is_active: active });
+    const data = await getValidation({ page: pageNumber, search: search_num, wilaya: location, is_active: active, groupe: chef });
 
     if (!data) notFound()
 

@@ -20,6 +20,10 @@ type Result = {
   selected: boolean;
 }
 
+type Courses = {
+  id: number
+}
+
 type Client = {
   id: number;
   password: string;
