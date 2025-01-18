@@ -153,3 +153,25 @@ export async function changePassword({ new_password, token, uid }: { new_passwor
         throw new Error("Unexpected error");
     }
 }
+
+
+export async function refreshAccessToken(refreshToken: string): Promise<any> {
+    const response = await fetch(`${process.env.SERVER_DOMAIN}/api/token/refresh/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refreshToken }),
+    })
+  
+    if (!response.ok) {
+      throw new Error('Token refresh failed')
+    }
+
+    const data = await response.json()
+
+    console.log('tokens =', data)
+  
+    return {
+        newAccessToken :  data.data.access,
+        newRefreshToken : data.data.refresh
+    }
+  }

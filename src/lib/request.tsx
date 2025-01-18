@@ -4,19 +4,12 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosError, InternalAxiosRequ
 
 
 import { cookies } from "next/headers";
-import { CookiesRemover } from "./cookies";
+import { CookiesRemover, refreshAccessToken } from "./cookies";
 
 type TokenResponse = {
     access: string;
     refresh: string;
 }
-// Create an Axios instance
-const api: AxiosInstance = axios.create({
-    baseURL: process.env.SERVER_DOMAIN,
-    headers: {
-        'Content-Type': 'application/json',
-    },
-});
 
 // Function to dynamically get the access token
 const getAccessToken = async (): Promise<string | undefined> => {
@@ -24,51 +17,15 @@ const getAccessToken = async (): Promise<string | undefined> => {
     return accessToken;
 };
 
-// Function to refresh the access token
-export const refreshAccessToken = async (): Promise<string> => {
-    "use server"
-    const cookiesStore = await cookies();
-    try {
-        const refreshToken = (await cookies()).get("refresh_token")?.value;
+// Create an Axios instance
+const api: AxiosInstance = axios.create({
+    baseURL: process.env.SERVER_DOMAIN,
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    withCredentials: true,
+});
 
-        console.log(refreshToken, "ana houwa ana")
-
-        if (!refreshToken) throw new Error("No refresh token found");
-
-        const response = await axios.post<TokenResponse>(`${process.env.SERVER_DOMAIN}/api/token/refresh/`, { refresh: refreshToken }, {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
-
-        const newAccessToken = response.data.access
-        const newRefreshToken = response.data.refresh
-        // Update cookies or other storage with the new access token
-        // For example, if you're using cookies:
-        cookiesStore.set('access_token', newAccessToken, {
-            path: '/',
-            maxAge: 24 * 60 * 60, // 1 day
-            secure: process.env.NODE_ENV === 'production',
-            httpOnly: true, // Prevent client-side access
-            sameSite: 'strict',
-        });
-        cookiesStore.set('refresh_token', newRefreshToken, {
-            path: '/',
-            maxAge: 7 * 24 * 60 * 60, // 7 day
-            secure: process.env.NODE_ENV === 'production',
-            httpOnly: true, // Prevent client-side access
-            sameSite: 'strict',
-        });
-        return newAccessToken;
-    } catch (error) {
-        if (axios.isAxiosError(error)) {
-            console.error("Error refreshing access token:", error.response?.data || error.message);
-        } else {
-            console.error("Error refreshing access token:", error);
-        }
-        throw new Error("Failed to refresh access token");
-    }
-};
 
 // Request interceptor to add the Authorization header
 api.interceptors.request.use(

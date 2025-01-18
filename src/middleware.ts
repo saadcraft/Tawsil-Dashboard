@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getUser } from "./lib/auth"
+import { cookies } from 'next/headers';
+// import { refreshAccessToken2 } from './lib/request'
 
 // 1. Specify protected and public routes
 const protectedRoutes = ['/role']
-const publicRoutes = ['/login']
+const publicRoutes = ['/login', '/forget', '/reset-password']
 
 export async function middleware(req: NextRequest) {
 
@@ -13,21 +15,12 @@ export async function middleware(req: NextRequest) {
   const isPublicRoute = publicRoutes.includes(path)
 
   const access = req.cookies.get("access_token")?.value;
+  const refresh = req.cookies.get("refresh_token")?.value;
 
-  if (access) {
+  if (access || refresh) {
 
     try {
       const auth = await getUser();
-      // const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/user`,{
-      //   method: 'GET'
-      // });
-
-      // if (!response.ok) {
-      //   console.error("Error fetching user data:", response.statusText);
-      //   throw new Error("Failed to fetch user data");
-      // }
-      
-      // const auth = await response.json();
 
       if (auth && isPublicRoute) {
         return NextResponse.redirect(new URL('/role', req.url));
@@ -54,6 +47,8 @@ export async function middleware(req: NextRequest) {
 // export async function middleware(req: NextRequest) {
 //   const path = req.nextUrl.pathname;
 
+//   const cookiesStore = await cookies()
+
 //   // Check if the current route is protected or public
 //   const isProtectedRoute = protectedRoutes.some((route) => path.startsWith(route));
 //   const isPublicRoute = publicRoutes.includes(path);
@@ -79,23 +74,35 @@ export async function middleware(req: NextRequest) {
 //         const refreshResponse = await fetch(`${process.env.SERVER_DOMAIN}/api/token/refresh/`, {
 //           method: "POST",
 //           credentials: "include",
-//           body: JSON.stringify({ 'refresh_token': refreshToken }),
+//           body: JSON.stringify({ 'refresh': refreshToken }),
 //           headers: {
 //             'Content-Type': 'application/json',
 //           }
 //         });
 
 //         if (refreshResponse.ok) {
-//           const { access_token: newAccessToken, refresh_token: newRefreshToken } = await refreshResponse.json();
+//           const { access: newAccessToken, refresh: newRefreshToken } = await refreshResponse.json();
 
-//           console.log(newRefreshToken)
+//           console.log("refresh here : ", newRefreshToken)
 
 //           // Set the refreshed tokens as cookies
-//           const cookieResponse = NextResponse.next();
-//           cookieResponse.cookies.set("access_token", newAccessToken, { path: "/", httpOnly: true });
-//           cookieResponse.cookies.set("refresh_token", newRefreshToken, { path: "/", httpOnly: true });
 
-//           return cookieResponse;
+//           cookiesStore.set('access_token', newAccessToken, {
+//             path: '/',
+//             maxAge: 24 * 60 * 60, // 1 day
+//             secure: process.env.NODE_ENV === 'production',
+//             httpOnly: true, // Prevent client-side access
+//             sameSite: 'strict',
+//         });
+//         cookiesStore.set('refresh_token', newRefreshToken, {
+//             path: '/',
+//             maxAge: 7 * 24 * 60 * 60, // 7 day
+//             secure: process.env.NODE_ENV === 'production',
+//             httpOnly: true, // Prevent client-side access
+//             sameSite: 'strict',
+//         });
+
+//           return refreshResponse;
 //         } else {
 
 //           console.log("error refresh Token 400") 
@@ -151,5 +158,5 @@ export async function middleware(req: NextRequest) {
 
 
 export const config = {
-  matcher: ['/:path*'], // Protect all routes under /dashboard
+  matcher: ['/((?!api|_next|fonts|icons|images|login).*)', '/role', '/login', '/forget', '/reset-password'],
 };

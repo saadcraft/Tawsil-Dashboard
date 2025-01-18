@@ -14,6 +14,8 @@ export default function Named(role: string) {
             return "Superviseur";
         case "gestion_commercial":
             return "Gestion commercial";
+        case "validation_vtc":
+            return "Aide comptable";
         // Add more roles as needed
         default:
             return "Guest"; // Default fallback

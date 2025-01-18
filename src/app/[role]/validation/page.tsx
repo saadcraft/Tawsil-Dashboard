@@ -19,7 +19,7 @@ export default async function ValidationPage({ searchParams }: props) {
     let result: Partenaire[] = []
     let totalAct = 0
 
-    const data = await getValidation({ page: pageNumber, search: search_num, wilaya: location, is_active: active });
+    const data = await getValidation({ page: pageNumber, search: search_num, wilaya: location, is_active: active, groupe: "" });
 
     if (!data) notFound()
 

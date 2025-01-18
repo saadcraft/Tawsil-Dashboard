@@ -19,11 +19,11 @@ export default function RootLayout({
       <body
         className={`antialiased bg-six`}
       >
-          <Toaster position='top-center' reverseOrder={false}></Toaster>
-          <ServerMenu />
-          <main className='relative z-80 top-20 md:ml-80'>
-            {children}
-          </main>
+        <Toaster position='top-center' reverseOrder={false}></Toaster>
+        <ServerMenu />
+        <main className='relative z-80 top-20 md:ml-80'>
+          {children}
+        </main>
       </body>
     </html>
   );

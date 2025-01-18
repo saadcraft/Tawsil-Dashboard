@@ -74,12 +74,14 @@ export async function AddSuperViseur(Data: Data) {
     }
 }
 
-export async function getValidation({ page, search, wilaya, is_active }: { page: string, search: string, wilaya: string, is_active: string }): Promise<apiParteneur | null> {
+export async function getValidation({ page, search, wilaya, is_active, groupe }:
+    { page: string, search: string, wilaya: string, is_active: string, groupe: string }
+): Promise<apiParteneur | null> {
     try {
         const data = await apiRequest({
             method: "GET",
             url: "/api/v1/supervisseur/pertenneurs",
-            params: { page, search, wilaya, is_active }
+            params: { page, search, wilaya, is_active, groupe }
         })
         return {
             result: data.results,
