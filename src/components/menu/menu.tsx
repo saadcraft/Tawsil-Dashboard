@@ -144,6 +144,11 @@ export default function Menu({ user }: props) {
                                     <MenuParams url="/role/rapports" title={`Rapports`} icon={<MdOutlineReport />} onEvent={handleMenu} />
                                 </>
                             }
+                            {user.role == "validation_vtc" && 
+                                <>
+                                    <MenuParams url="/role/courses" title={`VTC`} icon={<MdLocalTaxi />} onEvent={handleMenu} />
+                                </>
+                            }
                         </>}
                     <div onClick={() => handleClick(0)} className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>
                         <h1 className='flex items-center gap-2'><MdLogin /> Authentication</h1>

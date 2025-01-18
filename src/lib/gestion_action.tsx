@@ -1,7 +1,7 @@
 import { apiRequest } from "./request";
 
 type apiAction = {
-    result: Result[];
+    result: Courses[];
     totalAct: number;
 }
 
@@ -64,12 +64,12 @@ export async function getCourses(
     try {
         const response = await apiRequest({
             method: "GET",
-            url: "api/v1/course",
+            url: "/api/v1/courses",
             params: { page, search, valide }
         })
 
         return {
-            result: response.results,
+            result: response.data,
             totalAct: response.count
         }
     } catch (error) {
@@ -88,6 +88,23 @@ export async function getGroup({ wilaya }: { wilaya: string }) {
             data: { wilaya }
         })
         return data
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(error.message || "An error occurred");
+        }
+        throw new Error("Unexpected error");
+    }
+}
+
+export async function ValideCourses({ courseIds }: { courseIds: number[] }){
+    try{
+        const response = await apiRequest({
+            method: "PATCH",
+            url: "api/v1/vtc/course/valide",
+            data: { courseIds }
+        })
+        return response;
+
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(error.message || "An error occurred");

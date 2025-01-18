@@ -4,22 +4,23 @@ import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 import { FaSearch } from 'react-icons/fa'
 import { useRouter } from "next/navigation"
-import { FormatDate } from '@/lib/tools/tools'
-import { comma } from 'postcss/lib/list'
+import { FormatDate, handleInputChange } from '@/lib/tools/tools'
+import { ValideCommande, ValideSecond, ValideThird} from '../windows/chef_win/valide_courses'
+import { MdClose } from 'react-icons/md'
+import toast from 'react-hot-toast'
+import { ValideCourses } from '@/lib/gestion_action'
 
 type Props = {
-    promise: Result[];
+    promise: Courses[];
 };
 
 export default function Vtc({ promise }: Props) {
 
     const [select, setSelect] = useState(promise)
 
-    const [selectedRows, setSelectedRows] = useState<Result[]>([])
+    const [selectedRows, setSelectedRows] = useState<Courses[]>([])
 
     const [isVisible, setIsVisible] = useState<number>(0);
-
-    console.log(promise)
 
     const router = useRouter()
 
@@ -33,6 +34,8 @@ export default function Vtc({ promise }: Props) {
         );
     }, [promise, selectedRows])
 
+    console.log(selectedRows)
+
     const handleCheck = (index: number) => {
         setSelect((prev) => {
             return prev.map((row, i) => {
@@ -40,7 +43,7 @@ export default function Vtc({ promise }: Props) {
                     const newRow = { ...row, selected: !row.selected };
 
                     // Add or remove the row from selectedRows when checkbox is toggled
-                    if (newRow.selected && !newRow.valide_payment) {
+                    if (newRow.selected && !newRow.paye) {
                         // Add to selectedRows only if it doesn't already exist
                         setSelectedRows((prevSelected) => {
                             if (!prevSelected.some((selectedRow) => selectedRow.id === newRow.id)) {
@@ -62,13 +65,13 @@ export default function Vtc({ promise }: Props) {
     };
 
     const handleCheckAll = () => {
-        const nonValideRows = select.filter((row) => !row.valide_payment);
+        const nonValideRows = select.filter((row) => !row.paye);
         const allSelected = nonValideRows.every((row) => row.selected);
 
         // Update the select state (checkbox selection state)
         const updatedSelect = select.map((row) => ({
             ...row,
-            selected: row.valide_payment ? row.selected : !allSelected,
+            selected: row.paye ? row.selected : !allSelected,
         }));
 
         setSelect(updatedSelect);
@@ -85,7 +88,7 @@ export default function Vtc({ promise }: Props) {
             setSelectedRows((prevSelected) => {
                 // Filter the newly selected rows
                 const newSelections = updatedSelect.filter(
-                    (row) => row.selected && !row.valide_payment && !prevSelected.some((selectedRow) => selectedRow.id === row.id)
+                    (row) => row.selected && !row.paye && !prevSelected.some((selectedRow) => selectedRow.id === row.id)
                 );
 
                 // Combine previous selections with new ones
@@ -94,50 +97,55 @@ export default function Vtc({ promise }: Props) {
         }
     };
 
-    //   const hundleSubmite = async (ids: number[]) => {
+    const handleValidate = () => { setIsVisible(1) }
+    const handleSecond = () => { setIsVisible(2) }
+    const handleThird = () => { setIsVisible(3) }
+    const handleClose = () => { setIsVisible(0) }
 
-    //     const loadingToastId = toast.loading('Submite Commande...');
+      const hundleSubmite = async (ids: number[]) => {
 
-    //     try {
-    //       const result = await SubmitCommande({ id: ids });
-    //       if (result) {
-    //         toast.success('valider Succesfully', { id: loadingToastId });
-    //         setIsVisible(0);
-    //         setSelectedRows([])
-    //         router.refresh()
-    //       }
-    //     } catch (error) {
-    //       if (error instanceof Error) {
-    //         toast.error(error.message, { id: loadingToastId });
-    //       } else {
-    //         toast.error('An unknown error occurred', { id: loadingToastId });
-    //       }
-    //     }
-    //   }
+        const loadingToastId = toast.loading('Submite Commande...');
+
+        try {
+          const result = await ValideCourses({ courseIds: ids });
+          if (result) {
+            toast.success('valider Succesfully', { id: loadingToastId });
+            setIsVisible(0);
+            setSelectedRows([])
+            router.refresh()
+          }
+        } catch (error) {
+          if (error instanceof Error) {
+            toast.error(error.message, { id: loadingToastId });
+          } else {
+            toast.error('An unknown error occurred', { id: loadingToastId });
+          }
+        }
+      }
 
     const Commands = select.map((pre, index) => {
         return (
             <tr key={index} className="bg-white border-b text-black hover:bg-gray-50">
                 <td className="px-6 py-4">
-                    <input type="checkbox" name='check' id="check" onChange={() => handleCheck(index)} disabled={pre.valide_payment} checked={pre.valide_payment ? false : pre.selected} />
+                    <input type="checkbox" name='check' id="check" onChange={() => handleCheck(index)} disabled={pre.paye} checked={pre.paye ? false : pre.selected} />
                 </td>
                 <td className="px-6 py-4">
-                    {FormatDate(pre.created_at)}
+                    {FormatDate(pre.date_creation)}
                 </td>
                 <td className="px-6 py-4">
-                    {/* {pre.client.first_name} {pre.client.last_name} */}
+                    {pre.client.first_name} {pre.client.last_name}
                 </td>
                 <td className="px-6 py-4">
-                    {/* {pre.livreur.partenneur.user.phone_number_1} */}
+                    {pre.partener.user.phone_number_1}
                 </td>
                 <td className="px-6 py-4">
-                    {pre.livreur.partenneur.user.first_name} {pre.livreur.partenneur.user.last_name}
+                    {pre.partener.user.first_name} {pre.partener.user.last_name}
                 </td>
                 <td className="px-6 py-4">
-                    {pre.valide_payment ? "true" : "false"}
+                    {pre.paye ? "true" : "false"}
                 </td>
                 <td className="px-6 py-4 text-right">
-                    {pre.delivery_price}
+                    {pre.tax_tawsile}
                 </td>
             </tr>
         )
@@ -153,13 +161,26 @@ export default function Vtc({ promise }: Props) {
             <div className='p-10 pb-20 bg-white rounded-md shadow-md'>
                 <form className='mb-7 flex items-center gap-2'>
                     <FaSearch className='absolute text-slate-500' />
-                    <input type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                    <input onChange={handleInputChange} type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                    <div className='flex gap-2'>
+                        <div>
+                            <input type="radio" id="noValide" name="valide" defaultChecked value="No" className="peer hidden" />
+                            <label htmlFor="noValide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> No valider</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="valide" name="valide" value="Yes" className="peer hidden" />
+                            <label htmlFor="valide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> valider</label>
+                        </div>
+                    </div>
                     <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Submit</button>
                 </form>
                 <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table className="w-full text-sm text-left">
                         <thead className="text-xs text-gray-500 uppercase bg-primer">
                             <tr>
+                                <th className="px-6 py-3">
+                                    <input type="checkbox" name='check' id="check" onChange={handleCheckAll} checked={select.every((row) => (row.selected && !row.paye) || row.paye)} />
+                                </th>
                                 <th className="px-6 py-3">
                                     id
                                 </th>
@@ -172,6 +193,9 @@ export default function Vtc({ promise }: Props) {
                                 <th className="px-6 py-3">
                                     Taxieur
                                 </th>
+                                <th className="px-6 py-3">
+                                    Validation
+                                </th>
                                 <th className="px-6 py-3 text-right">
                                     totale
                                 </th>
@@ -182,7 +206,28 @@ export default function Vtc({ promise }: Props) {
                         </tbody>
                     </table>
                 </div>
+                <div className='relative p-5'>
+                    <button onClick={handleValidate} disabled={selectedRows.length === 0 || new Set(selectedRows.map((row) => row.partener.user.id)).size > 1 ? true : false} className='absolute right-0 bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>validé</button>
+                </div>
             </div>
+            {isVisible === 1 ?
+                    <div>
+                      <button onClick={handleClose} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                      <ValideCommande command={selectedRows} onEvent={handleSecond} onBack={handleClose} />
+                    </div>
+            : ""}
+            {isVisible === 2 ?
+                    <div>
+                      <button onClick={handleClose} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                      <ValideSecond command={selectedRows} onEvent={handleThird} onBack={handleValidate} />
+                    </div>
+            : ""}
+            {isVisible === 3 ?
+                    <div>
+                      <button onClick={handleClose} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                      <ValideThird command={selectedRows} onBack={handleSecond} onSub={hundleSubmite} />
+                    </div>
+            : ""}
         </div>
     )
 }
