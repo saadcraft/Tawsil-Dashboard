@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react'
 import { FaSearch } from 'react-icons/fa'
 import { useRouter } from "next/navigation"
 import { FormatDate, handleInputChange } from '@/lib/tools/tools'
-import { ValideCommande, ValideSecond, ValideThird} from '../windows/chef_win/valide_courses'
+import { ValideCommande, ValideSecond, ValideThird } from '../windows/gestion_win/valide_courses'
 import { MdClose } from 'react-icons/md'
 import toast from 'react-hot-toast'
 import { ValideCourses } from '@/lib/gestion_action'
@@ -15,6 +15,8 @@ type Props = {
 };
 
 export default function Vtc({ promise }: Props) {
+
+    // console.log(promise)
 
     const [select, setSelect] = useState(promise)
 
@@ -102,26 +104,35 @@ export default function Vtc({ promise }: Props) {
     const handleThird = () => { setIsVisible(3) }
     const handleClose = () => { setIsVisible(0) }
 
-      const hundleSubmite = async (ids: number[]) => {
+    const hundleSubmite = async (ids: number[]) => {
 
         const loadingToastId = toast.loading('Submite Commande...');
 
         try {
-          const result = await ValideCourses({ courseIds: ids });
-          if (result) {
-            toast.success('valider Succesfully', { id: loadingToastId });
-            setIsVisible(0);
-            setSelectedRows([])
-            router.refresh()
-          }
+            const result = await ValideCourses({ courseIds: ids });
+            if (result) {
+                toast.success('valider Succesfully', { id: loadingToastId });
+                setIsVisible(0);
+                setSelectedRows([])
+                router.refresh()
+            }
         } catch (error) {
-          if (error instanceof Error) {
-            toast.error(error.message, { id: loadingToastId });
-          } else {
-            toast.error('An unknown error occurred', { id: loadingToastId });
-          }
+            if (error instanceof Error) {
+                toast.error(error.message, { id: loadingToastId });
+            } else {
+                toast.error('An unknown error occurred', { id: loadingToastId });
+            }
         }
-      }
+    }
+
+    const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        const cleint = formData.get('client') as string;
+        const validation = formData.get('valide') as string;
+
+        router.push(`?search=${cleint}&valide=${validation}`);
+    }
 
     const Commands = select.map((pre, index) => {
         return (
@@ -145,7 +156,7 @@ export default function Vtc({ promise }: Props) {
                     {pre.paye ? "true" : "false"}
                 </td>
                 <td className="px-6 py-4 text-right">
-                    {pre.tax_tawsile}
+                    {pre.prix}
                 </td>
             </tr>
         )
@@ -158,17 +169,17 @@ export default function Vtc({ promise }: Props) {
                 <Link href="/role" className='font-semibold text-xl'>Dashboard /</Link>
                 <h1 className='font-bold text-xl'>VTC</h1>
             </div>
-            <div className='p-10 pb-20 bg-white rounded-md shadow-md'>
-                <form className='mb-7 flex items-center gap-2'>
+            <div className='p-10 bg-white rounded-md shadow-md'>
+                <form onSubmit={handleSearch} className='mb-7 flex items-center gap-2'>
                     <FaSearch className='absolute text-slate-500' />
                     <input onChange={handleInputChange} type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                     <div className='flex gap-2'>
                         <div>
-                            <input type="radio" id="noValide" name="valide" defaultChecked value="No" className="peer hidden" />
+                            <input type="radio" id="noValide" name="valide" defaultChecked value="false" className="peer hidden" />
                             <label htmlFor="noValide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> No valider</label>
                         </div>
                         <div>
-                            <input type="radio" id="valide" name="valide" value="Yes" className="peer hidden" />
+                            <input type="radio" id="valide" name="valide" value="true" className="peer hidden" />
                             <label htmlFor="valide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> valider</label>
                         </div>
                     </div>
@@ -211,23 +222,23 @@ export default function Vtc({ promise }: Props) {
                 </div>
             </div>
             {isVisible === 1 ?
-                    <div>
-                      <button onClick={handleClose} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-                      <ValideCommande command={selectedRows} onEvent={handleSecond} onBack={handleClose} />
-                    </div>
-            : ""}
+                <div>
+                    <button onClick={handleClose} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <ValideCommande command={selectedRows} onEvent={handleSecond} onBack={handleClose} />
+                </div>
+                : ""}
             {isVisible === 2 ?
-                    <div>
-                      <button onClick={handleClose} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-                      <ValideSecond command={selectedRows} onEvent={handleThird} onBack={handleValidate} />
-                    </div>
-            : ""}
+                <div>
+                    <button onClick={handleClose} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <ValideSecond command={selectedRows} onEvent={handleThird} onBack={handleValidate} />
+                </div>
+                : ""}
             {isVisible === 3 ?
-                    <div>
-                      <button onClick={handleClose} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-                      <ValideThird command={selectedRows} onBack={handleSecond} onSub={hundleSubmite} />
-                    </div>
-            : ""}
+                <div>
+                    <button onClick={handleClose} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <ValideThird command={selectedRows} onBack={handleSecond} onSub={hundleSubmite} />
+                </div>
+                : ""}
         </div>
     )
 }

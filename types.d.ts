@@ -109,6 +109,7 @@ type typeCompte = {
   descprtion: string;
   id: number;
   name: string
+  tax_tawsile: number;
 }
 
 type Partenaire = {

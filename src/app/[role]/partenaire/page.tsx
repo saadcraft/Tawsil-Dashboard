@@ -1,4 +1,5 @@
 import Parteneure from '@/components/gestion_app/parteneure';
+import Pagination from '@/components/options/pagination';
 import { getValidation } from '@/lib/super_action';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -32,6 +33,9 @@ export default async function VTCpage({ searchParams }: props) {
     const totalPages = Math.ceil(totalAct / 20);
 
     return (
-        <Parteneure users={result} />
+        <>
+            <Parteneure users={result} />
+            <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`search=${search_num}&wilaya=${location}&is_active=${active}&groupe=${chef}`} />
+        </>
     )
 }

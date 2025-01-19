@@ -64,7 +64,7 @@ export async function getCourses(
     try {
         const response = await apiRequest({
             method: "GET",
-            url: "/api/v1/courses",
+            url: "/api/v1/vtc/courses",
             params: { page, search, valide }
         })
 
@@ -96,11 +96,11 @@ export async function getGroup({ wilaya }: { wilaya: string }) {
     }
 }
 
-export async function ValideCourses({ courseIds }: { courseIds: number[] }){
-    try{
+export async function ValideCourses({ courseIds }: { courseIds: number[] }) {
+    try {
         const response = await apiRequest({
             method: "PATCH",
-            url: "api/v1/vtc/course/valide",
+            url: "/api/v1/vtc/course/valide",
             data: { courseIds }
         })
         return response;
