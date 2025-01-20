@@ -27,8 +27,7 @@ export default async function VTCpage({ searchParams }: props) {
 
     if (!data) notFound()
 
-    const totalAct = data.totalAct;
-    const result = data.result;
+    const { result, totalAct } = data
 
     const totalPages = Math.ceil(totalAct / 20);
 

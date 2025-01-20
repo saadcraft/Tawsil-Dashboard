@@ -1,7 +1,6 @@
 "use server"
 
 import { cookies } from 'next/headers';
-import { NextResponse } from "next/server";
 import axios from "axios";
 
 // Function to remove cookies and redirect user to login page
@@ -21,7 +20,7 @@ type TokenResponse = {
         refresh: string;
 };
 
-export const refreshAccessToken = async (): Promise<string | undefined> => {
+export const refreshAccessToken = async (): Promise<TokenResponse | undefined> => {
 
         const cookiesStore = await cookies();
         const refreshToken = cookiesStore.get("refresh_token")?.value;
@@ -37,29 +36,34 @@ export const refreshAccessToken = async (): Promise<string | undefined> => {
                                 'Content-Type': 'application/json',
                         }
                 });
+                // if (response.status == 401) {
+                //         console.log('here we go')
+                //         CookiesRemover();
+                // }
 
                 if (response.ok) {
 
                         const { access: newAccessToken, refresh: newRefreshToken } = await response.json();
 
                         // Update cookies
-
-                        cookiesStore.set("access_token", newAccessToken, {
-                                path: "/",
-                                maxAge: 24 * 60 * 60, // 1 day
-                                httpOnly: true,
-                                secure: process.env.NODE_ENV === "production",
-                                sameSite: "strict",
-                        });
-                        cookiesStore.set("refresh_token", newRefreshToken, {
-                                path: "/",
-                                maxAge: 7 * 24 * 60 * 60, // 7 days
-                                httpOnly: true,
-                                secure: process.env.NODE_ENV === "production",
-                                sameSite: "strict",
-                        });
-
-                        return newAccessToken;
+                        // cookiesStore.set("access_token", newAccessToken, {
+                        //         path: "/",
+                        //         maxAge: 24 * 60 * 60, // 1 day
+                        //         httpOnly: true,
+                        //         secure: process.env.NODE_ENV === "production",
+                        //         sameSite: "strict",
+                        // });
+                        // cookiesStore.set("refresh_token", newRefreshToken, {
+                        //         path: "/",
+                        //         maxAge: 7 * 24 * 60 * 60, // 7 days
+                        //         httpOnly: true,
+                        //         secure: process.env.NODE_ENV === "production",
+                        //         sameSite: "strict",
+                        // });
+                        return {
+                                access: newAccessToken,
+                                refresh: newRefreshToken
+                        };
                 }
         } catch (error) {
                 if (axios.isAxiosError(error)) {

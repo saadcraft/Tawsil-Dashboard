@@ -2,6 +2,7 @@ import Pagination from '@/components/options/pagination';
 import Reports from '@/components/superviseur/reports';
 import { ShowReport } from '@/lib/super_action';;
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import React from 'react'
 
 export const metadata: Metadata = {
@@ -17,7 +18,9 @@ export default async function ReportPage({ searchParams }: props) {
 
     const { page } = await searchParams;
     const pageNumber = page ?? "1";
-    const { result, totalAct } = await ShowReport({ page: pageNumber });
+    const show = await ShowReport({ page: pageNumber });
+    if (!show) notFound()
+    const { result, totalAct } = show
 
     const totalPages = Math.ceil(totalAct / 20);
 

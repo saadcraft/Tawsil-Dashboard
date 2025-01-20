@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getUser } from "./lib/auth"
-import { cookies } from 'next/headers';
-// import { refreshAccessToken2 } from './lib/request'
+import { CookiesRemover, refreshAccessToken } from './lib/cookies'
 
 // 1. Specify protected and public routes
 const protectedRoutes = ['/role']
@@ -27,18 +26,51 @@ export async function middleware(req: NextRequest) {
       }
 
     } catch (error) {
-      if (isProtectedRoute) {
+      if ((error as Error).message.includes("401")) {
+        console.log("Token expired or invalid, attempting to refresh...");
+
+        try {
+          // Attempt to refresh the token
+          const newTokens = await refreshAccessToken();
+
+          if (newTokens) {
+            // Assuming refreshAccessToken returns an object with new access and refresh tokens
+            const { access: newAccessToken, refresh: newRefreshToken } = newTokens;
+
+            // Set the new tokens in cookies
+            const res = NextResponse.next();
+            res.cookies.set('access_token', newAccessToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 24 * 60 * 60, sameSite: "strict" });
+            res.cookies.set('refresh_token', newRefreshToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 7 * 24 * 60 * 60, sameSite: "strict" });
+
+            if (isPublicRoute) {
+              return NextResponse.redirect(new URL('/role', req.url));
+            }
+
+            // Optionally, revalidate the current path to make sure we have fresh data
+            return res;
+          } else {
+            // If no refresh token or invalid refresh, clear cookies and redirect to login
+            console.log('Invalid refresh token or unable to refresh token');
+            CookiesRemover();
+            return NextResponse.redirect(new URL('/login', req.url));
+          }
+        } catch (refreshError) {
+          console.error('Error refreshing token:', refreshError);
+          // On failure, clear cookies and redirect to login
+          CookiesRemover();
+          return NextResponse.redirect(new URL('/login', req.url));
+        }
+      } else if (isProtectedRoute) {
         return NextResponse.redirect(new URL('/login', req.url));
       }
-      throw error
+
+      throw error;
     }
   } else {
     if (isProtectedRoute) {
       return NextResponse.redirect(new URL('/login', req.url));
     }
   }
-
-  // 3. If the route is protected and the user is not authenticated, redirect to the login page
 
   return NextResponse.next();
 }
@@ -158,5 +190,5 @@ export async function middleware(req: NextRequest) {
 
 
 export const config = {
-  matcher: ['/((?!api|_next|fonts|icons|images|login).*)', '/role', '/login', '/forget', '/reset-password'],
+  matcher: ['/((?!api|_next|fonts|icons|images|login).*)', '/role', '/login', '/forget', '/reset-password', '/'],
 };

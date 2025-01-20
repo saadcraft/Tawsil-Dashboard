@@ -90,7 +90,7 @@ export async function getChefCentre({ page, search }: { page: string, search: st
     }
 }
 
-export async function getAgents({ page, search }: { page: string, search: string }): Promise<apiRequest> {
+export async function getAgents({ page, search }: { page: string, search: string }): Promise<apiRequest | null> {
     try {
         const data = await apiRequest({
             url: `/api/v1/chefbureux/employers`,
@@ -103,6 +103,12 @@ export async function getAgents({ page, search }: { page: string, search: string
         };
     } catch (error) {
         if (error instanceof Error) {
+            // Handle 404 errors explicitly
+            if (error.message.includes("404")) {
+                return null
+            }
+
+            // For other errors, rethrow them
             throw new Error(error.message || "An error occurred");
         }
         throw new Error("Unexpected error");
