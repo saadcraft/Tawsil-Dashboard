@@ -2,7 +2,6 @@
 
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosError, InternalAxiosRequestConfig } from "axios";
 import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
 
 // Function to dynamically get the access token
 const getAccessToken = async (): Promise<string | undefined> => {
@@ -37,19 +36,7 @@ api.interceptors.response.use(
     (response) => response,
     async (error: AxiosError) => {
         if (error.response?.status === 401) {
-            // Token expired or invalid
-            // try {
-            //     const newAccessToken = await refreshAccessToken();
-            //     if (newAccessToken && error.config) {
-            //         // Retry the original request with the new token
-            //         error.config.headers.set('Authorization', `Bearer ${newAccessToken}`);
-            //         return api.request(error.config);
-            //     }
-            // } catch (refreshError) {
-            //     CookiesRemover();
-            //     return Promise.reject(refreshError);
-            // }
-            // revalidatePath('/')
+            console.error('Wait a minete ....')
         }
         return Promise.reject(error);
     }
