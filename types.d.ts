@@ -21,7 +21,26 @@ type Result = {
 }
 
 type Courses = {
-  id: number
+  id: number;
+  client: Users;
+  partener: Partenaire;
+  km: number;
+  point_gbs_localisation_aller: string;
+  point_gbs_localisation_arrive: string;
+  latitude_depart: string | null;
+  longitude_depart: string | null;
+  latitude_arrive: string | null;
+  longitude_arrive: string | null;
+  etat: string;
+  paye: boolean;
+  paye_par_partener: boolean;
+  prix: number;
+  wilaya: string;
+  facteur_bonus: number;
+  tax_tawsile: number;
+  date_creation: string;
+  agent: Users | null;
+  selected: boolean;
 }
 
 type Client = {
@@ -90,6 +109,7 @@ type typeCompte = {
   descprtion: string;
   id: number;
   name: string
+  tax_tawsile: number;
 }
 
 type Partenaire = {
@@ -136,6 +156,7 @@ type Users = {
   point: number;
   rating: number;
   permission_vlider: boolean;
+  is_superuser: boolean;
 };
 
 type actionData = {

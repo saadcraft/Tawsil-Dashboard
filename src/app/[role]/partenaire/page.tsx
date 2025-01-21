@@ -1,11 +1,13 @@
 import Parteneure from '@/components/gestion_app/parteneure';
+import Pagination from '@/components/options/pagination';
+import { getMagasin } from '@/lib/gestion_action';
 import { getValidation } from '@/lib/super_action';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import React from 'react'
 
 export const metadata: Metadata = {
-    title: "livraisons",
+    title: "Partenaire",
     description: "Tawsil Start Dashbord",
 };
 
@@ -24,14 +26,18 @@ export default async function VTCpage({ searchParams }: props) {
 
     const data = await getValidation({ page: pageNumber, search: search_num, wilaya: location, is_active: active, groupe: chef });
 
+    const magasine = await getMagasin()
+
     if (!data) notFound()
 
-    const totalAct = data.totalAct;
-    const result = data.result;
+    const { result, totalAct } = data
 
     const totalPages = Math.ceil(totalAct / 20);
 
     return (
-        <Parteneure users={result} />
+        <>
+            <Parteneure users={result} maga={magasine} />
+            <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`search=${search_num}&wilaya=${location}&is_active=${active}&groupe=${chef}`} />
+        </>
     )
 }

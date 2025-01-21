@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getUser } from "./lib/auth"
-import { cookies } from 'next/headers';
-// import { refreshAccessToken2 } from './lib/request'
+import { CookiesRemover, refreshAccessToken } from './lib/cookies'
 
 // 1. Specify protected and public routes
 const protectedRoutes = ['/role']
@@ -27,10 +26,55 @@ export async function middleware(req: NextRequest) {
       }
 
     } catch (error) {
-      if (isProtectedRoute) {
+      if ((error as Error).message.includes("401")) {
+        console.log("Token expired or invalid, attempting to refresh...");
+
+        try {
+          // Attempt to refresh the token
+          const newTokens = await refreshAccessToken();
+
+          if (newTokens) {
+            // Assuming refreshAccessToken returns an object with new access and refresh tokens
+            const { access: newAccessToken, refresh: newRefreshToken } = newTokens;
+
+            // Set the new tokens in cookies
+            const res = NextResponse.next();
+            res.cookies.set('access_token', newAccessToken, { 
+              httpOnly: true, 
+              secure: process.env.NODE_ENV === 'production', 
+              maxAge: 24 * 60 * 60, 
+              sameSite: "strict"
+            });
+            res.cookies.set('refresh_token', newRefreshToken, { 
+              httpOnly: true, 
+              secure: process.env.NODE_ENV === 'production', 
+              maxAge: 7 * 24 * 60 * 60, 
+              sameSite: "strict"
+            });
+
+            if (isPublicRoute) {
+              return NextResponse.redirect(new URL('/role', req.url));
+            }
+
+            // Optionally, revalidate the current path to make sure we have fresh data
+            return res;
+          } else {
+            // If no refresh token or invalid refresh, clear cookies and redirect to login
+            console.log('Invalid refresh token or unable to refresh token');
+            CookiesRemover();
+            return NextResponse.redirect(new URL('/login', req.url));
+          }
+        } catch (refreshError) {
+          console.error('Error refreshing token:', refreshError);
+          // On failure, clear cookies and redirect to login
+          CookiesRemover();
+          return NextResponse.redirect(new URL('/login', req.url));
+        }
+      } else if (isProtectedRoute) {
         return NextResponse.redirect(new URL('/login', req.url));
       }
-      throw error
+
+      throw error;
     }
   } else {
     if (isProtectedRoute) {
@@ -38,125 +82,10 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  // 3. If the route is protected and the user is not authenticated, redirect to the login page
-
   return NextResponse.next();
 }
 
 
-// export async function middleware(req: NextRequest) {
-//   const path = req.nextUrl.pathname;
-
-//   const cookiesStore = await cookies()
-
-//   // Check if the current route is protected or public
-//   const isProtectedRoute = protectedRoutes.some((route) => path.startsWith(route));
-//   const isPublicRoute = publicRoutes.includes(path);
-
-//   const accessToken = req.cookies.get("access_token")?.value;
-//   const refreshToken = req.cookies.get("refresh_token")?.value;
-
-//   if (accessToken) {
-//     try {
-//       // Validate the access token
-//       const authResponse = await fetch(`${process.env.SERVER_DOMAIN}/api/v1/user`, {
-//         method: 'GET',
-//         headers: {
-//           'Content-Type': 'application/json',
-//           'Authorization': `Bearer ${accessToken}`
-//         }
-//       });
-
-//       if (authResponse.status === 401 && refreshToken) {
-
-//         console.log("here token", refreshToken)
-//         // Attempt to refresh the token
-//         const refreshResponse = await fetch(`${process.env.SERVER_DOMAIN}/api/token/refresh/`, {
-//           method: "POST",
-//           credentials: "include",
-//           body: JSON.stringify({ 'refresh': refreshToken }),
-//           headers: {
-//             'Content-Type': 'application/json',
-//           }
-//         });
-
-//         if (refreshResponse.ok) {
-//           const { access: newAccessToken, refresh: newRefreshToken } = await refreshResponse.json();
-
-//           console.log("refresh here : ", newRefreshToken)
-
-//           // Set the refreshed tokens as cookies
-
-//           cookiesStore.set('access_token', newAccessToken, {
-//             path: '/',
-//             maxAge: 24 * 60 * 60, // 1 day
-//             secure: process.env.NODE_ENV === 'production',
-//             httpOnly: true, // Prevent client-side access
-//             sameSite: 'strict',
-//         });
-//         cookiesStore.set('refresh_token', newRefreshToken, {
-//             path: '/',
-//             maxAge: 7 * 24 * 60 * 60, // 7 day
-//             secure: process.env.NODE_ENV === 'production',
-//             httpOnly: true, // Prevent client-side access
-//             sameSite: 'strict',
-//         });
-
-//           return refreshResponse;
-//         } else {
-
-//           console.log("error refresh Token 400") 
-//           // Failed to refresh tokens; redirect to login
-//           const redirectResponse = NextResponse.redirect(new URL('/login', req.url));
-//           redirectResponse.cookies.delete("access_token");
-//           redirectResponse.cookies.delete("refresh_token");
-//           return redirectResponse;
-//         }
-//       }
-
-//       // If authenticated and on a public route, redirect to a protected route
-//       if (authResponse.ok && isPublicRoute) {
-//         return NextResponse.redirect(new URL('/role', req.url));
-//       }
-//     } catch (error) {
-//       console.error("Authentication error:", error);
-//       if (isProtectedRoute) {
-//         return NextResponse.redirect(new URL('/login', req.url));
-//       }
-//     }
-//   } else if (isProtectedRoute) {
-//     // If no access token and on a protected route, redirect to login
-//     return NextResponse.redirect(new URL('/login', req.url));
-//   }
-
-//   // Allow the request to proceed if no special conditions are met
-//   return NextResponse.next();
-// }
-
-// export async function middleware(req: NextRequest) {
-
-
-
-//   // 2. Check if the current route is protected or public
-//   const path = req.nextUrl.pathname
-//   const isProtectedRoute = protectedRoutes.some((route) => path.startsWith(route));
-//   const isPublicRoute = publicRoutes.includes(path)
-
-//   const access = req.cookies.get("access_token")?.value;
-
-//   if (access && isPublicRoute) {
-//     return NextResponse.redirect(new URL('/role', req.url));
-//   }
-
-//   if (!access && isProtectedRoute) {
-//     return NextResponse.redirect(new URL('/login', req.url));
-//   }
-//   // 3. If the route is protected and the user is not authenticated, redirect to the login page
-
-//   return NextResponse.next();
-// }
-
-
 export const config = {
-  matcher: ['/((?!api|_next|fonts|icons|images|login).*)', '/role', '/login', '/forget', '/reset-password'],
+  matcher: ['/((?!api|_next|fonts|icons|images|login).*)', '/role', '/login', '/forget', '/reset-password', '/'],
 };

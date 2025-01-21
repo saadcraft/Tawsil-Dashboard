@@ -4,17 +4,21 @@ import { Wilaya } from '@/lib/tools/named'
 import { handleInputChange } from '@/lib/tools/tools'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
-import { FaRegCheckCircle, FaSearch } from 'react-icons/fa'
+import React, { useState } from 'react'
+import { FaPen, FaRegCheckCircle, FaSearch } from 'react-icons/fa'
 import ActiveCompte from '../windows/chef_win/active-compte'
 import { MdClose, MdOutlineDisabledByDefault } from 'react-icons/md'
 import { getGroup } from '@/lib/gestion_action'
+import ModifyUser from '../windows/gestion_win/modify_user'
 
-export default function Parteneure({ users }: { users: Partenaire[] }) {
+export default function Parteneure({ users, maga }: { users: Partenaire[], maga: MagasinType[] }) {
 
     const [user, setUser] = useState<{ id: number, statue: boolean } | null>(null)
     const [group, setGroup] = useState<number[] | null>(null)
+    const [modify, setModify] = useState<Partenaire | null>(null)
     const router = useRouter();
+
+    const hundelModify = (info: Partenaire) => setModify(info);
 
 
     const handleGroup = async ({ wilaya }: { wilaya: string }) => {
@@ -62,11 +66,12 @@ export default function Parteneure({ users }: { users: Partenaire[] }) {
                 <td className="px-6 py-4">
                     {pre.type_compte.name}
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-6 py-4 flex gap-3">
                     {pre.user.is_active ?
                         <button onClick={() => setUser({ id: pre.user.id, statue: pre.user.is_active })} className='bg-red-700 text-white p-1 rounded-md hover:bg-red-500 flex items-center'>Désactivé <MdOutlineDisabledByDefault /></button> :
                         <button onClick={() => setUser({ id: pre.user.id, statue: pre.user.is_active })} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500 flex items-center'>Activé <FaRegCheckCircle /></button>
                     }
+                    <button onClick={() => hundelModify(pre)} className='bg-green-700 text-white py-1 px-2 rounded-md hover:bg-green-500'><FaPen /></button>
                 </td>
             </tr>
         )
@@ -152,6 +157,12 @@ export default function Parteneure({ users }: { users: Partenaire[] }) {
                 <div>
                     <button onClick={() => setUser(null)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
                     <ActiveCompte onClose={setUser} user={user} />
+                </div>
+            }
+            {modify &&
+                <div>
+                    <button onClick={() => setModify(null)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
+                    <ModifyUser user={modify} magasine={maga} onsub={setModify} />
                 </div>
             }
         </div>

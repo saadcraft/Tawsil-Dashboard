@@ -29,7 +29,7 @@ export type Data = {
     password: string;
 }
 
-export async function getSuperviseur({ page, search }: { page: string, search: string }): Promise<apiRequestT> {
+export async function getSuperviseur({ page, search }: { page: string, search: string }): Promise<apiRequestT | null> {
     try {
         const response = await apiRequest({
             method: "GET",
@@ -42,6 +42,12 @@ export async function getSuperviseur({ page, search }: { page: string, search: s
         };
     } catch (error) {
         if (error instanceof Error) {
+            // Handle 404 errors explicitly
+            if (error.message.includes("404")) {
+                return null
+            }
+
+            // For other errors, rethrow them
             throw new Error(error.message || "An error occurred");
         }
         throw new Error("Unexpected error");

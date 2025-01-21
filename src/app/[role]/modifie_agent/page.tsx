@@ -3,6 +3,7 @@ import React from 'react'
 import ModAgent from "@/components/chef_app/modifie_agent"
 import { getAgents } from "@/lib/call_action";
 import Pagination from "@/components/options/pagination"
+import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Modifié Agent",
@@ -19,7 +20,9 @@ export default async function ModyAgentPage({ searchParams }: props) {
   const pageNumber = page ?? "1";
   const search_num = search ?? "";
 
-  const { result, totalAct } = await getAgents({ page: pageNumber, search: search_num });
+  const agents = await getAgents({ page: pageNumber, search: search_num });
+  if (!agents) notFound();
+  const { result, totalAct } = agents;
 
   const totalPages = Math.ceil(totalAct / 20);
 
