@@ -59,6 +59,7 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
       Nif: formData.get('Nif')?.toString() || undefined,
       numero_act: formData.get('numero_act')?.toString() || undefined,
       card_number: formData.get('card_number')?.toString() || undefined,
+      type_id: user.type_compte.id,
       vihucule: {
         modele: formData.get('modele')?.toString() || undefined,
         matricule: formData.get('matricule')?.toString() || undefined,
@@ -120,7 +121,7 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
           <input type="text" name="modele" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.modele || ''} />
           <p>type Vihucule</p>
           <select name="type_vehicule" className='p-2 border border-slate-300 rounded-md' >
-            <option value={user.vihucule?.type_vehicule || 'Sélecte vihucule'} >{user.vihucule?.type_vehicule || 'Sélecte vihucule'}</option>
+            <option value={user.vihucule?.type_vehicule || ''} >{user.vihucule?.type_vehicule || 'Sélecte vihucule'}</option>
             {TypeChoices.map((pre, index) => {
               return (
                 <option key={index} value={pre}>{pre}</option>
