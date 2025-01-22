@@ -6,7 +6,7 @@ export class ChefRole extends UserRole {
     }
 
     public getUrl(): Array<string> {
-        return ["/actions", "/agent_administratif", "/ajoute_agent", "/apple_centre", "/caisses", "/delivers"]
+        return ["/role" ,"/role/actions", "/role/agent_administratif", "/role/ajoute_agent", "/role/apple_centre", "/role/caisses", "/role/deliveries"]
     }
 
 }

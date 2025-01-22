@@ -94,12 +94,12 @@ export default function Menu({ user }: props) {
                 <div className='flex flex-col gap-2 py-3'>
                     {user &&
                         <>
-                            <MenuParams url="/role" title='Dashboard' icon={<MdOutlineDashboard />} onEvent={handleMenu} />
+                            <MenuParams url="/dashboard" title='Dashboard' icon={<MdOutlineDashboard />} onEvent={handleMenu} />
                             {user.role == "chef_bureau" &&
                                 <>
-                                    <MenuParams url="/role/deliveries" title='livraisons' icon={<MdDeliveryDining />} onEvent={handleMenu} />
-                                    <MenuParams url="/role/actions" title='Les Action' icon={<MdOutlinePendingActions />} onEvent={handleMenu} />
-                                    <MenuParams url="/role/caisses" title='Les caisses' icon={<MdAttachMoney />} onEvent={handleMenu} />
+                                    <MenuParams url="/dashboard/deliveries" title='livraisons' icon={<MdDeliveryDining />} onEvent={handleMenu} />
+                                    <MenuParams url="/dashboard/actions" title='Les Action' icon={<MdOutlinePendingActions />} onEvent={handleMenu} />
+                                    <MenuParams url="/dashboard/caisses" title='Les caisses' icon={<MdAttachMoney />} onEvent={handleMenu} />
 
                                     <div onClick={() => handleClick(1)} className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>
                                         <h1 className='flex items-center gap-2'><MdOutlineAdminPanelSettings /> Agent administratif</h1>
@@ -107,10 +107,10 @@ export default function Menu({ user }: props) {
                                     </div>
                                     <div className={`transition-all duration-200 overflow-hidden ${isFaqOpen[1] ? 'max-h-screen' : 'max-h-0'}`}>
                                         <ul className='flex flex-col gap-2 p-3 ml-5'>
-                                            <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/role/ajoute_agent"> Ajouté Agent</Link></li>
+                                            <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/dashboard/ajoute_agent"> Ajouté Agent</Link></li>
                                         </ul>
                                         <ul className='flex flex-col gap-2 p-3 ml-5'>
-                                            <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/role/agent_administratif"> List Agent</Link></li>
+                                            <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/dashboard/agent_administratif"> List Agent</Link></li>
                                         </ul>
                                     </div>
                                 </>
@@ -118,9 +118,9 @@ export default function Menu({ user }: props) {
                             {
                                 user.role == "gestion_commercial" &&
                                 <>
-                                    <MenuParams url="/role/partenaire" title={`Partenaire`} icon={<MdLocalTaxi />} onEvent={handleMenu} />
-                                    <MenuParams url="/role/magasin" title={`Magasin`} icon={<MdOutlineStorefront />} onEvent={handleMenu} />
-                                    <MenuParams url="/role/agent_administratif" title={`Agent administratif`} icon={<GrUserWorker />} onEvent={handleMenu} />
+                                    <MenuParams url="/dashboard/partenaire" title={`Partenaire`} icon={<MdLocalTaxi />} onEvent={handleMenu} />
+                                    <MenuParams url="/dashboard/magasin" title={`Magasin`} icon={<MdOutlineStorefront />} onEvent={handleMenu} />
+                                    <MenuParams url="/dashboard/agent_administratif" title={`Agent administratif`} icon={<GrUserWorker />} onEvent={handleMenu} />
 
                                     <div onClick={() => handleClick(2)} className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>
                                         <h1 className='flex items-center gap-2'><MdOutlineAdminPanelSettings /> Superviseur</h1>
@@ -128,26 +128,26 @@ export default function Menu({ user }: props) {
                                     </div>
                                     <div className={`transition-all duration-200 overflow-hidden ${isFaqOpen[2] ? 'max-h-screen' : 'max-h-0'}`}>
                                         <ul className='flex flex-col gap-2 p-3 ml-5'>
-                                            <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/role/ajoute_superviseur"> Créer</Link></li>
+                                            <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/dashboard/ajoute_superviseur"> Créer</Link></li>
                                         </ul>
                                         <ul className='flex flex-col gap-2 p-3 ml-5'>
-                                            <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/role/modifie_superviseur"> Modifié</Link></li>
+                                            <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/dashboard/modifie_superviseur"> Modifié</Link></li>
                                         </ul>
                                     </div>
                                 </>
                             }
                             {user.role == "chef_bureau" || user.role == "centre_appel" ?
-                                <MenuParams url="/role/apple_center" title={`Center d'apple`} icon={<MdContactSupport />} onEvent={handleMenu} /> : ""
+                                <MenuParams url="/dashboard/apple_center" title={`Center d'apple`} icon={<MdContactSupport />} onEvent={handleMenu} /> : ""
                             }
                             {user.role == "superviseur" &&
                                 <>
-                                    <MenuParams url="/role/validation" title={`Validation`} icon={<GrValidate />} onEvent={handleMenu} />
-                                    <MenuParams url="/role/rapports" title={`Rapports`} icon={<MdOutlineReport />} onEvent={handleMenu} />
+                                    <MenuParams url="/dashboard/validation" title={`Validation`} icon={<GrValidate />} onEvent={handleMenu} />
+                                    <MenuParams url="/dashboard/rapports" title={`Rapports`} icon={<MdOutlineReport />} onEvent={handleMenu} />
                                 </>
                             }
                             {user.role == "validation_vtc" &&
                                 <>
-                                    <MenuParams url="/role/courses" title={`VTC`} icon={<MdLocalTaxi />} onEvent={handleMenu} />
+                                    <MenuParams url="/dashboard/courses" title={`VTC`} icon={<MdLocalTaxi />} onEvent={handleMenu} />
                                 </>
                             }
                         </>}

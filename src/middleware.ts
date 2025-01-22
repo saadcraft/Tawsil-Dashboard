@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getUser } from "./lib/auth"
 import { CookiesRemover, refreshAccessToken } from './lib/cookies'
-import { UserRole } from './lib/tools/roles/userRole'
-import { ChefRole } from './lib/tools/roles/chef.role'
 
 // 1. Specify protected and public routes
-const protectedRoutes = ['/role']
+const protectedRoutes = ['/dashboard']
 const publicRoutes = ['/login', '/forget', '/reset-password']
+const chef = ["/dashboard" ,"/dashboard/actions", "/dashboard/agent_administratif", "/dashboard/ajoute_agent", "/dashboard/apple_centre", "/dashboard/caisses", "/dashboard/deliveries"]
 
 export async function middleware(req: NextRequest) {
 
@@ -26,19 +25,21 @@ export async function middleware(req: NextRequest) {
       let role = null;
       // auth.role
       if (auth.role == "chef_bureau") {
-        role = new ChefRole();
+        role = chef
       }
 
-      // let urls = role!.getUrl();
+      const urls = role!
       // console.log("urls are", urls)
       // console.log("path is", path)
-      // console.log("critera is", urls.includes(path))
+      // console.log("critera is", urls.some((route) => path.startsWith(route)))
+
+      const isDisallowedRolePath = path.startsWith('/dashboard') && !urls.includes(path);
 
       // Redirect logic
       if (auth) {
-        if (isPublicRoute) {
+        if (isPublicRoute || isDisallowedRolePath) {
           // Redirect to a default route if the user doesn't have access
-          return NextResponse.redirect(new URL('/role', req.url));
+          return NextResponse.redirect(new URL('/dashboard', req.url));
         }
       }
 
@@ -70,7 +71,7 @@ export async function middleware(req: NextRequest) {
             });
 
             if (isPublicRoute) {
-              return NextResponse.redirect(new URL('/role', req.url));
+              return NextResponse.redirect(new URL('/dashboard', req.url));
             }
 
             // Optionally, revalidate the current path to make sure we have fresh data
@@ -104,5 +105,5 @@ export async function middleware(req: NextRequest) {
 
 
 export const config = {
-  matcher: ['/((?!api|_next|fonts|icons|images|login).*)', '/role', '/login', '/forget', '/reset-password', '/', '/role/:path*'],
+  matcher: ['/((?!api|_next|fonts|icons|images|login).*)', '/dashboard', '/login', '/forget', '/reset-password', '/', '/dashboard/:path*'],
 };

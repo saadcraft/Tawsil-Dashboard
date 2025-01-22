@@ -7,7 +7,7 @@ import { toast } from "react-hot-toast"
 
 export default function AjouteAgent() {
 
-    const data = {
+    const data : Data = {
         last_name: '',
         first_name: '',
         username: '',
@@ -32,6 +32,17 @@ export default function AjouteAgent() {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         const loadingToastId = toast.loading('Adding agent...');
         event.preventDefault();
+
+        const isInvalid = Object.keys(data).some((field) => 
+            field === 'phone_number_1' && !formData[field as keyof Data]
+        );
+    
+        if (isInvalid) {
+            // Display a simple error message if validation fails
+            toast.error('Some fields are required', { id: loadingToastId });
+            return;
+        }
+
         try {
             const result = await AddAgent(formData);
 

@@ -54,9 +54,10 @@ export default function Caisses({ cass }: { cass: Result[] }) {
       }
     } catch (error) {
       if (error instanceof Error) {
-        console.error("Error opening caisse:", error.message);
+        toast.error(error.message, { id: loadingToastId });
+      } else {
+        toast.error("An unknown error occurred.", { id: loadingToastId });
       }
-      toast.error("Error: Network problem or unexpected issue.", { id: loadingToastId });
     }
   }
 

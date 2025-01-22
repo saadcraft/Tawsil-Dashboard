@@ -29,7 +29,7 @@ export default function Login() {
 
             if (result) {
                 toast.success('Login successful', { id: loadingToastId });
-                router.push('/role');
+                router.push('/dashboard');
                 return result;
             } else {
                 toast.error('Login failed', { id: loadingToastId });
