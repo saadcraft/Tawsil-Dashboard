@@ -15,7 +15,7 @@ import {
     MdOutlineStorefront,
     MdOutlineReport
 } from "react-icons/md";
-import { GrValidate } from "react-icons/gr";
+import { GrValidate, GrUserWorker } from "react-icons/gr";
 import Image from 'next/image';
 import Link from 'next/link';
 import { SignOut } from '@/lib/auth';
@@ -110,7 +110,7 @@ export default function Menu({ user }: props) {
                                             <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/role/ajoute_agent"> Ajouté Agent</Link></li>
                                         </ul>
                                         <ul className='flex flex-col gap-2 p-3 ml-5'>
-                                            <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/role/modifie_agent"> Modifié Agent</Link></li>
+                                            <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/role/agent_administratif"> List Agent</Link></li>
                                         </ul>
                                     </div>
                                 </>
@@ -120,6 +120,7 @@ export default function Menu({ user }: props) {
                                 <>
                                     <MenuParams url="/role/partenaire" title={`Partenaire`} icon={<MdLocalTaxi />} onEvent={handleMenu} />
                                     <MenuParams url="/role/magasin" title={`Magasin`} icon={<MdOutlineStorefront />} onEvent={handleMenu} />
+                                    <MenuParams url="/role/agent_administratif" title={`Agent administratif`} icon={<GrUserWorker />} onEvent={handleMenu} />
 
                                     <div onClick={() => handleClick(2)} className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>
                                         <h1 className='flex items-center gap-2'><MdOutlineAdminPanelSettings /> Superviseur</h1>
@@ -144,7 +145,7 @@ export default function Menu({ user }: props) {
                                     <MenuParams url="/role/rapports" title={`Rapports`} icon={<MdOutlineReport />} onEvent={handleMenu} />
                                 </>
                             }
-                            {user.role == "validation_vtc" && 
+                            {user.role == "validation_vtc" &&
                                 <>
                                     <MenuParams url="/role/courses" title={`VTC`} icon={<MdLocalTaxi />} onEvent={handleMenu} />
                                 </>

@@ -25,7 +25,9 @@ const Utils = {
 };
 
 
-export default function Dashboard() {
+export default function Dashboard({ data }: { data: Context }) {
+
+  console.log(data)
 
   ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, PointElement, LineElement);
 
@@ -99,7 +101,21 @@ export default function Dashboard() {
   return (
     <div className="flex flex-col items-center justify-between py-5 px-5 sm:px-16">
       <h1 className="text-2xl font-bold mb-5">Dashboard</h1>
-      <div className="grid grid-cols-2 gap-5 w-full">
+      <div className='grid grid-cols-3 gap-3 w-full'>
+        <div className='bg-white w-full py-5 rounded-3xl '>
+          <h1 className='font-bold'>Chef bureux</h1>
+          <p>{data.total_users_chef_bureux}</p>
+        </div>
+        <div className='bg-white w-full flex flex-col justify-center items-center py-5 rounded-3xl'>
+          <h1>Agent administratif</h1>
+          <p>{data.tolat_users_agents}</p>
+        </div>
+        <div className='bg-white w-full flex flex-col justify-center items-center py-5 rounded-3xl'>
+          <h1>Centre d'appel</h1>
+          <p>{data.total_users_centre_appel}</p>
+        </div>
+      </div>
+      {/* <div className="grid grid-cols-2 gap-5 w-full">
         <div className='py-1'>
           <PieChart />
         </div>
@@ -107,7 +123,7 @@ export default function Dashboard() {
           <BarChart />
           <LineChart />
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

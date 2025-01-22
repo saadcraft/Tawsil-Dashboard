@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getUser } from "./lib/auth"
 import { CookiesRemover, refreshAccessToken } from './lib/cookies'
+import { UserRole } from './lib/tools/roles/userRole'
+import { ChefRole } from './lib/tools/roles/chef.role'
 
 // 1. Specify protected and public routes
 const protectedRoutes = ['/role']
 const publicRoutes = ['/login', '/forget', '/reset-password']
 
 export async function middleware(req: NextRequest) {
+
 
   // 2. Check if the current route is protected or public
   const path = req.nextUrl.pathname
@@ -20,9 +23,23 @@ export async function middleware(req: NextRequest) {
 
     try {
       const auth = await getUser();
+      let role = null;
+      // auth.role
+      if (auth.role == "chef_bureau") {
+        role = new ChefRole();
+      }
 
-      if (auth && isPublicRoute) {
-        return NextResponse.redirect(new URL('/role', req.url));
+      // let urls = role!.getUrl();
+      // console.log("urls are", urls)
+      // console.log("path is", path)
+      // console.log("critera is", urls.includes(path))
+
+      // Redirect logic
+      if (auth) {
+        if (isPublicRoute) {
+          // Redirect to a default route if the user doesn't have access
+          return NextResponse.redirect(new URL('/role', req.url));
+        }
       }
 
     } catch (error) {
@@ -39,16 +56,16 @@ export async function middleware(req: NextRequest) {
 
             // Set the new tokens in cookies
             const res = NextResponse.next();
-            res.cookies.set('access_token', newAccessToken, { 
-              httpOnly: true, 
-              secure: process.env.NODE_ENV === 'production', 
-              maxAge: 24 * 60 * 60, 
+            res.cookies.set('access_token', newAccessToken, {
+              httpOnly: true,
+              secure: process.env.NODE_ENV === 'production',
+              maxAge: 24 * 60 * 60,
               sameSite: "strict"
             });
-            res.cookies.set('refresh_token', newRefreshToken, { 
-              httpOnly: true, 
-              secure: process.env.NODE_ENV === 'production', 
-              maxAge: 7 * 24 * 60 * 60, 
+            res.cookies.set('refresh_token', newRefreshToken, {
+              httpOnly: true,
+              secure: process.env.NODE_ENV === 'production',
+              maxAge: 7 * 24 * 60 * 60,
               sameSite: "strict"
             });
 
@@ -87,5 +104,5 @@ export async function middleware(req: NextRequest) {
 
 
 export const config = {
-  matcher: ['/((?!api|_next|fonts|icons|images|login).*)', '/role', '/login', '/forget', '/reset-password', '/'],
+  matcher: ['/((?!api|_next|fonts|icons|images|login).*)', '/role', '/login', '/forget', '/reset-password', '/', '/role/:path*'],
 };

@@ -5,6 +5,13 @@ type apiAction = {
     totalAct: number;
 }
 
+
+//type agent result
+type apiAgents = {
+    result: Users[];
+    totalAct: number;
+}
+
 export async function getMagasin(): Promise<MagasinType[]> {
     try {
         const response = await apiRequest({
@@ -107,6 +114,34 @@ export async function ValideCourses({ courseIds }: { courseIds: number[] }) {
 
     } catch (error) {
         if (error instanceof Error) {
+            throw new Error(error.message || "An error occurred");
+        }
+        throw new Error("Unexpected error");
+    }
+}
+
+// GET ALL users role agent 
+export async function getAllAgent({ role, page, search, wilaya, groupe }:
+    { role: string, page: string, search: string, wilaya: string, groupe: string }): Promise<apiAgents | null> {
+    try {
+        const response = await apiRequest({
+            method: "GET",
+            url: "/api/v1/users",
+            params: { role, page, search, wilaya, groupe }
+        })
+
+        return {
+            result: response.results,
+            totalAct: response.count
+        };
+    } catch (error) {
+        if (error instanceof Error) {
+            // Handle 404 errors explicitly
+            if (error.message.includes("404")) {
+                return null
+            }
+
+            // For other errors, rethrow them
             throw new Error(error.message || "An error occurred");
         }
         throw new Error("Unexpected error");

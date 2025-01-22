@@ -155,7 +155,7 @@ export default function Delivery({ promise }: Props) {
           {pre.valide_payment ? "true" : "false"}
         </td>
         <td className="px-6 py-4 text-right">
-          {pre.delivery_price}
+          {pre.prix_de_tax}
         </td>
       </tr>
     )

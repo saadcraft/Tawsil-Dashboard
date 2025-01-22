@@ -37,6 +37,7 @@ export default function AjouteAgent() {
 
             if (result) {
                 toast.success("User added successfuly", { id: loadingToastId });
+                setFormData(data)
             }
         } catch (error) {
             if (error instanceof Error) {
