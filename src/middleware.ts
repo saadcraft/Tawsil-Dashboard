@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getUser } from "./lib/auth"
 import { CookiesRemover, refreshAccessToken } from './lib/cookies'
+import { Role } from './lib/tools/roles/user_role'
 
 // 1. Specify protected and public routes
-const protectedRoutes = ['/role']
+const protectedRoutes = ['/dashboard']
 const publicRoutes = ['/login', '/forget', '/reset-password']
 
 export async function middleware(req: NextRequest) {
+
 
   // 2. Check if the current route is protected or public
   const path = req.nextUrl.pathname
@@ -21,8 +23,16 @@ export async function middleware(req: NextRequest) {
     try {
       const auth = await getUser();
 
-      if (auth && isPublicRoute) {
-        return NextResponse.redirect(new URL('/role', req.url));
+      const urls = Role(auth.role)
+
+      const isDisallowedRolePath = path.startsWith('/dashboard') && !urls.includes(path);
+
+      // Redirect logic
+      if (auth) {
+        if (isPublicRoute || isDisallowedRolePath) {
+          // Redirect to a default route if the user doesn't have access
+          return NextResponse.redirect(new URL('/dashboard', req.url));
+        }
       }
 
     } catch (error) {
@@ -39,21 +49,21 @@ export async function middleware(req: NextRequest) {
 
             // Set the new tokens in cookies
             const res = NextResponse.next();
-            res.cookies.set('access_token', newAccessToken, { 
-              httpOnly: true, 
-              secure: process.env.NODE_ENV === 'production', 
-              maxAge: 24 * 60 * 60, 
+            res.cookies.set('access_token', newAccessToken, {
+              httpOnly: true,
+              secure: process.env.NODE_ENV === 'production',
+              maxAge: 24 * 60 * 60,
               sameSite: "strict"
             });
-            res.cookies.set('refresh_token', newRefreshToken, { 
-              httpOnly: true, 
-              secure: process.env.NODE_ENV === 'production', 
-              maxAge: 7 * 24 * 60 * 60, 
+            res.cookies.set('refresh_token', newRefreshToken, {
+              httpOnly: true,
+              secure: process.env.NODE_ENV === 'production',
+              maxAge: 7 * 24 * 60 * 60,
               sameSite: "strict"
             });
 
             if (isPublicRoute) {
-              return NextResponse.redirect(new URL('/role', req.url));
+              return NextResponse.redirect(new URL('/dashboard', req.url));
             }
 
             // Optionally, revalidate the current path to make sure we have fresh data
@@ -87,5 +97,5 @@ export async function middleware(req: NextRequest) {
 
 
 export const config = {
-  matcher: ['/((?!api|_next|fonts|icons|images|login).*)', '/role', '/login', '/forget', '/reset-password', '/'],
+  matcher: ['/((?!api|_next|fonts|icons|images|login).*)', '/dashboard', '/login', '/forget', '/reset-password', '/', '/dashboard/:path*'],
 };

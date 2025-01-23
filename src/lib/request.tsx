@@ -35,9 +35,6 @@ api.interceptors.request.use(
 api.interceptors.response.use(
     (response) => response,
     async (error: AxiosError) => {
-        if (error.response?.status === 401) {
-            console.error('Wait a minete ....')
-        }
         return Promise.reject(error);
     }
 );

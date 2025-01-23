@@ -83,3 +83,20 @@ export async function verifyChangeToken({ token, uid }: { token: string, uid: st
         return false
     }
 }
+
+// Get statistic of users
+
+export async function GetStatic(): Promise<Context> {
+    try {
+        const response = await apiRequest({
+            method: "GET",
+            url: "api/v1/commercial/static",
+        })
+        return response.context
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(error.message || "An error occurred");
+        }
+        throw new Error("Unexpected error");
+    }
+}

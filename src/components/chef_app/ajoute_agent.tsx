@@ -7,7 +7,7 @@ import { toast } from "react-hot-toast"
 
 export default function AjouteAgent() {
 
-    const data = {
+    const data: Data = {
         last_name: '',
         first_name: '',
         username: '',
@@ -32,11 +32,29 @@ export default function AjouteAgent() {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         const loadingToastId = toast.loading('Adding agent...');
         event.preventDefault();
+
+        // Use formData instead of data for validation
+        const isInvalid = Object.keys(formData).some((field) =>
+            field !== 'phone_number_2' && !formData[field as keyof typeof formData]
+        );
+
+        const isUsernameInvalid = formData.username.length < 6;
+
+        if (isInvalid) {
+            // Display a simple error message if validation fails
+            toast.error('Some fields are required', { id: loadingToastId });
+            return;
+        } else if (isUsernameInvalid) {
+            toast.error('surnom doit etre minimum 6 caractere', { id: loadingToastId });
+            return;
+        }
+
         try {
             const result = await AddAgent(formData);
 
             if (result) {
                 toast.success("User added successfuly", { id: loadingToastId });
+                setFormData(data)
             }
         } catch (error) {
             if (error instanceof Error) {
@@ -84,7 +102,7 @@ export default function AjouteAgent() {
                     </div>
                     <div className='flex flex-col gap-1 p-1'>
                         <p className='flex'><span>Sexe</span><span className='text-red-600 text-2xl'>*</span></p>
-                        <select className='border p-1' name='sex' id="sex" defaultValue="" onChange={handleChange}>
+                        <select className='border p-1' name='sexe' id="sex" defaultValue="" onChange={handleChange}>
                             <option value="">Seléctionée</option>
                             <option value="homme">Homme</option>
                             <option value="femme">Femme</option>

@@ -1,17 +1,19 @@
 "use client"
 
 import { MdClose } from "react-icons/md"
-import { FaSearch, FaRegCheckCircle } from 'react-icons/fa'
-import { MdOutlineDisabledByDefault } from 'react-icons/md'
+import { FaSearch } from 'react-icons/fa'
 import React, { useState } from 'react'
 import Link from "next/link";
 import ComplitDocument from "../windows/chef_win/complet_document"
 import { useRouter } from "next/navigation"
 import ActiveCompte from "../windows/chef_win/active-compte"
+import { FormatDate } from "@/lib/tools/tools"
 
 export default function CenterChef({ parteners }: { parteners: Partenaire[] }) {
 
   const router = useRouter()
+
+  console.log(parteners)
 
   const [modify, setModify] = useState<Partenaire | null>(null)
   const [user, setUser] = useState<{ id: number, statue: boolean } | null>(null)
@@ -31,6 +33,9 @@ export default function CenterChef({ parteners }: { parteners: Partenaire[] }) {
         <td className="px-6 py-4">
           {index + 1}
         </td>
+        <td>
+          {FormatDate(pre.user.date_joined)}
+        </td>
         <td className="px-6 py-4">
           {pre.user.username}
         </td>
@@ -39,11 +44,6 @@ export default function CenterChef({ parteners }: { parteners: Partenaire[] }) {
         </td>
         <td className="px-6 py-4">
           {pre.user.is_active ? "Activé" : "Désactivé"}
-        </td>
-        <td>{pre.user.is_active ?
-          <button onClick={() => setUser({ id: pre.user.id, statue: pre.user.is_active })} className='bg-red-700 text-white p-1 rounded-md hover:bg-red-500 flex items-center'>Désactivé <MdOutlineDisabledByDefault /></button> :
-          <button onClick={() => setUser({ id: pre.user.id, statue: pre.user.is_active })} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500 flex items-center'>Activé <FaRegCheckCircle /></button>
-        }
         </td>
         <td className="px-6 py-4 text-right">
           {pre.user.is_active ? "Complité" : <button onClick={() => hundelModify(pre)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500'>Complité dossie</button>}
@@ -73,16 +73,16 @@ export default function CenterChef({ parteners }: { parteners: Partenaire[] }) {
                   ID
                 </th>
                 <th className="px-6 py-3">
+                  Date
+                </th>
+                <th className="px-6 py-3">
                   Partner
                 </th>
                 <th className="px-6 py-3">
                   Number
                 </th>
                 <th className="px-6 py-3">
-                  action
-                </th>
-                <th className="px-6 py-3">
-                  activé
+                  état
                 </th>
                 <th className="px-6 py-3 text-right">
                   dossie

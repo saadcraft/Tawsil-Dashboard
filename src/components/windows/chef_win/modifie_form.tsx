@@ -36,8 +36,6 @@ export default function ModifieForm({ user, onsub }: { user: Users, onsub: (valu
 
     const updatedUser = { id: user.id.toString(), ...filteredData };
 
-    console.log(updatedUser)
-
     try {
       const res = await UpdateUser(updatedUser)
       if (res) {

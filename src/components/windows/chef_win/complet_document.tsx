@@ -1,6 +1,6 @@
 import { toast } from "react-hot-toast"
 import { UpdateDocument } from '@/lib/call_action';
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 
 type Vehicle = {
   modele?: string;
@@ -24,7 +24,8 @@ type UserData = {
 
 export default function ComplitDocument({ user, onsub }: { user: Partenaire, onsub: (value: null) => void }) {
 
-  const TypeChoices = ['Moto', 'Classique', 'Confort', 'Noir', 'Utilitaire', 'XXL', 'Harim']
+  const TypeChoices = ['Moto', 'Classique', 'Comfort', 'Black', 'Utilitaire', 'XXL', 'Harim']
+
 
   const router = useRouter()
 
@@ -71,6 +72,11 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
       },
     }
 
+    if (data.card_number?.length != 18) {
+      toast.error('Le numéro de carte doit avoir 18 caractères', { id: loadingToastId });
+      return;
+    }
+
     const filteredData = { id: data.id, ...filterEmptyValues(data) };
 
 
@@ -107,38 +113,38 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
       <div className='xl:w-2/3 w-full mx-auto rounded-xl p-10 mt-10 bg-white'>
         <h1 className='mb-5 text-xl text-center font-bold'>Completé le dossie</h1>
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
-          <p>Adress</p>
+          <p className="flex items-center">Adress <span className='text-red-600 text-2xl'>*</span></p>
           <input type='text' name='adresse' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le Adress' defaultValue={user.adresse || ''} />
-          <p>RC</p>
+          <p className="flex items-center">RC <span className='text-red-600 text-2xl'>*</span></p>
           <input type='text' name='RC' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le NRC' defaultValue={user.RC || ''} />
-          <p>Nif</p>
+          <p className="flex items-center">Nif <span className='text-red-600 text-2xl'>*</span></p>
           <input type='text' name='Nif' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le numéro de Nif' defaultValue={user.Nif || ''} />
-          <p>Numero Act</p>
+          <p className="flex items-center">Numero Act <span className='text-red-600 text-2xl'>*</span></p>
           <input type='text' name='numero_act' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le Numéro Act' defaultValue={user.numero_act || ''} />
-          <p>Numéro de la carte national</p>
+          <p className="flex items-center">Numéro de la carte national <span className='text-red-600 text-2xl'>*</span></p>
           <input type="text" name="card_number" className='p-2 border border-slate-300 rounded-md' placeholder='Entre ID cart' defaultValue={user.card_number || ''} />
-          <p>Vihucule</p>
-          <input type="text" name="modele" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.modele || ''} />
-          <p>type Vihucule</p>
+          <p className="flex items-center">type Vihucule <span className='text-red-600 text-2xl'>*</span></p>
           <select name="type_vehicule" className='p-2 border border-slate-300 rounded-md' >
-            <option value={user.vihucule?.type_vehicule || ''} >{user.vihucule?.type_vehicule || 'Sélecte vihucule'}</option>
+            <option value={user.vihucule?.type_vehicule || ''} >Sélecte vihucule</option>
             {TypeChoices.map((pre, index) => {
               return (
                 <option key={index} value={pre}>{pre}</option>
               )
             })}
           </select>
-          <p>Numéro et date {`d'assurance`}</p>
+          <p className="flex items-center">Vihucule <span className='text-red-600 text-2xl'>*</span></p>
+          <input type="text" name="modele" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.modele || ''} />
+          <p className="flex items-center">Numéro et date {`d'assurance`} <span className='text-red-600 text-2xl'>*</span></p>
           <div className="flex gap-3">
             <input type="text" name="num_assurance" className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.num_assurance || ''} />
             <input type="date" name="Date_expiration_assurance" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.Date_expiration_assurance ? new Date(user.vihucule.Date_expiration_assurance).toISOString().split('T')[0] : ""} />
           </div>
-          <p>Numéro et date scanner</p>
+          <p className="flex items-center">Numéro et date scanner <span className='text-red-600 text-2xl'>*</span></p>
           <div className="flex gap-3">
             <input type="text" name="num_scanner" className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.num_scanner || ''} />
             <input type="date" name="Date_expiration_scanner" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.Date_expiration_scanner ? new Date(user.vihucule?.Date_expiration_scanner).toISOString().split('T')[0] : ""} />
           </div>
-          <p>Numéro de matricule</p>
+          <p className="flex items-center">Numéro de matricule <span className='text-red-600 text-2xl'>*</span></p>
           <input type="text" name="matricule" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.matricule || ''} />
           <button className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Submite</button>
         </form>

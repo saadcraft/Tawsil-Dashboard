@@ -14,7 +14,7 @@ export default function Disable({ user, onClose }: { user: number, onClose: (id:
         try {
             const res = await BlockUser({ id })
             if (res) {
-                toast.success('User Blocked with successfuly', { id: loadingToastId });
+                toast.success('Utilisateur supprimé avec succès', { id: loadingToastId });
                 router.refresh()
                 onClose(0)
             }

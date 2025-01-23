@@ -12,8 +12,9 @@ type Result = {
   livreur: Livreur;
   total_price: string;
   created_at: string;
-  delivery_price: string;
+  delivery_price: number;
   valide_payment: boolean;
+  prix_de_tax: number;
   paye_par_livreur: boolean;
   status: string;
   emp_val: number;
@@ -157,6 +158,7 @@ type Users = {
   rating: number;
   permission_vlider: boolean;
   is_superuser: boolean;
+  date_joined: string;
 };
 
 type actionData = {
@@ -184,3 +186,16 @@ type MagasinType = {
 type DataType = {
   [key: string | number]: unknown
 }
+
+type Context = {
+  total_courses: number;
+  total_users_chef_bureux: number;
+  tolat_users_agents: number; // Note: Typo in the key name (should be "total_users_agents")
+  total_users_centre_appel: number;
+  total_users_superviseurs: number;
+  total_users_validation: number;
+  total_users_with_group: number;
+  total_partnerschoffeur: number;
+  total_partnersmagasin: number;
+  total_partners__livreur: number; // Note: Double underscore in the key name
+};
