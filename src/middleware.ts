@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getUser } from "./lib/auth"
 import { CookiesRemover, refreshAccessToken } from './lib/cookies'
+import { Role } from './lib/tools/roles/user_role'
 
 // 1. Specify protected and public routes
 const protectedRoutes = ['/dashboard']
 const publicRoutes = ['/login', '/forget', '/reset-password']
-const chef = ["/dashboard" ,"/dashboard/actions", "/dashboard/agent_administratif", "/dashboard/ajoute_agent", "/dashboard/apple_centre", "/dashboard/caisses", "/dashboard/deliveries"]
 
 export async function middleware(req: NextRequest) {
 
@@ -22,16 +22,8 @@ export async function middleware(req: NextRequest) {
 
     try {
       const auth = await getUser();
-      let role = null;
-      // auth.role
-      if (auth.role == "chef_bureau") {
-        role = chef
-      }
 
-      const urls = role!
-      // console.log("urls are", urls)
-      // console.log("path is", path)
-      // console.log("critera is", urls.some((route) => path.startsWith(route)))
+      const urls = Role(auth.role)
 
       const isDisallowedRolePath = path.startsWith('/dashboard') && !urls.includes(path);
 

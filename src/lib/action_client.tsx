@@ -13,7 +13,7 @@ export type Data = {
     email: string;
     sexe: string;
     phone_number_1: string;
-    phone_number_2?: string;
+    phone_number_2: string;
     pass: string;
     password: string;
 }

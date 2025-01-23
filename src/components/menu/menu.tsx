@@ -95,25 +95,29 @@ export default function Menu({ user }: props) {
                     {user &&
                         <>
                             <MenuParams url="/dashboard" title='Dashboard' icon={<MdOutlineDashboard />} onEvent={handleMenu} />
-                            {user.role == "chef_bureau" &&
+                            {user.role == "chef_bureau" || user.role == "agent_administratif" ?
                                 <>
                                     <MenuParams url="/dashboard/deliveries" title='livraisons' icon={<MdDeliveryDining />} onEvent={handleMenu} />
-                                    <MenuParams url="/dashboard/actions" title='Les Action' icon={<MdOutlinePendingActions />} onEvent={handleMenu} />
-                                    <MenuParams url="/dashboard/caisses" title='Les caisses' icon={<MdAttachMoney />} onEvent={handleMenu} />
+                                    {user.role == "chef_bureau" &&
+                                        <>
+                                            <MenuParams url="/dashboard/actions" title='Les Action' icon={<MdOutlinePendingActions />} onEvent={handleMenu} />
+                                            <MenuParams url="/dashboard/caisses" title='Les caisses' icon={<MdAttachMoney />} onEvent={handleMenu} />
 
-                                    <div onClick={() => handleClick(1)} className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>
-                                        <h1 className='flex items-center gap-2'><MdOutlineAdminPanelSettings /> Agent administratif</h1>
-                                        <MdKeyboardArrowUp className={`${isFaqOpen[1] ? 'rotate-180' : ''}`} />
-                                    </div>
-                                    <div className={`transition-all duration-200 overflow-hidden ${isFaqOpen[1] ? 'max-h-screen' : 'max-h-0'}`}>
-                                        <ul className='flex flex-col gap-2 p-3 ml-5'>
-                                            <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/dashboard/ajoute_agent"> Ajouté Agent</Link></li>
-                                        </ul>
-                                        <ul className='flex flex-col gap-2 p-3 ml-5'>
-                                            <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/dashboard/agent_administratif"> List Agent</Link></li>
-                                        </ul>
-                                    </div>
-                                </>
+                                            <div onClick={() => handleClick(1)} className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>
+                                                <h1 className='flex items-center gap-2'><MdOutlineAdminPanelSettings /> Agent administratif</h1>
+                                                <MdKeyboardArrowUp className={`${isFaqOpen[1] ? 'rotate-180' : ''}`} />
+                                            </div>
+                                            <div className={`transition-all duration-200 overflow-hidden ${isFaqOpen[1] ? 'max-h-screen' : 'max-h-0'}`}>
+                                                <ul className='flex flex-col gap-2 p-3 ml-5'>
+                                                    <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/dashboard/ajoute_agent"> Ajouté Agent</Link></li>
+                                                </ul>
+                                                <ul className='flex flex-col gap-2 p-3 ml-5'>
+                                                    <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/dashboard/agent_administratif"> List Agent</Link></li>
+                                                </ul>
+                                            </div>
+                                        </>
+                                    }
+                                </> : ""
                             }
                             {
                                 user.role == "gestion_commercial" &&
@@ -136,7 +140,7 @@ export default function Menu({ user }: props) {
                                     </div>
                                 </>
                             }
-                            {user.role == "chef_bureau" || user.role == "centre_appel" ?
+                            {user.role == "chef_bureau" || user.role == "centre_appel" || user.role == "agent_administratif" ?
                                 <MenuParams url="/dashboard/apple_center" title={`Center d'apple`} icon={<MdContactSupport />} onEvent={handleMenu} /> : ""
                             }
                             {user.role == "superviseur" &&

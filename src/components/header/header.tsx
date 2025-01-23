@@ -14,14 +14,14 @@ export default function Header({ user }: { user: Users }) {
         <Image src="/tawsil.png" className="w-16 ml-10 cursor-pointer" alt="Tawsil" width={100} height={100} />
         <div className='flex items-center space-x-4'>
           {user ?
-          <Link href="/role/profile" className='px-5 py-2 rounded-md flex gap-4 items-center'>
-            <FaRegUser className='text-4xl' />
-            <span>
-              <p>{user.username}</p>
-              <p>{Named(user.role)}</p>
-            </span>
-          </Link>
-          : <Link href="/login" className='px-5 py-2 rounded-md flex gap-2 items-center'><FaRegUser className='text-xl' />Account</Link> }
+            <Link href="/dashboard/profile" className='px-5 py-2 rounded-md flex gap-4 items-center'>
+              <FaRegUser className='text-4xl' />
+              <span>
+                <p>{user.username}</p>
+                <p>{Named(user.role)}</p>
+              </span>
+            </Link>
+            : <Link href="/login" className='px-5 py-2 rounded-md flex gap-2 items-center'><FaRegUser className='text-xl' />Account</Link>}
         </div>
       </div>
     </header>

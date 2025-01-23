@@ -1,8 +1,7 @@
 "use client"
 
 import { MdClose } from "react-icons/md"
-import { FaSearch, FaRegCheckCircle } from 'react-icons/fa'
-import { MdOutlineDisabledByDefault } from 'react-icons/md'
+import { FaSearch } from 'react-icons/fa'
 import React, { useState } from 'react'
 import Link from "next/link";
 import ComplitDocument from "../windows/chef_win/complet_document"

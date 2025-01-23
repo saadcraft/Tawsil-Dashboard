@@ -17,6 +17,11 @@ export default function Login() {
 
         const loadingToastId = toast.loading('Logging in...');
 
+        if (username === "" || password === "") {
+            toast.error("certains champs sont obligatoires", { id: loadingToastId });
+            return;
+        }
+
 
         try {
             const result = await SignIn({ username, password });
