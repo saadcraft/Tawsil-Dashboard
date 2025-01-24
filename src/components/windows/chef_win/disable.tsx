@@ -10,21 +10,14 @@ export default function Disable({ user, onClose }: { user: number, onClose: (id:
     const handleBlock = async (id: number) => {
 
         const loadingToastId = toast.loading('Submite Documment...');
-
-        try {
             const res = await BlockUser({ id })
-            if (res) {
-                toast.success('Utilisateur supprimé avec succès', { id: loadingToastId });
-                router.refresh()
-                onClose(0)
-            }
-        } catch (error) {
-            if (error instanceof Error) {
-                toast.error(error.message, { id: loadingToastId });
-            } else {
-                toast.error('An unknown error occurred', { id: loadingToastId });
-            }
-        }
+                if (res) {
+                    toast.success('Utilisateur supprimé avec succès', { id: loadingToastId });
+                    router.refresh()
+                    onClose(0)
+                }else{
+                    toast.success('Problem connection', { id: loadingToastId });
+                }
     }
     return (
         <div className='fixed z-20 top-0 flex items-center bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>

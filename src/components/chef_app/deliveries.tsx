@@ -7,7 +7,6 @@ import { ValideCommande, ValideSecond, ValideThird } from "../windows/chef_win/v
 import { MdClose } from "react-icons/md";
 import { SubmitCommande } from '@/lib/action_client'
 import { useRouter } from "next/navigation"
-import { toast } from "react-hot-toast"
 import { FormatDate, handleInputChange } from "@/lib/tools/tools"
 
 type Props = {
@@ -113,23 +112,15 @@ export default function Delivery({ promise }: Props) {
 
   const hundleSubmite = async (ids: number[]) => {
 
-    const loadingToastId = toast.loading('Submite Commande...');
-
-    try {
       const result = await SubmitCommande({ id: ids });
       if (result) {
-        toast.success('valider Succesfully', { id: loadingToastId });
         setIsVisible(0);
         setSelectedRows([])
         router.refresh()
+        return true
+      }else{
+        return false
       }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message, { id: loadingToastId });
-      } else {
-        toast.error('An unknown error occurred', { id: loadingToastId });
-      }
-    }
   }
 
 

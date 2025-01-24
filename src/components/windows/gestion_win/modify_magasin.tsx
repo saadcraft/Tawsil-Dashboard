@@ -9,7 +9,6 @@ export default function ModifyMagasinWin({ magasin, onSub }: { magasin: MagasinT
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const loadingToastId = toast.loading('Submite Updating...');
 
         const formData = new FormData(e.currentTarget)
         const formObject = Object.fromEntries(formData.entries())
@@ -19,24 +18,16 @@ export default function ModifyMagasinWin({ magasin, onSub }: { magasin: MagasinT
             Object.entries(formObject).filter(([, value]) => value !== "")
         );
         if (Object.keys(filteredData).length === 0) {
-            toast.error('No fields to update.', { id: loadingToastId });
+            toast.error('No fields to update.');
             return;
         }
         const updatedUser = { id: magasin.id.toString(), ...filteredData };
-        try {
+
             const res = await modifyMagasin(updatedUser)
             if (res) {
-                toast.success('Updated with Succesfully', { id: loadingToastId });
                 router.refresh()
                 onSub(null)
             }
-        } catch (error) {
-            if (error instanceof Error) {
-                toast.error(error.message, { id: loadingToastId });
-            } else {
-                toast.error('An unknown error occurred', { id: loadingToastId });
-            }
-        }
     }
     return (
         <div className='fixed z-10 overflow-auto top-20 flex items-center bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>

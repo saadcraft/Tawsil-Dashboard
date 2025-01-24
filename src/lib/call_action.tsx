@@ -1,7 +1,8 @@
-"use server"
+// "use server"
 
 import { CommentaireData } from "./type_module/center_type"
 import { apiRequest } from "./request";
+import { toast } from "react-hot-toast"
 
 type Comment = {
     id: number;
@@ -26,8 +27,8 @@ export async function getParteners({ page, search }: { page: string, search: str
             params: { page, search }
         });
         return {
-            result: response.results,
-            totalAct: response.count
+            result: response.data.results,
+            totalAct: response.data.count
         };
     } catch (error) {
         if (error instanceof Error) {
@@ -38,20 +39,23 @@ export async function getParteners({ page, search }: { page: string, search: str
 }
 
 export async function AddComment({ id, comment }: Comment) {
+    const loadingToastId = toast.loading('Submite Commande...');
     try {
         const data = await apiRequest({
             url: `/api/v1/centre_appel/comentaire/add`,
             method: "post",
             data: { "partener_id": id, "commentaire": comment }
         });
-        if (data) {
+        if (data.code == 201) {
+            toast.success('Comment added Succesfully', { id: loadingToastId });
             return true;
+        }else{
+            toast.error(data.message, { id: loadingToastId });
+            return false;
         }
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
-        }
-        throw new Error("Unexpected error");
+    } catch {
+        toast.error("Problem de connection", { id: loadingToastId });
+        return false;
     }
 }
 
@@ -62,7 +66,7 @@ export const getCommant = async (id: number): Promise<CommentaireData[]> => {
             method: "GET",
             params: { id },
         });
-        return data.data;
+        return data.data.data;
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(error.message || "An error occurred");
@@ -79,8 +83,8 @@ export async function getChefCentre({ page, search }: { page: string, search: st
             params: { page, search }
         });
         return {
-            result: data.results,
-            totalAct: data.count
+            result: data.data.results,
+            totalAct: data.data.count
         };
     } catch (error) {
         if (error instanceof Error) {
@@ -97,9 +101,10 @@ export async function getAgents({ page, search }: { page: string, search: string
             method: "GET",
             params: { page, search }
         });
+    
         return {
-            result: data.results,
-            totalAct: data.count
+            result: data.data.results,
+            totalAct: data.data.count
         };
     } catch (error) {
         if (error instanceof Error) {
@@ -122,24 +127,30 @@ type UpdateData = {
 
 export async function UpdateUser(Data: UpdateData) {
 
+    const loadingToastId = toast.loading('Submite Updating...');
+
     try {
         const data = await apiRequest({
             method: "PUT",
             url: `/api/v1/update/user`,
             data: Data
         });
-        if (data) {
-            return true
+        if (data.code == 200) {
+            toast.success('Updated with Succesfully', { id: loadingToastId });
+            return true;
+        }else{
+            toast.error(data.message, { id: loadingToastId });
+            return false;
         }
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
-        }
-        throw new Error("Unexpected error");
+    } catch {
+        toast.error("problem connection", { id: loadingToastId });
+        return false;
     }
 }
 
 export async function UpdateDocument(Data: UpdateData) {
+
+    const loadingToastId = toast.loading('Submite Documment...');
 
     try {
         const data = await apiRequest({
@@ -147,32 +158,37 @@ export async function UpdateDocument(Data: UpdateData) {
             url: `/api/v1/chefbureux/completedossie`,
             data: Data
         });
-        if (data) {
-            return true
+        if (data.code == 200) {
+            toast.success('Updated with Succesfully', { id: loadingToastId });
+            return true;
+        }else{
+            toast.error(data.message, { id: loadingToastId });
+            return false;
         }
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
-        }
-        throw new Error("Unexpected error");
+    } catch {
+        toast.error("problem connection", { id: loadingToastId });
+        return false;
     }
 }
 
 export async function UpdateGroup({ id, groupe }: { id: number, groupe: string }) {
+    const loadingToastId = toast.loading('Submite Commande...');
     try {
         const data = await apiRequest({
-            url: `api/v1/user/add/groupe`,
+            url: `/api/v1/user/add/groupe`,
             method: "PATCH",
             data: { id, groupe }
         });
-        if (data) {
+        if (data.code == 200) {
+            toast.success('Comment added Succesfully', { id: loadingToastId });
             return true;
+        }else{
+            toast.success(data.message, { id: loadingToastId });
+            return false;
         }
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
-        }
-        throw new Error("Unexpected error");
+    } catch {
+        toast.success("problem connection", { id: loadingToastId });
+        return false;
     }
 }
 
@@ -182,7 +198,7 @@ export async function getAllChef(): Promise<Users[]> {
             url: `/api/v1/user/chefbureux`,
             method: "GET",
         });
-        return data;
+        return data.data;
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(error.message || "An error occurred");
@@ -199,7 +215,7 @@ export async function ActiveUser({ user_id }: { user_id: number }) {
             data: { user_id }
         });
 
-        return response;
+        return response.data;
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(error.message || "An error occurred");

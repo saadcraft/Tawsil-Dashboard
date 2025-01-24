@@ -1,6 +1,7 @@
 import { DateTime } from "next-auth/providers/kakao";
 import { apiRequest } from "./request";
 import { Report } from '@/lib/type_module/center_type'
+import { toast } from "react-hot-toast"
 
 type apiRequestT = {
     result: Users[];
@@ -37,8 +38,8 @@ export async function getSuperviseur({ page, search }: { page: string, search: s
             params: { page, search }
         })
         return {
-            result: response.results,
-            totalAct: response.count
+            result: response.data.results,
+            totalAct: response.data.count
         };
     } catch (error) {
         if (error instanceof Error) {
@@ -58,6 +59,8 @@ export async function AddSuperViseur(Data: Data) {
 
     const { last_name, first_name, username, email, date_de_naissance, lieux, sexe, phone_number_1, phone_number_2, pass, password } = Data
 
+    const loadingToastId = toast.loading('Submite Updating...');
+
     if (pass !== password) {
         throw new Error("Password and confirm password are not the same");
     }
@@ -65,18 +68,20 @@ export async function AddSuperViseur(Data: Data) {
     try {
         const response = await apiRequest({
             method: "POST",
-            url: "api/v1/commerciale/superviseur/create",
+            url: "/api/v1/commerciale/superviseur/create",
             data: { last_name, first_name, username, email, date_de_naissance, lieux, sexe, phone_number_1, phone_number_2, password }
         })
 
-        if (response) {
+        if (response.code == 201) {
+            toast.success('Creating with Succesfully', { id: loadingToastId });
             return true;
+        }else{
+            toast.error(response.message, { id: loadingToastId });
+            return false;
         }
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message);
-        }
-        throw new Error("Unexpected error");
+    } catch {
+        toast.error("Problem connection", { id: loadingToastId });
+        return false;
     }
 }
 
@@ -90,8 +95,8 @@ export async function getValidation({ page, search, wilaya, is_active, groupe }:
             params: { page, search, wilaya, is_active, groupe }
         })
         return {
-            result: data.results,
-            totalAct: data.count
+            result: data.data.results,
+            totalAct: data.data.count
         };
     } catch (error) {
         if (error instanceof Error) {
@@ -133,8 +138,8 @@ export async function ShowReport({ page }: { page: string }): Promise<apiRaport>
             params: { page }
         })
         return {
-            result: response.results,
-            totalAct: response.count
+            result: response.data.results,
+            totalAct: response.data.count
         }
     } catch (error) {
         if (error instanceof Error) {

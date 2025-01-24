@@ -22,40 +22,34 @@ export async function SignIn({ username, password }: User) {
             data: { username, password },
             withCredentials: true,
         });
-        // const data = await fetch(`${process.env.SERVER_DOMAIN}/api/v1/login`, {
-        //     method: "POST",
-        //     headers: { "Content-Type": "application/json" },
-        //     credentials: "include",
-        //     body: JSON.stringify({ username, password })
-        // })
 
-        const cookiesStore = await cookies();
+        if (data.code === 200) {
+            const cookiesStore = await cookies();
 
-        cookiesStore.set("access_token", data.access_token, {
-            path: "/",
-            maxAge: 24 * 60 * 60, // 1 day
-            secure: process.env.NODE_ENV === "production",
-            httpOnly: true, // Prevent client-side access
-            sameSite: "strict",
-        });
+            cookiesStore.set("access_token", data.data.access_token, {
+                path: "/",
+                maxAge: 24 * 60 * 60, // 1 day
+                secure: process.env.NODE_ENV === "production",
+                httpOnly: true, // Prevent client-side access
+                sameSite: "strict",
+            });
 
-        cookiesStore.set("refresh_token", data.refresh_token, {
-            path: "/",
-            maxAge: 7 * 24 * 60 * 60, // 7 days
-            secure: process.env.NODE_ENV === "production",
-            httpOnly: true, // Prevent client-side access
-            sameSite: "strict",
-        });
-
-
-        if (data) {
-            return data
+            cookiesStore.set("refresh_token", data.data.refresh_token, {
+                path: "/",
+                maxAge: 7 * 24 * 60 * 60, // 7 days
+                secure: process.env.NODE_ENV === "production",
+                httpOnly: true, // Prevent client-side access
+                sameSite: "strict",
+            });
+            return {
+                code: data.code,
+                data: data.data,
+            }
+        } else {
+            return data.message
         }
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred during sign-in");
-        }
-        throw new Error("Unexpected error during sign-in");
+    } catch {
+        return null
     }
 }
 
@@ -70,9 +64,11 @@ export async function SignOut() {
         if (res) {
             CookiesRemover();
             return true
+        }else{
+            return false
         }
 
-        throw new Error("Failed to log out.");
+        
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(error.message || "An error occurred during sign-out.");
@@ -88,7 +84,7 @@ export async function getUser(): Promise<Users> {
             url: "/api/v1/user",
         });
 
-        return response;
+        return response.data;
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(error.message || "An error occurred");
@@ -105,12 +101,13 @@ export async function BlockUser({ id }: { id: number }) {
             data: { id }
         });
 
-        return response;
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
+        if(response.code == 200){
+            return true;
+        }else{
+            return false;
         }
-        throw new Error("Unexpected error");
+    } catch {
+        return false;
     }
 }
 

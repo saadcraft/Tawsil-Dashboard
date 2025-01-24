@@ -6,7 +6,6 @@ import { FaSearch } from 'react-icons/fa'
 import { CloseCasses, OpenCasses } from "@/lib/action_client"
 import ValideCasses from "../windows/chef_win/valide_casses"
 import { MdClose } from "react-icons/md"
-import { toast } from "react-hot-toast"
 import { Result } from "@/lib/type_module/casses_type"
 import { useRouter } from "next/navigation"
 import { FormatDate } from "@/lib/tools/tools"
@@ -21,44 +20,20 @@ export default function Caisses({ cass }: { cass: Result[] }) {
 
   const handleClose = async (value: string) => {
 
-    const loadingToastId = toast.loading('Opening casse...');
-
-    try {
       const result = await CloseCasses({ prix: value })
 
       if (result) {
-        toast.success("Caisse closed successfully!", { id: loadingToastId });
         setClose(pre => !pre)
         router.refresh()
-      } else {
-        toast.error("Failed to close casse. Please try again.", { id: loadingToastId });
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message, { id: loadingToastId });
-      } else {
-        toast.error("An unknown error occurred.", { id: loadingToastId });
-      }
-    }
+      } 
   }
 
   const handleOpen = async () => {
-    const loadingToastId = toast.loading('Closing casse...');
-    try {
+
       const result = await OpenCasses()
       if (result) {
-        toast.success("Caisse opened successfully!", { id: loadingToastId });
         router.refresh()
-      } else {
-        toast.error("Caisse is already opened.", { id: loadingToastId });
       }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message, { id: loadingToastId });
-      } else {
-        toast.error("An unknown error occurred.", { id: loadingToastId });
-      }
-    }
   }
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {

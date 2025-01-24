@@ -121,9 +121,11 @@ export function ValideThird({ command, onBack, onSub }: { command: Result[], onB
     });
 
 
-    const handlePrintAndSubmit = () => {
-        handlePrint(); // Trigger print
-        onSub(ids); // Submit the command
+    const handlePrintAndSubmit = async () => {
+            const sub = await onSub(ids) as unknown as boolean; // Submit the command
+            if(sub){
+                handlePrint(); // Trigger print
+            }
     };
 
 

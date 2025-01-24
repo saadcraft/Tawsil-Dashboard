@@ -21,8 +21,8 @@ export async function getCommand({ page, livreur, valide }: { page: string, livr
             params: { page, livreur, valide }
         });
         return {
-            result: response.results,
-            totalAct: response.count
+            result: response.data.results,
+            totalAct: response.data.count
         }
     } catch (error) {
         if (error instanceof Error) {
@@ -40,8 +40,8 @@ export async function getAction({ page, search }: { page: string, search: string
             params: { page, search }
         });
         return {
-            result: response.results,
-            totalAct: response.count
+            result: response.data.results,
+            totalAct: response.data.count
         }
     } catch (error) {
         if (error instanceof Error) {
@@ -58,7 +58,7 @@ export async function sendEmail(Data: DataType) {
             url: "/api/v1/send/email/support/dev",
             data: Data
         })
-        if (response) {
+        if (response.code == 200) {
             return true
         }
     } catch (error) {
@@ -76,7 +76,7 @@ export async function verifyChangeToken({ token, uid }: { token: string, uid: st
             url: "/api/v1/verifie/token",
             data: { token, uid }
         })
-        if (response) {
+        if (response.code == 200) {
             return true
         }
     } catch {
@@ -92,7 +92,7 @@ export async function GetStatic(): Promise<Context> {
             method: "GET",
             url: "api/v1/commercial/static",
         })
-        return response.context
+        return response.data.context
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(error.message || "An error occurred");

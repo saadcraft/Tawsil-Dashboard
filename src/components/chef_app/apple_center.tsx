@@ -1,6 +1,5 @@
 "use client"
 
-import { toast } from 'react-hot-toast'
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { FaSearch } from 'react-icons/fa'
@@ -35,43 +34,23 @@ export default function AppleCenter({ parteners, chefs }: Props) {
 
   const hundleClick = async (id: number, event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const loadingToastId = toast.loading('Submite Commante...');
     const formData = new FormData(event.currentTarget);
     const add = formData.get('comment') as string;
-    try {
       const res = await AddComment({ id: id, comment: add })
       if (res) {
-        toast.success('Comment added Succesfully', { id: loadingToastId });
         setActivePartnerId(null)
       }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message, { id: loadingToastId });
-      } else {
-        toast.error('An unknown error occurred', { id: loadingToastId });
-      }
-    }
   }
 
   const hundleGroup = async (id: number, event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const loadingToastId = toast.loading('Submite Commande...');
     const formData = new FormData(event.currentTarget);
     const add = formData.get('group') as string;
-    try {
       const res = await UpdateGroup({ id: id, groupe: add })
       if (res) {
-        toast.success('Comment added Succesfully', { id: loadingToastId });
         setResomble(0)
         router.refresh()
       }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message, { id: loadingToastId });
-      } else {
-        toast.error('An unknown error occurred', { id: loadingToastId });
-      }
-    }
   }
 
   const handleClose = () => { setActivePartnerId(null) }

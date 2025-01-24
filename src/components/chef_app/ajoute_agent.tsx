@@ -30,7 +30,6 @@ export default function AjouteAgent() {
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        const loadingToastId = toast.loading('Adding agent...');
         event.preventDefault();
 
         // Use formData instead of data for validation
@@ -42,28 +41,18 @@ export default function AjouteAgent() {
 
         if (isInvalid) {
             // Display a simple error message if validation fails
-            toast.error('Some fields are required', { id: loadingToastId });
+            toast.error('Some fields are required');
             return;
         } else if (isUsernameInvalid) {
-            toast.error('surnom doit etre minimum 6 caractere', { id: loadingToastId });
+            toast.error('surnom doit etre minimum 6 caractere');
             return;
         }
 
-        try {
             const result = await AddAgent(formData);
 
             if (result) {
-                toast.success("User added successfuly", { id: loadingToastId });
                 setFormData(data)
             }
-        } catch (error) {
-            if (error instanceof Error) {
-                toast.error(error.message, { id: loadingToastId });
-            } else {
-                toast.error('An unknown error occurred', { id: loadingToastId });
-            }
-        }
-
     };
 
 
