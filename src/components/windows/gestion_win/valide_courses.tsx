@@ -98,6 +98,46 @@ export function ValideSecond({ command, onEvent, onBack }: { command: Courses[],
     )
 }
 
+const printStyles = `
+  @media print {
+    @page {
+      margin: 2cm 1cm 3cm;
+      size: A4 portrait;
+    }
+
+    tr {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    thead {
+      display: table-header-group;
+    }
+
+    .page-number:after {
+      content: counter(page);
+    }
+
+    /* Hide subsequent page headers on first page */
+    body > div > div:nth-child(2) {
+      display: none;
+    }
+
+    @page :nth(n+2) {
+      @top-center {
+        content: element(pageHeader);
+      }
+      
+      body > div > div:first-child {
+        display: none;
+      }
+      
+      body > div > div:nth-child(2) {
+        display: block;
+      }
+    }
+  }`
+
 export function ValideThird({ command, onBack, onSub }: { command: Courses[], onBack: () => void, onSub: (data: number[]) => void }) {
 
     const componentRef = useRef<HTMLDivElement>(null);
@@ -117,10 +157,10 @@ export function ValideThird({ command, onBack, onSub }: { command: Courses[], on
 
     const handlePrintAndSubmit = async () => {
         const sub = await onSub(ids) as unknown as boolean; // Submit the command
-        if(sub){
+        if (sub) {
             handlePrint(); // Trigger print
         }
-};
+    };
 
 
     return (

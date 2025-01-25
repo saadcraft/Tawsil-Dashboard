@@ -75,7 +75,7 @@ export async function AddSuperViseur(Data: Data) {
         if (response.code == 201) {
             toast.success('Creating with Succesfully', { id: loadingToastId });
             return true;
-        }else{
+        } else {
             toast.error(response.message, { id: loadingToastId });
             return false;
         }
@@ -113,20 +113,23 @@ export async function getValidation({ page, search, wilaya, is_active, groupe }:
 }
 
 export async function AddReport({ id, message }: { id: number, message: string }) {
+    const loadingToastId = toast.loading('Submite Report...');
     try {
         const response = await apiRequest({
             method: "POST",
             url: "/api/v1/suppervisseur/rapport/create",
             data: { "parteneur": { id }, message }
         })
-        if (response) {
+        if (response.code == 201) {
+            toast.success('Report added Succesfully', { id: loadingToastId });
             return true
+        } else {
+            toast.success(response.message, { id: loadingToastId });
+            return false
         }
     } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
-        }
-        throw new Error("Unexpected error");
+        toast.success("Problem connection", { id: loadingToastId });
+        return false
     }
 }
 

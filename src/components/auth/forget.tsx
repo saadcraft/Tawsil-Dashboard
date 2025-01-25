@@ -12,25 +12,27 @@ export default function Forget() {
     const handleSubmite = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const loadingToastId = toast.loading('Logging in...');
+        const loadingToastId = toast.loading('Sending email...');
 
         const formData = new FormData(event.currentTarget)
         const formObject = Object.fromEntries(formData.entries())
+        const add = formData.get('email') as string;
 
-        console.log(formObject)
+        if (!add || add.trim() === '') {
+            toast.error('Please enter a email.', { id: loadingToastId }); // Show an error message
+            return; // Stop further execution
+        }
 
         try {
             const response = await sendForget(formObject)
 
-            if (response) {
+            if (response.code == 200) {
                 toast.success('Email has been send', { id: loadingToastId });
-            }
-        } catch (error) {
-            if (error instanceof Error) {
-                toast.error(error.message, { id: loadingToastId });
             } else {
-                toast.error('An unknown error occurred', { id: loadingToastId });
+                toast.error(response, { id: loadingToastId });
             }
+        } catch {
+            toast.error("Problem connection", { id: loadingToastId });
         }
     }
 
@@ -49,7 +51,7 @@ export default function Forget() {
                     <h1 className="text-xl font-bold">Forget Password</h1>
                     <div className='flex flex-col gap-2 p-2'>
                         <label htmlFor="email">Email</label>
-                        <input type="Text" name="email" id="email" placeholder='Enter emain' className='p-3 border border-slate-300 rounded-md' />
+                        <input type="email" name="email" id="email" placeholder='Enter emain' className='p-3 border border-slate-300 rounded-md' />
                     </div>
                     <p className="p-2">We will send you mail for resolve problem</p>
                     <Link href="/login" className="p-2 hover:underline flex items-center gap-2"><FaSignInAlt className='rotate-180' /> Return to login</Link>

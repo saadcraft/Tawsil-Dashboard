@@ -64,11 +64,11 @@ export async function SignOut() {
         if (res) {
             CookiesRemover();
             return true
-        }else{
+        } else {
             return false
         }
 
-        
+
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(error.message || "An error occurred during sign-out.");
@@ -77,19 +77,20 @@ export async function SignOut() {
     }
 }
 
-export async function getUser(): Promise<Users> {
+export async function getUser(): Promise<Users | null> {
     try {
         const response = await apiRequest({
             method: "GET",
             url: "/api/v1/user",
         });
 
-        return response.data;
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
+        if (response.code == 200) {
+            return response.data;
+        } else {
+            return null;
         }
-        throw new Error("Unexpected error");
+    } catch {
+        return null;
     }
 }
 
@@ -101,9 +102,9 @@ export async function BlockUser({ id }: { id: number }) {
             data: { id }
         });
 
-        if(response.code == 200){
+        if (response.code == 200) {
             return true;
-        }else{
+        } else {
             return false;
         }
     } catch {
@@ -120,15 +121,17 @@ export async function sendForget(Data: DataType) {
             data: Data
         })
 
-        if (response) {
-            return true
+        if (response.code == 200) {
+            return {
+                code: response.code,
+                data: response.data
+            };
+        } else {
+            return response.message;
         }
 
     } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
-        }
-        throw new Error("Unexpected error");
+        return false;
     }
 }
 
@@ -141,8 +144,13 @@ export async function changePassword({ new_password, token, uid }: { new_passwor
             data: { new_password, token, uid }
         })
 
-        if (response) {
-            return true
+        if (response.code == 200) {
+            return {
+                code: response.code,
+                data: response.data
+            }
+        } else {
+            return response.message
         }
 
     } catch (error) {

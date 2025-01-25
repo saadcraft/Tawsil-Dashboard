@@ -31,22 +31,17 @@ export default function Validation({ users }: { users: Partenaire[] }) {
 
     const handleSubmite = async (id: number, event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const loadingToastId = toast.loading('Submite Commante...');
         const formData = new FormData(event.currentTarget);
         const add = formData.get('message') as string;
 
-        try {
-            const res = await AddReport({ id: id, message: add })
-            if (res) {
-                toast.success('Report added Succesfully', { id: loadingToastId });
-                setActivePartnerId(null)
-            }
-        } catch (error) {
-            if (error instanceof Error) {
-                toast.error(error.message, { id: loadingToastId });
-            } else {
-                toast.error('An unknown error occurred', { id: loadingToastId });
-            }
+        if (!add || add.trim() === '') {
+            toast.error('Please enter a message.'); // Show an error message
+            return; // Stop further execution
+        }
+
+        const res = await AddReport({ id: id, message: add })
+        if (res) {
+            setActivePartnerId(null)
         }
     }
 

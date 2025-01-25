@@ -43,13 +43,13 @@ export async function AddAgent(Data: Data) {
         if (response.code == 201) {
             toast.success("User added successfuly", { id: loadingToastId });
             return true;
-        }else{
-            toast.error(response.message , { id: loadingToastId })
+        } else {
+            toast.error(response.message, { id: loadingToastId })
             return false
         }
     } catch {
-            toast.error("Problem de connection", { id: loadingToastId });
-            return false
+        toast.error("Problem de connection", { id: loadingToastId });
+        return false
     }
 }
 
@@ -61,12 +61,12 @@ export async function SubmitCommande({ id }: { id: number[] }) {
             url: "/api/v1/user/commandes/valider",
             data: { id }
         });
-        if(response.code == 200){
+        if (response.code == 200) {
             toast.success('valider Succesfully', { id: loadingToastId });
             return true
-        }else{
-             toast.error(response.message, { id: loadingToastId });
-             return false
+        } else {
+            toast.error(response.message, { id: loadingToastId });
+            return false
         }
 
     } catch {
@@ -86,7 +86,7 @@ export async function CloseCasses({ prix }: { prix: string }) {
         if (response.code == 200) {
             toast.success("Caisse closed successfully!", { id: loadingToastId });
             return true;
-        }else{
+        } else {
             toast.error(response.message, { id: loadingToastId });
             return false;
         }
@@ -107,7 +107,7 @@ export async function OpenCasses() {
         if (response.code == 200) {
             toast.success("Caisse opened successfully!", { id: loadingToastId });
             return true;
-        }else{
+        } else {
             toast.error(response.message, { id: loadingToastId });
             return false;
         }

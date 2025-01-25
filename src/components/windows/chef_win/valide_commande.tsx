@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import Image from 'next/image'
 import { FormatDate } from '@/lib/tools/tools'
 import { useReactToPrint } from 'react-to-print';
 import PrintableModel from '@/lib/tools/printer_models/printer_delivery';
@@ -49,7 +50,7 @@ export function ValideSecond({ command, onEvent, onBack }: { command: Result[], 
         setTotal(calculatedTotal);
     }, [command]); // Recalculate whenever `command` changes
 
-    const taxe = total * 12 / 100
+    const taxe = total * command[0].livreur.partenneur.type_compte.tax_tawsile / 100
 
     return (
         <div className='fixed z-20 overflow-auto top-20 flex items-start bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
@@ -95,7 +96,8 @@ export function ValideSecond({ command, onEvent, onBack }: { command: Result[], 
                         </tbody>
                     </table>
                     <h1 className='text-right p-2 font-semibold text-xl'>total {total.toFixed(2)} DA</h1>
-                    <h1 className='text-right p-2 font-semibold text-xl'>Taxe {taxe.toFixed(2)} DA</h1>
+                    <Image className='w-96' src="/logo_horizontal.png" alt="Description" width={100} height={100} />
+
                 </div>
                 <div className='absolute bottom-3 right-3 flex gap-4 text-xl justify-end'>
                     <button onClick={onBack} className='disabled:text-slate-400'>Retour</button>
@@ -106,13 +108,13 @@ export function ValideSecond({ command, onEvent, onBack }: { command: Result[], 
     )
 }
 
-export function ValideThird({ command, onBack, onSub }: { command: Result[], onBack: () => void, onSub: (data: number[]) => void }) {
+export function ValideThird({ command, onBack, onSub, user }: { command: Result[], onBack: () => void, onSub: (data: number[]) => void, user: Users }) {
 
     const componentRef = useRef<HTMLDivElement>(null);
 
     const total = command.reduce((sum, item) => sum + Number(item.delivery_price), 0);
 
-    const taxe = total * 12 / 100
+    const taxe = total * command[0].livreur.partenneur.type_compte.tax_tawsile / 100
 
     const ids = command.map((item) => item.id);
 
@@ -122,10 +124,10 @@ export function ValideThird({ command, onBack, onSub }: { command: Result[], onB
 
 
     const handlePrintAndSubmit = async () => {
-            const sub = await onSub(ids) as unknown as boolean; // Submit the command
-            if(sub){
-                handlePrint(); // Trigger print
-            }
+        const sub = await onSub(ids) as unknown as boolean; // Submit the command
+        if (sub) {
+            handlePrint(); // Trigger print
+        }
     };
 
 
@@ -162,7 +164,7 @@ export function ValideThird({ command, onBack, onSub }: { command: Result[], onB
             {/* Hidden Printable Component */}
             <div style={{ display: 'none' }}>
                 <div ref={componentRef}>
-                    <PrintableModel command={command} total={total} tax={taxe} />
+                    <PrintableModel />
                 </div>
             </div>
         </div>

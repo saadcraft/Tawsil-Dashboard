@@ -31,16 +31,14 @@ export default function Reset({ token, id }: { token: string, id: string }) {
         try {
             const response = await changePassword({ new_password: password, token: token, uid: id })
 
-            if (response) {
+            if (response.code == 200) {
                 toast.success('Password has been changed', { id: loadingToastId });
                 router.push('/login')
-            }
-        } catch (error) {
-            if (error instanceof Error) {
-                toast.error(error.message, { id: loadingToastId });
             } else {
-                toast.error('An unknown error occurred', { id: loadingToastId });
+                toast.error(response, { id: loadingToastId })
             }
+        } catch {
+            toast.error("Problem connection", { id: loadingToastId });
         }
     }
 

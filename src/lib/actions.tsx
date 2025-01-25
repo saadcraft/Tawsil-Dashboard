@@ -1,6 +1,5 @@
-"use server"
-
 import { apiRequest } from "./request";
+import { toast } from "react-hot-toast";
 
 type apiRequest = {
     result: Result[];
@@ -52,6 +51,7 @@ export async function getAction({ page, search }: { page: string, search: string
 }
 
 export async function sendEmail(Data: DataType) {
+    const loadingToastId = toast.loading('Submite message...');
     try {
         const response = await apiRequest({
             method: "POST",
@@ -59,13 +59,18 @@ export async function sendEmail(Data: DataType) {
             data: Data
         })
         if (response.code == 200) {
+            toast.success('Message has been sent', { id: loadingToastId });
             return true
+        } else if (response.code == 429) {
+            toast.error("Vous avez depasé la limite", { id: loadingToastId })
+            return false
+        } else {
+            toast.error(response.message, { id: loadingToastId })
+            return false
         }
     } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
-        }
-        throw new Error("Unexpected error");
+        toast.error("Problem connection", { id: loadingToastId })
+        return false
     }
 }
 
@@ -78,6 +83,8 @@ export async function verifyChangeToken({ token, uid }: { token: string, uid: st
         })
         if (response.code == 200) {
             return true
+        } else {
+            return false
         }
     } catch {
         return false

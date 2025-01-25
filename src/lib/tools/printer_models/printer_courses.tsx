@@ -27,26 +27,30 @@ const PrintableModelCouses = ({ command, total, tax }: PrintableModelProps) => {
                     <thead className="text-xs uppercase bg-gray-50">
                         <tr>
                             <th scope="col" className="px-6 py-3">ID</th>
-                            <th scope="col" className="px-6 py-3">Livreur</th>
-                            <th scope="col" className="px-6 py-3">Time</th>
-                            <th scope="col" className="text-right px-6 py-3">Livraison Price</th>
+                            <th scope="col" className="px-6 py-3">Client</th>
+                            <th scope="col" className="px-6 py-3">Date</th>
+                            <th scope="col" className="text-right px-6 py-3">Somme livraison</th>
+                            <th scope="col" className="text-right px-6 py-3">Tax</th>
                         </tr>
                     </thead>
                     <tbody>
                         {command.map((item, index) => (
                             <tr key={index} className="bg-white border-b dark:border-gray-700">
                                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    {item.id}
+                                    {index}
                                 </th>
                                 <td className="px-6 py-4">
-                                    {item.partener.user.first_name}{' '}
-                                    {item.partener.user.last_name}
+                                    {item.client.first_name}{' '}
+                                    {item.client.last_name}
                                 </td>
                                 <td className="px-6 py-4">
                                     {FormatDate(item.date_creation)}
                                 </td>
                                 <td className="px-6 py-4 text-right">
                                     {item.prix}DA
+                                </td>
+                                <td className="px-6 py-4 text-right">
+                                    {item.tax_tawsile}DA
                                 </td>
                             </tr>
                         ))}

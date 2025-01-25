@@ -11,8 +11,6 @@ export default function ModifyUser({ user, magasine, onsub }: { user: Partenaire
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const loadingToastId = toast.loading('Submite Updating...');
-
         const formData = new FormData(e.currentTarget)
         const formObject = Object.fromEntries(formData.entries())
 
@@ -21,27 +19,16 @@ export default function ModifyUser({ user, magasine, onsub }: { user: Partenaire
         );
 
         if (Object.keys(filteredData).length === 0) {
-            toast.error('No fields to update.', { id: loadingToastId });
+            toast.error('No fields to update.');
             return;
         }
 
         const updatedUser = { id: user.user.id.toString(), ...filteredData };
 
-        console.log(updatedUser)
-
-        try {
-            const res = await UpdateDocument(updatedUser)
-            if (res) {
-                toast.success('Updated with Succesfully', { id: loadingToastId });
-                router.refresh()
-                onsub(null)
-            }
-        } catch (error) {
-            if (error instanceof Error) {
-                toast.error(error.message, { id: loadingToastId });
-            } else {
-                toast.error('An unknown error occurred', { id: loadingToastId });
-            }
+        const res = await UpdateDocument(updatedUser)
+        if (res) {
+            router.refresh()
+            onsub(null)
         }
     }
 
