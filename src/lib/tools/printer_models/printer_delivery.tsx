@@ -17,25 +17,39 @@ const PrintableModel = ({ command, user, tax }: PrintableModelProps) => {
     return (
         <div className="p-5">
             {/* Header Section */}
-            <div className="text-center mb-5">
-                <div className='flex items-center gap-10'>
-                    <Image height={100} width={100} src="/tawsil-start.png" alt="Logo" className="w-40 rounded-xl bg-six" />
-                    <h1 className='font-bold text-5xl'>Tawsil-Star</h1>
+            <div className="mb-5">
+                <div className='logo-printer'>
                 </div>
-                <h1 className="text-2xl font-bold">Bon de livreur</h1>
+                {/* <h1 className="text-2xl font-bold">Bon de livreur</h1>
                 <p className="text-gray-500">La date creation: {FormatDate(new Date().toISOString())}</p>
-                <p className="text-gray-500">Agent: {user.first_name} {user.last_name}</p>
+                <p className="text-gray-500">Agent: {user.first_name} {user.last_name}</p> */}
+                <div className='flex items-center gap-10'>
+                    <div className="printer-head">
+                        <span>
+                            <h1><span className='font-bold'>Nom :</span> {command[0].livreur.partenneur.user.last_name} {command[0].livreur.partenneur.user.first_name}</h1>
+                            <h1><span className='font-bold'>Num Tel :</span> {command[0].livreur.partenneur.user.phone_number_1}</h1>
+                        </span>
+                        <span>
+                            <h1><span className='font-bold'>Agent :</span> {user.last_name} {user.first_name}</h1>
+                            <h1><span className='font-bold'>Nom :</span> {user.groupe}</h1>
+                        </span>
+                    </div>
+                    <div className='text-center'>
+                        <p className="text-gray-500">La date: {FormatDate(new Date().toISOString())}</p>
+                        <p>{user.wilaya}</p>
+                    </div>
+                </div>
             </div>
 
             {/* Table Section */}
             <div className="relative overflow-auto">
-                <table className="w-full text-sm text-left rtl:text-right">
+                <table className="w-full text-sm text-left rtl:text-right table-printer">
                     <thead className="text-xs uppercase bg-gray-50">
                         <tr>
                             <th scope="col" className="px-6 py-3">ID</th>
                             <th scope="col" className="px-6 py-3">Client</th>
                             <th scope="col" className="px-6 py-3">Date</th>
-                            <th scope="col" className="text-right px-6 py-3">Somme course</th>
+                            <th scope="col" className="text-right px-6 py-3 whitespace-nowrap">Somme course</th>
                             <th scope="col" className="text-right px-6 py-3">Tax</th>
                         </tr>
                     </thead>
@@ -43,13 +57,13 @@ const PrintableModel = ({ command, user, tax }: PrintableModelProps) => {
                         {command.map((item, index) => (
                             <tr key={index} className="bg-white border-b dark:border-gray-700">
                                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    {index}
+                                    {index + 1}
                                 </th>
                                 <td className="px-6 py-4">
                                     {item.client.first_name}{' '}
                                     {item.client.last_name}
                                 </td>
-                                <td className="px-6 py-4">
+                                <td className="px-6 py-4 whitespace-nowrap">
                                     {FormatDate(item.created_at)}
                                 </td>
                                 <td className="px-6 py-4 text-right">
@@ -61,8 +75,18 @@ const PrintableModel = ({ command, user, tax }: PrintableModelProps) => {
                             </tr>
                         ))}
                     </tbody>
+                    <tfoot className='text-xs uppercase bg-gray-50'>
+                        <tr>
+                            <th></th>
+                            <th className="px-6 py-3 whitespace-nowrap">merci pour votre entreprise</th>
+                            <th></th>
+                            <th className="px-6 py-3 text-right">Total</th>
+                            <th>
+                                <h1 className="text-right p-2 font-semibold text-xl flex whitespace-nowrap">{tax.toFixed(2)} DA</h1>
+                            </th>
+                        </tr>
+                    </tfoot>
                 </table>
-                <h1 className="text-right p-2 font-semibold text-xl">Total: {tax.toFixed(2)} DA</h1>
             </div>
             <p className='absolute bottom-3 text-center w-full '>1/1</p>
         </div>

@@ -164,7 +164,7 @@ export function ValideThird({ command, onBack, onSub, user }: { command: Result[
             {/* Hidden Printable Component */}
             <div style={{ display: 'none' }}>
                 <div ref={componentRef}>
-                    <PrintableModel />
+                    <PrintableModel command={command} user={user} tax={taxe} />
                 </div>
             </div>
         </div>

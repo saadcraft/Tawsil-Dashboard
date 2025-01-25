@@ -1,3 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.printer-head{
+    background-color: rgb(16, 197, 255, 0.2);
+    font-size: 18px;
+    width: 60%;
+    border-radius: 0px 20px 20px 0px;
+    @apply flex gap-5 p-4 ml-4;
+}
+.logo-printer{
+    background: url("/logo_horizontal.svg") no-repeat center;
+    background-size: contain;
+    width: 300px;
+    height: 150px;
+    @apply p-4
+}
+
+.table-printer {
+    width: 90%;
+    @apply px-3 mx-auto mt-5 rounded-xl overflow-hidden
+}
+
+.table-printer thead, .table-printer tfoot {
+    background-color: rgb(16, 197, 255, 0.2);
+}
