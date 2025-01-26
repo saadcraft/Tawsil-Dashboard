@@ -12,22 +12,23 @@ type apiAction = {
 }
 
 
-export async function getCommand({ page, livreur, valide }: { page: string, livreur: string, valide: string }): Promise<apiRequest> {
+export async function getCommand({ page, livreur, valide }: { page: string, livreur: string, valide: string }): Promise<apiRequest | null> {
     try {
         const response = await apiRequest({
             method: "GET",
             url: "/api/v1/chefbureux/commandes",
             params: { page, livreur, valide }
         });
-        return {
-            result: response.data.results,
-            totalAct: response.data.count
+        if (response.code == 200) {
+            return {
+                result: response.data.results,
+                totalAct: response.data.count
+            }
+        } else {
+            return null
         }
     } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
-        }
-        throw new Error("Unexpected error");
+        return null
     }
 }
 

@@ -1,19 +1,43 @@
-import React, { useState } from 'react'
+import { PrinteCasses } from '@/lib/tools/printer_models/printer_caisses';
+import { handleInputChange } from '@/lib/tools/tools';
+import React, { useState, useRef } from 'react'
+import { useReactToPrint } from 'react-to-print';
 
-export default function ValideCasses({ onEvent }: { onEvent: (data: string) => void }) {
+type form = {
+  prix: string;
+  acompte: string;
+}
 
-  const [value, setValue] = useState<string>("")
 
-  const handleChange = (even: React.FormEvent<HTMLInputElement>) => {
-    const inputValue = (even.target as HTMLInputElement).value;
+export default function ValideCasses({ onEvent, user }: { onEvent: (data: form) => void, user: Users }) {
 
-    if (!/^\d*$/.test(inputValue)) {
-      (even.target as HTMLInputElement).value = inputValue.replace(/\D/g, ''); // Remove non-numeric characters
+  const componentRef = useRef<HTMLDivElement>(null);
+
+  const data = {
+    prix: "",
+    acompte: ""
+  }
+
+  const [form, setForm] = useState(data)
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    if (event.target.type === 'text') {
+      handleInputChange(event as React.ChangeEvent<HTMLInputElement>);
     }
+    const { name, value } = event.target;
+    setForm({ ...form, [name]: value });
+  };
 
-    const numericValue = inputValue.replace(/\D/g, "");
+  const handlePrint = useReactToPrint({
+    contentRef: componentRef,
+  });
 
-    setValue(numericValue);
+  const handlePrintAndSubmit = async () => {
+    const sub = await onEvent(form) as unknown as boolean; // Submit the command
+    console.log('Submission result:', sub);
+    if (sub) {
+      handlePrint(); // Trigger print
+    }
   };
 
 
@@ -22,8 +46,14 @@ export default function ValideCasses({ onEvent }: { onEvent: (data: string) => v
       <div className='max-w-5xl mx-auto p-5 bg-white'>
         <h1 className='mb-5'>Valider le montant</h1>
         <div className='flex flex-col gap-10'>
-          <input type='text' name='montant' className='p-2' placeholder='Entre le montant' onChange={handleChange} />
-          <button onClick={() => onEvent(value)} className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Submite</button>
+          <input type='text' name='prix' className='p-2' placeholder='Entre le montant' onChange={handleChange} />
+          <input type='text' name='acompte' className='p-2' placeholder='Entre le a compte' onChange={handleChange} />
+          <button onClick={handlePrintAndSubmit} className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Submite</button>
+        </div>
+      </div>
+      <div style={{ display: 'none' }}>
+        <div ref={componentRef}>
+          <PrinteCasses total={1000} user={user} real={Number(form.prix)} acount={Number(form.acompte)} />
         </div>
       </div>
     </div>

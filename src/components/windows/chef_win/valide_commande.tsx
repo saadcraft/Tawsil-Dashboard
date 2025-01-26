@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react'
-import Image from 'next/image'
 import { FormatDate } from '@/lib/tools/tools'
 import { useReactToPrint } from 'react-to-print';
 import PrintableModel from '@/lib/tools/printer_models/printer_delivery';
@@ -96,7 +95,7 @@ export function ValideSecond({ command, onEvent, onBack }: { command: Result[], 
                         </tbody>
                     </table>
                     <h1 className='text-right p-2 font-semibold text-xl'>total {total.toFixed(2)} DA</h1>
-                    <Image className='w-96' src="/logo_horizontal.png" alt="Description" width={100} height={100} />
+                    <h1 className='text-right p-2 font-semibold text-xl'>Tax {taxe.toFixed(2)} DA</h1>
 
                 </div>
                 <div className='absolute bottom-3 right-3 flex gap-4 text-xl justify-end'>

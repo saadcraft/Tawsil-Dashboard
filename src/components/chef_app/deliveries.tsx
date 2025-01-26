@@ -117,7 +117,7 @@ export default function Delivery({ promise, users }: Props) {
     if (result) {
       setIsVisible(0);
       setSelectedRows([])
-      router.refresh()
+      router.replace("/dashboard/deliveries")
       return true
     } else {
       return false

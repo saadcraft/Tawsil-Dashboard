@@ -75,13 +75,13 @@ export async function SubmitCommande({ id }: { id: number[] }) {
     }
 }
 
-export async function CloseCasses({ prix }: { prix: string }) {
+export async function CloseCasses(Data: { [key: string]: unknown }) {
     const loadingToastId = toast.loading('Opening casse...');
     try {
         const response = await apiRequest({
             method: "POST",
             url: "/api/v1/chefbureux/arretcasse",
-            data: { prix }
+            data: Data
         });
         if (response.code == 200) {
             toast.success("Caisse closed successfully!", { id: loadingToastId });

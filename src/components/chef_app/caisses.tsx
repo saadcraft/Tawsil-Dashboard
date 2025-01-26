@@ -10,7 +10,12 @@ import { Result } from "@/lib/type_module/casses_type"
 import { useRouter } from "next/navigation"
 import { FormatDate } from "@/lib/tools/tools"
 
-export default function Caisses({ cass }: { cass: Result[] }) {
+type form = {
+  prix: string;
+  acompte: string;
+}
+
+export default function Caisses({ cass, user }: { cass: Result[], user: Users }) {
 
   const [Close, setClose] = useState<boolean>(false)
   const router = useRouter()
@@ -18,22 +23,29 @@ export default function Caisses({ cass }: { cass: Result[] }) {
 
   const handleWindow = () => { setClose(pre => !pre) }
 
-  const handleClose = async (value: string) => {
+  const handleClose = async (data: form) => {
 
-      const result = await CloseCasses({ prix: value })
+    const filteredData = Object.fromEntries(
+      Object.entries(data).filter(([, value]) => value !== "")
+    );
 
-      if (result) {
-        setClose(pre => !pre)
-        router.refresh()
-      } 
+    const result = await CloseCasses(filteredData);
+
+    if (result) {
+      setClose(pre => !pre)
+      router.refresh()
+      return true
+    } else {
+      return false
+    }
   }
 
   const handleOpen = async () => {
 
-      const result = await OpenCasses()
-      if (result) {
-        router.refresh()
-      }
+    const result = await OpenCasses()
+    if (result) {
+      router.refresh()
+    }
   }
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
@@ -118,7 +130,7 @@ export default function Caisses({ cass }: { cass: Result[] }) {
       {Close ?
         <div>
           <button onClick={handleWindow} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
-          <ValideCasses onEvent={handleClose} />
+          <ValideCasses onEvent={handleClose} user={user} />
         </div>
         : ""}
     </div>
