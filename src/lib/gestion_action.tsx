@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { apiRequest } from "./request";
 
 type apiAction = {
@@ -18,7 +19,7 @@ export async function getMagasin(): Promise<MagasinType[]> {
             method: "GET",
             url: "/api/v1/commerciale/typecomptes"
         })
-        return response
+        return response.data
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(error.message || "An error occurred");
@@ -28,24 +29,28 @@ export async function getMagasin(): Promise<MagasinType[]> {
 }
 
 export async function AddTypeMagasin(Data: DataType) {
+    const loadingToastId = toast.loading('Submite update...');
     try {
         const response = await apiRequest({
             method: "POST",
             url: "/api/v1/commerciale/typecompte/add",
             data: Data
         })
-        if (response) {
+        if (response.code == 201) {
+            toast.success('Update with Succesfully', { id: loadingToastId });
             return true
+        }else{
+            toast.error(response.message, { id: loadingToastId });
+            return false
         }
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
-        }
-        throw new Error("Unexpected error");
+    } catch {
+        toast.error("Problem connection", { id: loadingToastId });
+        return false
     }
 }
 
 export async function modifyMagasin(Data: DataType) {
+    const loadingToastId = toast.loading('Submite update...');
     try {
         const response = await apiRequest({
             method: "PUT",
@@ -53,14 +58,16 @@ export async function modifyMagasin(Data: DataType) {
             data: Data
         })
 
-        if (response) {
+        if (response.code == 200) {
+            toast.success('Update with Succesfully', { id: loadingToastId });
             return true
+        }else{
+            toast.error(response.message, { id: loadingToastId });
+            return false
         }
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
-        }
-        throw new Error("Unexpected error");
+    } catch {
+        toast.error("problem connection", { id: loadingToastId });
+        return false
     }
 }
 
@@ -76,8 +83,8 @@ export async function getCourses(
         })
 
         return {
-            result: response.data,
-            totalAct: response.count
+            result: response.data.data,
+            totalAct: response.data.count
         }
     } catch (error) {
         if (error instanceof Error) {
@@ -89,12 +96,12 @@ export async function getCourses(
 
 export async function getGroup({ wilaya }: { wilaya: string }) {
     try {
-        const data = apiRequest({
+        const data = await apiRequest({
             method: "GET",
             url: "api/v1/commercialer/groups",
             data: { wilaya }
         })
-        return data
+        return data.data
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(error.message || "An error occurred");
@@ -104,19 +111,24 @@ export async function getGroup({ wilaya }: { wilaya: string }) {
 }
 
 export async function ValideCourses({ courseIds }: { courseIds: number[] }) {
+    const loadingToastId = toast.loading('Submite Commande...');
     try {
         const response = await apiRequest({
             method: "PATCH",
             url: "/api/v1/vtc/course/valide",
             data: { courseIds }
         })
-        return response;
-
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
+        if(response.code == 200){
+            toast.success('valider Succesfully', { id: loadingToastId });
+            return true
+        }else{
+             toast.error(response.message, { id: loadingToastId });
+             return false
         }
-        throw new Error("Unexpected error");
+
+    } catch {
+        toast.error("Problem connection", { id: loadingToastId });
+        return false
     }
 }
 
@@ -131,8 +143,8 @@ export async function getAllAgent({ role, page, search, wilaya, groupe }:
         })
 
         return {
-            result: response.results,
-            totalAct: response.count
+            result: response.data.results,
+            totalAct: response.data.count
         };
     } catch (error) {
         if (error instanceof Error) {

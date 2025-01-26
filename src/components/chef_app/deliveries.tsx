@@ -7,14 +7,14 @@ import { ValideCommande, ValideSecond, ValideThird } from "../windows/chef_win/v
 import { MdClose } from "react-icons/md";
 import { SubmitCommande } from '@/lib/action_client'
 import { useRouter } from "next/navigation"
-import { toast } from "react-hot-toast"
 import { FormatDate, handleInputChange } from "@/lib/tools/tools"
 
 type Props = {
   promise: Result[];
+  users: Users;
 };
 
-export default function Delivery({ promise }: Props) {
+export default function Delivery({ promise, users }: Props) {
 
   const [select, setSelect] = useState(promise)
 
@@ -113,22 +113,14 @@ export default function Delivery({ promise }: Props) {
 
   const hundleSubmite = async (ids: number[]) => {
 
-    const loadingToastId = toast.loading('Submite Commande...');
-
-    try {
-      const result = await SubmitCommande({ id: ids });
-      if (result) {
-        toast.success('valider Succesfully', { id: loadingToastId });
-        setIsVisible(0);
-        setSelectedRows([])
-        router.refresh()
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message, { id: loadingToastId });
-      } else {
-        toast.error('An unknown error occurred', { id: loadingToastId });
-      }
+    const result = await SubmitCommande({ id: ids });
+    if (result) {
+      setIsVisible(0);
+      setSelectedRows([])
+      router.replace("/dashboard/deliveries")
+      return true
+    } else {
+      return false
     }
   }
 
@@ -143,13 +135,13 @@ export default function Delivery({ promise }: Props) {
           {FormatDate(pre.created_at)}
         </td>
         <td className="px-6 py-4">
-          {pre.client.first_name} {pre.client.last_name}
+          {pre.livreur.partenneur.user.first_name} {pre.livreur.partenneur.user.last_name}
         </td>
         <td className="px-6 py-4">
           {pre.livreur.partenneur.user.phone_number_1}
         </td>
         <td className="px-6 py-4">
-          {pre.livreur.partenneur.user.first_name} {pre.livreur.partenneur.user.last_name}
+          {pre.client.first_name} {pre.client.last_name}
         </td>
         <td className="px-6 py-4">
           {pre.valide_payment ? "true" : "false"}
@@ -234,7 +226,7 @@ export default function Delivery({ promise }: Props) {
       {isVisible === 3 ?
         <div>
           <button onClick={handleClose} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-          <ValideThird command={selectedRows} onBack={handleSecond} onSub={hundleSubmite} />
+          <ValideThird command={selectedRows} onBack={handleSecond} onSub={hundleSubmite} user={users} />
         </div>
         : ""}
     </div>

@@ -6,12 +6,16 @@ import { FaSearch } from 'react-icons/fa'
 import { CloseCasses, OpenCasses } from "@/lib/action_client"
 import ValideCasses from "../windows/chef_win/valide_casses"
 import { MdClose } from "react-icons/md"
-import { toast } from "react-hot-toast"
 import { Result } from "@/lib/type_module/casses_type"
 import { useRouter } from "next/navigation"
 import { FormatDate } from "@/lib/tools/tools"
 
-export default function Caisses({ cass }: { cass: Result[] }) {
+type form = {
+  prix: string;
+  acompte: string;
+}
+
+export default function Caisses({ cass, user }: { cass: Result[], user: Users }) {
 
   const [Close, setClose] = useState<boolean>(false)
   const router = useRouter()
@@ -19,45 +23,28 @@ export default function Caisses({ cass }: { cass: Result[] }) {
 
   const handleWindow = () => { setClose(pre => !pre) }
 
-  const handleClose = async (value: string) => {
+  const handleClose = async (data: form) => {
 
-    const loadingToastId = toast.loading('Opening casse...');
+    const filteredData = Object.fromEntries(
+      Object.entries(data).filter(([, value]) => value !== "")
+    );
 
-    try {
-      const result = await CloseCasses({ prix: value })
+    const result = await CloseCasses(filteredData);
 
-      if (result) {
-        toast.success("Caisse closed successfully!", { id: loadingToastId });
-        setClose(pre => !pre)
-        router.refresh()
-      } else {
-        toast.error("Failed to close casse. Please try again.", { id: loadingToastId });
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message, { id: loadingToastId });
-      } else {
-        toast.error("An unknown error occurred.", { id: loadingToastId });
-      }
+    if (result) {
+      setClose(pre => !pre)
+      router.refresh()
+      return true
+    } else {
+      return false
     }
   }
 
   const handleOpen = async () => {
-    const loadingToastId = toast.loading('Closing casse...');
-    try {
-      const result = await OpenCasses()
-      if (result) {
-        toast.success("Caisse opened successfully!", { id: loadingToastId });
-        router.refresh()
-      } else {
-        toast.error("Caisse is already opened.", { id: loadingToastId });
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message, { id: loadingToastId });
-      } else {
-        toast.error("An unknown error occurred.", { id: loadingToastId });
-      }
+
+    const result = await OpenCasses()
+    if (result) {
+      router.refresh()
     }
   }
 
@@ -143,7 +130,7 @@ export default function Caisses({ cass }: { cass: Result[] }) {
       {Close ?
         <div>
           <button onClick={handleWindow} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
-          <ValideCasses onEvent={handleClose} />
+          <ValideCasses onEvent={handleClose} user={user} />
         </div>
         : ""}
     </div>

@@ -42,10 +42,16 @@ api.interceptors.response.use(
 export const apiRequest = async (config: AxiosRequestConfig) => {
     try {
         const response = await api(config);
-        return response.data;
+        return {
+            code: response.status,
+            data : response.data
+        }      
     } catch (error) {
         if (axios.isAxiosError(error)) {
-            throw new Error(error.response?.data?.message || error.message);
+            return{
+                code: error.response?.status,
+                message: error.response?.data?.message || error.message
+            }
         } else {
             throw new Error("Network error");
         }

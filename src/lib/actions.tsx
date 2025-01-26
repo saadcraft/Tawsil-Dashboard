@@ -1,6 +1,5 @@
-"use server"
-
 import { apiRequest } from "./request";
+import { toast } from "react-hot-toast";
 
 type apiRequest = {
     result: Result[];
@@ -13,22 +12,23 @@ type apiAction = {
 }
 
 
-export async function getCommand({ page, livreur, valide }: { page: string, livreur: string, valide: string }): Promise<apiRequest> {
+export async function getCommand({ page, livreur, valide }: { page: string, livreur: string, valide: string }): Promise<apiRequest | null> {
     try {
         const response = await apiRequest({
             method: "GET",
             url: "/api/v1/chefbureux/commandes",
             params: { page, livreur, valide }
         });
-        return {
-            result: response.results,
-            totalAct: response.count
+        if (response.code == 200) {
+            return {
+                result: response.data.results,
+                totalAct: response.data.count
+            }
+        } else {
+            return null
         }
     } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
-        }
-        throw new Error("Unexpected error");
+        return null
     }
 }
 
@@ -40,8 +40,8 @@ export async function getAction({ page, search }: { page: string, search: string
             params: { page, search }
         });
         return {
-            result: response.results,
-            totalAct: response.count
+            result: response.data.results,
+            totalAct: response.data.count
         }
     } catch (error) {
         if (error instanceof Error) {
@@ -52,20 +52,26 @@ export async function getAction({ page, search }: { page: string, search: string
 }
 
 export async function sendEmail(Data: DataType) {
+    const loadingToastId = toast.loading('Submite message...');
     try {
         const response = await apiRequest({
             method: "POST",
             url: "/api/v1/send/email/support/dev",
             data: Data
         })
-        if (response) {
+        if (response.code == 200) {
+            toast.success('Message has been sent', { id: loadingToastId });
             return true
+        } else if (response.code == 429) {
+            toast.error("Vous avez depasé la limite", { id: loadingToastId })
+            return false
+        } else {
+            toast.error(response.message, { id: loadingToastId })
+            return false
         }
     } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
-        }
-        throw new Error("Unexpected error");
+        toast.error("Problem connection", { id: loadingToastId })
+        return false
     }
 }
 
@@ -76,8 +82,10 @@ export async function verifyChangeToken({ token, uid }: { token: string, uid: st
             url: "/api/v1/verifie/token",
             data: { token, uid }
         })
-        if (response) {
+        if (response.code == 200) {
             return true
+        } else {
+            return false
         }
     } catch {
         return false
@@ -92,7 +100,7 @@ export async function GetStatic(): Promise<Context> {
             method: "GET",
             url: "api/v1/commercial/static",
         })
-        return response.context
+        return response.data.context
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(error.message || "An error occurred");

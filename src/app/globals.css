@@ -1,3 +1,79 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.printer-head{
+    background-color: rgb(16, 197, 255, 0.2);
+    font-size: 18px;
+    width: 60%;
+    border-radius: 0px 20px 20px 0px;
+    @apply flex gap-5 p-4 ml-4;
+}
+.logo-printer{
+    background: url("/logo_horizontal.svg") no-repeat center;
+    background-size: contain;
+    width: 300px;
+    height: 150px;
+    @apply p-4
+}
+
+.table-printer {
+    width: 90%;
+    @apply px-3 mx-auto mt-5 rounded-xl overflow-hidden
+}
+
+.table-printer thead, .table-printer tfoot {
+    background-color: rgb(16, 197, 255, 0.2);
+}
+
+.info{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding: 25px 25px;
+    @apply flex gap-5
+}
+.info p {
+    @apply flex gap-1
+}
+
+.sign {
+  margin-bottom: 20px;  
+  @apply grid p-10 grid-cols-2 text-lg
+}
+.sign p {
+    text-decoration: underline;
+}
+
+.manque{
+    color: red;
+}
+
+
+@media print {
+    .header {
+      display: none;
+    }
+  
+    .header:first-of-type {
+      display: block; /* Show only on the first page */
+    }
+  
+    .pagination {
+        display: block;
+        text-align: center;
+        margin-top: 20px; /* Adjust spacing to ensure it's at the bottom of each page */
+        font-size: 12px; /* Optional: Make the pagination smaller */
+      }
+  
+    .page {
+      page-break-inside: avoid; /* Prevent breaking mid-row */
+      page-break-after: always; /* Ensure pagination */
+    }
+  
+    .page:last-of-type {
+      page-break-after: auto; /* No break after the last page */
+    }
+  }

@@ -30,22 +30,28 @@ export default function AddSuperviseur() {
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        const loadingToastId = toast.loading('Adding agent...');
         event.preventDefault();
-        try {
+         // Use formData instead of data for validation
+                const isInvalid = Object.keys(formData).some((field) =>
+                    field !== 'phone_number_2' && !formData[field as keyof typeof formData]
+                );
+        
+                const isUsernameInvalid = formData.username.length < 6;
+        
+                if (isInvalid) {
+                    // Display a simple error message if validation fails
+                    toast.error('Some fields are required');
+                    return;
+                } else if (isUsernameInvalid) {
+                    toast.error('surnom doit etre minimum 6 caractere');
+                    return;
+                }
+
             const result = await AddSuperViseur(formData);
 
             if (result) {
-                toast.success("User added successfuly", { id: loadingToastId });
+                setFormData(data)
             }
-        } catch (error) {
-            if (error instanceof Error) {
-                toast.error(error.message, { id: loadingToastId });
-            } else {
-                toast.error('An unknown error occurred', { id: loadingToastId });
-            }
-        }
-
     };
 
 

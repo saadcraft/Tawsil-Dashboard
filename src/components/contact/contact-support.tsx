@@ -14,8 +14,6 @@ export default function ContactSupport() {
     const handleSubmite = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const loadingToastId = toast.loading('Submite Updating...');
-
         const formData = new FormData(event.currentTarget)
         const formObject = Object.fromEntries(formData.entries())
 
@@ -23,19 +21,11 @@ export default function ContactSupport() {
             setApeare(false)
             event.currentTarget.reset();
 
-            const response = await sendEmail(formObject)
-
-            if (response) {
-                toast.success('Message has been sent', { id: loadingToastId });
-            }
+            await sendEmail(formObject)
         } catch (error) {
-            if (error instanceof Error) {
-                toast.error(error.message, { id: loadingToastId });
-            } else {
-                toast.error('An unknown error occurred', { id: loadingToastId });
-            }
-        }
 
+            toast.error('Problem de connection');
+        }
     }
 
     return (

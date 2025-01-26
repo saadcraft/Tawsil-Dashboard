@@ -32,8 +32,6 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const loadingToastId = toast.loading('Submite Documment...');
-
     const formData = new FormData(e.currentTarget)
     // const formObject = Object.fromEntries(formData.entries())
 
@@ -54,7 +52,8 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
     };
 
     const data = {
-      id: user.id.toString(),
+      id: user.user.id.toString(),
+      partener_id: user.id,
       adresse: formData.get('adresse')?.toString() || undefined,
       RC: formData.get('RC')?.toString() || undefined,
       Nif: formData.get('Nif')?.toString() || undefined,
@@ -73,11 +72,13 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
     }
 
     if (data.card_number?.length != 18) {
-      toast.error('Le numéro de carte doit avoir 18 caractères', { id: loadingToastId });
+      toast.error('Le numéro de carte doit avoir 18 caractères');
       return;
     }
 
     const filteredData = { id: data.id, ...filterEmptyValues(data) };
+
+    console.log(filteredData)
 
 
     // const filteredData = Object.fromEntries(
@@ -85,27 +86,16 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
     // );
 
     if (Object.keys(filteredData).length === 0) {
-      toast.error('No fields to update.', { id: loadingToastId });
+      toast.error('No fields to update.');
       return;
     }
 
     // const updatedUser = { id: user.id.toString(), ...filteredData };
-
-    try {
       const res = await UpdateDocument(filteredData)
       if (res) {
-        toast.success('Updated with Succesfully', { id: loadingToastId });
         router.refresh()
         onsub(null)
       }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message, { id: loadingToastId });
-      } else {
-        toast.error('An unknown error occurred', { id: loadingToastId });
-      }
-    }
-
   }
 
   return (

@@ -32,19 +32,15 @@ export default function Login() {
             //     body: JSON.stringify({ username, password })
             // });
 
-            if (result) {
+            if (result?.code == 200) {
                 toast.success('Login successful', { id: loadingToastId });
                 router.push('/dashboard');
                 return result;
             } else {
-                toast.error('Login failed', { id: loadingToastId });
+                toast.error(result, { id: loadingToastId });
             }
-        } catch (error) {
-            if (error instanceof Error) {
-                toast.error(error.message, { id: loadingToastId });
-            } else {
-                toast.error('An unknown error occurred', { id: loadingToastId });
-            }
+        } catch {
+            toast.error("Problem connection", { id: loadingToastId });
         }
 
     };

@@ -9,8 +9,6 @@ export default function ModifieForm({ user, onsub }: { user: Users, onsub: (valu
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const loadingToastId = toast.loading('Submite Updating...');
-
     const formData = new FormData(e.currentTarget)
     const formObject = Object.fromEntries(formData.entries())
 
@@ -23,34 +21,24 @@ export default function ModifieForm({ user, onsub }: { user: Users, onsub: (valu
     );
 
     if (password !== confirmPassword) {
-      toast.error('Passwords do not match.', { id: loadingToastId });
+      toast.error('Passwords do not match.');
       return;
     }
 
     delete filteredData.confirm_password;
 
     if (Object.keys(filteredData).length === 0) {
-      toast.error('No fields to update.', { id: loadingToastId });
+      toast.error('No fields to update.');
       return;
     }
 
     const updatedUser = { id: user.id.toString(), ...filteredData };
 
-    try {
       const res = await UpdateUser(updatedUser)
       if (res) {
-        toast.success('Updated with Succesfully', { id: loadingToastId });
         router.refresh()
         onsub(null)
       }
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message, { id: loadingToastId });
-      } else {
-        toast.error('An unknown error occurred', { id: loadingToastId });
-      }
-    }
-
   }
 
   return (

@@ -48,6 +48,8 @@ export default function Menu({ user }: props) {
             if (result) {
                 toast.success('Succesfull Logging Out', { id: loadingToastId });
                 router.push('/');
+            }else{
+                toast.success('Problem with loging Out', { id: loadingToastId });
             }
 
         } catch (error) {
