@@ -15,7 +15,7 @@ type form = {
   acompte: string;
 }
 
-export default function Caisses({ cass, user }: { cass: Result[], user: Users }) {
+export default function Caisses({ cass, user, total }: { cass: Result[], user: Users, total: number }) {
 
   const [Close, setClose] = useState<boolean>(false)
   const router = useRouter()
@@ -130,7 +130,7 @@ export default function Caisses({ cass, user }: { cass: Result[], user: Users })
       {Close ?
         <div>
           <button onClick={handleWindow} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
-          <ValideCasses onEvent={handleClose} user={user} />
+          <ValideCasses onEvent={handleClose} user={user} total={total} />
         </div>
         : ""}
     </div>

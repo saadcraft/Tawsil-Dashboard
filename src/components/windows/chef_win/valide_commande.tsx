@@ -43,18 +43,16 @@ export function ValideSecond({ command, onEvent, onBack }: { command: Result[], 
 
     useEffect(() => {
         const calculatedTotal = command.reduce(
-            (sum, item) => sum + Number(item.delivery_price),
+            (sum, item) => sum + Number(item.prix_de_tax),
             0
         );
         setTotal(calculatedTotal);
     }, [command]); // Recalculate whenever `command` changes
 
-    const taxe = total * command[0].livreur.partenneur.type_compte.tax_tawsile / 100
-
     return (
         <div className='fixed z-20 overflow-auto top-20 flex items-start bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
             <div className='relative overflow-auto w-full h-full mx-auto rounded-xl p-5 bg-white'>
-                <h1 className='font-semibold text-2xl text-center'>Taxes téches</h1>
+                <h1 className='font-semibold text-2xl text-center'>Taxes taches</h1>
                 <div className="relative overflow-auto h-5/6  p-4">
                     <table className="w-full text-sm text-left rtl:text-right0">
                         <thead className="text-xs uppercase bg-gray-50 ">
@@ -70,6 +68,9 @@ export function ValideSecond({ command, onEvent, onBack }: { command: Result[], 
                                 </th>
                                 <th scope="col" className="text-right px-6 py-3">
                                     Livraison Price
+                                </th>
+                                <th scope="col" className="text-right px-6 py-3">
+                                    Tax
                                 </th>
                             </tr>
                         </thead>
@@ -89,13 +90,13 @@ export function ValideSecond({ command, onEvent, onBack }: { command: Result[], 
                                         <td className="px-6 py-4 text-right">
                                             {item.delivery_price}DA
                                         </td>
+                                        <td className="px-6 py-4 text-right"> {item.prix_de_tax.toFixed(2)} DA</td>
                                     </tr>
                                 )
                             })}
                         </tbody>
                     </table>
-                    <h1 className='text-right p-2 font-semibold text-xl'>total {total.toFixed(2)} DA</h1>
-                    <h1 className='text-right p-2 font-semibold text-xl'>Tax {taxe.toFixed(2)} DA</h1>
+                    <h1 className='text-right p-2 font-semibold text-xl'>Total {total.toFixed(2)} DA</h1>
 
                 </div>
                 <div className='absolute bottom-3 right-3 flex gap-4 text-xl justify-end'>
@@ -111,9 +112,7 @@ export function ValideThird({ command, onBack, onSub, user }: { command: Result[
 
     const componentRef = useRef<HTMLDivElement>(null);
 
-    const total = command.reduce((sum, item) => sum + Number(item.delivery_price), 0);
-
-    const taxe = total * command[0].livreur.partenneur.type_compte.tax_tawsile / 100
+    const total = command.reduce((sum, item) => sum + Number(item.prix_de_tax), 0);
 
     const ids = command.map((item) => item.id);
 
@@ -163,7 +162,7 @@ export function ValideThird({ command, onBack, onSub, user }: { command: Result[
             {/* Hidden Printable Component */}
             <div style={{ display: 'none' }}>
                 <div ref={componentRef}>
-                    <PrintableModel command={command} user={user} tax={taxe} />
+                    <PrintableModel command={command} user={user} tax={total} />
                 </div>
             </div>
         </div>

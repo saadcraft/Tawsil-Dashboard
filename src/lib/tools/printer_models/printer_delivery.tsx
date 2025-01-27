@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormatDate } from '@/lib/tools/tools';
-import { TbWorld, TbPhone } from "react-icons/tb";
+import { TbWorld, TbPhone, TbMail } from "react-icons/tb";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 type PrintableModelProps = {
     command: Result[];
@@ -10,8 +11,8 @@ type PrintableModelProps = {
 
 
 const PrintableModel = ({ command, user, tax }: PrintableModelProps) => {
-    const rowsOnFirstPage = 12; // Fewer rows on the first page
-    const rowsPerPage = 16; // More rows on subsequent pages
+    const rowsOnFirstPage = 17; // Fewer rows on the first page
+    const rowsPerPage = 22; // More rows on subsequent pages
 
     // Distribute commands into pages
     const paginatedCommands = command.reduce((acc: Result[][], item, index) => {
@@ -31,6 +32,9 @@ const PrintableModel = ({ command, user, tax }: PrintableModelProps) => {
         <div className="print-container">
             {paginatedCommands.map((pageCommands, pageIndex) => (
                 <div key={pageIndex} className="page">
+                    <p className="pagination">
+                        Page {pageIndex + 1}/{totalPages}
+                    </p>
                     {/* Header: Show only on the first page */}
                     {pageIndex === 0 && (
                         <div className="header mb-5">
@@ -93,24 +97,22 @@ const PrintableModel = ({ command, user, tax }: PrintableModelProps) => {
                                     >
                                         <th
                                             scope="row"
-                                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+                                            className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"
                                         >
-                                            {index + 1 + pageIndex}
+                                            {item.id}
                                         </th>
-                                        <td className="px-6 py-4">
+                                        <td className="px-6 py-2">
                                             {item.client.first_name} {item.client.last_name}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
+                                        <td className="px-6 py-2 whitespace-nowrap">
                                             {FormatDate(item.created_at)}
                                         </td>
-                                        <td className="px-6 py-4 text-right">
+                                        <td className="px-6 py-2 text-right">
                                             {item.delivery_price}DA
                                         </td>
-                                        <td className="px-6 py-4 text-right">
+                                        <td className="px-6 py-2 text-right">
                                             {(
-                                                item.delivery_price *
-                                                item.livreur.partenneur.type_compte.tax_tawsile /
-                                                100
+                                                item.prix_de_tax
                                             ).toFixed(2)}
                                             DA
                                         </td>
@@ -123,7 +125,6 @@ const PrintableModel = ({ command, user, tax }: PrintableModelProps) => {
                                     <tr>
                                         <th></th>
                                         <th className="px-6 py-3 whitespace-nowrap">
-                                            merci pour votre entreprise
                                         </th>
                                         <th></th>
                                         <th className="px-6 py-3 text-right">Total</th>
@@ -145,12 +146,11 @@ const PrintableModel = ({ command, user, tax }: PrintableModelProps) => {
                     )}
 
                     {/* Pagination */}
-                    <p className="pagination">
-                        Page {pageIndex + 1}/{totalPages}
-                    </p>
                     <div className='info'>
                         <p className='flex items-center'><TbWorld className='text-blue-500' />tawsilstar.dz</p>
                         <p className='flex items-center'><TbPhone className='text-blue-500' />+213 43 564 169</p>
+                        <p className='flex items-center'><TbMail className='text-blue-500' />contact@tawsilstar.dz</p>
+                        <p className='flex items-center'><FaMapMarkerAlt className='text-blue-500' />Kiffen, rue Derrar Sakkal 13000,Tlemcen,Algérie</p>
                     </div>
                 </div>
             ))}

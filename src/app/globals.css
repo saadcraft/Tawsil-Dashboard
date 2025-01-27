@@ -4,7 +4,7 @@
 
 
 .printer-head{
-    background-color: rgb(16, 197, 255, 0.2);
+    background-color: rgb(16, 197, 241, 0.5);
     font-size: 18px;
     width: 60%;
     border-radius: 0px 20px 20px 0px;
@@ -13,8 +13,8 @@
 .logo-printer{
     background: url("/logo_horizontal.svg") no-repeat center;
     background-size: contain;
-    width: 300px;
-    height: 150px;
+    width: 250px;
+    height: 120px;
     @apply p-4
 }
 
@@ -24,7 +24,7 @@
 }
 
 .table-printer thead, .table-printer tfoot {
-    background-color: rgb(16, 197, 255, 0.2);
+    background-color: rgb(16, 197, 241, 0.5);
 }
 
 .info{
@@ -32,7 +32,8 @@
     bottom: 0;
     right: 0;
     left: 0;
-    padding: 25px 25px;
+    padding: 15px 20px;
+    font-size: 14px;
     @apply flex gap-5
 }
 .info p {
@@ -55,6 +56,8 @@
 @media print {
     .header {
       display: none;
+      margin-top: -40px;
+      padding: 0 20px;
     }
   
     .header:first-of-type {

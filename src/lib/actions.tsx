@@ -9,6 +9,7 @@ type apiRequest = {
 type apiAction = {
     result: actionData;
     totalAct: number;
+    prixTotal: number;
 }
 
 
@@ -32,22 +33,24 @@ export async function getCommand({ page, livreur, valide }: { page: string, livr
     }
 }
 
-export async function getAction({ page, search }: { page: string, search: string }): Promise<apiAction> {
+export async function getAction({ page, search, agent, date }: { page: string, search: string, agent: string, date: string }): Promise<apiAction | null> {
     try {
         const response = await apiRequest({
             method: "GET",
             url: "/api/v1/actions",
-            params: { page, search }
+            params: { page, search, agent, date }
         });
-        return {
-            result: response.data.results,
-            totalAct: response.data.count
+        if (response.code == 200) {
+            return {
+                result: response.data.results,
+                totalAct: response.data.count,
+                prixTotal: response.data.prix_count
+            }
+        } else {
+            return null
         }
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
-        }
-        throw new Error("Unexpected error");
+    } catch {
+        return null
     }
 }
 
