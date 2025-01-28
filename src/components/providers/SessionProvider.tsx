@@ -1,16 +1,19 @@
-// 'use client';
+import { getUser } from '@/lib/auth'
+import { create } from 'zustand'
 
-// import { SessionProvider as NextAuthProvider } from "next-auth/react";
+interface StoreState {
+    user: Users | null;
+    setUser: (newUser: Users) => void;
+    fetchUser: () => void;
+}
 
-// type Props = {
-//   children: React.ReactNode;
-//   session: any;
-// };
+const useStore = create<StoreState>((set) => ({ // Initialize with user data or null
+    user: null, // Initialize user as null
+    setUser: (newUser: Users) => set({ user: newUser }), // Function to update the user
+    fetchUser: async () => {
+        const user = await getUser(); // Call your `getUser` function
+        set({ user });
+    },
+}));
 
-// export default function SessionProvider({ children, session }: Props) {
-//   return (
-//     <NextAuthProvider session={session}>
-//       {children}
-//     </NextAuthProvider>
-//   );
-// }
+export default useStore;

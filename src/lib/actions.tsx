@@ -63,7 +63,7 @@ export async function sendEmail(Data: DataType) {
             data: Data
         })
         if (response.code == 200) {
-            toast.success('Message has been sent', { id: loadingToastId });
+            toast.success('le message est envoyé', { id: loadingToastId });
             return true
         } else if (response.code == 429) {
             toast.error("Vous avez depasé la limite", { id: loadingToastId })

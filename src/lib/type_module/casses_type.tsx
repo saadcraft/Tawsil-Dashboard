@@ -29,6 +29,7 @@ export type Result = {
     date_creationn: string;
     etat: boolean;
     prix_reale: number;
+    a_compte: number;
 }
 
 // Interface for the paginated response
