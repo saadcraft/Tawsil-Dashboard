@@ -6,7 +6,13 @@ import { FaSearch } from "react-icons/fa";
 import { FormatDate } from "@/lib/tools/tools"
 import { useRouter } from 'next/navigation'
 
-export default function Action({ actions }: { actions: Actions[] }) {
+type Agents = {
+    result: Users[];
+}
+
+export default function Action({ actions, agents, total }: { actions: Actions[], agents: Agents, total: number }) {
+
+    const { result } = agents
 
     const router = useRouter()
 
@@ -14,8 +20,10 @@ export default function Action({ actions }: { actions: Actions[] }) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const cleint = formData.get('client') as string;
+        const date = formData.get('date') as string;
+        const agent = formData.get('agent') as string;
 
-        router.push(`?search=${cleint}`);
+        router.push(`?search=${cleint}&agent=${agent}&date=${date}`);
     }
 
     const action = actions.map((pre, index) => {
@@ -47,11 +55,25 @@ export default function Action({ actions }: { actions: Actions[] }) {
                 <h1 className='font-bold text-xl'>Les actions</h1>
             </div>
             <div className='p-10 pb-20 bg-white rounded-md shadow-md'>
-                <form onSubmit={handleSearch} className='mb-7 flex items-center gap-2'>
-                    <FaSearch className='absolute text-slate-500' />
-                    <input type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
-                    <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherch</button>
-                </form>
+                <div className='flex justify-between items-center'>
+                    <form onSubmit={handleSearch} className='mb-7 flex items-center gap-2'>
+                        <FaSearch className='absolute text-slate-500' />
+                        <input type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                        <input type="date" name="date" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                        <select name="agent" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
+                            <option value="">Sélection Groupe</option>
+                            {result.map(pre => {
+                                if (pre != null) {
+                                    return (
+                                        <option key={pre.id} value={pre.id}> {pre.username}</option>
+                                    )
+                                }
+                            })}
+                        </select>
+                        <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherch</button>
+                    </form>
+                    <p className='text-xl'>Total: <span className='font-bold'>{total.toFixed(2)} DA</span></p>
+                </div>
                 <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table className="w-full text-sm text-left">
                         <thead className="text-xs text-gray-500 uppercase bg-primer">

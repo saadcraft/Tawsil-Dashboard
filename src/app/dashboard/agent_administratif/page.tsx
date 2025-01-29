@@ -29,11 +29,13 @@ export default async function ModyAgentPage({ searchParams }: props) {
 
   let agents = null
 
-  if (user.role === "chef_bureau") {
-    agents = await getAgents({ page: pageNumber, search: search_num });
-  }
-  else if (user.role === "gestion_commercial") {
-    agents = await getAllAgent({ role: "agent_administratif", page: pageNumber, search: search_num, wilaya: location, groupe: chef })
+  if (user) {
+    if (user.role === "chef_bureau") {
+      agents = await getAgents({ page: pageNumber, search: search_num });
+    }
+    else if (user.role === "gestion_commercial") {
+      agents = await getAllAgent({ role: "agent_administratif", page: pageNumber, search: search_num, wilaya: location, groupe: chef })
+    }
   }
 
   if (!agents) notFound();
@@ -43,7 +45,7 @@ export default async function ModyAgentPage({ searchParams }: props) {
 
   return (
     <div>
-      {user.role === "chef_bureau" ? <ModAgent results={result} /> : <ShowAgent results={result} />}
+      {user && user.role === "chef_bureau" ? <ModAgent results={result} /> : <ShowAgent results={result} />}
       <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`search=${search_num}`} />
     </div>
   );

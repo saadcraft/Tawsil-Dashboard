@@ -41,18 +41,18 @@ export default function AjouteAgent() {
 
         if (isInvalid) {
             // Display a simple error message if validation fails
-            toast.error('Some fields are required');
+            toast.error('champs (*) droit remplire obligatoire');
             return;
         } else if (isUsernameInvalid) {
             toast.error('surnom doit etre minimum 6 caractere');
             return;
         }
 
-            const result = await AddAgent(formData);
+        const result = await AddAgent(formData);
 
-            if (result) {
-                setFormData(data)
-            }
+        if (result) {
+            setFormData(data)
+        }
     };
 
 

@@ -11,11 +11,13 @@ import ActiveCompte from '../windows/chef_win/active-compte'
 import toast from 'react-hot-toast'
 import { AddReport } from '@/lib/super_action'
 import SuperReport from '../windows/gestion_win/super_report'
+import Display from '../windows/gestion_win/display'
 
 export default function Validation({ users }: { users: Partenaire[] }) {
 
     const [user, setUser] = useState<{ id: number, statue: boolean } | null>(null)
     const [activePartnerId, setActivePartnerId] = useState<number | null>(null);
+    const [show, setShow] = useState<Partenaire | null>(null);
 
     const router = useRouter();
 
@@ -66,14 +68,15 @@ export default function Validation({ users }: { users: Partenaire[] }) {
                 <td className="px-6 py-4">
                     {pre.type_compte.name}
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-6 py-4 flex gap-2 justify-center">
                     {pre.user.is_active ?
                         <button onClick={() => setUser({ id: pre.user.id, statue: pre.user.is_active })} className='bg-red-700 text-white p-1 rounded-md hover:bg-red-500 flex items-center'>Désactivé <MdOutlineDisabledByDefault /></button> :
                         <button onClick={() => setUser({ id: pre.user.id, statue: pre.user.is_active })} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500 flex items-center'>Activé <FaRegCheckCircle /></button>
                     }
+                    <button onClick={() => setActivePartnerId(pre.id)} className='bg-red-700 text-white p-1 rounded-md hover:bg-red-500 inline-flex items-center'>Raport <MdOutlineReport /></button>
                 </td>
                 <td className="px-6 py-4 text-right">
-                    <button onClick={() => setActivePartnerId(pre.id)} className='bg-red-700 text-white p-1 rounded-md hover:bg-red-500 inline-flex items-center'>Raport <MdOutlineReport /></button>
+                    <button onClick={() => setShow(pre)} className='p-1 rounded-md border-blue-800 border hover:text-white hover:bg-blue-800 inline-flex items-center text-nowrap'>voir plus  ...</button>
                 </td>
             </tr>
         )
@@ -132,11 +135,10 @@ export default function Validation({ users }: { users: Partenaire[] }) {
                                 <th className="px-6 py-3">
                                     Type de compte
                                 </th>
-                                <th className="px-6 py-3">
-                                    validation
+                                <th className="px-6 py-3 text-center">
+                                    Actions
                                 </th>
                                 <th className="px-6 py-3 text-right">
-                                    Raport
                                 </th>
                             </tr>
                         </thead>
@@ -148,14 +150,20 @@ export default function Validation({ users }: { users: Partenaire[] }) {
             </div>
             {user &&
                 <div>
-                    <button onClick={() => setUser(null)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setUser(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
                     <ActiveCompte onClose={setUser} user={user} />
                 </div>
             }
             {activePartnerId &&
                 <>
-                    <button onClick={() => setActivePartnerId(null)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setActivePartnerId(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
                     <SuperReport onEvent={handleSubmite} id={activePartnerId} />
+                </>
+            }
+            {show &&
+                <>
+                    <button onClick={() => setShow(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <Display document={show} />
                 </>
             }
         </div>

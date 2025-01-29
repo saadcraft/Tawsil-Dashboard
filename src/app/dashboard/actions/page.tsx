@@ -3,6 +3,8 @@ import React from 'react'
 import Action from "@/components/chef_app/action"
 import { getAction } from "@/lib/actions";
 import Pagination from "@/components/options/pagination";
+import { getAgents } from "@/lib/call_action";
+import { notFound } from "next/navigation";
 
 
 export const metadata: Metadata = {
@@ -14,21 +16,35 @@ export const metadata: Metadata = {
 type actionData = {
   result: Actions[];
   totalAct: number;
+  prixTotal: number;
 };
 
-export default async function ActionPage({ searchParams }: { searchParams: Promise<{ page: string; search: string }> }) {
+type Agents = {
+  result: Users[];
+}
 
-  const { page, search } = await searchParams;
+export default async function ActionPage({ searchParams }:
+  { searchParams: Promise<{ page: string; search: string, agent: string, date: string }> }) {
+
+  const { page, search, agent, date } = await searchParams;
   const pageNumber = page ?? "1";
   const searchNum = search ?? "";
+  const searchAgent = agent ?? "";
+  const searchDate = date ?? "";
 
-  const { result, totalAct } = await getAction({ page: pageNumber, search: searchNum }) as unknown as actionData;
+  const data = await getAction({ page: pageNumber, search: searchNum, agent: searchAgent, date: searchDate }) as unknown as actionData;
+
+  if (!data) notFound();
+
+  const { result, totalAct, prixTotal } = data;
 
   const totalPages = Math.ceil(totalAct / 20);
 
+  const Allagent = await getAgents({ page: "", search: "" }) as unknown as Agents;
+
   return (
     <div>
-      <Action actions={result} />
+      <Action actions={result} agents={Allagent} total={prixTotal} />
       <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`search=${searchNum}`} />
     </div>
   );

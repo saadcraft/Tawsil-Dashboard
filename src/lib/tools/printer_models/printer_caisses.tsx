@@ -1,5 +1,6 @@
 import { FormatDate } from '@/lib/tools/tools';
-import { TbWorld, TbPhone } from "react-icons/tb";
+import { HiOutlineLocationMarker } from "react-icons/hi";
+import { TbWorld, TbPhone, TbMail } from "react-icons/tb";
 
 type PrintableModelProps = {
     user: Users,
@@ -12,7 +13,7 @@ export function PrinteCasses({ user, real, total, acount }: PrintableModelProps)
 
     const negative = real - total;
     return (
-        <div>
+        <div className='mt-10'>
             <div className="header mb-5">
                 <div className="logo-printer"></div>
                 <div className="flex items-center gap-10">
@@ -29,14 +30,14 @@ export function PrinteCasses({ user, real, total, acount }: PrintableModelProps)
                     </div>
                     <div className="text-center">
                         <p className="text-gray-500">
-                            La date: {FormatDate(new Date().toISOString())}
+                            Le: {FormatDate(new Date().toISOString())}
                         </p>
                         <p>{user.wilaya}</p>
                     </div>
                 </div>
             </div>
 
-            <div className="relative overflow-auto">
+            <div className="relative p-5">
                 <table className="w-full text-sm text-left rtl:text-right table-printer">
                     <thead className="text-xs uppercase bg-gray-50">
                         <tr>
@@ -54,17 +55,16 @@ export function PrinteCasses({ user, real, total, acount }: PrintableModelProps)
                     <tbody>
                         <tr className="bg-white border-b dark:border-gray-700">
                             <th className='text-center'>1</th>
-                            <td className="px-6 py-4 text-lg">{total}</td>
-                            <td className="px-6 py-4 text-lg text-center">{real}</td>
+                            <td className="px-6 py-4 text-lg">{total.toFixed(2)} DA</td>
+                            <td className="px-6 py-4 text-lg text-center whitespace-nowrap">{real.toFixed(2)} DA</td>
                             <td></td>
-                            <td className="px-6 py-4 text-lg text-right">{acount ? acount : 0}</td>
+                            <td className="px-6 py-4 text-lg text-center whitespace-nowrap">{acount ? acount.toFixed(2) : 0.00} DA</td>
                         </tr>
                     </tbody>
                     <tfoot className="text-xs uppercase bg-gray-50">
                         <tr>
                             <th></th>
                             <th className="px-6 py-3 whitespace-nowrap">
-                                <h1 className="text-right p-2 font-semibold text-lg flex whitespace-nowrap">Merci pour votre entreprise</h1>
                             </th>
                             <th></th>
                             <td className="px-6 py-3 text-right">
@@ -80,10 +80,16 @@ export function PrinteCasses({ user, real, total, acount }: PrintableModelProps)
                         </tr>
                     </tfoot>
                 </table>
+                <div className='sign'>
+                    <p>Signature Agent</p>
+                    <p className='text-right'>Signature Partenaire</p>
+                </div>
             </div>
             <div className='info'>
-                <p className='flex items-center'><TbWorld className='text-blue-500' />tawsilstar.dz</p>
-                <p className='flex items-center'><TbPhone className='text-blue-500' />+213 43 564 169</p>
+                <p><TbWorld /><span>tawsilstar.dz</span></p>
+                <p><TbMail /><span>contact@tawsilstar.dz</span></p>
+                <p><TbPhone /><span>+213 43 564 169</span></p>
+                <p><HiOutlineLocationMarker /><span>Kiffen, rue Derrar Sakkal 13000,Tlemcen,Algérie</span></p>
             </div>
         </div>
     )

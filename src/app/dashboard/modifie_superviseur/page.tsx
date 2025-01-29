@@ -1,4 +1,4 @@
-import ModAgent from '@/components/chef_app/modifie_agent';
+import ModSuper from '@/components/gestion_app/modify_super';
 import Pagination from '@/components/options/pagination';
 import { getSuperviseur } from '@/lib/super_action';
 import { notFound } from 'next/navigation';
@@ -23,7 +23,7 @@ export default async function ModySuperPage({ searchParams }: props) {
 
     return (
         <div>
-            <ModAgent results={result} />
+            <ModSuper results={result} />
             <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`search=${search_num}`} />
         </div>
     )

@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import Link from 'next/link'
 import { FaSearch } from 'react-icons/fa'
 import { CloseCasses, OpenCasses } from "@/lib/action_client"
@@ -9,15 +9,25 @@ import { MdClose } from "react-icons/md"
 import { Result } from "@/lib/type_module/casses_type"
 import { useRouter } from "next/navigation"
 import { FormatDate } from "@/lib/tools/tools"
+import { FiPrinter } from "react-icons/fi";
+import { PrinteCasses } from '@/lib/tools/printer_models/printer_caisses'
+import { useReactToPrint } from 'react-to-print';
+
 
 type form = {
   prix: string;
   acompte: string;
 }
 
-export default function Caisses({ cass, user }: { cass: Result[], user: Users }) {
+export default function Caisses({ cass, user, total }: { cass: Result[], user: Users, total: number }) {
 
   const [Close, setClose] = useState<boolean>(false)
+  const componentRef = useRef<HTMLDivElement>(null);
+  const [data, setData] = useState({
+    total: 0,
+    real: 0,
+    cridt: 0
+  })
   const router = useRouter()
 
 
@@ -55,6 +65,15 @@ export default function Caisses({ cass, user }: { cass: Result[], user: Users })
     router.push(`?search_date=${cleint}`);
   }
 
+  const handlePrint = useReactToPrint({
+    contentRef: componentRef,
+  });
+
+  const handelPrint = async (t: number, r: number, c: number) => {
+    await setData({ total: t, real: r, cridt: c });
+    if (data.total != 0) handlePrint();
+  }
+
 
   const casses = cass.map((pre, index) => {
     return (
@@ -72,7 +91,12 @@ export default function Caisses({ cass, user }: { cass: Result[], user: Users })
           {pre.prix_reale}
         </td>
         <td className="px-6 py-4 text-right">
-          {pre.etat ? "Ouver" : "Fermé"}
+          {pre.etat ? "Ouver" :
+            <p className='flex justify-end items-center gap-3'>
+              <span onClick={() => handelPrint(pre.resut, pre.prix_reale, pre.a_compte)} className=' text-xl border rounded-xl p-1 hover:border-third cursor-pointer'><FiPrinter /></span>
+              Farmé
+            </p>
+          }
         </td>
       </tr>
     )
@@ -130,9 +154,14 @@ export default function Caisses({ cass, user }: { cass: Result[], user: Users })
       {Close ?
         <div>
           <button onClick={handleWindow} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
-          <ValideCasses onEvent={handleClose} user={user} />
+          <ValideCasses onEvent={handleClose} user={user} total={total} />
         </div>
         : ""}
+      <div style={{ display: 'none' }}>
+        <div ref={componentRef}>
+          <PrinteCasses total={data.total} user={user} real={data.real} acount={data.cridt} />
+        </div>
+      </div>
     </div>
   )
 }

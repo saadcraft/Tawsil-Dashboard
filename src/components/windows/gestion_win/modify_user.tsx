@@ -14,6 +14,7 @@ export default function ModifyUser({ user, magasine, onsub }: { user: Partenaire
         const formData = new FormData(e.currentTarget)
         const formObject = Object.fromEntries(formData.entries())
 
+
         const filteredData = Object.fromEntries(
             Object.entries(formObject).filter(([, value]) => value !== "")
         );
@@ -23,7 +24,9 @@ export default function ModifyUser({ user, magasine, onsub }: { user: Partenaire
             return;
         }
 
-        const updatedUser = { id: user.user.id.toString(), ...filteredData };
+        const updatedUser = { id: user.user.id.toString(), partener_id: user.id.toString(), ...filteredData };
+
+        console.log(updatedUser)
 
         const res = await UpdateDocument(updatedUser)
         if (res) {

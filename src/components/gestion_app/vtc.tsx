@@ -11,10 +11,11 @@ import toast from 'react-hot-toast'
 import { ValideCourses } from '@/lib/gestion_action'
 
 type Props = {
+    user: Users
     promise: Courses[];
 };
 
-export default function Vtc({ promise }: Props) {
+export default function Vtc({ user, promise }: Props) {
 
     // console.log(promise)
 
@@ -106,22 +107,14 @@ export default function Vtc({ promise }: Props) {
 
     const hundleSubmite = async (ids: number[]) => {
 
-        const loadingToastId = toast.loading('Submite Commande...');
-
-        try {
-            const result = await ValideCourses({ courseIds: ids });
-            if (result) {
-                toast.success('valider Succesfully', { id: loadingToastId });
-                setIsVisible(0);
-                setSelectedRows([])
-                router.refresh()
-            }
-        } catch (error) {
-            if (error instanceof Error) {
-                toast.error(error.message, { id: loadingToastId });
-            } else {
-                toast.error('An unknown error occurred', { id: loadingToastId });
-            }
+        const result = await ValideCourses({ courseIds: ids });
+        if (result) {
+            setIsVisible(0);
+            setSelectedRows([])
+            router.refresh()
+            return true
+        } else {
+            return false
         }
     }
 
@@ -156,7 +149,7 @@ export default function Vtc({ promise }: Props) {
                     {pre.paye ? "true" : "false"}
                 </td>
                 <td className="px-6 py-4 text-right">
-                    {pre.prix}
+                    {pre.tax_tawsile}
                 </td>
             </tr>
         )
@@ -169,22 +162,25 @@ export default function Vtc({ promise }: Props) {
                 <Link href="/role" className='font-semibold text-xl'>Dashboard /</Link>
                 <h1 className='font-bold text-xl'>VTC</h1>
             </div>
-            <div className='p-10 bg-white rounded-md shadow-md'>
-                <form onSubmit={handleSearch} className='mb-7 flex items-center gap-2'>
-                    <FaSearch className='absolute text-slate-500' />
-                    <input onChange={handleInputChange} type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
-                    <div className='flex gap-2'>
-                        <div>
-                            <input type="radio" id="noValide" name="valide" defaultChecked value="false" className="peer hidden" />
-                            <label htmlFor="noValide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> No valider</label>
+            <div className='p-10 pb-20 bg-white rounded-md shadow-md'>
+                <div className='flex justify-between mb-7 items-center'>
+                    <form onSubmit={handleSearch} className='flex items-center gap-2'>
+                        <FaSearch className='absolute text-slate-500' />
+                        <input onChange={handleInputChange} type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                        <div className='flex gap-2'>
+                            <div>
+                                <input type="radio" id="noValide" name="valide" defaultChecked value="false" className="peer hidden" />
+                                <label htmlFor="noValide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> No valider</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="valide" name="valide" value="true" className="peer hidden" />
+                                <label htmlFor="valide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> valider</label>
+                            </div>
                         </div>
-                        <div>
-                            <input type="radio" id="valide" name="valide" value="true" className="peer hidden" />
-                            <label htmlFor="valide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> valider</label>
-                        </div>
-                    </div>
-                    <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Submit</button>
-                </form>
+                        <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Submit</button>
+                    </form>
+                    <button onClick={handleValidate} disabled={selectedRows.length === 0 || new Set(selectedRows.map((row) => row.partener.user.id)).size > 1 ? true : false} className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>validé</button>
+                </div>
                 <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table className="w-full text-sm text-left">
                         <thead className="text-xs text-gray-500 uppercase bg-primer">
@@ -217,9 +213,6 @@ export default function Vtc({ promise }: Props) {
                         </tbody>
                     </table>
                 </div>
-                <div className='relative p-5'>
-                    <button onClick={handleValidate} disabled={selectedRows.length === 0 || new Set(selectedRows.map((row) => row.partener.user.id)).size > 1 ? true : false} className='absolute right-0 bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>validé</button>
-                </div>
             </div>
             {isVisible === 1 ?
                 <div>
@@ -236,7 +229,7 @@ export default function Vtc({ promise }: Props) {
             {isVisible === 3 ?
                 <div>
                     <button onClick={handleClose} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-                    <ValideThird command={selectedRows} onBack={handleSecond} onSub={hundleSubmite} />
+                    <ValideThird command={selectedRows} onBack={handleSecond} onSub={hundleSubmite} user={user} />
                 </div>
                 : ""}
         </div>

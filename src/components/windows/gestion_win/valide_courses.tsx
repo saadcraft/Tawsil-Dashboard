@@ -39,9 +39,7 @@ export function ValideCommande({ command, onEvent, onBack }: { command: Courses[
 
 export function ValideSecond({ command, onEvent, onBack }: { command: Courses[], onEvent: () => void, onBack: () => void }) {
 
-    const total = command.reduce((sum, item) => sum + Number(item.prix), 0);
-
-    const totalTax = (total * command[0].partener.type_compte.tax_tawsile / 100);
+    const total = command.reduce((sum, item) => sum + Number(item.tax_tawsile), 0);
 
     return (
         <div className='fixed z-20 overflow-auto top-20 flex items-start bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
@@ -79,7 +77,7 @@ export function ValideSecond({ command, onEvent, onBack }: { command: Courses[],
                                             {FormatDate(item.date_creation)}
                                         </td>
                                         <td className="px-6 py-4 text-right">
-                                            {item.prix}DA
+                                            {item.tax_tawsile}DA
                                         </td>
                                     </tr>
                                 )
@@ -87,7 +85,6 @@ export function ValideSecond({ command, onEvent, onBack }: { command: Courses[],
                         </tbody>
                     </table>
                     <h1 className='text-right p-2 font-semibold text-xl'>total {total.toFixed(2)} DA</h1>
-                    <h1 className='text-right p-2 font-semibold text-xl'>Taxe {totalTax.toFixed(2)} DA</h1>
                 </div>
                 <div className='absolute bottom-3 right-3 flex gap-4 text-xl justify-end'>
                     <button onClick={onBack} className='disabled:text-slate-400'>Retour</button>
@@ -98,55 +95,14 @@ export function ValideSecond({ command, onEvent, onBack }: { command: Courses[],
     )
 }
 
-const printStyles = `
-  @media print {
-    @page {
-      margin: 2cm 1cm 3cm;
-      size: A4 portrait;
-    }
 
-    tr {
-      break-inside: avoid;
-      page-break-inside: avoid;
-    }
-
-    thead {
-      display: table-header-group;
-    }
-
-    .page-number:after {
-      content: counter(page);
-    }
-
-    /* Hide subsequent page headers on first page */
-    body > div > div:nth-child(2) {
-      display: none;
-    }
-
-    @page :nth(n+2) {
-      @top-center {
-        content: element(pageHeader);
-      }
-      
-      body > div > div:first-child {
-        display: none;
-      }
-      
-      body > div > div:nth-child(2) {
-        display: block;
-      }
-    }
-  }`
-
-export function ValideThird({ command, onBack, onSub }: { command: Courses[], onBack: () => void, onSub: (data: number[]) => void }) {
+export function ValideThird({ command, onBack, onSub, user }: { command: Courses[], onBack: () => void, onSub: (data: number[]) => void, user: Users }) {
 
     const componentRef = useRef<HTMLDivElement>(null);
 
-    const total = command.reduce((sum, item) => sum + Number(item.prix), 0);
+    const total = command.reduce((sum, item) => sum + Number(item.tax_tawsile), 0);
 
     const ids = command.map((item) => item.id);
-
-    const taxe = total * command[0].partener.type_compte.tax_tawsile / 100
 
     const handlePrint = useReactToPrint({
         contentRef: componentRef,
@@ -196,7 +152,7 @@ export function ValideThird({ command, onBack, onSub }: { command: Courses[], on
             {/* Hidden Printable Component */}
             <div style={{ display: 'none' }}>
                 <div ref={componentRef}>
-                    <PrintableModelCouses command={command} total={total} tax={taxe} />
+                    <PrintableModelCouses command={command} user={user} tax={total} />
                 </div>
             </div>
         </div>
