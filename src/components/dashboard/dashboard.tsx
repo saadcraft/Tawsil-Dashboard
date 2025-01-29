@@ -1,6 +1,7 @@
 "use client"
 
 import React from 'react'
+import Image from 'next/image'
 // import { Pie, Bar, Line } from 'react-chartjs-2';
 // import {
 //   Chart as ChartJS,
@@ -99,7 +100,7 @@ export default function Dashboard({ data, user }: { data: Context, user: Users }
 
   return (
     <div className="flex flex-col items-center justify-between py-5 px-5 sm:px-16">
-      {user.role == "gestion_commercial" &&
+      {user.role == "gestion_commercial" ?
         <>
           <h1 className="text-2xl font-bold mb-5">Dashboard</h1>
           <div className='grid grid-cols-3 gap-3 w-full'>
@@ -117,6 +118,10 @@ export default function Dashboard({ data, user }: { data: Context, user: Users }
             </div>
           </div>
         </>
+        :
+        <div className='fixed bottom-0 top-0 right-0 left-0 md:left-80 flex items-center justify-center'>
+          <Image height={300} width={300} src={`/dash.svg`} alt='' />
+        </div>
       }
       {/* <div className="grid grid-cols-2 gap-5 w-full">
         <div className='py-1'>

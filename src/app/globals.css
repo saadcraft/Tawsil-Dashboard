@@ -34,17 +34,25 @@
     left: 0;
     padding: 15px 20px;
     font-size: 14px;
-    @apply flex gap-5
+    @apply flex gap-5 justify-center
 }
 .info p {
-    @apply flex gap-1
+    color: blue;
+    @apply flex gap-1 items-center
+}
+
+.info span{
+  font-size: 10px;
+  color: black;
 }
 
 .sign {
-  margin-bottom: 20px;  
-  @apply grid p-10 grid-cols-2 text-lg
+  margin-bottom: 10px;
+  padding: 30px 80px;
+  @apply grid grid-cols-2 text-lg
 }
 .sign p {
+    font-size: 14px;
     text-decoration: underline;
 }
 

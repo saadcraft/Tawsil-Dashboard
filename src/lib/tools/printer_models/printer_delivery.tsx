@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormatDate } from '@/lib/tools/tools';
 import { TbWorld, TbPhone, TbMail } from "react-icons/tb";
-import { FaMapMarkerAlt } from "react-icons/fa";
+import { HiOutlineLocationMarker } from "react-icons/hi";
 
 type PrintableModelProps = {
     command: Result[];
@@ -64,7 +64,7 @@ const PrintableModel = ({ command, user, tax }: PrintableModelProps) => {
                                 </div>
                                 <div className="text-center">
                                     <p className="text-gray-500">
-                                        La date: {FormatDate(new Date().toISOString())}
+                                        Le: {FormatDate(new Date().toISOString())}
                                     </p>
                                     <p>{user.wilaya}</p>
                                 </div>
@@ -147,10 +147,10 @@ const PrintableModel = ({ command, user, tax }: PrintableModelProps) => {
 
                     {/* Pagination */}
                     <div className='info'>
-                        <p className='flex items-center'><TbWorld className='text-blue-500' />tawsilstar.dz</p>
-                        <p className='flex items-center'><TbPhone className='text-blue-500' />+213 43 564 169</p>
-                        <p className='flex items-center'><TbMail className='text-blue-500' />contact@tawsilstar.dz</p>
-                        <p className='flex items-center'><FaMapMarkerAlt className='text-blue-500' />Kiffen, rue Derrar Sakkal 13000,Tlemcen,Algérie</p>
+                        <p><TbWorld /><span>tawsilstar.dz</span></p>
+                        <p><TbMail /><span>contact@tawsilstar.dz</span></p>
+                        <p><TbPhone /><span>+213 43 564 169</span></p>
+                        <p><HiOutlineLocationMarker /><span>Kiffen, rue Derrar Sakkal 13000,Tlemcen,Algérie</span></p>
                     </div>
                 </div>
             ))}

@@ -49,7 +49,7 @@ export async function AddComment({ id, comment }: Comment) {
         if (data.code == 201) {
             toast.success('Comment added Succesfully', { id: loadingToastId });
             return true;
-        }else{
+        } else {
             toast.error(data.message, { id: loadingToastId });
             return false;
         }
@@ -101,7 +101,7 @@ export async function getAgents({ page, search }: { page: string, search: string
             method: "GET",
             params: { page, search }
         });
-    
+
         return {
             result: data.data.results,
             totalAct: data.data.count
@@ -138,7 +138,7 @@ export async function UpdateUser(Data: UpdateData) {
         if (data.code == 200) {
             toast.success('Updated with Succesfully', { id: loadingToastId });
             return true;
-        }else{
+        } else {
             toast.error(data.message, { id: loadingToastId });
             return false;
         }
@@ -161,7 +161,7 @@ export async function UpdateDocument(Data: UpdateData) {
         if (data.code == 200) {
             toast.success('Updated with Succesfully', { id: loadingToastId });
             return true;
-        }else{
+        } else {
             toast.error(data.message, { id: loadingToastId });
             return false;
         }
@@ -182,7 +182,7 @@ export async function UpdateGroup({ id, groupe }: { id: number, groupe: string }
         if (data.code == 200) {
             toast.success('Comment added Succesfully', { id: loadingToastId });
             return true;
-        }else{
+        } else {
             toast.success(data.message, { id: loadingToastId });
             return false;
         }
