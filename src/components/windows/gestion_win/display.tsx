@@ -21,11 +21,15 @@ export default function Display({ document }: { document: Partenaire }) {
                         <p><span className='font-bold'>Cart Nationale : </span> {`${document.card_number ? document.card_number : "/"}`}</p>
                         <p><span className='font-bold'>Némuro de act : </span> {`${document.numero_act ? document.numero_act : "/"}`}</p>
                         <p><span className='font-bold'>Nif : </span> {` ${document.Nif ? document.Nif : '/'}`}</p>
-                        <p><span className='font-bold'>type Vihucule : </span> {` ${document.vihucule.type_vehicule ? document.vihucule.type_vehicule : "/"}`}</p>
-                        <p><span className='font-bold'>Marque : </span> {` ${document.vihucule.marque ? document.vihucule.marque : "/"}`}</p>
-                        <p><span className='font-bold'>Matricule : </span> {` ${document.vihucule.matricule ? document.vihucule.matricule : "/"}`}</p>
-                        <p><span className='font-bold'>Num assurance : </span> {` ${document.vihucule.num_assurance ? document.vihucule.num_assurance : "/"}`}</p>
-                        <p><span className='font-bold'>Num Scanner : </span> {` ${document.vihucule.num_scanner ? document.vihucule.num_scanner : "/"}`}</p>
+                        {document.vihucule &&
+                            <>
+                                <p><span className='font-bold'>type Vihucule : </span> {` ${document.vihucule.type_vehicule ? document.vihucule.type_vehicule : "/"}`}</p>
+                                <p><span className='font-bold'>Marque : </span> {` ${document.vihucule.marque ? document.vihucule.marque : "/"}`}</p>
+                                <p><span className='font-bold'>Matricule : </span> {` ${document.vihucule.matricule ? document.vihucule.matricule : "/"}`}</p>
+                                <p><span className='font-bold'>Num assurance : </span> {` ${document.vihucule.num_assurance ? document.vihucule.num_assurance : "/"}`}</p>
+                                <p><span className='font-bold'>Num Scanner : </span> {` ${document.vihucule.num_scanner ? document.vihucule.num_scanner : "/"}`}</p>
+                            </>
+                        }
                     </div>
                 </div>
             </div>

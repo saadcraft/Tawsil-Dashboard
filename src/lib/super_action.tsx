@@ -127,7 +127,7 @@ export async function AddReport({ id, message }: { id: number, message: string }
             toast.success(response.message, { id: loadingToastId });
             return false
         }
-    } catch (error) {
+    } catch {
         toast.success("Problem connection", { id: loadingToastId });
         return false
     }

@@ -71,7 +71,7 @@ export default function Parteneure({ users, maga }: { users: Partenaire[], maga:
                         <button onClick={() => setUser({ id: pre.user.id, statue: pre.user.is_active })} className='bg-red-700 text-white p-1 rounded-md hover:bg-red-500 flex items-center'>Désactivé <MdOutlineDisabledByDefault /></button> :
                         <button onClick={() => setUser({ id: pre.user.id, statue: pre.user.is_active })} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500 flex items-center'>Activé <FaRegCheckCircle /></button>
                     }
-                    <button onClick={() => hundelModify(pre)} className='bg-green-700 text-white py-1 px-2 rounded-md hover:bg-green-500'><FaPen /></button>
+                    {/* <button onClick={() => hundelModify(pre)} className='bg-green-700 text-white py-1 px-2 rounded-md hover:bg-green-500'><FaPen /></button> */}
                 </td>
             </tr>
         )
@@ -159,12 +159,12 @@ export default function Parteneure({ users, maga }: { users: Partenaire[], maga:
                     <ActiveCompte onClose={setUser} user={user} />
                 </div>
             }
-            {modify &&
+            {/* {modify &&
                 <div>
                     <button onClick={() => setModify(null)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
                     <ModifyUser user={modify} magasine={maga} onsub={setModify} />
                 </div>
-            }
+            } */}
         </div>
     )
 }

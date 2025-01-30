@@ -48,7 +48,7 @@ export default function Menu({ user }: props) {
             if (result) {
                 toast.success('Succesfull Logging Out', { id: loadingToastId });
                 router.push('/');
-            }else{
+            } else {
                 toast.success('Problem with loging Out', { id: loadingToastId });
             }
 
@@ -155,6 +155,9 @@ export default function Menu({ user }: props) {
                                 <>
                                     <MenuParams url="/dashboard/courses" title={`VTC`} icon={<MdLocalTaxi />} onEvent={handleMenu} />
                                 </>
+                            }
+                            {user.role == "comptable" &&
+                                <MenuParams url='/dashboard/comptable' title={`Caisses`} icon={<MdAttachMoney />} onEvent={handleMenu} />
                             }
                         </>}
                     <div onClick={() => handleClick(0)} className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>

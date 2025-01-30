@@ -22,7 +22,7 @@ export default function ContactSupport() {
             event.currentTarget.reset();
 
             await sendEmail(formObject)
-        } catch (error) {
+        } catch {
 
             toast.error('Problem de connection');
         }

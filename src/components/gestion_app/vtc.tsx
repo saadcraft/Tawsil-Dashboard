@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation"
 import { FormatDate, handleInputChange } from '@/lib/tools/tools'
 import { ValideCommande, ValideSecond, ValideThird } from '../windows/gestion_win/valide_courses'
 import { MdClose } from 'react-icons/md'
-import toast from 'react-hot-toast'
 import { ValideCourses } from '@/lib/gestion_action'
 
 type Props = {

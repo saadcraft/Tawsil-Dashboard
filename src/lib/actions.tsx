@@ -28,7 +28,7 @@ export async function getCommand({ page, livreur, valide }: { page: string, livr
         } else {
             return null
         }
-    } catch (error) {
+    } catch {
         return null
     }
 }
@@ -72,7 +72,7 @@ export async function sendEmail(Data: DataType) {
             toast.error(response.message, { id: loadingToastId })
             return false
         }
-    } catch (error) {
+    } catch {
         toast.error("Problem connection", { id: loadingToastId })
         return false
     }

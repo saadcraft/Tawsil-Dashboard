@@ -91,11 +91,11 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
     }
 
     // const updatedUser = { id: user.id.toString(), ...filteredData };
-      const res = await UpdateDocument(filteredData)
-      if (res) {
-        router.refresh()
-        onsub(null)
-      }
+    const res = await UpdateDocument(filteredData)
+    if (res) {
+      router.refresh()
+      onsub(null)
+    }
   }
 
   return (
