@@ -5,6 +5,7 @@ import { getCasses } from "@/lib/action_client";
 import Pagination from "@/components/options/pagination";
 import { getUser } from "@/lib/auth";
 import { getAction } from "@/lib/actions";
+import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Les caisses",
@@ -29,7 +30,11 @@ export default async function CaissePage({ searchParams }: props) {
   const year = today.getFullYear();
   const searchDate = `${year}-${month}-${day}`;
 
-  const { result, totalAct } = await getCasses({ page: pageNumber, search_date: search_num });
+  const cassesData = await getCasses({ page: pageNumber, search_date: search_num });
+
+  if(!cassesData) notFound();
+
+  const {result , totalAct } = cassesData;
 
   const user = await getUser()
 

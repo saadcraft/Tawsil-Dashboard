@@ -5,6 +5,7 @@ import { Metadata } from 'next';
 import React from 'react'
 // import useStore from '@/components/providers/SessionProvider'
 import { getUser } from '@/lib/auth';
+import { notFound } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: "livraisons",
@@ -25,7 +26,11 @@ export default async function CoursesPage({ searchParams }: props) {
   const client_num = search ?? "";
   const valide_payment = valide ?? "";
 
-  const { result, totalAct } = await getCourses({ page: pageNumber, search: client_num, valide: valide_payment })
+  const data = await getCourses({ page: pageNumber, search: client_num, valide: valide_payment })
+
+  if(!data) notFound()
+
+  const { result , totalAct } = data
 
   const select = result.map(item => ({ ...item, selected: false }))
 

@@ -37,7 +37,7 @@ export async function AddTypeMagasin(Data: DataType) {
             data: Data
         })
         if (response.code == 201) {
-            toast.success('Update with Succesfully', { id: loadingToastId });
+            toast.success('Mise à jour avec Succesfully', { id: loadingToastId });
             return true
         }else{
             toast.error(response.message, { id: loadingToastId });
@@ -59,7 +59,7 @@ export async function modifyMagasin(Data: DataType) {
         })
 
         if (response.code == 200) {
-            toast.success('Update with Succesfully', { id: loadingToastId });
+            toast.success('Mise à jour avec Succesfully', { id: loadingToastId });
             return true
         }else{
             toast.error(response.message, { id: loadingToastId });
@@ -74,23 +74,23 @@ export async function modifyMagasin(Data: DataType) {
 export async function getCourses(
     { page, search, valide }:
         { page: string, search: string, valide: string }
-): Promise<apiAction> {
+): Promise<apiAction | null> {
     try {
         const response = await apiRequest({
             method: "GET",
             url: "/api/v1/vtc/courses",
             params: { page, search, valide }
         })
-
-        return {
-            result: response.data.data,
-            totalAct: response.data.count
+        if(response.code == 200){
+            return {
+                result: response.data.data,
+                totalAct: response.data.count
+            }
+        }else{
+            return null
         }
     } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
-        }
-        throw new Error("Unexpected error");
+       return null
     }
 }
 
@@ -119,7 +119,7 @@ export async function ValideCourses({ courseIds }: { courseIds: number[] }) {
             data: { courseIds }
         })
         if(response.code == 200){
-            toast.success('valider Succesfully', { id: loadingToastId });
+            toast.success('Valider Avec succès', { id: loadingToastId });
             return true
         }else{
              toast.error(response.message, { id: loadingToastId });

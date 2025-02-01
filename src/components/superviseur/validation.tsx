@@ -84,14 +84,14 @@ export default function Validation({ users }: { users: Partenaire[] }) {
     return (
         <div className='py-5 px-5 sm:px-16'>
             <div className='flex items-center gap-2 px-5 pb-5 text-xs lg:text-xl'>
-                <Link href="/role" className='font-semibold text-third'>Dashboard /</Link>
+                <Link href="/role" className='font-semibold text-third'>Tableau de bord /</Link>
                 <h1 className='font-bold'>Validation</h1>
             </div>
             <div className='p-3 pb-20 md:pb-20 bg-white md:p-10 rounded-md shadow-md'>
                 <form onSubmit={handleSearch} className='mb-7 flex flex-col lg:flex-row items-center gap-5'>
                     <div className='relative'>
                         <FaSearch className='absolute top-3 text-slate-500' />
-                        <input onChange={handleInputChange} type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                        <input onChange={handleInputChange} type="text" name="client" placeholder='Recherche par numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                     </div>
                     <div className='flex gap-2'>
                         <div>
@@ -111,7 +111,7 @@ export default function Validation({ users }: { users: Partenaire[] }) {
                             )
                         })}
                     </select>
-                    <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherch</button>
+                    <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherche</button>
                 </form>
                 <div className="relative overflow-x-auto shadow-md sm:rounded-lg mb-3">
                     <table className="w-full text-sm text-left">
@@ -121,7 +121,7 @@ export default function Validation({ users }: { users: Partenaire[] }) {
                                     ID
                                 </th>
                                 <th className="px-6 py-3">
-                                    Group
+                                    Groupe
                                 </th>
                                 <th className="px-6 py-3">
                                     Nom et Prénom

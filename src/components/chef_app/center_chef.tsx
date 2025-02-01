@@ -56,14 +56,16 @@ export default function CenterChef({ parteners }: { parteners: Partenaire[] }) {
   return (
     <div className='py-5 px-5 sm:px-16'>
       <div className='flex items-center gap-2 px-5 pb-5 text-xs lg:text-xl'>
-        <Link href="/role" className='font-semibold text-third'>Dashboard /</Link>
+        <Link href="/role" className='font-semibold text-third'>Tableau de bord /</Link>
         <h1 className='font-bold'>{`Centre d'appel`}</h1>
       </div>
       <div className='p-10 pb-20 bg-white gap-10 rounded-md shadow-md'>
-        <form onSubmit={handleSearch} className='mb-7 flex items-center gap-2'>
-          <FaSearch className='absolute text-slate-500' />
-          <input type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
-          <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherch</button>
+        <form onSubmit={handleSearch} className='mb-7 flex flex-col lg:flex-row items-center gap-5'>
+          <div className="relative">
+            <FaSearch className='absolute top-3 text-slate-500' />
+            <input type="text" name="client" placeholder='Recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+          </div>
+          <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherche</button>
         </form>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left">

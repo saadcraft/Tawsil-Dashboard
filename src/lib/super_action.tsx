@@ -62,7 +62,8 @@ export async function AddSuperViseur(Data: Data) {
     const loadingToastId = toast.loading('Submite Updating...');
 
     if (pass !== password) {
-        throw new Error("Password and confirm password are not the same");
+        toast.error('Le mot de passe ne correspond pas', { id: loadingToastId })
+        return false;
     }
 
     try {
@@ -73,7 +74,7 @@ export async function AddSuperViseur(Data: Data) {
         })
 
         if (response.code == 201) {
-            toast.success('Creating with Succesfully', { id: loadingToastId });
+            toast.success('L’utilisateur a été créé avec succès', { id: loadingToastId });
             return true;
         } else {
             toast.error(response.message, { id: loadingToastId });

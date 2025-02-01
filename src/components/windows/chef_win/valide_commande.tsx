@@ -15,7 +15,7 @@ export function ValideCommande({ command, onEvent, onBack }: { command: Result[]
                         <h1>Télephone :</h1>
                         <h1>Wilaya :</h1>
                         <h1>Email :</h1>
-                        <h1>Groupe</h1>
+                        <h1>Groupe :</h1>
                         <h1>Total command Sélectioné :</h1>
                     </div>
                     <div className="text-lg border-l pl-4 space-y-4 text-gray-600">
@@ -64,13 +64,13 @@ export function ValideSecond({ command, onEvent, onBack }: { command: Result[], 
                                     Livreur
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Time
+                                    Date
                                 </th>
                                 <th scope="col" className="text-right px-6 py-3">
-                                    Livraison Price
+                                    Prix de livraison
                                 </th>
                                 <th scope="col" className="text-right px-6 py-3">
-                                    Tax
+                                    Taxe
                                 </th>
                             </tr>
                         </thead>
@@ -155,7 +155,7 @@ export function ValideThird({ command, onBack, onSub, user }: { command: Result[
                 </div>
                 <div className='absolute bottom-3 right-3 flex gap-4 text-xl justify-end'>
                     <button onClick={onBack} className='disabled:text-slate-400'>Retour</button>
-                    <button onClick={handlePrintAndSubmit} className='text-green-600 font-bold'>Submite</button>
+                    <button onClick={handlePrintAndSubmit} className='text-green-600 font-bold'>Confirmer</button>
                 </div>
             </div>
 

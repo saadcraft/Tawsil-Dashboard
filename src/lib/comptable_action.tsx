@@ -39,7 +39,7 @@ export async function AproveCass({ cassie_id }: { cassie_id: number }) {
         })
 
         if (response.code == 200) {
-            toast.success('Caisse approved with successfuly', { id: loadingToastId });
+            toast.success('Caisse approuvée avec succès', { id: loadingToastId });
             return true;
         } else {
             toast.success(response.message, { id: loadingToastId });

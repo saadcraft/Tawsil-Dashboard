@@ -130,7 +130,7 @@ export async function UpdateUser(Data: UpdateData) {
             data: Data
         });
         if (data.code == 200) {
-            toast.success('Updated with Succesfully', { id: loadingToastId });
+            toast.success('Mise à jour avec succès', { id: loadingToastId });
             return true;
         } else {
             toast.error(data.message, { id: loadingToastId });
@@ -153,7 +153,7 @@ export async function UpdateDocument(Data: UpdateData) {
             data: Data
         });
         if (data.code == 200) {
-            toast.success('Updated with Succesfully', { id: loadingToastId });
+            toast.success('Mise à jour avec succès', { id: loadingToastId });
             return true;
         } else {
             toast.error(data.message, { id: loadingToastId });
@@ -174,7 +174,7 @@ export async function UpdateGroup({ id, groupe }: { id: number, groupe: string }
             data: { id, groupe }
         });
         if (data.code == 200) {
-            toast.success('Comment added Succesfully', { id: loadingToastId });
+            toast.success('Commentaire ajouté Avec succès', { id: loadingToastId });
             return true;
         } else {
             toast.success(data.message, { id: loadingToastId });
@@ -212,7 +212,7 @@ export async function ActiveUser({ user_id }: { user_id: number }) {
         });
 
         if (response.code == 200) {
-            toast.success('User activated with successfuly', { id: loadingToastId });
+            toast.success('Utilisateur activé avec succès', { id: loadingToastId });
             return true;
         } else {
             toast.error(response.message, { id: loadingToastId });
@@ -234,7 +234,7 @@ export async function DisableUser({ id }: { id: number }) {
         });
 
         if (response.code == 200) {
-            toast.success('User Désactivé with successfuly', { id: loadingToastId });
+            toast.success('Utilisateur désactivé avec succès', { id: loadingToastId });
             return true;
         } else {
             toast.error(response.message, { id: loadingToastId });

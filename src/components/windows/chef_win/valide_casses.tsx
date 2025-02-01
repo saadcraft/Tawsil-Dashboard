@@ -51,7 +51,7 @@ export default function ValideCasses({ onEvent, user, total }: { onEvent: (data:
           <p>Montant crédit a prêter:</p>
           <input type='text' name='acompte' className='p-2' placeholder='Entrer le montant' onChange={handleChange} />
           <p className='text-xl'>Total: <span className='font-bold'>{total.toFixed(2)} DA</span></p>
-          <button onClick={handlePrintAndSubmit} className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Submite</button>
+          <button onClick={handlePrintAndSubmit} className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Confirmer</button>
         </div>
       </div>
       <div style={{ display: 'none' }}>
