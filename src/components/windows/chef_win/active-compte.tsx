@@ -11,41 +11,19 @@ export default function ActiveCompte({ onClose, user }: { onClose: (result: null
 
     const handleActive = async (user_id: number) => {
 
-        const loadingToastId = toast.loading('Submite Activé...');
-
-        try {
-            const res = await ActiveUser({ user_id })
-            if (res) {
-                toast.success('User activated with successfuly', { id: loadingToastId });
-                router.refresh()
-                onClose(null)
-            }
-        } catch (error) {
-            if (error instanceof Error) {
-                toast.error(error.message, { id: loadingToastId });
-            } else {
-                toast.error('An unknown error occurred', { id: loadingToastId });
-            }
+        const res = await ActiveUser({ user_id })
+        if (res) {
+            router.refresh()
+            onClose(null)
         }
     }
 
     const handleDisable = async (id: number) => {
 
-        const loadingToastId = toast.loading('Submite Désactive...');
-
-        try {
-            const res = await DisableUser({ id })
-            if (res) {
-                toast.success('User Désactivé with successfuly', { id: loadingToastId });
-                router.refresh()
-                onClose(null)
-            }
-        } catch (error) {
-            if (error instanceof Error) {
-                toast.error(error.message, { id: loadingToastId });
-            } else {
-                toast.error('An unknown error occurred', { id: loadingToastId });
-            }
+        const res = await DisableUser({ id })
+        if (res) {
+            router.refresh()
+            onClose(null)
         }
     }
 

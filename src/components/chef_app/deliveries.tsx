@@ -161,9 +161,11 @@ export default function Delivery({ promise, users }: Props) {
       </div>
       <div className='p-10 pb-20 bg-white rounded-md shadow-md'>
         <div className='flex lg:flex-row flex-col items-center justify-between mb-7 gap-5'>
-          <form onSubmit={(event) => handleSearch(event)} className='flex lg:flex-row flex-col items-center gap-5'>
-            <FaSearch className='absolute text-slate-500' />
-            <input onChange={handleInputChange} type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+          <form onSubmit={(event) => handleSearch(event)} className='mb-7 flex flex-col lg:flex-row items-center gap-5'>
+            <div className='relative'>
+              <FaSearch className='absolute top-3 text-slate-500' />
+              <input onChange={handleInputChange} type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+            </div>
             <div className='flex gap-2'>
               <div>
                 <input type="radio" id="noValide" name="valide" defaultChecked value="No" className="peer hidden" />

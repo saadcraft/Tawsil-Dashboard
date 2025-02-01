@@ -1,4 +1,5 @@
 import { apiRequest } from "./request"
+import toast from 'react-hot-toast';
 
 
 type apiCasses = {
@@ -23,5 +24,29 @@ export async function GetAllCasses({ page, search, date, chef }: { page: string,
         }
     } catch {
         return null;
+    }
+}
+
+export async function AproveCass({ cassie_id }: { cassie_id: number }) {
+
+    const loadingToastId = toast.loading('Submite Aprovment...');
+    try {
+
+        const response = await apiRequest({
+            method: "PATCH",
+            url: "/api/v1/comtable/cassie/approvie",
+            data: { cassie_id }
+        })
+
+        if (response.code == 200) {
+            toast.success('Caisse approved with successfuly', { id: loadingToastId });
+            return true;
+        } else {
+            toast.success(response.message, { id: loadingToastId });
+            return false;
+        }
+    } catch {
+        toast.success("Problem connection", { id: loadingToastId });
+        return false;
     }
 }

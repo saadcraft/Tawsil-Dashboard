@@ -2,10 +2,27 @@
 
 import { FormatDate } from '@/lib/tools/tools'
 import Link from 'next/link'
-import React from 'react'
+import { useRouter } from 'next/navigation'
+import React, { useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
+import Aprove from '../windows/comp_win/aprove'
+import { MdClose } from 'react-icons/md'
 
-export default function Caisses({ promise }: { promise: Caisses[] }) {
+export default function Caisses({ promise, chefs }: { promise: Caisses[], chefs: Users[] }) {
+
+    const [aprove, setAprove] = useState<Caisses | null>(null)
+
+    const router = useRouter()
+
+    const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        const cleint = formData.get('client') as string;
+        const validation = formData.get('date') as string;
+        const groupe = formData.get('group') as string
+
+        router.push(`?search=${cleint}&date=${validation}&chef=${groupe}`);
+    }
 
     const casses = promise.map((pre, index) => {
         return (
@@ -23,7 +40,7 @@ export default function Caisses({ promise }: { promise: Caisses[] }) {
                     {pre.prix_reale}
                 </td>
                 <td className="px-6 py-4 text-right">
-
+                    <button className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500'>Aprové</button>
                 </td>
             </tr>
         )
@@ -37,9 +54,19 @@ export default function Caisses({ promise }: { promise: Caisses[] }) {
             </div>
             <div className='p-10 pb-20 bg-white gap-10 rounded-md shadow-md'>
                 <div className='mb-7 flex justify-between items-center'>
-                    <form className='flex items-center gap-2'>
+                    <form onSubmit={handleSearch} className='flex items-center gap-2'>
                         <FaSearch className='absolute text-slate-500' />
-                        <input type="date" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                        <input type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                        <input type="date" name="date" className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                        <select name="group">
+                            <option value="">Sélectioné groupe</option>
+                            {chefs.map((pre, index) => {
+                                return (
+                                    <option key={index} value={pre.id}>Group {pre.wilaya} {pre.groupe}</option>
+                                )
+                            })
+                            }
+                        </select>
                         <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherch</button>
                     </form>
                 </div>
@@ -70,6 +97,12 @@ export default function Caisses({ promise }: { promise: Caisses[] }) {
                     </table>
                 </div>
             </div>
+            {aprove &&
+                <div>
+                    <button onClick={() => setAprove(null)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
+                    <Aprove onClose={setAprove} casse={aprove} />
+                </div>
+            }
         </div>
     )
 }

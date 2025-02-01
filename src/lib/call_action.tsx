@@ -202,6 +202,8 @@ export async function getAllChef(): Promise<Users[]> {
 }
 
 export async function ActiveUser({ user_id }: { user_id: number }) {
+
+    const loadingToastId = toast.loading('Submite Activé...');
     try {
         const response = await apiRequest({
             method: "PATCH",
@@ -209,16 +211,21 @@ export async function ActiveUser({ user_id }: { user_id: number }) {
             data: { user_id }
         });
 
-        return response.data;
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
+        if (response.code == 200) {
+            toast.success('User activated with successfuly', { id: loadingToastId });
+            return true;
+        } else {
+            toast.error(response.message, { id: loadingToastId });
+            return false;
         }
-        throw new Error("Unexpected error");
+    } catch (error) {
+        toast.error("Problem connection", { id: loadingToastId });
+        return false
     }
 }
 
 export async function DisableUser({ id }: { id: number }) {
+    const loadingToastId = toast.loading('Submite Désactive...');
     try {
         const response = await apiRequest({
             method: "PATCH",
@@ -226,11 +233,15 @@ export async function DisableUser({ id }: { id: number }) {
             data: { id }
         });
 
-        return response;
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
+        if (response.code == 200) {
+            toast.success('User Désactivé with successfuly', { id: loadingToastId });
+            return true;
+        } else {
+            toast.error(response.message, { id: loadingToastId });
+            return false;
         }
-        throw new Error("Unexpected error");
+    } catch (error) {
+        toast.error("Problem connection", { id: loadingToastId });
+        return false
     }
 }

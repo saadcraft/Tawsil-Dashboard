@@ -111,10 +111,10 @@ export default function Menu({ user }: props) {
                                             </div>
                                             <div className={`transition-all duration-200 overflow-hidden ${isFaqOpen[1] ? 'max-h-screen' : 'max-h-0'}`}>
                                                 <ul className='flex flex-col gap-2 p-3 ml-5'>
-                                                    <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/dashboard/ajoute_agent"> Ajouté Agent</Link></li>
+                                                    <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/dashboard/ajoute_agent"> Ajouter agents</Link></li>
                                                 </ul>
                                                 <ul className='flex flex-col gap-2 p-3 ml-5'>
-                                                    <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/dashboard/agent_administratif"> List Agent</Link></li>
+                                                    <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/dashboard/agent_administratif"> Listes d'agents</Link></li>
                                                 </ul>
                                             </div>
                                         </>

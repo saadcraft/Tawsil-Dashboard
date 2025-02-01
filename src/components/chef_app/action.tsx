@@ -55,10 +55,12 @@ export default function Action({ actions, agents, total }: { actions: Actions[],
                 <h1 className='font-bold text-xl'>Les actions</h1>
             </div>
             <div className='p-10 pb-20 bg-white rounded-md shadow-md'>
-                <div className='flex justify-between items-center'>
-                    <form onSubmit={handleSearch} className='mb-7 flex items-center gap-2'>
-                        <FaSearch className='absolute text-slate-500' />
-                        <input type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                <div className='flex lg:flex-row flex-col items-center justify-between mb-7 gap-5'>
+                    <form onSubmit={handleSearch} className='mb-7 flex flex-col lg:flex-row items-center gap-5'>
+                        <div className='relative'>
+                            <FaSearch className='absolute top-3 text-slate-500' />
+                            <input type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                        </div>
                         <input type="date" name="date" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         <select name="agent" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
                             <option value="">Sélection Groupe</option>
@@ -101,6 +103,6 @@ export default function Action({ actions, agents, total }: { actions: Actions[],
                     </table>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
