@@ -187,6 +187,18 @@ type DataType = {
   [key: string | number]: unknown
 }
 
+type Caisses = {
+  id: number;
+  chef_bu: Users;
+  resut: number;
+  date_creationn: string;
+  etat: boolean;
+  prix_reale: number;
+  approuve: boolean;
+  a_compte: number | null;
+  manque: number | null;
+}
+
 type Context = {
   total_courses: number;
   total_users_chef_bureux: number;

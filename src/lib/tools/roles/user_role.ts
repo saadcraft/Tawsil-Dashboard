@@ -14,6 +14,8 @@ export function Role(role: string) {
             return ["/dashboard", "/dashboard/profile", "/dashboard/modifie_superviseur", "/dashboard/agent_administratif", "/dashboard/ajoute_superviseur", "/dashboard/magasin", "/dashboard/partenaire"];
         case "validation_vtc":
             return ["/dashboard", "/dashboard/profile", "/dashboard/courses"];
+        case "comptable":
+            return ["/dashboard", "/dashboard/profile", "/dashboard/comptable"];
         // Add more roles as needed
         default:
             return "Guest"; // Default fallback

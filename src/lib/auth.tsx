@@ -130,7 +130,7 @@ export async function sendForget(Data: DataType) {
             return response.message;
         }
 
-    } catch (error) {
+    } catch {
         return false;
     }
 }

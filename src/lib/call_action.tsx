@@ -101,22 +101,16 @@ export async function getAgents({ page, search }: { page: string, search: string
             method: "GET",
             params: { page, search }
         });
-
-        return {
-            result: data.data.results,
-            totalAct: data.data.count
-        };
-    } catch (error) {
-        if (error instanceof Error) {
-            // Handle 404 errors explicitly
-            if (error.message.includes("404")) {
-                return null
-            }
-
-            // For other errors, rethrow them
-            throw new Error(error.message || "An error occurred");
+        if (data.code == 200) {
+            return {
+                result: data.data.results,
+                totalAct: data.data.count
+            };
+        } else {
+            return null
         }
-        throw new Error("Unexpected error");
+    } catch {
+        return null
     }
 }
 // Define a more specific type for UpdateUser and UpdateDocument

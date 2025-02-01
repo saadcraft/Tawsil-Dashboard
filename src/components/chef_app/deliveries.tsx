@@ -160,23 +160,23 @@ export default function Delivery({ promise, users }: Props) {
         <h1 className='font-bold'>Livraisons</h1>
       </div>
       <div className='p-10 pb-20 bg-white rounded-md shadow-md'>
-        <div className='flex items-center justify-between mb-7'>
-          <form onSubmit={(event) => handleSearch(event)} className='flex items-center gap-2'>
+        <div className='flex lg:flex-row flex-col items-center justify-between mb-7 gap-5'>
+          <form onSubmit={(event) => handleSearch(event)} className='flex lg:flex-row flex-col items-center gap-5'>
             <FaSearch className='absolute text-slate-500' />
             <input onChange={handleInputChange} type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
             <div className='flex gap-2'>
               <div>
                 <input type="radio" id="noValide" name="valide" defaultChecked value="No" className="peer hidden" />
-                <label htmlFor="noValide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> No valider</label>
+                <label htmlFor="noValide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third text-nowrap peer-checked:border-third p-2'> No valider</label>
               </div>
               <div>
                 <input type="radio" id="valide" name="valide" value="Yes" className="peer hidden" />
                 <label htmlFor="valide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> valider</label>
               </div>
             </div>
-            <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherch</button>
+            <button className='bg-blue-500 font-semibold w-full hover:bg-third text-white p-2 rounded-lg'>Recherch</button>
           </form>
-          <button onClick={handleValidate} disabled={selectedRows.length === 0 || new Set(selectedRows.map((row) => row.livreur.partenneur.user.id)).size > 1 ? true : false} className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>validé</button>
+          <button onClick={handleValidate} disabled={selectedRows.length === 0 || new Set(selectedRows.map((row) => row.livreur.partenneur.user.id)).size > 1 ? true : false} className='bg-green-600 disabled:bg-opacity-20 w-full lg:w-auto px-4 py-2 text-white rounded-lg font-semibold'>validé</button>
         </div>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg mb-3">
           <table className="w-full text-sm text-left">
