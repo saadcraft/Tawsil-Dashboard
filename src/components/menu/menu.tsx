@@ -41,15 +41,15 @@ export default function Menu({ user }: props) {
     }
     const handleSubmit = async () => {
 
-        const loadingToastId = toast.loading('Logging Out...');
+        const loadingToastId = toast.loading('Déconnection...');
         try {
             const result = await SignOut();
 
             if (result) {
-                toast.success('Succesfull Logging Out', { id: loadingToastId });
+                toast.success('Déconnecter avec succès', { id: loadingToastId });
                 router.push('/');
             } else {
-                toast.success('Problem with loging Out', { id: loadingToastId });
+                toast.success('Probleme avec Déconnection', { id: loadingToastId });
             }
 
         } catch (error) {
@@ -96,7 +96,7 @@ export default function Menu({ user }: props) {
                 <div className='flex flex-col gap-2 py-3'>
                     {user &&
                         <>
-                            <MenuParams url="/dashboard" title='Dashboard' icon={<MdOutlineDashboard />} onEvent={handleMenu} />
+                            <MenuParams url="/dashboard" title='Tableau de bord' icon={<MdOutlineDashboard />} onEvent={handleMenu} />
                             {user.role == "chef_bureau" || user.role == "agent_administratif" ?
                                 <>
                                     <MenuParams url="/dashboard/deliveries" title='livraisons' icon={<MdDeliveryDining />} onEvent={handleMenu} />
@@ -111,10 +111,10 @@ export default function Menu({ user }: props) {
                                             </div>
                                             <div className={`transition-all duration-200 overflow-hidden ${isFaqOpen[1] ? 'max-h-screen' : 'max-h-0'}`}>
                                                 <ul className='flex flex-col gap-2 p-3 ml-5'>
-                                                    <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/dashboard/ajoute_agent"> Ajouté Agent</Link></li>
+                                                    <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/dashboard/ajoute_agent"> Ajouter agents</Link></li>
                                                 </ul>
                                                 <ul className='flex flex-col gap-2 p-3 ml-5'>
-                                                    <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/dashboard/agent_administratif"> List Agent</Link></li>
+                                                    <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/dashboard/agent_administratif"> Listes d'agents</Link></li>
                                                 </ul>
                                             </div>
                                         </>
@@ -166,7 +166,7 @@ export default function Menu({ user }: props) {
                     </div>
                     <div className={`transition-all duration-200 overflow-hidden ${isFaqOpen[0] ? 'max-h-screen' : 'max-h-0'}`}>
                         <ul className='flex flex-col gap-2 p-3 ml-5'>
-                            {user ? <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><span onClick={handleSubmit} className='cursor-pointer'> Log Out</span></li> : <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/login"> Login</Link></li>}
+                            {user ? <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><span onClick={handleSubmit} className='cursor-pointer'> Déconnecter</span></li> : <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/login"> Connecter</Link></li>}
                         </ul>
                     </div>
                 </div>

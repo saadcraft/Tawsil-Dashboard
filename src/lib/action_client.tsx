@@ -31,7 +31,8 @@ export async function AddAgent(Data: Data) {
     const loadingToastId = toast.loading('Adding agent...');
 
     if (pass !== password) {
-        throw new Error("Password and confirm password are not the same");
+        toast.error('Le mot de passe ne correspond pas', { id: loadingToastId })
+        return false;
     }
 
     try {
@@ -41,7 +42,7 @@ export async function AddAgent(Data: Data) {
             data: { last_name, first_name, username, email, date_de_naissance, lieux, sexe, phone_number_1, phone_number_2, password }
         });
         if (response.code == 201) {
-            toast.success("User added successfuly", { id: loadingToastId });
+            toast.success("L’utilisateur a été créé avec succès", { id: loadingToastId });
             return true;
         } else {
             toast.error(response.message, { id: loadingToastId })
@@ -118,7 +119,7 @@ export async function OpenCasses() {
     }
 }
 
-export async function getCasses({ page, search_date }: { page: string, search_date: string }): Promise<apiCasses> {
+export async function getCasses({ page, search_date }: { page: string, search_date: string }): Promise<apiCasses | null> {
     try {
         const response = await apiRequest({
             method: "GET",
@@ -126,15 +127,15 @@ export async function getCasses({ page, search_date }: { page: string, search_da
             params: { page, search_date }
         });
 
-        return {
-            result: response.data.results,
-            totalAct: response.data.count
-        };
-
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
+        if(response.code == 200){
+            return {
+                result: response.data.results,
+                totalAct: response.data.count
+            };
+        }else{
+            return null
         }
-        throw new Error("Unexpected error");
+    } catch (error) {
+        return null
     }
 }

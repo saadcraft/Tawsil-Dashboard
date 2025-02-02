@@ -21,7 +21,7 @@ export default function Header({ user }: { user: Users }) {
                 <p>{Named(user.role)}</p>
               </span>
             </Link>
-            : <Link href="/login" className='px-5 py-2 rounded-md flex gap-2 items-center'><FaRegUser className='text-xl' />Account</Link>}
+            : <Link href="/login" className='px-5 py-2 rounded-md flex gap-2 items-center'><FaRegUser className='text-xl' />Compte</Link>}
         </div>
       </div>
     </header>

@@ -102,7 +102,7 @@ export default function Dashboard({ data, user }: { data: Context, user: Users }
     <div className="flex flex-col items-center justify-between py-5 px-5 sm:px-16">
       {user.role == "gestion_commercial" ?
         <>
-          <h1 className="text-2xl font-bold mb-5">Dashboard</h1>
+          <h1 className="text-2xl font-bold mb-5">Tableau de bord</h1>
           <div className='grid grid-cols-3 gap-3 w-full'>
             <div className='bg-white w-full flex flex-col justify-center items-center py-5 rounded-xl'>
               <h1 className='font-bold'>Chef bureux</h1>

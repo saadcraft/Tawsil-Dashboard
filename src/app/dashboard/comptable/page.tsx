@@ -1,5 +1,6 @@
 
 import Caisses from '@/components/comptable_app/caisses';
+import { getAllChef } from '@/lib/call_action';
 import { GetAllCasses } from '@/lib/comptable_action';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -26,11 +27,13 @@ export default async function page({ searchParams }: Props) {
 
     if (!data) notFound()
 
+    const Allchef = await getAllChef()
+
     const { result } = data
 
     return (
         <div>
-            <Caisses promise={result} />
+            <Caisses promise={result} chefs={Allchef} />
         </div>
     )
 }

@@ -105,7 +105,7 @@ export default function Caisses({ cass, user, total }: { cass: Result[], user: U
   return (
     <div className='py-5 px-5 sm:px-16'>
       <div className='flex items-center gap-2 px-5 pb-5 text-xs lg:text-xl'>
-        <Link href="/role" className='font-semibold text-third'>Dashboard /</Link>
+        <Link href="/role" className='font-semibold text-third'>Tableau de bord /</Link>
         <h1 className='font-bold'>Les caisses</h1>
       </div>
       <div className='p-10 pb-20 bg-white gap-10 rounded-md shadow-md'>
@@ -113,14 +113,14 @@ export default function Caisses({ cass, user, total }: { cass: Result[], user: U
           <form onSubmit={handleSearch} className='flex items-center gap-2'>
             <FaSearch className='absolute text-slate-500' />
             <input type="date" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
-            <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherch</button>
+            <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherche</button>
           </form>
           <div className='flex justify-end gap-2'>
             <div className='p-2'>
-              <button onClick={handleWindow} className='bg-red-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Close Caisse</button>
+              <button onClick={handleWindow} className='bg-red-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Fermé caisse</button>
             </div>
             <div className='p-2'>
-              <button onClick={handleOpen} className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Open Caisse</button>
+              <button onClick={handleOpen} className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Ouvrir caisse</button>
             </div>
           </div>
         </div>
