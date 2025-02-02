@@ -40,7 +40,11 @@ export default function Caisses({ promise, chefs }: { promise: Caisses[], chefs:
                     {pre.prix_reale}
                 </td>
                 <td className="px-6 py-4 text-right">
-                    <button className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500'>Aprové</button>
+                    {pre.approuve ?
+                        <p className='text-green-600'>Approuvé</p>
+                        :
+                        pre.etat ? "En cours" : <button onClick={() => setAprove(pre)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500'>Approuver</button>
+                    }
                 </td>
             </tr>
         )
@@ -49,7 +53,7 @@ export default function Caisses({ promise, chefs }: { promise: Caisses[], chefs:
     return (
         <div className='py-5 px-5 sm:px-16'>
             <div className='flex items-center gap-2 px-5 pb-5 text-xs lg:text-xl'>
-                <Link href="/role" className='font-semibold text-third'>Dashboard /</Link>
+                <Link href="/role" className='font-semibold text-third'>Tableau de bord /</Link>
                 <h1 className='font-bold'>Les caisses</h1>
             </div>
             <div className='p-10 pb-20 bg-white gap-10 rounded-md shadow-md'>

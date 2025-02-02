@@ -1,6 +1,6 @@
 import Parteneure from '@/components/gestion_app/parteneure';
 import Pagination from '@/components/options/pagination';
-import { getMagasin } from '@/lib/gestion_action';
+// import { getMagasin } from '@/lib/gestion_action';
 import { getValidation } from '@/lib/super_action';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -26,7 +26,7 @@ export default async function VTCpage({ searchParams }: props) {
 
     const data = await getValidation({ page: pageNumber, search: search_num, wilaya: location, is_active: active, groupe: chef });
 
-    const magasine = await getMagasin()
+    // const magasine = await getMagasin()
 
     if (!data) notFound()
 
@@ -36,7 +36,7 @@ export default async function VTCpage({ searchParams }: props) {
 
     return (
         <>
-            <Parteneure users={result} maga={magasine} />
+            <Parteneure users={result} />
             <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`search=${search_num}&wilaya=${location}&is_active=${active}&groupe=${chef}`} />
         </>
     )

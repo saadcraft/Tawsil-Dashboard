@@ -145,7 +145,7 @@ export function ValideThird({ command, onBack, onSub, user }: { command: Courses
                 </div>
                 <div className='absolute bottom-3 right-3 flex gap-4 text-xl justify-end'>
                     <button onClick={onBack} className='disabled:text-slate-400'>Retour</button>
-                    <button onClick={handlePrintAndSubmit} className='text-green-600 font-bold'>Submite</button>
+                    <button onClick={handlePrintAndSubmit} className='text-green-600 font-bold'>Confirmer</button>
                 </div>
             </div>
 

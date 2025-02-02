@@ -21,6 +21,7 @@ import Link from 'next/link';
 import { SignOut } from '@/lib/auth';
 import { toast } from "react-hot-toast";
 import { MenuParams } from "./params";
+// import LoadingFirst from '../loading';
 
 type props = {
     user: Users
@@ -32,6 +33,7 @@ export default function Menu({ user }: props) {
 
     const [isFaqOpen, setIsFaqOpen] = useState(Array(4).fill(false));
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    // const [isLoading, setIsLoading] = useState(false);
 
     const handleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -114,7 +116,7 @@ export default function Menu({ user }: props) {
                                                     <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/dashboard/ajoute_agent"> Ajouter agents</Link></li>
                                                 </ul>
                                                 <ul className='flex flex-col gap-2 p-3 ml-5'>
-                                                    <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/dashboard/agent_administratif"> Listes d'agents</Link></li>
+                                                    <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/dashboard/agent_administratif"> Listes d&apos;agents</Link></li>
                                                 </ul>
                                             </div>
                                         </>
@@ -166,11 +168,15 @@ export default function Menu({ user }: props) {
                     </div>
                     <div className={`transition-all duration-200 overflow-hidden ${isFaqOpen[0] ? 'max-h-screen' : 'max-h-0'}`}>
                         <ul className='flex flex-col gap-2 p-3 ml-5'>
-                            {user ? <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><span onClick={handleSubmit} className='cursor-pointer'> Déconnecter</span></li> : <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/login"> Connecter</Link></li>}
+                            {user ? <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><span onClick={handleSubmit} className='cursor-pointer'> Déconnecter</span></li> : <li className='flex items-center text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><Link onClick={handleMenu} href="/login">Se connecter</Link></li>}
                         </ul>
                     </div>
                 </div>
             </div>
+
+            {/* {isLoading &&
+                <LoadingFirst />
+            } */}
         </>
     )
 }

@@ -49,7 +49,7 @@ export function PrinteCasses({ user, real, total, acount }: PrintableModelProps)
                                 className="text-right p-3 whitespace-nowrap"
                             >
                             </th>
-                            <th scope="col" className="text-right p-3">a compte</th>
+                            <th scope="col" className="text-right p-3">Crédit</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,7 +69,7 @@ export function PrinteCasses({ user, real, total, acount }: PrintableModelProps)
                             <th></th>
                             <td className="px-6 py-3 text-right">
                                 <h1 className="text-right p-2 font-semibold text-xl flex whitespace-nowrap">Total:</h1>
-                                <h1 className="text-right p-2 font-semibold text-xl flex whitespace-nowrap">Manque:</h1>
+                                <h1 className="text-right p-2 font-semibold text-xl flex whitespace-nowrap">Différence:</h1>
                             </td>
                             <td>
                                 <h1 className="text-right p-2 font-semibold text-xl flex whitespace-nowrap">

@@ -23,24 +23,24 @@ export default function ModifyMagasinWin({ magasin, onSub }: { magasin: MagasinT
         }
         const updatedUser = { id: magasin.id.toString(), ...filteredData };
 
-            const res = await modifyMagasin(updatedUser)
-            if (res) {
-                router.refresh()
-                onSub(null)
-            }
+        const res = await modifyMagasin(updatedUser)
+        if (res) {
+            router.refresh()
+            onSub(null)
+        }
     }
     return (
         <div className='fixed z-10 overflow-auto top-20 flex items-center bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
             <div className='xl:w-1/3 w-full mx-auto p-5 mt-10 bg-white'>
-                <h1 className='mb-5 text-2xl font-bold text-center'>modify type magasin</h1>
+                <h1 className='mb-5 text-2xl font-bold text-center'>modifie type de compte</h1>
                 <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
                     <p>Le nom de type</p>
                     <input type='text' name='name' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le Nom de type' defaultValue={magasin.name} />
                     <p>description</p>
                     <textarea name='description' className='p-2 border border-slate-300 rounded-md' placeholder='Entre Description' defaultValue={magasin.description} />
-                    <p>Tax</p>
-                    <input type='number' name='tax_tawsile' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le Tax' defaultValue={magasin.tax_tawsile} />
-                    <button className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Submite</button>
+                    <p>Taxe</p>
+                    <input type='number' name='tax_tawsile' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le Taxe' defaultValue={magasin.tax_tawsile} />
+                    <button className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Confirmer</button>
                 </form>
             </div>
         </div>

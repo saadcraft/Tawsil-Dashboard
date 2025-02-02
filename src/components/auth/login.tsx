@@ -48,13 +48,13 @@ export default function Login() {
 
     return (
         <div className='py-5 px-5 sm:px-16'>
-            <h1 className='font-bold px-5 pb-5 text-xl'>Login</h1>
+            <h1 className='font-bold px-5 pb-5 text-xl'>Se connecter</h1>
             <div className='p-10 bg-white grid xl:grid-cols-2 gap-10 rounded-md shadow-md'>
                 <form onSubmit={handleSubmit} className='flex flex-col gap-4 py-5 px-0 sm:px-10 lg:px-20'>
                     <p className="text-slate-500 font-semibold">Tawsil Start</p>
                     <h1 className="text-xl font-bold">Connectez-vous au tableau de bord</h1>
                     <div className='flex flex-col gap-2 p-2'>
-                        <label htmlFor="email">Nom d'utilisateur</label>
+                        <label htmlFor="email">Nom d&apos;utilisateur</label>
                         <input type="Text" name="username" id="username" placeholder="Entrer le nom d'utilisateur" className='p-3 border border-slate-300 rounded-md' />
                     </div>
                     <div className='flex flex-col gap-2 p-2'>

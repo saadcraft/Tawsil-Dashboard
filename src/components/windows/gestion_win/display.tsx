@@ -4,7 +4,7 @@ export default function Display({ document }: { document: Partenaire }) {
     return (
         <div className='fixed z-20 top-0 flex items-center bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
             <div className='xl:w-2/3 w-full mx-auto rounded-xl p-10 mt-10 bg-white'>
-                <h1 className='mb-5 text-xl text-center font-bold'>User information</h1>
+                <h1 className='mb-5 text-xl text-center font-bold'>Informations utilisateur</h1>
                 <div className='sm:flex justify-around'>
                     <div>
                         <p><span className='font-bold'>Nom et prénom : </span> {`${document.user.last_name} ${document.user.first_name}`}</p>
@@ -19,7 +19,7 @@ export default function Display({ document }: { document: Partenaire }) {
                     <div>
                         <p><span className='font-bold'>RC : </span> {`${document.RC ? document.RC : "/"}`}</p>
                         <p><span className='font-bold'>Numero nationale : </span> {`${document.card_number ? document.card_number : "/"}`}</p>
-                        <p><span className='font-bold'>Numero d'act : </span> {`${document.numero_act ? document.numero_act : "/"}`}</p>
+                        <p><span className='font-bold'>Numero d&apos;act : </span> {`${document.numero_act ? document.numero_act : "/"}`}</p>
                         <p><span className='font-bold'>Nif : </span> {` ${document.Nif ? document.Nif : '/'}`}</p>
                         {document.vihucule &&
                             <>

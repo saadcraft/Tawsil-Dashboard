@@ -207,7 +207,7 @@ type Context = {
   total_users_superviseurs: number;
   total_users_validation: number;
   total_users_with_group: number;
-  total_partnerschoffeur: number;
-  total_partnersmagasin: number;
+  total_partners__choffeur: number;
+  total_partners__magasin: number;
   total_partners__livreur: number; // Note: Double underscore in the key name
 };

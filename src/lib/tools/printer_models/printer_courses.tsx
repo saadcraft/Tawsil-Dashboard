@@ -82,7 +82,7 @@ const PrintableModelCouses = ({ command, user, tax }: PrintableModelProps) => {
                                     >
                                         Somme course
                                     </th>
-                                    <th scope="col" className="text-right px-6 py-3">Tax</th>
+                                    <th scope="col" className="text-right px-6 py-3">Taxe</th>
                                 </tr>
                             </thead>
                             <tbody>

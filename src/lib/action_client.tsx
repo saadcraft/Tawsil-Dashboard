@@ -127,15 +127,15 @@ export async function getCasses({ page, search_date }: { page: string, search_da
             params: { page, search_date }
         });
 
-        if(response.code == 200){
+        if (response.code == 200) {
             return {
                 result: response.data.results,
                 totalAct: response.data.count
             };
-        }else{
+        } else {
             return null
         }
-    } catch (error) {
+    } catch {
         return null
     }
 }

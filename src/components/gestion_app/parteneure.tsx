@@ -5,20 +5,20 @@ import { handleInputChange } from '@/lib/tools/tools'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
-import { FaPen, FaRegCheckCircle, FaSearch } from 'react-icons/fa'
+import { FaRegCheckCircle, FaSearch } from 'react-icons/fa'
 import ActiveCompte from '../windows/chef_win/active-compte'
 import { MdClose, MdOutlineDisabledByDefault } from 'react-icons/md'
 import { getGroup } from '@/lib/gestion_action'
-import ModifyUser from '../windows/gestion_win/modify_user'
+// import ModifyUser from '../windows/gestion_win/modify_user'
 
-export default function Parteneure({ users, maga }: { users: Partenaire[], maga: MagasinType[] }) {
+export default function Parteneure({ users }: { users: Partenaire[] }) {
 
     const [user, setUser] = useState<{ id: number, statue: boolean } | null>(null)
     const [group, setGroup] = useState<number[] | null>(null)
-    const [modify, setModify] = useState<Partenaire | null>(null)
+    // const [modify, setModify] = useState<Partenaire | null>(null)
     const router = useRouter();
 
-    const hundelModify = (info: Partenaire) => setModify(info);
+    // const hundelModify = (info: Partenaire) => setModify(info);
 
 
     const handleGroup = async ({ wilaya }: { wilaya: string }) => {

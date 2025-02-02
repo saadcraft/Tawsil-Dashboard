@@ -39,7 +39,7 @@ export async function AddTypeMagasin(Data: DataType) {
         if (response.code == 201) {
             toast.success('Mise à jour avec Succesfully', { id: loadingToastId });
             return true
-        }else{
+        } else {
             toast.error(response.message, { id: loadingToastId });
             return false
         }
@@ -61,7 +61,7 @@ export async function modifyMagasin(Data: DataType) {
         if (response.code == 200) {
             toast.success('Mise à jour avec Succesfully', { id: loadingToastId });
             return true
-        }else{
+        } else {
             toast.error(response.message, { id: loadingToastId });
             return false
         }
@@ -81,16 +81,16 @@ export async function getCourses(
             url: "/api/v1/vtc/courses",
             params: { page, search, valide }
         })
-        if(response.code == 200){
+        if (response.code == 200) {
             return {
                 result: response.data.data,
                 totalAct: response.data.count
             }
-        }else{
+        } else {
             return null
         }
-    } catch (error) {
-       return null
+    } catch {
+        return null
     }
 }
 
@@ -118,12 +118,12 @@ export async function ValideCourses({ courseIds }: { courseIds: number[] }) {
             url: "/api/v1/vtc/course/valide",
             data: { courseIds }
         })
-        if(response.code == 200){
+        if (response.code == 200) {
             toast.success('Valider Avec succès', { id: loadingToastId });
             return true
-        }else{
-             toast.error(response.message, { id: loadingToastId });
-             return false
+        } else {
+            toast.error(response.message, { id: loadingToastId });
+            return false
         }
 
     } catch {
