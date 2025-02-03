@@ -17,8 +17,17 @@ export default {
         six: "#e2f5fc",
         seven: "#d0eaf8",
       },
-      maxWidth:{
-        "8xl" : "85rem",
+      maxWidth: {
+        "8xl": "85rem",
+      },
+      animation: {
+        'progress': 'animate-progress 2s linear infinite', // Custom animation name
+      },
+      keyframes: {
+        'animate-progress': {
+          '0%': { width: '0%' },
+          '100%': { width: '100%' },
+        },
       },
     },
   },
