@@ -91,7 +91,7 @@ export default function AjouteAgent() {
                     </div>
                     <div className='flex flex-col gap-1 p-1'>
                         <p className='flex'><span>Sexe</span><span className='text-red-600 text-2xl'>*</span></p>
-                        <select className='border p-1' name='sexe' id="sex" defaultValue="" onChange={handleChange}>
+                        <select className='border p-1' name='sexe' id="sex" value={formData.sexe} onChange={handleChange}>
                             <option value="">Seléctionée</option>
                             <option value="homme">Homme</option>
                             <option value="femme">Femme</option>
