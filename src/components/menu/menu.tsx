@@ -13,8 +13,10 @@ import {
     MdDeliveryDining,
     MdLocalTaxi,
     MdOutlineStorefront,
-    MdOutlineReport
+    MdOutlineReport,
+    MdOutlineRequestQuote
 } from "react-icons/md";
+import { TbRecharging } from "react-icons/tb";
 import { GrValidate, GrUserWorker } from "react-icons/gr";
 import Image from 'next/image';
 import { SignOut } from '@/lib/auth';
@@ -159,10 +161,16 @@ export default function Menu({ user }: props) {
                             {user.role == "chef_bureau" || user.role == "centre_appel" || user.role == "agent_administratif" ?
                                 <MenuParams title={`Center d'apple`} icon={<MdContactSupport />} onEvent={() => handleMenu("/dashboard/apple_center")} /> : ""
                             }
+                            {user.role == "centre_appel" &&
+
+                                <MenuParams title={`Demande`} icon={<MdOutlineRequestQuote />} onEvent={() => handleMenu("/dashboard/demande")} />
+
+                            }
                             {user.role == "superviseur" &&
                                 <>
                                     <MenuParams title={`Validation`} icon={<GrValidate />} onEvent={() => handleMenu("/dashboard/validation")} />
                                     <MenuParams title={`Rapports`} icon={<MdOutlineReport />} onEvent={() => handleMenu("/dashboard/rapports")} />
+                                    <MenuParams title={`Recharger`} icon={<TbRecharging />} onEvent={() => handleMenu("/dashboard/recharge")} />
                                 </>
                             }
                             {user.role == "validation_vtc" &&
