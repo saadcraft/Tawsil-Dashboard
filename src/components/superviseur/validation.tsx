@@ -10,7 +10,7 @@ import { MdClose, MdOutlineDisabledByDefault, MdOutlineReport } from 'react-icon
 import ActiveCompte from '../windows/chef_win/active-compte'
 import toast from 'react-hot-toast'
 import { AddReport } from '@/lib/super_action'
-import SuperReport from '../windows/gestion_win/super_report'
+import SuperReport from '../windows/super_win/super_report'
 import Display from '../windows/gestion_win/display'
 
 export default function Validation({ users }: { users: Partenaire[] }) {
@@ -37,7 +37,7 @@ export default function Validation({ users }: { users: Partenaire[] }) {
         const add = formData.get('message') as string;
 
         if (!add || add.trim() === '') {
-            toast.error('Please enter a message.'); // Show an error message
+            toast.error('Veuillez entrer un message.'); // Show an error message
             return; // Stop further execution
         }
 

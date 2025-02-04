@@ -111,3 +111,24 @@ export async function GetStatic(): Promise<Context> {
         throw new Error("Unexpected error");
     }
 }
+
+export async function demandeAction({ flixy_id, etat, some_a_envoye }: { flixy_id: number, etat: "accepte" | "refuse" | "annuler", some_a_envoye: number }) {
+    const loadingToastId = toast.loading('Submite Demande...');
+    try {
+        const response = await apiRequest({
+            method: "PATCH",
+            url: "api/v1/centre_appel/etat/demmande",
+            data: { flixy_id, etat, some_a_envoye }
+        })
+        if (response.code == 200) {
+            toast.success('se compte a eté reharger avec succès', { id: loadingToastId });
+            return true
+        } else {
+            toast.error(response.message, { id: loadingToastId });
+            return false
+        }
+    } catch {
+        toast.error("Problem connection", { id: loadingToastId });
+        return false
+    }
+}

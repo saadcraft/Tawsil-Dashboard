@@ -163,7 +163,7 @@ export default function Menu({ user }: props) {
                             }
                             {user.role == "centre_appel" &&
 
-                                <MenuParams title={`Demande`} icon={<MdOutlineRequestQuote />} onEvent={() => handleMenu("/dashboard/demande")} />
+                                <MenuParams title={`Demandes`} icon={<MdOutlineRequestQuote />} onEvent={() => handleMenu("/dashboard/demande")} />
 
                             }
                             {user.role == "superviseur" &&

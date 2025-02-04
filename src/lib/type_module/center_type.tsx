@@ -1,29 +1,6 @@
-export type User = {
-  id: number;
-  password: string | null;
-  username: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  is_active: boolean;
-  date_de_naissance: string | null;
-  role: "partener" | "client" | string; // Adjust as needed
-  lieux: string | null;
-  sexe: "homme" | "femme" | null;
-  phone_number_1: string;
-  phone_number_2: string | null;
-  image_url: string | null;
-  wilaya: string | null;
-  groupe: string | null;
-  rendement: number;
-  point: number;
-  rating: number;
-  permission_vlider: boolean;
-};
-
 export type Partner = {
   id: number;
-  user: User;
+  user: Users;
   nom_de_magasin: string | null;
   adresse: string | null;
   NRC: string | null;

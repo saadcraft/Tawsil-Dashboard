@@ -7,7 +7,7 @@ type ApiResponse = {
 
 type Result = {
   id: number;
-  client: Client;
+  client: Users;
   magasin: Magasin;
   livreur: Livreur;
   total_price: string;
@@ -44,29 +44,6 @@ type Courses = {
   selected: boolean;
 }
 
-type Client = {
-  id: number;
-  password: string;
-  username: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  is_active: boolean;
-  bloquer: boolean;
-  date_de_naissance: string | null;
-  role: string;
-  lieux: string | null;
-  sexe: string;
-  phone_number_1: string;
-  phone_number_2: string | null;
-  image_url: string | null;
-  wilaya: string;
-  groupe: string | null;
-  rendement: number;
-  point: number;
-  rating: number;
-  permission_vlider: boolean;
-}
 
 type Magasin = {
   id: number;
@@ -211,3 +188,13 @@ type Context = {
   total_partners__magasin: number;
   total_partners__livreur: number; // Note: Double underscore in the key name
 };
+
+type Demande = {
+  id: number,
+  superviseur: Users,
+  date_de_creation: string,
+  somme: number,
+  wilaya: string,
+  etat: "en_attente" | "refuse" | "accepte" | "annuler";
+  appouvie_par_super_v: boolean;
+}
