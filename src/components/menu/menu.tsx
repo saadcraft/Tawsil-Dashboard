@@ -39,7 +39,7 @@ export default function Menu({ user }: props) {
 
     const handleMenu = (url: string | null) => {
         setIsMenuOpen(!isMenuOpen);
-        if (url === pathname) {
+        if (url === pathname || url == null) {
             // If the clicked link is the same as the current path, do nothing
             return;
         }
