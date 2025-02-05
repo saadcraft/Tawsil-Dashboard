@@ -5,9 +5,9 @@ import Link from 'next/link'
 import { FaSearch } from 'react-icons/fa'
 import { FaCommentDots, FaUserGroup } from "react-icons/fa6";
 import { MdClose } from "react-icons/md"
-import Comment from "../windows/chef_win/comment"
+import Comment from "../windows/centre_win/comment"
 import { AddComment, UpdateGroup } from '@/lib/call_action'
-import ShowComment from '../windows/chef_win/show-comments'
+import ShowComment from '../windows/centre_win/show-comments'
 import Group from '../windows/chef_win/group'
 import { useRouter } from 'next/navigation'
 
@@ -36,21 +36,21 @@ export default function AppleCenter({ parteners, chefs }: Props) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const add = formData.get('comment') as string;
-      const res = await AddComment({ id: id, comment: add })
-      if (res) {
-        setActivePartnerId(null)
-      }
+    const res = await AddComment({ id: id, comment: add })
+    if (res) {
+      setActivePartnerId(null)
+    }
   }
 
   const hundleGroup = async (id: number, event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const add = formData.get('group') as string;
-      const res = await UpdateGroup({ id: id, groupe: add })
-      if (res) {
-        setResomble(0)
-        router.refresh()
-      }
+    const res = await UpdateGroup({ id: id, groupe: add })
+    if (res) {
+      setResomble(0)
+      router.refresh()
+    }
   }
 
   const handleClose = () => { setActivePartnerId(null) }

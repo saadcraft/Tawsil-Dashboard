@@ -115,11 +115,13 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
           <input type="text" name="card_number" className='p-2 border border-slate-300 rounded-md' placeholder='Entre ID cart' defaultValue={user.card_number || ''} />
           <p className="flex items-center">type Vihucule <span className='text-red-600 text-2xl'>*</span></p>
           <select name="type_vehicule" className='p-2 border border-slate-300 rounded-md' >
-            <option value={user.vihucule?.type_vehicule || ''} >Sélecte vihucule</option>
+            <option value={user.vihucule?.type_vehicule || ''} >{user.vihucule?.type_vehicule ? user.vihucule?.type_vehicule : 'Sélecte vihucule'}</option>
             {TypeChoices.map((pre, index) => {
-              return (
-                <option key={index} value={pre}>{pre}</option>
-              )
+              if (user.vihucule?.type_vehicule != pre) {
+                return (
+                  <option key={index} value={pre}>{pre}</option>
+                )
+              }
             })}
           </select>
           <p className="flex items-center">Vihucule <span className='text-red-600 text-2xl'>*</span></p>

@@ -16,6 +16,11 @@ type apiParteneur = {
     totalAct: number;
 }
 
+type apiDemande = {
+    result: Demande[];
+    totalAct: number;
+}
+
 export type Data = {
     last_name: string;
     first_name: string;
@@ -122,7 +127,7 @@ export async function AddReport({ id, message }: { id: number, message: string }
             data: { "parteneur": { id }, message }
         })
         if (response.code == 201) {
-            toast.success('Report added Succesfully', { id: loadingToastId });
+            toast.success('Rapport crée avec succès', { id: loadingToastId });
             return true
         } else {
             toast.success(response.message, { id: loadingToastId });
@@ -150,5 +155,90 @@ export async function ShowReport({ page }: { page: string }): Promise<apiRaport>
             throw new Error(error.message || "An error occurred");
         }
         throw new Error("Unexpected error");
+    }
+}
+
+export async function DemandePerSuper({ page }: { page: string }): Promise<apiDemande | null> {
+    try {
+        const response = await apiRequest({
+            method: "GET",
+            url: "api/v1/superviseur/demmandes/flixsy",
+            params: { page }
+        });
+
+        if (response.code == 200) {
+            return {
+                result: response.data.results,
+                totalAct: response.data.count
+            }
+        } else {
+            return null
+        }
+    } catch {
+        return null
+    }
+}
+
+export async function addDemande({ somme }: { somme: number }) {
+    const loadingToastId = toast.loading('Submite Demande...');
+    try {
+        const response = await apiRequest({
+            method: "POST",
+            url: "api/v1/superviseur/demande/flyxsi",
+            data: { somme }
+        })
+
+        if (response.code == 201) {
+            toast.success('La demande crée avec succès', { id: loadingToastId });
+            return true
+        } else {
+            toast.error(response.message, { id: loadingToastId });
+            return false
+        }
+    } catch {
+        toast.error("Problem connction", { id: loadingToastId });
+        return false
+    }
+}
+
+export async function allDemandes({ page }: { page: string }): Promise<apiDemande | null> {
+    try {
+        const response = await apiRequest({
+            method: "GET",
+            url: "api/v1/centreappel/demendesflyxsy",
+            params: { page }
+        });
+
+        if (response.code == 200) {
+            return {
+                result: response.data.results,
+                totalAct: response.data.count
+            }
+        } else {
+            return null
+        }
+    } catch {
+        return null
+    }
+}
+
+export async function AproveDm({ flixy_id }: { flixy_id: number }) {
+    const loadingToastId = toast.loading('Submite Demande...');
+    try {
+        const response = await apiRequest({
+            method: "PATCH",
+            url: "api/v1/superviseur/apprpvie/flyxy",
+            data: { flixy_id }
+        })
+        if (response.code == 200) {
+            toast.success('Cette operation a éte', { id: loadingToastId });
+            return true
+        } else {
+            toast.error(response.message, { id: loadingToastId });
+            return false
+        }
+    } catch {
+        toast.error("Problem connection", { id: loadingToastId });
+        return false
     }
 }

@@ -218,7 +218,7 @@ export async function ActiveUser({ user_id }: { user_id: number }) {
             toast.error(response.message, { id: loadingToastId });
             return false;
         }
-    } catch (error) {
+    } catch {
         toast.error("Problem connection", { id: loadingToastId });
         return false
     }
@@ -240,7 +240,7 @@ export async function DisableUser({ id }: { id: number }) {
             toast.error(response.message, { id: loadingToastId });
             return false;
         }
-    } catch (error) {
+    } catch {
         toast.error("Problem connection", { id: loadingToastId });
         return false
     }

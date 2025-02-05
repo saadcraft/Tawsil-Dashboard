@@ -1,7 +1,6 @@
 import React from 'react'
 import { useRouter } from 'next/navigation';
 import { ActiveUser, DisableUser } from '@/lib/call_action';
-import toast from 'react-hot-toast';
 
 export default function ActiveCompte({ onClose, user }: { onClose: (result: null) => void, user: { id: number, statue: boolean } }) {
 
@@ -33,7 +32,7 @@ export default function ActiveCompte({ onClose, user }: { onClose: (result: null
         <div className='fixed z-20 top-0 flex items-center bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
             <div className='max-w-3xl rounded-xl mx-auto p-5 mt-10 bg-white'>
                 <h1 className='mb-5 font-bold text-center text-3xl'>
-                    {user.statue ? "est ce que vous êtes sur de supprimer ce compte" : "Es-tu sur activé ce compte"}
+                    {user.statue ? "Es-tu sur désactivé ce compte" : "Es-tu sur activé ce compte"}
                 </h1>
                 <div className='flex gap-3 justify-center'>
                     {user.statue ? <button onClick={() => handleDisable(user.id)} className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Yes</button> :

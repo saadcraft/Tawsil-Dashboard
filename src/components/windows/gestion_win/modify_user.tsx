@@ -38,7 +38,7 @@ export default function ModifyUser({ user, magasine, onsub }: { user: Partenaire
     return (
         <div className='fixed z-20 overflow-auto top-20 flex items-start bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
             <div className='xl:w-2/3 w-full mx-auto rounded-xl p-10 mt-10 bg-white'>
-                <h1 className='mb-5 text-xl text-center font-bold'>Modifie User</h1>
+                <h1 className='mb-5 text-xl text-center font-bold'>Modifier utilisateur</h1>
                 <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
                     <p>Nom et prénome</p>
                     <div className='flex gap-3'>
@@ -73,7 +73,7 @@ export default function ModifyUser({ user, magasine, onsub }: { user: Partenaire
                     </select>
                     <p>Lieux</p>
                     <input type="text" name="lieux" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Lieux' defaultValue={user.user.lieux || ''} />
-                    <button className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Submite</button>
+                    <button className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Confirmer</button>
                 </form>
             </div>
         </div>

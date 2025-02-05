@@ -2,6 +2,18 @@
 
 import React from 'react'
 import Image from 'next/image'
+import { StatsCard } from './carte'
+import {
+  MdOutlineDesktopMac,
+  MdSupportAgent,
+  MdOutlineDeliveryDining,
+  MdOutlineStorefront,
+  MdOutlineLocalTaxi,
+  MdSupervisorAccount,
+  MdMap,
+  MdOutlineFactCheck
+} from "react-icons/md";
+import { GrUserWorker } from "react-icons/gr";
 // import { Pie, Bar, Line } from 'react-chartjs-2';
 // import {
 //   Chart as ChartJS,
@@ -102,20 +114,17 @@ export default function Dashboard({ data, user }: { data: Context, user: Users }
     <div className="flex flex-col items-center justify-between py-5 px-5 sm:px-16">
       {user.role == "gestion_commercial" ?
         <>
-          <h1 className="text-2xl font-bold mb-5">Tableau de bord</h1>
-          <div className='grid grid-cols-3 gap-3 w-full'>
-            <div className='bg-white w-full flex flex-col justify-center items-center py-5 rounded-xl'>
-              <h1 className='font-bold'>Chef bureux</h1>
-              <p>{data.total_users_chef_bureux}</p>
-            </div>
-            <div className='bg-white w-full flex flex-col justify-center items-center py-5 rounded-xl'>
-              <h1>Agent administratif</h1>
-              <p>{data.tolat_users_agents}</p>
-            </div>
-            <div className='bg-white w-full flex flex-col justify-center items-center py-5 rounded-xl'>
-              <h1>Centre d&apos;appel</h1>
-              <p>{data.total_users_centre_appel}</p>
-            </div>
+          <h1 className="text-2xl font-bold mb-5 text-gray-600">Tableau de bord</h1>
+          <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 w-full mx-auto'>
+            <StatsCard title='Chef bureux' value={data.total_users_chef_bureux.toString()} icon={<MdOutlineDesktopMac />} />
+            <StatsCard title='Agent administratif' value={data.tolat_users_agents.toString()} icon={<GrUserWorker />} />
+            <StatsCard title='Centre d&apos;appel' value={data.total_users_centre_appel.toString()} icon={<MdSupportAgent />} />
+            <StatsCard title='Livreur' value={data.total_partners__livreur.toString()} icon={<MdOutlineDeliveryDining />} />
+            <StatsCard title='Magasin' value={data.total_partners__magasin.toString()} icon={<MdOutlineStorefront />} />
+            <StatsCard title='Choffeur' value={data.total_partners__choffeur.toString()} icon={<MdOutlineLocalTaxi />} />
+            <StatsCard title='Superviseurs' value={data.total_users_superviseurs.toString()} icon={<MdSupervisorAccount />} />
+            <StatsCard title='Courses' value={data.total_courses.toString()} icon={<MdMap />} />
+            <StatsCard title='Validation' value={data.total_users_validation.toString()} icon={<MdOutlineFactCheck />} />
           </div>
         </>
         :

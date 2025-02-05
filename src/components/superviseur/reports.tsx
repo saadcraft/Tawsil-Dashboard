@@ -4,10 +4,12 @@ import { FormatDate } from '@/lib/tools/tools'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { Report } from '@/lib/type_module/center_type'
-import DisplayReport from '../windows/gestion_win/show_report'
+import DisplayReport from '../windows/super_win/show_report'
 import { MdClose } from 'react-icons/md'
 
 export default function Reports({ reports }: { reports: Report[] }) {
+
+    console.log(reports)
 
     const [activePartnerId, setActivePartnerId] = useState<string | null>(null);
 
