@@ -22,7 +22,7 @@ export default async function ApplePage({ searchParams }: props) {
 
     if (!data) notFound()
 
-    const { result, totalAct } = data
+    const { result } = data
 
     return (
         <>
