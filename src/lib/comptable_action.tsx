@@ -1,0 +1,52 @@
+import { apiRequest } from "./request"
+import toast from 'react-hot-toast';
+
+
+type apiCasses = {
+    result: Caisses[],
+    totalAct: number
+}
+
+export async function GetAllCasses({ page, search, date, chef }: { page: string, search: string, date: string, chef: string }): Promise<apiCasses | null> {
+    try {
+        const response = await apiRequest({
+            method: "GET",
+            url: "api/v1/comtable/cassies",
+            params: { page, search, date, chef }
+        })
+        if (response.code == 200) {
+            return {
+                result: response.data.results,
+                totalAct: response.data.count
+            };
+        } else {
+            return null;
+        }
+    } catch {
+        return null;
+    }
+}
+
+export async function AproveCass({ cassie_id }: { cassie_id: number }) {
+
+    const loadingToastId = toast.loading('Submite Aprovment...');
+    try {
+
+        const response = await apiRequest({
+            method: "PATCH",
+            url: "/api/v1/comtable/cassie/approvie",
+            data: { cassie_id }
+        })
+
+        if (response.code == 200) {
+            toast.success('Caisse approuvée avec succès', { id: loadingToastId });
+            return true;
+        } else {
+            toast.success(response.message, { id: loadingToastId });
+            return false;
+        }
+    } catch {
+        toast.success("Problem connection", { id: loadingToastId });
+        return false;
+    }
+}
