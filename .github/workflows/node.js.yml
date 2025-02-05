@@ -9,7 +9,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     strategy:
       matrix:
@@ -26,6 +26,3 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
-
-    - name: Change Directory
-      run: cd /home/frandendstartawsil/actions-runner/_work/frontend/frontend
