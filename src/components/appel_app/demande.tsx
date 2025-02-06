@@ -74,7 +74,7 @@ export default function Demande({ dm }: { dm: Demande[] }) {
     return (
         <div className='py-5 px-5 sm:px-16'>
             <div className='flex items-center gap-2 px-5 pb-5 text-xs lg:text-xl'>
-                <Link href="/role" className='font-semibold text-third'>Tableau de bord /</Link>
+                <Link href="/dashboard" className='font-semibold text-third'>Tableau de bord /</Link>
                 <h1 className='font-bold'>Demande</h1>
             </div>
             <div className='p-3 pb-20 md:pb-20 bg-white md:p-10 rounded-md shadow-md'>

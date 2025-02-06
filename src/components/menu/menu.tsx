@@ -25,10 +25,11 @@ import { MenuParams } from "./params";
 import LoadingFirst from '../loading';
 
 type props = {
-    user: Users
+    user: Users;
+    count: number | null;
 }
 
-export default function Menu({ user }: props) {
+export default function Menu({ user, count }: props) {
 
     const router = useRouter();
     const pathname = usePathname();
@@ -103,6 +104,7 @@ export default function Menu({ user }: props) {
                 <div className={`relative w-full h-1.5 bg-third transition-all duration-500 ${isMenuOpen ? 'top-3.5 -rotate-45' : ''} `}></div>
                 <div className={`w-full h-1.5 bg-third transition-all duration-500 ${isMenuOpen ? ' -rotate-45' : ''} `}></div>
                 <div className={`relative w-full h-1.5 bg-third transition-all duration-500 ${isMenuOpen ? '-top-3.5  rotate-45' : ''} `}></div>
+                {count && count != 0 && user.role == "centre_appel" ? (<span className='absolute -top-3 -right-3 py-0.5 px-2 text-sm rounded-full text-white font-bold bg-red-600' >{count}</span>) : ""}
             </div>
             <div className={`fixed z-40 text-white top-0 overflow-y-auto md:overflow-y-hidden left-0 bottom-0 transition-all md:-translate-x-0  ${isMenuOpen ? "" : "-translate-x-80"}  bg-primer w-80 px-5`}>
                 <div onClick={() => handleMenu('/')} className='flex flex-col justify-center'>
@@ -162,9 +164,13 @@ export default function Menu({ user }: props) {
                                 <MenuParams title={`Center d'apple`} icon={<MdContactSupport />} onEvent={() => handleMenu("/dashboard/apple_center")} /> : ""
                             }
                             {user.role == "centre_appel" &&
-
-                                <MenuParams title={`Demandes`} icon={<MdOutlineRequestQuote />} onEvent={() => handleMenu("/dashboard/demande")} />
-
+                                <>
+                                    <MenuParams title={`Actions`} icon={<MdOutlinePendingActions />} onEvent={() => handleMenu("/dashboard/center_actions")} />
+                                    <div className='relative'>
+                                        <MenuParams title={`Demandes`} icon={<MdOutlineRequestQuote />} onEvent={() => handleMenu("/dashboard/demande")} />
+                                        {count && count != 0 ? <span className='absolute top-3.5 right-10 py-0.5 px-2 text-sm rounded-full text-white font-bold bg-red-600' >{count}</span> : ""}
+                                    </div>
+                                </>
                             }
                             {user.role == "superviseur" &&
                                 <>

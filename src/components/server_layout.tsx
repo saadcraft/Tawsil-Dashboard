@@ -3,6 +3,7 @@ import Menu from './menu/menu';
 import { getUser } from '@/lib/auth';
 import Header from './header/header';
 import ContactSupport from './contact/contact-support';
+import { getTotalDemande } from '@/lib/action_client';
 
 export default async function ServerMenu() {
 
@@ -20,9 +21,11 @@ export default async function ServerMenu() {
     }
   }
 
+  const num = await getTotalDemande()
+
   return (
     <div>
-      <Menu user={users!} />
+      <Menu user={users!} count={num!} />
       <Header user={users!} />
       {users && <ContactSupport />}
     </div>

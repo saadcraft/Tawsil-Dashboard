@@ -105,14 +105,16 @@ export default function Caisses({ cass, user, total }: { cass: Result[], user: U
   return (
     <div className='py-5 px-5 sm:px-16'>
       <div className='flex items-center gap-2 px-5 pb-5 text-xs lg:text-xl'>
-        <Link href="/role" className='font-semibold text-third'>Tableau de bord /</Link>
+        <Link href="/dashboard" className='font-semibold text-third'>Tableau de bord /</Link>
         <h1 className='font-bold'>Les caisses</h1>
       </div>
       <div className='p-10 pb-20 bg-white gap-10 rounded-md shadow-md'>
-        <div className='mb-7 flex justify-between items-center'>
+        <div className='flex lg:flex-row flex-col items-center justify-between mb-7 gap-5'>
           <form onSubmit={handleSearch} className='flex items-center gap-2'>
-            <FaSearch className='absolute text-slate-500' />
-            <input type="date" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+            <div className='relative'>
+              <FaSearch className='absolute top-3 text-slate-500' />
+              <input type="date" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+            </div>
             <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherche</button>
           </form>
           <div className='flex justify-end gap-2'>

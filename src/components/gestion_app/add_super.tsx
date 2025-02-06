@@ -58,7 +58,7 @@ export default function AddSuperviseur() {
     return (
         <div className='py-5 px-5 sm:px-16'>
             <div className='flex items-center gap-2 px-5 pb-5 text-xs lg:text-xl'>
-                <Link href="/role" className='font-semibold text-third'>Tableau de bord /</Link>
+                <Link href="/dashboard" className='font-semibold text-third'>Tableau de bord /</Link>
                 <h1 className='font-semibold'>Superviseur /</h1>
                 <h1 className='font-bold'>Créer</h1>
             </div>

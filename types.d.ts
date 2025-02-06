@@ -198,3 +198,12 @@ type Demande = {
   etat: "en_attente" | "refuse" | "accepte" | "annuler";
   appouvie_par_super_v: boolean;
 }
+
+type centerAction = {
+  id: number;
+  centre_appel: Users;
+  etat: string;
+  data_de_creation: string;
+  prix: number;
+  prix_a_envoye: number;
+}

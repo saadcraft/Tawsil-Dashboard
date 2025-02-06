@@ -1,3 +1,4 @@
+import Pagination from "@/components/options/pagination";
 import Recharge from "@/components/superviseur/recharger";
 import { DemandePerSuper } from "@/lib/super_action";
 import { Metadata } from "next";
@@ -22,11 +23,14 @@ export default async function ApplePage({ searchParams }: props) {
 
     if (!data) notFound()
 
-    const { result } = data
+    const { result, totalAct } = data
+
+    const totalPages = Math.ceil(totalAct / 20);
 
     return (
         <>
             <Recharge history={result} />
+            <Pagination currentPage={Number(pageNumber)} pages={totalPages} params={""} />
         </>
     )
 }

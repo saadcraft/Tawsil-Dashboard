@@ -1,18 +1,12 @@
 "use client"
 
+import { FormatDate } from '@/lib/tools/tools';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react'
-import Link from 'next/link'
-import { FaSearch } from "react-icons/fa";
-import { FormatDate } from "@/lib/tools/tools"
-import { useRouter } from 'next/navigation'
+import { FaSearch } from 'react-icons/fa';
 
-type Agents = {
-    result: Users[];
-}
-
-export default function Action({ actions, agents, total }: { actions: Actions[], agents: Agents, total: number }) {
-
-    const { result } = agents
+export default function ActionsCenter({ actions }: { actions: centerAction[] }) {
 
     const router = useRouter()
 
@@ -21,9 +15,8 @@ export default function Action({ actions, agents, total }: { actions: Actions[],
         const formData = new FormData(event.currentTarget);
         const cleint = formData.get('client') as string;
         const date = formData.get('date') as string;
-        const agent = formData.get('agent') as string;
 
-        router.push(`?search=${cleint}&agent=${agent}&date=${date}`);
+        router.push(`?search=${cleint}&date=${date}`);
     }
 
     const action = actions.map((pre, index) => {
@@ -33,16 +26,16 @@ export default function Action({ actions, agents, total }: { actions: Actions[],
                     {pre.id}
                 </td>
                 <td className="px-6 py-4">
-                    {FormatDate(pre.date_action)}
+                    {FormatDate(pre.data_de_creation)}
                 </td>
                 <td className="px-6 py-4">
-                    {pre.agent.username}
+                    {pre.centre_appel.username}
                 </td>
                 <td className="px-6 py-4">
-                    {pre.livreur.partenneur.user.first_name} {pre.livreur.partenneur.user.last_name}
+                    {pre.prix?.toFixed(2)} DA
                 </td>
                 <td className="px-6 py-4 text-right">
-                    {pre.total_amount}
+                    {pre.prix_a_envoye?.toFixed(2)} DA
                 </td>
             </tr>
         )
@@ -62,19 +55,8 @@ export default function Action({ actions, agents, total }: { actions: Actions[],
                             <input type="text" name="client" placeholder='recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         </div>
                         <input type="date" name="date" className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
-                        <select name="agent" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
-                            <option value="">Sélection Groupe</option>
-                            {result.map(pre => {
-                                if (pre != null) {
-                                    return (
-                                        <option key={pre.id} value={pre.id}> {pre.username}</option>
-                                    )
-                                }
-                            })}
-                        </select>
                         <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherche</button>
                     </form>
-                    <p className='text-xl'>Total: <span className='font-bold'>{total.toFixed(2)} DA</span></p>
                 </div>
                 <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table className="w-full text-sm text-left">
@@ -87,13 +69,13 @@ export default function Action({ actions, agents, total }: { actions: Actions[],
                                     Date
                                 </th>
                                 <th className="px-6 py-3">
-                                    agent
+                                    Utilisateur
                                 </th>
                                 <th className="px-6 py-3">
-                                    livreur
+                                    Prix Demandé
                                 </th>
                                 <th className="px-6 py-3 text-right">
-                                    totale
+                                    Prix Envoyer
                                 </th>
                             </tr>
                         </thead>

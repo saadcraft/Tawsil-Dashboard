@@ -69,7 +69,7 @@ export default function ShowAgent({ results }: { results: Users[] }) {
     return (
         <div className='py-5 px-5 sm:px-16'>
             <div className='flex items-center gap-2 px-5 pb-5'>
-                <Link href="/role" className='font-semibold text-xl'>Dashboard /</Link>
+                <Link href="/dashboard" className='font-semibold text-third'>Tableau de bord /</Link>
                 <h1 className='font-semibold text-xl'>Agent Administratif /</h1>
                 <h1 className='font-bold text-xl'>Modifie Agent</h1>
             </div>

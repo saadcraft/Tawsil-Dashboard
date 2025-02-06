@@ -37,7 +37,11 @@ export default function Login() {
                 router.push('/dashboard');
                 return result;
             } else {
-                toast.error(result, { id: loadingToastId });
+                if (result.includes('127.0.0.1:8000')) {
+                    toast.error("Problem with server", { id: loadingToastId });
+                } else {
+                    toast.error(result, { id: loadingToastId });
+                }
             }
         } catch {
             toast.error("Problem connection", { id: loadingToastId });

@@ -12,6 +12,11 @@ type apiAction = {
     prixTotal: number;
 }
 
+type apiCenterAction = {
+    result: centerAction[];
+    totalAct: number
+}
+
 
 export async function getCommand({ page, livreur, valide }: { page: string, livreur: string, valide: string }): Promise<apiRequest | null> {
     try {
@@ -130,5 +135,25 @@ export async function demandeAction({ flixy_id, etat, some_a_envoye }: { flixy_i
     } catch {
         toast.error("Problem connection", { id: loadingToastId });
         return false
+    }
+}
+
+export async function centerAction({ page, search, date }: { page: string, search: string, date: string }): Promise<apiCenterAction | null> {
+    try {
+        const response = await apiRequest({
+            method: "GET",
+            url: "api/v1/centreappel/actions/flexy",
+            params: { page, search, date }
+        })
+        if (response.code == 200) {
+            return {
+                result: response.data.results,
+                totalAct: response.data.count
+            }
+        } else {
+            return null
+        }
+    } catch {
+        return null
     }
 }

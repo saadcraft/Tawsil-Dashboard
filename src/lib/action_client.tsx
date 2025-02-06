@@ -139,3 +139,20 @@ export async function getCasses({ page, search_date }: { page: string, search_da
         return null
     }
 }
+
+export async function getTotalDemande() {
+    try {
+        const response = await apiRequest({
+            method: "GET",
+            url: "api/v1/centre_appel/enattends",
+        })
+
+        if (response.code == 200) {
+            return response.data.number
+        } else {
+            return null;
+        }
+    } catch {
+        return null
+    }
+}

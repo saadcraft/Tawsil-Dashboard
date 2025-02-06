@@ -1,4 +1,5 @@
 import Demande from "@/components/appel_app/demande";
+import Pagination from "@/components/options/pagination";
 import { allDemandes } from "@/lib/super_action";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -22,11 +23,14 @@ export default async function ApplePage({ searchParams }: props) {
 
     if (!data) notFound()
 
-    const { result } = data
+    const { result, totalAct } = data
+
+    const totalPages = Math.ceil(totalAct / 20);
 
     return (
         <>
             <Demande dm={result} />
+            <Pagination currentPage={Number(pageNumber)} pages={totalPages} params={""} />
         </>
     )
 }

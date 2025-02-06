@@ -156,10 +156,10 @@ export default function Delivery({ promise, users }: Props) {
   return (
     <div className='py-5 px-5 sm:px-16'>
       <div className='flex items-center gap-2 px-5 pb-5 text-xs lg:text-xl'>
-        <Link href="/role" className='font-semibold text-third'>Tableau de bord /</Link>
+        <Link href="/dashboard" className='font-semibold text-third'>Tableau de bord /</Link>
         <h1 className='font-bold'>Livraisons</h1>
       </div>
-      <div className='p-10 pb-20 bg-white rounded-md shadow-md'>
+      <div className='p-3 pb-20 md:pb-20 bg-white md:p-10 rounded-md shadow-md'>
         <div className='flex lg:flex-row flex-col items-center justify-between mb-7 gap-5'>
           <form onSubmit={(event) => handleSearch(event)} className='flex flex-col lg:flex-row items-center gap-5'>
             <div className='relative'>

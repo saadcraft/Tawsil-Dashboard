@@ -37,7 +37,7 @@ export default function Magasin({ allMagasin }: { allMagasin: MagasinType[] }) {
     return (
         <div className='py-5 px-5 sm:px-16'>
             <div className='flex items-center gap-2 px-5 pb-5'>
-                <Link href="/role" className='font-semibold text-xl'>Dashboard /</Link>
+                <Link href="/dashboard" className='font-semibold text-third'>Tableau de bord /</Link>
                 <h1 className='font-bold text-xl'>Magasin</h1>
             </div>
             <div className='p-10 pb-20 bg-white rounded-md shadow-md'>
