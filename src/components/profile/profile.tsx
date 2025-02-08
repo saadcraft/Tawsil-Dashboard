@@ -16,8 +16,8 @@ export default function Profile({ user }: { user: Users }) {
                     </div>
                 </div>
                 <p className='font-semibold text-3xl p-3 text-center'>{user.last_name + " " + user.first_name}</p>
-                <div className='flex gap-3'>
-                    <div className='font-bold text-xl p-2 border-r-2'>
+                <div className="flex justify-center items-center h-5/6 gap-10 rounded-lg">
+                    <div className="font-semibold text-lg space-y-4 text-gray-700">
                         <p>email :</p>
                         <p>Télephone :</p>
                         <p>Role:</p>
@@ -25,7 +25,7 @@ export default function Profile({ user }: { user: Users }) {
                         <p>Wilaya :</p>
                         <p>Lieux :</p>
                     </div>
-                    <div className='text-xl p-2'>
+                    <div className="text-lg border-l pl-4 space-y-4 text-gray-600">
                         <p>{user.email}</p>
                         <p>{user.phone_number_1}</p>
                         <p>{user.role}</p>
