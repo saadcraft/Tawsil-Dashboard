@@ -125,7 +125,7 @@ export default function Demande({ dm }: { dm: Demande[] }) {
                                     Prix
                                 </th>
                                 <th className="px-6 py-3 text-right">
-                                    Raport
+                                    Action
                                 </th>
                             </tr>
                         </thead>
