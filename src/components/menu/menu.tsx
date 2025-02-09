@@ -1,6 +1,6 @@
 "use client"
 
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useState, useEffect } from 'react'
 import {
     MdKeyboardArrowUp,
@@ -23,20 +23,22 @@ import { SignOut } from '@/lib/auth';
 import { toast } from "react-hot-toast";
 import { MenuParams } from "./params";
 import LoadingFirst from '../loading';
+import { getTotalDemande } from '@/lib/action_client';
 
 type props = {
     user: Users;
-    count: number | null;
 }
 
-export default function Menu({ user, count }: props) {
+export default function Menu({ user }: props) {
 
     const router = useRouter();
     const pathname = usePathname();
+    const search = useSearchParams();
 
     const [isFaqOpen, setIsFaqOpen] = useState(Array(4).fill(false));
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [countState, setCountState] = useState<number | null>(null);
 
     const handleMenu = (url: string | null) => {
         setIsMenuOpen(!isMenuOpen);
@@ -51,6 +53,22 @@ export default function Menu({ user, count }: props) {
     useEffect(() => {
         setIsLoading(false)
     }, [pathname])
+
+    useEffect(() => {
+        // Fetch fresh count data when pathname changes
+        const fetchCount = async () => {
+            try {
+                const num = await getTotalDemande(); // Fetch fresh count
+                setCountState(num); // Update count state
+            } catch (error) {
+                console.error('Failed to fetch count:', error);
+                setCountState(null); // Handle error
+            }
+        };
+
+        fetchCount(); // Call the function to fetch count on pathname change
+    }, [pathname, search]);
+
 
     function handleClick(index: number) {
         setIsFaqOpen((prevExpanded) => prevExpanded.map((isExpanded, i) => (i === index ? !isExpanded : isExpanded))
@@ -104,7 +122,7 @@ export default function Menu({ user, count }: props) {
                 <div className={`relative w-full h-1.5 bg-third transition-all duration-500 ${isMenuOpen ? 'top-3.5 -rotate-45' : ''} `}></div>
                 <div className={`w-full h-1.5 bg-third transition-all duration-500 ${isMenuOpen ? ' -rotate-45' : ''} `}></div>
                 <div className={`relative w-full h-1.5 bg-third transition-all duration-500 ${isMenuOpen ? '-top-3.5  rotate-45' : ''} `}></div>
-                {count && count != 0 && user.role == "centre_appel" ? (<span className='absolute -top-3 -right-3 py-0.5 px-2 text-sm rounded-full text-white font-bold bg-red-600' >{count}</span>) : ""}
+                {countState && countState != 0 && user.role == "centre_appel" ? (<span className='absolute -top-3 -right-3 py-0.5 px-2 text-sm rounded-full text-white font-bold bg-red-600' >{countState}</span>) : ""}
             </div>
             <div className={`fixed z-40 text-white top-0 overflow-y-auto md:overflow-y-hidden left-0 bottom-0 transition-all md:-translate-x-0  ${isMenuOpen ? "" : "-translate-x-80"}  bg-primer w-80 px-5`}>
                 <div onClick={() => handleMenu('/')} className='flex flex-col justify-center'>
@@ -168,7 +186,7 @@ export default function Menu({ user, count }: props) {
                                     <MenuParams title={`Actions`} icon={<MdOutlinePendingActions />} onEvent={() => handleMenu("/dashboard/center_actions")} />
                                     <div className='relative'>
                                         <MenuParams title={`Demandes`} icon={<MdOutlineRequestQuote />} onEvent={() => handleMenu("/dashboard/demande")} />
-                                        {count && count != 0 ? <span className='absolute top-3.5 right-10 py-0.5 px-2 text-sm rounded-full text-white font-bold bg-red-600' >{count}</span> : ""}
+                                        {countState && countState != 0 ? <span className='absolute top-3.5 right-10 py-0.5 px-2 text-sm rounded-full text-white font-bold bg-red-600' >{countState}</span> : ""}
                                     </div>
                                 </>
                             }

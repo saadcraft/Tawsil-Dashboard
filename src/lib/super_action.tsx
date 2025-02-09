@@ -201,12 +201,12 @@ export async function addDemande({ somme }: { somme: number }) {
     }
 }
 
-export async function allDemandes({ page }: { page: string }): Promise<apiDemande | null> {
+export async function allDemandes({ page, date, etat, search }: { page: string, date: string, etat: string, search: string }): Promise<apiDemande | null> {
     try {
         const response = await apiRequest({
             method: "GET",
             url: "api/v1/centreappel/demendesflyxsy",
-            params: { page }
+            params: { page, date, etat, search }
         });
 
         if (response.code == 200) {

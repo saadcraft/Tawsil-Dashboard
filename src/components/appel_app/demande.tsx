@@ -10,6 +10,7 @@ import { demandeAction } from '@/lib/actions'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import AcceptDemande from '../windows/centre_win/accepte'
+import { FaSearch } from 'react-icons/fa'
 
 type acceptDemande = {
     id: number;
@@ -22,6 +23,16 @@ export default function Demande({ dm }: { dm: Demande[] }) {
 
     const [reject, SetReject] = useState<number | null>(null)
     const [demande, SetDemande] = useState<acceptDemande | null>(null)
+
+    const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        const cleint = formData.get('client') as string;
+        const date = formData.get('date') as string;
+        const etat = formData.get('etat') as string;
+
+        router.push(`?search=${cleint}&date=${date}&etat=${etat}`);
+    }
 
     const hundleClick = async (id: number, event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -78,6 +89,22 @@ export default function Demande({ dm }: { dm: Demande[] }) {
                 <h1 className='font-bold'>Demande</h1>
             </div>
             <div className='p-3 pb-20 md:pb-20 bg-white md:p-10 rounded-md shadow-md'>
+                <div className='flex lg:flex-row flex-col items-center justify-between mb-7 gap-5'>
+                    <form onSubmit={handleSearch} className='flex flex-col lg:flex-row items-center gap-5'>
+                        <div className='relative'>
+                            <FaSearch className='absolute top-3 text-slate-500' />
+                            <input type="text" name="client" placeholder='recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                        </div>
+                        <input type="date" name="date" className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                        <select name="etat" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
+                            <option value="">Sélectioner état</option>
+                            <option value="en_attente">En attente</option>
+                            <option value="refuse">Refusé</option>
+                            <option value="accepte">Accepté</option>
+                        </select>
+                        <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherche</button>
+                    </form>
+                </div>
                 <div className="relative overflow-x-auto shadow-md sm:rounded-lg mb-3">
                     <table className="w-full text-sm text-left">
                         <thead className="text-xs text-gray-500 uppercase bg-primer">
