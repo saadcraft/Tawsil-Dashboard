@@ -40,11 +40,13 @@ export default function Magasin({ allMagasin }: { allMagasin: MagasinType[] }) {
                 <Link href="/dashboard" className='font-semibold text-third'>Tableau de bord /</Link>
                 <h1 className='font-bold text-xl'>Magasin</h1>
             </div>
-            <div className='p-10 pb-20 bg-white rounded-md shadow-md'>
-                <div className='flex justify-between'>
-                    <form className='mb-7 flex items-center gap-2'>
-                        <FaSearch className='absolute text-slate-500' />
-                        <input type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+            <div className='p-3 pb-20 bg-white md:p-10 rounded-md shadow-md'>
+                <div className='flex lg:flex-row flex-col items-center justify-between mb-7 gap-5'>
+                    <form className='flex flex-col lg:flex-row items-center gap-5'>
+                        <div className='relative'>
+                            <FaSearch className='absolute top-3 text-slate-500' />
+                            <input type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                        </div>
                         <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Submit</button>
                     </form>
                     <div>

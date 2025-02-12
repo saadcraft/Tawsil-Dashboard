@@ -217,6 +217,7 @@ export default function Menu({ user }: props) {
                     </div>
                 </div>
             </div>
+            {isMenuOpen && <div onClick={() => handleMenu(null)} className='fixed top-0 left-0 bottom-0 right-0 z-30 bg-slate-600 bg-opacity-50 md:hidden' ></div>}
 
             {isLoading &&
                 <LoadingFirst />

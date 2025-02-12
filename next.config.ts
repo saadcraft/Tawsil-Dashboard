@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
     SERVER_LOCAL: process.env.SERVER_LOCAL,
   },
+  images: {
+    domains: ['192.168.1.30:8000', '192.168.1.30'],
+  },
 };
 
 export default nextConfig;

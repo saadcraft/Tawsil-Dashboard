@@ -15,8 +15,8 @@ export default function Header({ user }: { user: Users }) {
         <div className='flex items-center space-x-4'>
           {user ?
             <Link href="/dashboard/profile" className='px-5 py-2 rounded-md flex gap-4 items-center'>
-              <FaRegUser className='text-4xl' />
-              <span>
+              <FaRegUser className='md:text-4xl text-2xl' />
+              <span className='flex flex-col md:gap-1.5 text-sm'>
                 <p>{user.username}</p>
                 <p>{Named(user.role)}</p>
               </span>
