@@ -59,7 +59,7 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
       Nif: formData.get('Nif')?.toString() || undefined,
       numero_act: formData.get('numero_act')?.toString() || undefined,
       card_number: formData.get('card_number')?.toString() || undefined,
-      type_id: user.type_compte.id,
+      type_id: user.type_compte?.id,
       vihucule: {
         modele: formData.get('modele')?.toString() || undefined,
         matricule: formData.get('matricule')?.toString() || undefined,

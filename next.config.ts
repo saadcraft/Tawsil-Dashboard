@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
     SERVER_LOCAL: process.env.SERVER_LOCAL,
   },
   images: {
-    domains: ['192.168.1.30:8000', '192.168.1.30'],
+    domains: ['192.168.1.30:8000', '192.168.1.30', 'localhost', 'localhost:8000', '197.140.142.57:8000', '197.140.142.57'],
   },
 };
 

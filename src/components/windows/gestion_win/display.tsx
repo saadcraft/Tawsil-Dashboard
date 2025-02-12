@@ -11,7 +11,7 @@ export default function Display({ document }: { document: Partenaire }) {
                         <p><span className='font-bold'>Email : </span> {`${document.user.email}`}</p>
                         <p><span className='font-bold'>Télephone : </span> {`${document.user.phone_number_1}`}</p>
                         <p><span className='font-bold'>Télephone 2 : </span> {` ${document.user.phone_number_2 ? document.user.phone_number_2 : '/'}`}</p>
-                        <p><span className='font-bold'>Type de compte : </span> {` ${document.type_compte.name}`}</p>
+                        <p><span className='font-bold'>Type de compte : </span> {` ${document.type_compte?.name}`}</p>
                         <p><span className='font-bold'>Wilaya : </span> {` ${document.user.wilaya}`}</p>
                         <p><span className='font-bold'>Lieux : </span> {` ${document.user.lieux ? document.user.lieux : "/"}`}</p>
                         <p><span className='font-bold'>Groupe : </span> {` ${document.user.groupe}`}</p>
