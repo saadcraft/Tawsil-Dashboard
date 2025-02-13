@@ -64,7 +64,7 @@ export default function Parteneure({ users }: { users: Partenaire[] }) {
                     {pre.user.phone_number_1}
                 </td>
                 <td className="px-6 py-4">
-                    {pre.type_compte.name}
+                    {pre.type_compte?.name}
                 </td>
                 <td className="px-6 py-4 flex gap-3">
                     {pre.user.is_active ?
