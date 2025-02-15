@@ -161,24 +161,42 @@ export async function changePassword({ new_password, token, uid }: { new_passwor
     }
 }
 
+type UpdateData = {
+    id: string;
+    image_url: File; // Allows additional dynamic properties
+}
 
-// export async function refreshAccessToken(refreshToken: string): Promise<any> {
-//     const response = await fetch(`${process.env.SERVER_DOMAIN}/api/token/refresh/`, {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify({ refreshToken }),
-//     })
 
-//     if (!response.ok) {
-//         throw new Error('Token refresh failed')
-//     }
+export async function UpdatePic(Data: UpdateData) {
+    const accessToken = (await cookies()).get("access_token")?.value;
+    try {
+        // Create a FormData object
+        const formData = new FormData();
 
-//     const data = await response.json()
+        // Append the file to the FormData object
+        if (Data.image_url) {
+            formData.append("image_url", Data.image_url); // "file" is the key expected by the server
+        }
 
-//     console.log('tokens =', data)
+        // Append other fields if needed
+        if (Data.id) {
+            formData.append("id", Data.id);
+        }
 
-//     return {
-//         newAccessToken: data.data.access,
-//         newRefreshToken: data.data.refresh
-//     }
-// }
+        const response = await fetch(`${process.env.SERVER_DOMAIN}/api/v1/uploaduser`, {
+            method: "PUT",
+            body: formData,
+            headers: {
+                "Authorization": `Bearer ${accessToken}`
+            }
+        });
+
+        if (response) {
+            return true
+        } else {
+            return false
+        }
+    } catch {
+        return false
+    }
+}

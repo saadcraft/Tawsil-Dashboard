@@ -142,20 +142,17 @@ export async function getAllAgent({ role, page, search, wilaya, groupe }:
             params: { role, page, search, wilaya, groupe }
         })
 
-        return {
-            result: response.data.results,
-            totalAct: response.data.count
-        };
-    } catch (error) {
-        if (error instanceof Error) {
-            // Handle 404 errors explicitly
-            if (error.message.includes("404")) {
-                return null
-            }
 
-            // For other errors, rethrow them
-            throw new Error(error.message || "An error occurred");
+        if (response.code == 200) {
+            return {
+                result: response.data.results,
+                totalAct: response.data.count
+            };
+        } else {
+            return null
         }
-        throw new Error("Unexpected error");
+
+    } catch {
+        return null
     }
 }

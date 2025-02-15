@@ -44,11 +44,11 @@ export const apiRequest = async (config: AxiosRequestConfig) => {
         const response = await api(config);
         return {
             code: response.status,
-            data : response.data
-        }      
+            data: response.data
+        }
     } catch (error) {
         if (axios.isAxiosError(error)) {
-            return{
+            return {
                 code: error.response?.status,
                 message: error.response?.data?.message || error.message
             }
