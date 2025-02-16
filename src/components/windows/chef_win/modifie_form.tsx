@@ -42,7 +42,7 @@ export default function ModifieForm({ user, onsub }: { user: Users, onsub: (valu
   }
 
   return (
-    <div className='fixed z-20 overflow-auto top-20 flex items-center bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
+    <div className='fixed z-20 overflow-auto top-20 flex items-start bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
       <div className='max-w-5xl mx-auto p-5 mt-10 bg-white'>
         <h1 className='mb-5 text-2xl font-bold text-center'>Modifie profile</h1>
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
@@ -55,6 +55,10 @@ export default function ModifieForm({ user, onsub }: { user: Users, onsub: (valu
           <input type='text' name='phone_number_1' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le numéro de téléphone' defaultValue={user.phone_number_1} />
           <p>Email</p>
           <input type='email' name='email' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le email' defaultValue={user.email} />
+          <p>Date de naissance</p>
+          <input type="date" name="date_de_naissance" id="date_de_naissance" className='p-3 border border-slate-300 rounded-md' defaultValue={user.date_de_naissance ? new Date(user.date_de_naissance).toISOString().split('T')[0] : ""} />
+          <p>Lieux de naissance</p>
+          <input type="Text" name="lieux" id="lieux" placeholder='Lieux de naissance' className='p-3 border border-slate-300 rounded-md' defaultValue={user.lieux!} />
           <p>Le mot de passe</p>
           <input type="password" name="password" className='p-2 border border-slate-300 rounded-md' placeholder='Entre nouvel password' />
           <p>Confirmé le mot de passe</p>
