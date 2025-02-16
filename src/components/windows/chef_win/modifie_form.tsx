@@ -12,18 +12,18 @@ export default function ModifieForm({ user, onsub }: { user: Users, onsub: (valu
     const formData = new FormData(e.currentTarget)
     const formObject = Object.fromEntries(formData.entries())
 
-    const password = formData.get("password") as string;
-    const confirmPassword = formData.get("confirm_password") as string;
+    // const password = formData.get("password") as string;
+    // const confirmPassword = formData.get("confirm_password") as string;
 
 
     const filteredData = Object.fromEntries(
       Object.entries(formObject).filter(([, value]) => value !== "")
     );
 
-    if (password !== confirmPassword) {
-      toast.error('Passwords do not match.');
-      return;
-    }
+    // if (password !== confirmPassword) {
+    //   toast.error('Passwords do not match.');
+    //   return;
+    // }
 
     delete filteredData.confirm_password;
 
@@ -59,10 +59,10 @@ export default function ModifieForm({ user, onsub }: { user: Users, onsub: (valu
           <input type="date" name="date_de_naissance" id="date_de_naissance" className='p-3 border border-slate-300 rounded-md' defaultValue={user.date_de_naissance ? new Date(user.date_de_naissance).toISOString().split('T')[0] : ""} />
           <p>Lieux de naissance</p>
           <input type="Text" name="lieux" id="lieux" placeholder='Lieux de naissance' className='p-3 border border-slate-300 rounded-md' defaultValue={user.lieux!} />
-          <p>Le mot de passe</p>
+          {/* <p>Le mot de passe</p>
           <input type="password" name="password" className='p-2 border border-slate-300 rounded-md' placeholder='Entre nouvel password' />
           <p>Confirmé le mot de passe</p>
-          <input type="password" name="confirm_password" className='p-2 border border-slate-300 rounded-md' placeholder='Entre verifé password' />
+          <input type="password" name="confirm_password" className='p-2 border border-slate-300 rounded-md' placeholder='Entre verifé password' /> */}
           <button className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Submite</button>
         </form>
       </div>
