@@ -167,7 +167,7 @@ type UpdateData = {
 }
 
 
-export async function UpdatePic(Data: UpdateData) {
+export async function UpdatePic(Data: UpdateData): Promise<{ success: boolean; message: string }> {
     const accessToken = (await cookies()).get("access_token")?.value;
     try {
         // Create a FormData object
@@ -191,12 +191,13 @@ export async function UpdatePic(Data: UpdateData) {
             }
         });
 
-        if (response) {
-            return true
+        if (response.status == 200) {
+            return { success: true, message: "Mise à jour réussie !" }; // Return success message
         } else {
-            return false
+            const errorData = await response.json(); // Assuming the server returns error details in JSON
+            return { success: false, message: errorData.message || "La mise à jour a échoué. Veuillez réessayer." };
         }
     } catch {
-        return false
+        return { success: false, message: "Probleme connection" };
     }
 }

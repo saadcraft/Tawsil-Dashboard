@@ -11,6 +11,11 @@ const nextConfig: NextConfig = {
   images: {
     domains: ['192.168.1.30:8000', '192.168.1.30', 'localhost', 'localhost:8000', '197.140.142.57:8000', '197.140.142.57'],
   },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '10mb', // Increase the limit to 10 MB
+    },
+  },
 };
 
 export default nextConfig;

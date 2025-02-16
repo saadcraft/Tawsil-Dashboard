@@ -34,17 +34,17 @@ export default function ModifieForm({ user, onsub }: { user: Users, onsub: (valu
 
     const updatedUser = { id: user.id.toString(), ...filteredData };
 
-      const res = await UpdateUser(updatedUser)
-      if (res) {
-        router.refresh()
-        onsub(null)
-      }
+    const res = await UpdateUser(updatedUser)
+    if (res) {
+      router.refresh()
+      onsub(null)
+    }
   }
 
   return (
     <div className='fixed z-20 overflow-auto top-20 flex items-center bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
       <div className='max-w-5xl mx-auto p-5 mt-10 bg-white'>
-        <h1 className='mb-5 text-2xl font-bold text-center'>Modifie Agent</h1>
+        <h1 className='mb-5 text-2xl font-bold text-center'>Modifie profile</h1>
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           <p>Le nom et le prénom</p>
           <div className='flex gap-5'>
