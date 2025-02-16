@@ -43,11 +43,11 @@ export default function ModifieForm({ user, onsub }: { user: Users, onsub: (valu
 
   return (
     <div className='fixed z-20 overflow-auto top-20 flex items-start bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
-      <div className='max-w-5xl mx-auto p-5 mt-10 bg-white'>
+      <div className='md:max-w-5xl w-full mx-auto p-5 mt-10 bg-white'>
         <h1 className='mb-5 text-2xl font-bold text-center'>Modifie profile</h1>
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           <p>Le nom et le prénom</p>
-          <div className='flex gap-5'>
+          <div className='flex gap-5 md:flex-row flex-col'>
             <input type='text' name='last_name' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le Nom' defaultValue={user.last_name} />
             <input type='text' name='first_name' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le prénom' defaultValue={user.first_name} />
           </div>
