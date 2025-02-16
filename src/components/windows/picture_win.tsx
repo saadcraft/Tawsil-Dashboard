@@ -28,7 +28,7 @@ export default function PictureWin({ user, onsub }: { user: number, onsub: (valu
             return;
         }
         if (image_url.size > 5242880) {
-            toast.error("L'image est grande, maximum 5mb", { id: loadingToastId });
+            toast.error("L'image est grande, maximum 5 Mo", { id: loadingToastId });
             return;
         }
 
