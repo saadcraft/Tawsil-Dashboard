@@ -3,6 +3,7 @@
 import { CookiesRemover } from "./cookies";
 import { cookies } from 'next/headers';
 import { apiRequest } from "./request";
+import { Role } from "./tools/roles/user_role";
 
 
 type User = {
@@ -26,24 +27,29 @@ export async function SignIn({ username, password }: User) {
         if (data.code === 200) {
             const cookiesStore = await cookies();
 
-            cookiesStore.set("access_token", data.data.access_token, {
-                path: "/",
-                maxAge: 24 * 60 * 60, // 1 day
-                secure: process.env.NODE_ENV === "production",
-                httpOnly: true, // Prevent client-side access
-                sameSite: "strict",
-            });
+            if (Role(data.data.role)) {
 
-            cookiesStore.set("refresh_token", data.data.refresh_token, {
-                path: "/",
-                maxAge: 7 * 24 * 60 * 60, // 7 days
-                secure: process.env.NODE_ENV === "production",
-                httpOnly: true, // Prevent client-side access
-                sameSite: "strict",
-            });
-            return {
-                code: data.code,
-                data: data.data,
+                cookiesStore.set("access_token", data.data.access_token, {
+                    path: "/",
+                    maxAge: 24 * 60 * 60, // 1 day
+                    secure: process.env.NODE_ENV === "production",
+                    httpOnly: true, // Prevent client-side access
+                    sameSite: "strict",
+                });
+
+                cookiesStore.set("refresh_token", data.data.refresh_token, {
+                    path: "/",
+                    maxAge: 7 * 24 * 60 * 60, // 7 days
+                    secure: process.env.NODE_ENV === "production",
+                    httpOnly: true, // Prevent client-side access
+                    sameSite: "strict",
+                });
+                return {
+                    code: data.code,
+                    data: data.data,
+                }
+            } else {
+                return "Wrong information"
             }
         } else {
             return data.message

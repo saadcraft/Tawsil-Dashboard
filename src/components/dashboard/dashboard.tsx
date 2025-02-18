@@ -111,9 +111,9 @@ export default function Dashboard({ data, user }: { data: Context, user: Users }
 
 
   return (
-    <div className="flex flex-col items-center justify-between py-5 px-5 sm:px-16">
+    <div className="flex flex-col items-center justify-between">
       {user.role == "gestion_commercial" ?
-        <>
+        <div className='py-5 px-5 sm:px-16'>
           <h1 className="text-2xl font-bold mb-5 text-gray-600">Tableau de bord</h1>
           <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 w-full mx-auto'>
             <StatsCard title='Chef bureux' value={data.total_users_chef_bureux.toString()} icon={<MdOutlineDesktopMac />} />
@@ -126,11 +126,20 @@ export default function Dashboard({ data, user }: { data: Context, user: Users }
             <StatsCard title='Courses' value={data.total_courses.toString()} icon={<MdMap />} />
             <StatsCard title='Validation' value={data.total_users_validation.toString()} icon={<MdOutlineFactCheck />} />
           </div>
-        </>
-        :
-        <div className='fixed bottom-0 top-0 right-0 left-0 md:left-80 flex items-center justify-center'>
-          <Image height={300} width={300} src={`/dash.svg`} alt='' />
         </div>
+        :
+        user.role == "partener" ?
+          <div className='relative w-full'>
+            <div className='w-full h-52 overflow-hidden'>
+              <Image width={500} height={500} src="/background.png" alt='image cover' className='object-cover w-full h-full' />
+            </div>
+            <Image width={150} height={150} src={`/dash.svg`} alt="image profile" className='absolute left-12 w-24 md:w-36 top-36 md:top-24 rounded-full bg-white shadow-md' />
+          </div>
+
+          :
+          <div className='fixed bottom-0 top-0 right-0 left-0 md:left-80 flex items-center justify-center'>
+            <Image height={300} width={300} src={`/dash.svg`} alt='' />
+          </div>
       }
       {/* <div className="grid grid-cols-2 gap-5 w-full">
         <div className='py-1'>

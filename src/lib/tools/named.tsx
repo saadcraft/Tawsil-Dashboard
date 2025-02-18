@@ -18,6 +18,8 @@ export default function Named(role: string) {
             return "Aide comptable";
         case "comptable":
             return "Comptable";
+        case "partener":
+            return "Magasin";
         // Add more roles as needed
         default:
             return "Guest"; // Default fallback

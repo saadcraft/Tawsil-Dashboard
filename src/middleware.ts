@@ -26,7 +26,7 @@ export async function middleware(req: NextRequest) {
     // Redirect logic
     if (auth) {
       const urls = Role(auth.role)
-      const isDisallowedRolePath = path.startsWith('/dashboard') && !urls.includes(path);
+      const isDisallowedRolePath = path.startsWith('/dashboard') && !urls?.includes(path);
       if (isPublicRoute || isDisallowedRolePath) {
         // Redirect to a default route if the user doesn't have access
         return NextResponse.redirect(new URL('/dashboard', req.url));
