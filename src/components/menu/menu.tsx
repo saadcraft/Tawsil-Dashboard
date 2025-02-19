@@ -205,6 +205,12 @@ export default function Menu({ user }: props) {
                             {user.role == "comptable" &&
                                 <MenuParams title={`Caisses`} icon={<MdAttachMoney />} onEvent={() => handleMenu("/dashboard/comptable")} />
                             }
+                            {
+                                user.role == "partener" &&
+                                <>
+                                    <MenuParams title={`Gestion Produit`} icon={<MdOutlineStorefront />} onEvent={() => handleMenu("/dashboard/product_management")} />
+                                </>
+                            }
                         </>}
                     <div onClick={() => handleClick(0)} className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>
                         <h1 className='flex items-center gap-2'><MdLogin /> Authentication</h1>

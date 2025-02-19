@@ -207,3 +207,36 @@ export async function UpdatePic(Data: UpdateData): Promise<{ success: boolean; m
         return { success: false, message: "Probleme connection" };
     }
 }
+
+export async function addProduct(Data: { magasin_id: number, [key: string]: unknown }) {
+    const accessToken = (await cookies()).get("access_token")?.value;
+    try {
+        const formData = new FormData();
+
+        // Append all key-value pairs from Data to formData
+        Object.entries(Data).forEach(([key, value]) => {
+            if (value instanceof File || value instanceof Blob) {
+                // Handle file uploads properly
+                formData.append(key, value);
+            } else {
+                formData.append(key, String(value)); // Convert other values to string
+            }
+        });
+        const response = await fetch(`${process.env.SERVER_DOMAIN}/api/v1/magasin/create/produis`, {
+            method: "POST",
+            body: formData,
+            headers: {
+                "Authorization": `Bearer ${accessToken}`
+            }
+        })
+
+        if (response.status == 200) {
+            return { success: true, message: "Produit create Avec succès" }; // Return success message
+        } else {
+            const errorData = await response.json(); // Assuming the server returns error details in JSON
+            return { success: false, message: errorData.message || "La mise à jour a échoué. Veuillez réessayer." };
+        }
+    } catch {
+        return { success: false, message: "Probleme connection" };
+    }
+}

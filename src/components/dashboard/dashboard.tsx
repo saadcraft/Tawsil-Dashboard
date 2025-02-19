@@ -11,7 +11,9 @@ import {
   MdOutlineLocalTaxi,
   MdSupervisorAccount,
   MdMap,
-  MdOutlineFactCheck
+  MdOutlineFactCheck,
+  MdOutlineFileUpload,
+  MdModeEditOutline
 } from "react-icons/md";
 import { GrUserWorker } from "react-icons/gr";
 // import { Pie, Bar, Line } from 'react-chartjs-2';
@@ -133,7 +135,16 @@ export default function Dashboard({ data, user }: { data: Context, user: Users }
             <div className='w-full h-52 overflow-hidden'>
               <Image width={500} height={500} src="/background.png" alt='image cover' className='object-cover w-full h-full' />
             </div>
-            <Image width={150} height={150} src={`/dash.svg`} alt="image profile" className='absolute left-12 w-24 md:w-36 top-36 md:top-24 rounded-full bg-white shadow-md' />
+            <div className='absolute left-12 top-36 md:top-24'>
+              <Image width={150} height={150} src={`/dash.svg`} alt="image profile" className=' w-24 md:w-36 rounded-full bg-white shadow-md' />
+              <span className='absolute right-3 bottom-1 md:text-3xl text-2xl text-gray-600 bg-slate-200 rounded-full drop-shadow-lg cursor-pointer'>
+                <MdOutlineFileUpload />
+              </span>
+            </div>
+            <span className='absolute text-3xl text-gray-600 right-3 top-3 bg-slate-400 bg-opacity-50 rounded-full p-1 cursor-pointer hover:bg-opacity-60 hover:text-gray-900'>
+              <MdModeEditOutline />
+            </span>
+            <p className='absolute md:top-36 bottom-2 md:left-52 left-40 drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] text-white font-bold md:text-3xl text-xl'>Name de magasin</p>
           </div>
 
           :

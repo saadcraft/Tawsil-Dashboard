@@ -17,10 +17,9 @@ export function Role(role: string) {
         case "comptable":
             return ["/dashboard", "/dashboard/profile", "/dashboard/comptable"];
         case "partener":
-            return ["/dashboard", "/dashboard/profile"];
+            return ["/dashboard", "/dashboard/profile", "/dashboard/product_management"];
         // Add more roles as needed
         default:
             return null
     }
-
 }

@@ -58,6 +58,18 @@ type Magasin = {
   owner: number;
 }
 
+type Produit = {
+  id: number;
+  image: string | null;
+  name: string;
+  description: string;
+  price: string; // Assuming price is a string to handle decimals and formatting
+  is_available: boolean;
+  rating: number;
+  magasin: number;
+  catalogue: Catalogue;
+};
+
 type Catalogue = {
   id: number;
   name: string;

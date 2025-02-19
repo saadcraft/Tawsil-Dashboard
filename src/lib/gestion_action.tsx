@@ -13,18 +13,19 @@ type apiAgents = {
     totalAct: number;
 }
 
-export async function getMagasin(): Promise<MagasinType[]> {
+export async function getTypeMagasin(): Promise<MagasinType[] | null> {
     try {
         const response = await apiRequest({
             method: "GET",
             url: "/api/v1/commerciale/typecomptes"
         })
-        return response.data
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
+        if (response.code == 200) {
+            return response.data
+        } else {
+            return null
         }
-        throw new Error("Unexpected error");
+    } catch {
+        return null
     }
 }
 
