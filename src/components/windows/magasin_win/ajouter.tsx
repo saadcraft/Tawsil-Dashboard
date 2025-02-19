@@ -14,7 +14,7 @@ export default function AjouterProduct({ option, maga, onsub }: { option: Catalo
 
         const formData = new FormData(e.currentTarget)
         const formObject = Object.fromEntries(formData.entries())
-        const catal = formData.get('catalogue');
+        // const catal = formData.get('catalogue');
 
 
         const filteredData = Object.fromEntries(
