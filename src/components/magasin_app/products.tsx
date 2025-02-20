@@ -2,12 +2,15 @@
 
 import Link from 'next/link'
 import React, { useState } from 'react'
-import { FaPen, FaSearch, FaTrashAlt } from 'react-icons/fa'
-import { MdClose } from 'react-icons/md'
+import { FaPen, FaSearch, FaTrashAlt, FaRegCheckCircle } from 'react-icons/fa'
+import { MdClose, MdBlock } from 'react-icons/md'
 import AjouterProduct from '../windows/magasin_win/ajouter'
 import Image from 'next/image'
 import DeleteProduit from '../windows/magasin_win/delete_Product'
 import { useRouter } from 'next/navigation'
+import ModifyProduct from '../windows/magasin_win/modifie_product'
+import { ModifieProduct } from '@/lib/auth'
+import toast from 'react-hot-toast'
 
 export default function Products({ products, cat, magasin }: { products: Produit[], cat: Catalogue[], magasin: Magasin }) {
 
@@ -16,6 +19,7 @@ export default function Products({ products, cat, magasin }: { products: Produit
 
     const [add, setAdd] = useState<boolean>(false);
     const [delet, setDelet] = useState<number | null>(null);
+    const [modify, setModify] = useState<Produit | null>(null);
 
     const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -24,6 +28,19 @@ export default function Products({ products, cat, magasin }: { products: Produit
         const categories = formData.get('catalogue_id') as string;
 
         router.push(`?category=${categories}&name=${cleint}`);
+    }
+
+    const handleStatus = async (id: number, is_available: boolean) => {
+        const loadingToastId = toast.loading('Submite update...');
+
+        const res = await ModifieProduct({ id, is_available })
+
+        if (res.success) {
+            toast.success(is_available ? "Activé" : "Désactivé", { id: loadingToastId });
+            router.refresh();
+        } else {
+            toast.error(res.message, { id: loadingToastId });
+        }
     }
 
     const Products = products.map((pre, index) => {
@@ -36,20 +53,30 @@ export default function Products({ products, cat, magasin }: { products: Produit
                     {pre.id}
                 </td>
                 <td className="px-6 py-4">
-                    <Image src={`${process.env.IMGS_DOMAIN}${pre.image}`} width={50} height={50} alt='product image' className='w-12 h-12 object-cover rounded-md' />
+                    {pre.image &&
+                        <Image src={`${process.env.IMGS_DOMAIN}${pre.image}`} width={50} height={50} alt='product image' className='w-12 h-12 object-cover rounded-md' />
+                    }
                 </td>
                 <td className="px-6 py-4">
                     {pre.name}
                 </td>
                 <td className="px-6 py-4">
-                    {pre.catalogue.name}
+                    {cat.find(pro => pro.id === pre.catalogue)?.name}
                 </td>
                 <td className="px-6 py-4">
                     {pre.price}
                 </td>
-                <td className="px-6 py-4 text-right">
-                    <button className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500'><FaPen /></button>
-                    <button onClick={() => setDelet(pre.id)} className='ml-2 bg-red-700 text-white p-1 rounded-md hover:bg-red-500'><FaTrashAlt /></button>
+                <td className="px-6 py-4">
+                    {pre.is_available ? <span className='text-green-700 font-bold'>Disponible</span> : <span className='text-red-700 font-bold'>Pas disponible</span>}
+                </td>
+                <td className="px-3 py-7 flex justify-end gap-1 text-right">
+                    {pre.is_available ?
+                        <button onClick={() => handleStatus(pre.id, false)} className='bg-red-700 text-white p-1 rounded-md hover:bg-red-500' title='désactiver'><MdBlock /></button>
+                        :
+                        <button onClick={() => handleStatus(pre.id, true)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500' title='activé'><FaRegCheckCircle /></button>
+                    }
+                    <button onClick={() => setModify(pre)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500' title='modifie'><FaPen /></button>
+                    <button onClick={() => setDelet(pre.id)} className='bg-red-700 text-white p-1 rounded-md hover:bg-red-500' title='supprimer'><FaTrashAlt /></button>
                 </td>
             </tr>
         )
@@ -61,7 +88,7 @@ export default function Products({ products, cat, magasin }: { products: Produit
                 <Link href="/dashboard" className='font-semibold text-third'>Tableau de bord /</Link>
                 <h1 className='font-semibold text-xl'>Gestion Produit</h1>
             </div>
-            <div className='p-10 pb-20 bg-white rounded-md shadow-md'>
+            <div className='p-3 md:p-10 pb-20 md:pb-20 bg-white rounded-md shadow-md'>
                 <div className='flex lg:flex-row flex-col items-center justify-between mb-7 gap-5'>
                     <form onSubmit={handleSearch} className='flex items-center gap-2'>
                         <FaSearch className='absolute text-slate-500' />
@@ -98,6 +125,9 @@ export default function Products({ products, cat, magasin }: { products: Produit
                                     Price
                                 </th>
                                 <th className="px-6 py-3">
+                                    Status
+                                </th>
+                                <th className="px-6 py-3 text-right">
                                     Action
                                 </th>
                             </tr>
@@ -118,6 +148,12 @@ export default function Products({ products, cat, magasin }: { products: Produit
                 <div>
                     <button onClick={() => setDelet(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
                     <DeleteProduit id={delet} onsub={setDelet} />
+                </div>
+            }
+            {modify &&
+                <div>
+                    <button onClick={() => setModify(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <ModifyProduct pro={modify} option={cat!} onsub={setModify} />
                 </div>
             }
         </div>

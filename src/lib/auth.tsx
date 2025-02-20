@@ -169,7 +169,7 @@ export async function changePassword({ new_password, token, uid }: { new_passwor
 
 type UpdateData = {
     id: string;
-    image_url: File; // Allows additional dynamic properties
+    image_url: File | null; // Allows additional dynamic properties
 }
 
 
@@ -230,8 +230,78 @@ export async function addProduct(Data: { magasin_id: number, [key: string]: unkn
             }
         })
 
-        if (response.status == 200) {
+        if (response.status == 201) {
             return { success: true, message: "Produit create Avec succès" }; // Return success message
+        } else {
+            const errorData = await response.json(); // Assuming the server returns error details in JSON
+            return { success: false, message: errorData.message || "La mise à jour a échoué. Veuillez réessayer." };
+        }
+    } catch {
+        return { success: false, message: "Probleme connection" };
+    }
+}
+
+export async function ModifieProduct(Data: { id: number, [key: string]: unknown }) {
+    const accessToken = (await cookies()).get("access_token")?.value;
+    try {
+        const formData = new FormData();
+
+        // Append all key-value pairs from Data to formData
+        Object.entries(Data).forEach(([key, value]) => {
+            if (value instanceof File || value instanceof Blob) {
+                // Handle file uploads properly
+                formData.append(key, value);
+            } else {
+                formData.append(key, String(value)); // Convert other values to string
+            }
+        });
+        const response = await fetch(`${process.env.SERVER_DOMAIN}/api/v1/produis/update`, {
+            method: "PUT",
+            body: formData,
+            headers: {
+                "Authorization": `Bearer ${accessToken}`
+            }
+        })
+
+        if (response.status == 200) {
+            return { success: true, message: "Mise à jour réussie !" }; // Return success message
+        } else {
+            const errorData = await response.json(); // Assuming the server returns error details in JSON
+            return { success: false, message: errorData.message || "La mise à jour a échoué. Veuillez réessayer." };
+        }
+    } catch {
+        return { success: false, message: "Probleme connection" };
+    }
+}
+
+export async function UpdateMagPic(Data: { magasin_id: string; image_background?: File | null; image?: File | null },
+    type: string): Promise<{ success: boolean; message: string }> {
+
+    const accessToken = (await cookies()).get("access_token")?.value;
+    try {
+        // Create a FormData object
+        const formData = new FormData();
+        formData.append("magasin_id", Data.magasin_id);
+
+        // Append the correct image based on type
+        if (type === "background" && Data.image_background) {
+            formData.append("image_backgroud", Data.image_background);
+        } else if (type !== "background" && Data.image) {
+            formData.append("image", Data.image);
+        }
+
+        // console.log(formData);
+
+        const response = await fetch(`${process.env.SERVER_DOMAIN}/api/v1/platfome/magasin/uploadimages`, {
+            method: "PUT",
+            body: formData,
+            headers: {
+                "Authorization": `Bearer ${accessToken}`
+            }
+        });
+
+        if (response.status == 200) {
+            return { success: true, message: "Mise à jour réussie !" }; // Return success message
         } else {
             const errorData = await response.json(); // Assuming the server returns error details in JSON
             return { success: false, message: errorData.message || "La mise à jour a échoué. Veuillez réessayer." };

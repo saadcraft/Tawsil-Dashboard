@@ -117,3 +117,23 @@ export async function DeleteProduct(id: number) {
         return false;
     }
 }
+
+export async function UpdateMagasin(Data: { magasin_id: number, [key: string]: unknown }) {
+    try {
+        const response = await apiRequest({
+            method: "PUT",
+            url: "api/v1/platfome/magasin/update",
+            data: Data
+        })
+        if (response.code == 200) {
+            return {
+                code: response.code,
+                data: response.data,
+            }
+        } else {
+            return response.message;
+        }
+    } catch {
+        return null;
+    }
+}

@@ -54,8 +54,10 @@ type Magasin = {
   contact: string;
   is_active: boolean;
   wilaya: string;
-  image_url: string | null;
+  image: string | null;
+  image_background: string | null;
   owner: number;
+  EtatOuverture: boolean;
 }
 
 type Produit = {
@@ -67,7 +69,7 @@ type Produit = {
   is_available: boolean;
   rating: number;
   magasin: number;
-  catalogue: Catalogue;
+  catalogue: number;
 };
 
 type Catalogue = {

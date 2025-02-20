@@ -7,6 +7,8 @@ export default function AjouterProduct({ option, maga, onsub }: { option: Catalo
 
     const router = useRouter()
 
+    console.log(option)
+
     const handleCreate = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
