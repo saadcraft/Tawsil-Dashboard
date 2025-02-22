@@ -21,6 +21,7 @@ import { GrUserWorker } from "react-icons/gr";
 import { UpdateMagasin } from '@/lib/stores_api';
 import toast from 'react-hot-toast';
 import PictureMagasin from '../windows/dashboard_win/upload_win'
+import ModifieMagasin from '../windows/magasin_win/modifie_magasin'
 // import { Pie, Bar, Line } from 'react-chartjs-2';
 // import {
 //   Chart as ChartJS,
@@ -45,11 +46,12 @@ import PictureMagasin from '../windows/dashboard_win/upload_win'
 // };
 
 
-export default function Dashboard({ magasin, data, user }: { magasin: Magasin | null, data: Context, user: Users }) {
+export default function Dashboard({ magasin, data, user, cate }: { magasin: Magasin | null, data: Context, user: Users, cate: Catalogue[] }) {
 
   const router = useRouter()
 
   const [types, setTypes] = useState<"background" | "profile" | null>(null)
+  const [mody, setMody] = useState<boolean>(false)
 
   // ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, PointElement, LineElement);
 
@@ -199,12 +201,50 @@ export default function Dashboard({ magasin, data, user }: { magasin: Magasin | 
             </div>
             <div className='py-5 px-5 sm:px-16'>
               <div className='relative top-10 p-3 pb-20 bg-white md:p-10 rounded-md shadow-md'>
-
+                <div className='relative md:-top-5 flex items-center justify-between'>
+                  <h1 className='font-bold text-xl'>Information</h1>
+                  <span onClick={() => setMody(true)} className='text-3xl text-gray-600 right-3 bg-slate-400 bg-opacity-50 rounded-full p-1 cursor-pointer hover:bg-opacity-60 hover:text-gray-900'>
+                    <MdModeEditOutline />
+                  </span>
+                </div>
+                <div className="h-5/6 rounded-lg flex justify-around flex-col lg:flex-row text-xs md:text-lg">
+                  <table className='max-w-xl'>
+                    <tbody className='text-left'>
+                      <tr className='border-b'>
+                        <th className='p-2'>Address : </th>
+                        <td className='text-nowrap'>{magasin?.address || "/"}</td>
+                      </tr>
+                      <tr className='border-b p-2'>
+                        <th className='p-2'>Télephone : </th>
+                        <td>{magasin?.contact || "/"}</td>
+                      </tr>
+                      <tr className='border-b'>
+                        <th className='p-2'>Wilaya: </th>
+                        <td>{magasin?.wilaya || "/"}</td>
+                      </tr>
+                      <tr className='border-b'>
+                        <th className='p-2'>Discreption: </th>
+                        <td>{magasin?.descprition || "/"}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div className="mt-6">
+                    <h3 className="mb-3 text-lg font-medium">Categologe</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {magasin?.cataloguqe?.map((category) => (
+                        <span key={category.id} className="rounded-full font-semibold bg-slate-300  px-3 py-1 text-sm text-primary">
+                          {category.name}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
           :
+
           <div className='fixed bottom-0 top-0 right-0 left-0 md:left-80 flex items-center justify-center'>
             <Image height={300} width={300} src={`/dash.svg`} alt='' />
           </div>
@@ -222,6 +262,12 @@ export default function Dashboard({ magasin, data, user }: { magasin: Magasin | 
         <>
           <button onClick={() => setTypes(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
           <PictureMagasin onsub={setTypes} type={types} maga={magasin} />
+        </>
+      }
+      {mody &&
+        <>
+          <button onClick={() => setMody(false)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+          <ModifieMagasin option={cate} maga={magasin!} onsub={setMody} />
         </>
       }
     </div>

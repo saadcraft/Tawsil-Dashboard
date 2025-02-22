@@ -14,7 +14,8 @@ import {
     MdLocalTaxi,
     MdOutlineStorefront,
     MdOutlineReport,
-    MdOutlineRequestQuote
+    MdOutlineRequestQuote,
+    MdOutlineShoppingBasket
 } from "react-icons/md";
 import { TbRecharging } from "react-icons/tb";
 import { GrValidate, GrUserWorker } from "react-icons/gr";
@@ -209,6 +210,7 @@ export default function Menu({ user }: props) {
                                 user.role == "partener" &&
                                 <>
                                     <MenuParams title={`Gestion Produit`} icon={<MdOutlineStorefront />} onEvent={() => handleMenu("/dashboard/product_management")} />
+                                    <MenuParams title={`Commandes`} icon={<MdOutlineShoppingBasket />} onEvent={() => handleMenu("/dashboard/commandes")} />
                                 </>
                             }
                         </>}

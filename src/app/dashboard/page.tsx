@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Dashboard from "@/components/dashboard/dashboard";
 import { GetStatic } from "@/lib/actions";
 import { getUser } from "@/lib/auth";
-import getMagasin from "@/lib/stores_api";
+import getMagasin, { getCategories } from "@/lib/stores_api";
 import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
@@ -21,9 +21,11 @@ export default async function DashbordPage() {
     if (!magasin) notFound();
   }
 
+  const categories = await getCategories()
+
   return (
     <div>
-      <Dashboard magasin={magasin} data={staticData} user={users!} />
+      <Dashboard magasin={magasin} data={staticData} user={users!} cate={categories} />
     </div>
   )
 }

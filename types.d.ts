@@ -47,7 +47,7 @@ type Courses = {
 
 type Magasin = {
   id: number;
-  cataloguqe: Catalogue;
+  cataloguqe: Catalogue[];
   descprition: string;
   name: string;
   address: string;
@@ -220,4 +220,19 @@ type centerAction = {
   data_de_creation: string;
   prix: number;
   prix_a_envoye: number;
+}
+
+type Order = {
+  id: number;
+  client: Users;
+  magasin: Magasin;
+  livreur: Livreur;
+  total_price: string;
+  created_at: string;
+  delivery_price: string;
+  valide_payment: boolean;
+  paye_par_livreur: boolean;
+  prix_de_tax: number;
+  status: string;
+  emp_val: string | null;
 }

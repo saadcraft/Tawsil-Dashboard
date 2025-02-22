@@ -6,6 +6,11 @@ type apiProducts = {
     totalAct: number;
 }
 
+type apiCommand = {
+    result: Order[];
+    totalAct: number;
+}
+
 export default async function getMagasin(): Promise<Magasin | null> {
     try {
         const response = await apiRequest({
@@ -45,7 +50,7 @@ export async function getProducts(magasin_id: number, { page, catalogue, name }:
     }
 }
 
-export async function getCategories(): Promise<Catalogue[] | null> {
+export async function getCategories(): Promise<Catalogue[]> {
     try {
         const response = await apiRequest({
             method: "GET",
@@ -54,10 +59,10 @@ export async function getCategories(): Promise<Catalogue[] | null> {
         if (response.code == 200) {
             return response.data.data;
         } else {
-            return null;
+            return [];
         }
     } catch {
-        return null;
+        return [];
     }
 }
 
@@ -135,5 +140,26 @@ export async function UpdateMagasin(Data: { magasin_id: number, [key: string]: u
         }
     } catch {
         return null;
+    }
+}
+
+export async function getCommande(magasin_id: number, { page, etat }: { page: string, etat: string }): Promise<apiCommand | null> {
+    try {
+        const response = await apiRequest({
+            method: "GET",
+            url: "api/v1/magasin/commandes",
+            data: { magasin_id },
+            params: { page, etat }
+        })
+        if (response.code == 200) {
+            return {
+                result: response.data.results,
+                totalAct: response.data.count
+            }
+        } else {
+            return null
+        }
+    } catch {
+        return null
     }
 }

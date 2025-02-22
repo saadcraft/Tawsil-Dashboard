@@ -11,8 +11,10 @@ import { useRouter } from 'next/navigation'
 import ModifyProduct from '../windows/magasin_win/modifie_product'
 import { ModifieProduct } from '@/lib/auth'
 import toast from 'react-hot-toast'
+import { FormatDate } from '@/lib/tools/tools'
+import { RiLoader3Fill } from 'react-icons/ri'
 
-export default function Products({ products, cat, magasin }: { products: Produit[], cat: Catalogue[], magasin: Magasin }) {
+export default function Commande({ commande, magasin }: { commande: Order[], magasin: Magasin }) {
 
     const router = useRouter()
 
@@ -24,10 +26,9 @@ export default function Products({ products, cat, magasin }: { products: Produit
     const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const cleint = formData.get('client') as string;
-        const categories = formData.get('catalogue_id') as string;
+        const cleint = formData.get('etat') as string;
 
-        router.push(`?category=${categories}&name=${cleint}`);
+        router.push(`?etat=${cleint}`);
     }
 
     const handleStatus = async (id: number, is_available: boolean) => {
@@ -43,7 +44,7 @@ export default function Products({ products, cat, magasin }: { products: Produit
         }
     }
 
-    const Products = products.map((pre, index) => {
+    const Products = commande.map((pre, index) => {
         return (
             <tr key={index} className="bg-white border-b text-black hover:bg-gray-50">
                 {/* <td className="px-6 py-4">
@@ -53,30 +54,28 @@ export default function Products({ products, cat, magasin }: { products: Produit
                     {pre.id}
                 </td>
                 <td className="px-6 py-4">
-                    {pre.image &&
-                        <Image src={`${process.env.IMGS_DOMAIN}${pre.image}`} width={50} height={50} alt='product image' className='w-12 h-12 object-cover rounded-md' />
-                    }
+                    {FormatDate(pre.created_at)}
                 </td>
                 <td className="px-6 py-4">
-                    {pre.name}
+                    {pre.livreur?.partenneur.user.phone_number_1}
                 </td>
                 <td className="px-6 py-4">
-                    {cat.find(pro => pro.id === pre.catalogue)?.name}
+                    {pre.status == "pending" && <p className='text-gray-500 font-semibold flex items-center gap-1'><RiLoader3Fill className='animate-spin' />En attente</p>}
+                    {pre.status == "confirmed" && <p className='text-yellow-600 font-semibold flex items-center gap-1'><RiLoader3Fill className='animate-spin' />en préparation</p>}
+                    {pre.status == "delivered" && <p className='text-green-600 font-semibold flex items-center gap-1'><RiLoader3Fill className='animate-spin' />livrer</p>}
+                    {pre.status == "canceled" && <p className='text-yellow-600 font-semibold flex items-center gap-1'><RiLoader3Fill className='animate-spin' />Annuler</p>}
                 </td>
                 <td className="px-6 py-4">
-                    {pre.price}
-                </td>
-                <td className="px-6 py-4">
-                    {pre.is_available ? <span className='text-green-700 font-bold'>Disponible</span> : <span className='text-red-700 font-bold'>Pas disponible</span>}
+                    {pre.total_price}
                 </td>
                 <td className="px-3 py-7 flex justify-end gap-1 text-right">
-                    {pre.is_available ?
+                    {/* {pre.is_available ?
                         <button onClick={() => handleStatus(pre.id, false)} className='bg-red-700 text-white p-1 rounded-md hover:bg-red-500' title='désactiver'><MdBlock /></button>
                         :
                         <button onClick={() => handleStatus(pre.id, true)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500' title='activé'><FaRegCheckCircle /></button>
                     }
                     <button onClick={() => setModify(pre)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500' title='modifie'><FaPen /></button>
-                    <button onClick={() => setDelet(pre.id)} className='bg-red-700 text-white p-1 rounded-md hover:bg-red-500' title='supprimer'><FaTrashAlt /></button>
+                    <button onClick={() => setDelet(pre.id)} className='bg-red-700 text-white p-1 rounded-md hover:bg-red-500' title='supprimer'><FaTrashAlt /></button> */}
                 </td>
             </tr>
         )
@@ -91,17 +90,16 @@ export default function Products({ products, cat, magasin }: { products: Produit
             <div className='p-3 md:p-10 pb-20 md:pb-20 bg-white rounded-md shadow-md'>
                 <div className='flex lg:flex-row flex-col items-center justify-between mb-7 gap-5'>
                     <form onSubmit={handleSearch} className='flex flex-col lg:flex-row items-center gap-5'>
-                        <div className='relative'>
+                        {/* <div className='relative'>
                             <FaSearch className='absolute top-3 text-slate-500' />
                             <input type="text" name="client" placeholder='Recherche par Produit' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
-                        </div>
-                        <select name='catalogue_id' className='p-2 w-full border border-slate-300 rounded-md' >
-                            <option value="">Sélectionné catégorie</option>
-                            {magasin.cataloguqe.map((pre, index) => {
-                                return (
-                                    <option key={index} value={pre.id}>{pre.name}</option>
-                                )
-                            })}
+                        </div> */}
+                        <select name='etat' className='p-2 w-full border border-slate-300 rounded-md' >
+                            <option value="">Sélectionné Status</option>
+                            <option value="pending">En attente</option>
+                            <option value="confirmed">en préparation</option>
+                            <option value="delivered">livré</option>
+                            <option value="canceled">annulé</option>
                         </select>
                         <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherche</button>
                     </form>
@@ -115,19 +113,16 @@ export default function Products({ products, cat, magasin }: { products: Produit
                                     ID
                                 </th>
                                 <th className="px-6 py-3">
-                                    Image
+                                    Date
                                 </th>
                                 <th className="px-6 py-3">
-                                    Produit
-                                </th>
-                                <th className="px-6 py-3">
-                                    catégorie
-                                </th>
-                                <th className="px-6 py-3">
-                                    Price
+                                    Livreur
                                 </th>
                                 <th className="px-6 py-3">
                                     Status
+                                </th>
+                                <th className="px-6 py-3">
+                                    Price
                                 </th>
                                 <th className="px-6 py-3 text-right">
                                     Action
@@ -140,7 +135,7 @@ export default function Products({ products, cat, magasin }: { products: Produit
                     </table>
                 </div>
             </div>
-            {add &&
+            {/* {add &&
                 <div>
                     <button onClick={() => setAdd(false)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
                     <AjouterProduct option={cat!} maga={magasin} onsub={setAdd} />
@@ -157,7 +152,7 @@ export default function Products({ products, cat, magasin }: { products: Produit
                     <button onClick={() => setModify(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
                     <ModifyProduct pro={modify} option={cat!} onsub={setModify} />
                 </div>
-            }
+            } */}
         </div>
     )
 }
