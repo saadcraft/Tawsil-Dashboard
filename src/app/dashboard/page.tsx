@@ -17,7 +17,7 @@ export default async function DashbordPage() {
 
   let magasin: Magasin | null = null;
   if (users?.role == "partener") {
-    magasin = await getMagasin()
+    magasin = await getMagasin();
     if (!magasin) notFound();
   }
 
