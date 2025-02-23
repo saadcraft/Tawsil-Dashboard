@@ -55,15 +55,21 @@ export default function Menu({ user }: props) {
         setIsLoading(false)
     }, [pathname])
 
+
+
     useEffect(() => {
         // Fetch fresh count data when pathname changes
         const fetchCount = async () => {
-            try {
-                const num = await getTotalDemande(); // Fetch fresh count
-                setCountState(num); // Update count state
-            } catch (error) {
-                console.error('Failed to fetch count:', error);
-                setCountState(null); // Handle error
+            if (user?.role === "centre_appel") {
+                try {
+                    const num = await getTotalDemande(); // Fetch fresh count
+                    setCountState(num); // Update count state
+                } catch (error) {
+                    console.error('Failed to fetch count:', error);
+                    setCountState(null); // Handle error
+                }
+            } else {
+                setCountState(null);
             }
         };
 

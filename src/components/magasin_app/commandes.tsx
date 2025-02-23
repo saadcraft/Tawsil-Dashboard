@@ -12,7 +12,8 @@ import ModifyProduct from '../windows/magasin_win/modifie_product'
 import { ModifieProduct } from '@/lib/auth'
 import toast from 'react-hot-toast'
 import { FormatDate } from '@/lib/tools/tools'
-import { RiLoader3Fill } from 'react-icons/ri'
+import { RiCheckDoubleLine, RiLoader3Fill } from 'react-icons/ri'
+import { TbCancel } from 'react-icons/tb'
 
 export default function Commande({ commande, magasin }: { commande: Order[], magasin: Magasin }) {
 
@@ -60,10 +61,10 @@ export default function Commande({ commande, magasin }: { commande: Order[], mag
                     {pre.livreur?.partenneur.user.phone_number_1}
                 </td>
                 <td className="px-6 py-4">
-                    {pre.status == "pending" && <p className='text-gray-500 font-semibold flex items-center gap-1'><RiLoader3Fill className='animate-spin' />En attente</p>}
-                    {pre.status == "confirmed" && <p className='text-yellow-600 font-semibold flex items-center gap-1'><RiLoader3Fill className='animate-spin' />en préparation</p>}
-                    {pre.status == "delivered" && <p className='text-green-600 font-semibold flex items-center gap-1'><RiLoader3Fill className='animate-spin' />livrer</p>}
-                    {pre.status == "canceled" && <p className='text-yellow-600 font-semibold flex items-center gap-1'><RiLoader3Fill className='animate-spin' />Annuler</p>}
+                    {pre.status == "pending" && <p className='text-gray-500 font-semibold flex items-center gap-1'><RiLoader3Fill className='animate-spin mt-0.5' />En attente</p>}
+                    {pre.status == "confirmed" && <p className='text-yellow-600 font-semibold flex items-center gap-1'><RiLoader3Fill className='animate-spin mt-0.5' />En préparation</p>}
+                    {pre.status == "delivered" && <p className='text-green-600 font-semibold flex items-center gap-1'><RiCheckDoubleLine className='mt-0.5' />Livrer</p>}
+                    {pre.status == "canceled" && <p className='text-red-600 font-semibold flex items-center gap-1'><TbCancel className='mt-0.5' />Annuler</p>}
                 </td>
                 <td className="px-6 py-4">
                     {pre.total_price}
