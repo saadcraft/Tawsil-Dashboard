@@ -233,6 +233,27 @@ type Order = {
   valide_payment: boolean;
   paye_par_livreur: boolean;
   prix_de_tax: number;
-  status: string;
+  status: "pending" | "confirmed" | "delivered" | "canceled";
   emp_val: string | null;
+}
+
+type Article = {
+  id: number;
+  name: string;
+  description: string;
+  price: string;
+  disponibilite: boolean;
+  rating: number;
+  image: string;
+  magasin: number;
+  catalogue: number;
+}
+
+type OrderItem = {
+  id: number;
+  article: Article;
+  commande: Order;
+  quantity: number;
+  subtotal: string;
+  wilaya: string;
 }

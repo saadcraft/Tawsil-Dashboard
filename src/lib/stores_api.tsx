@@ -66,42 +66,6 @@ export async function getCategories(): Promise<Catalogue[]> {
     }
 }
 
-// export async function addProduct(Data: { magasin_id: number, [key: string]: unknown }) {
-//     const loadingToastId = toast.loading('Creation produit...');
-//     try {
-//         const formData = new FormData();
-
-//         // Append all key-value pairs from Data to formData
-//         Object.entries(Data).forEach(([key, value]) => {
-//             if (value instanceof File || value instanceof Blob) {
-//                 // Handle file uploads properly
-//                 formData.append(key, value);
-//             } else {
-//                 formData.append(key, String(value)); // Convert other values to string
-//             }
-//         });
-
-//         const response = await apiRequest({
-//             method: "POST",
-//             url: "api/v1/magasin/create/produis",
-//             data: Data,
-//             headers: {
-//                 "Content-Type": "multipart/form-data", // Ensure the correct content type
-//             },
-//         })
-
-//         if (response.code == 201) {
-//             toast.success('Produit creat Avec succès', { id: loadingToastId });
-//             return true
-//         } else {
-//             toast.error(response.message, { id: loadingToastId });
-//             return false
-//         }
-//     } catch {
-//         toast.error("Problem connection", { id: loadingToastId });
-//         return false
-//     }
-// }
 export async function DeleteProduct(id: number) {
     const loadingToastId = toast.loading('suppression du produit...');
     try {
@@ -143,13 +107,13 @@ export async function UpdateMagasin(Data: { magasin_id: number, [key: string]: u
     }
 }
 
-export async function getCommande(magasin_id: number, { page, etat }: { page: string, etat: string }): Promise<apiCommand | null> {
+export async function getCommande(magasin_id: number, { page, etat, id }: { page: string, etat: string, id: string }): Promise<apiCommand | null> {
     try {
         const response = await apiRequest({
             method: "GET",
             url: "api/v1/magasin/commandes",
             data: { magasin_id },
-            params: { page, etat }
+            params: { page, etat, id }
         })
         if (response.code == 200) {
             return {
@@ -161,5 +125,44 @@ export async function getCommande(magasin_id: number, { page, etat }: { page: st
         }
     } catch {
         return null
+    }
+}
+
+export async function getComInfo(commande_id: number): Promise<OrderItem[] | null> {
+    try {
+        const response = await apiRequest({
+            method: "GET",
+            url: "api/v1/commande/articles",
+            data: { commande_id }
+        })
+        if (response.code == 200) {
+            return response.data.data
+        } else {
+            return null
+        }
+    } catch {
+        return null
+    }
+}
+
+export async function changeStatus({ commande_id, status }: { commande_id: number, status: "pending" | "confirmed" | "delivered" | "canceled" }) {
+    const loadingToastId = toast.loading("changer d'état en cours...");
+    try {
+        const response = await apiRequest({
+            method: "PATCH",
+            url: "api/v1/commande/update",
+            data: { commande_id, status }
+        })
+
+        if (response.code == 200) {
+            toast.success(response.data.message, { id: loadingToastId });
+            return true
+        } else {
+            toast.error(response.message, { id: loadingToastId })
+            return false
+        }
+    } catch {
+        toast.error("Problème de connexion", { id: loadingToastId })
+        return false
     }
 }

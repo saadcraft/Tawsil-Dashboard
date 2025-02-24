@@ -11,14 +11,15 @@ export const metadata: Metadata = {
 };
 
 type props = {
-    searchParams: Promise<{ page?: string, etat?: string }>;
+    searchParams: Promise<{ page?: string, etat?: string, id?: string }>;
 }
 
 export default async function ProductPage({ searchParams }: props) {
 
-    const { page, etat } = await searchParams;
+    const { page, etat, id } = await searchParams;
     const pageNumber = page ?? "1";
     const cat = etat ?? "";
+    const com_id = id ?? "";
 
     const magasin = await getMagasin()
 
@@ -26,7 +27,7 @@ export default async function ProductPage({ searchParams }: props) {
 
     if (!magasin) notFound();
 
-    const commande = await getCommande(magasin.id, { page: pageNumber, etat: cat });
+    const commande = await getCommande(magasin.id, { page: pageNumber, etat: cat, id: com_id });
 
     if (!commande) notFound();
 

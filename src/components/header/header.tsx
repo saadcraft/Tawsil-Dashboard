@@ -6,21 +6,29 @@ import Image from 'next/image';
 import { FaRegUser, FaShoppingBag } from "react-icons/fa";
 import Named from '@/lib/tools/named';
 import Notification from "@/components/windows/notification"
+import { useNotificationStore } from '@/lib/tools/store/web_socket';
+import { useRouter } from 'next/navigation';
 
 
-type Notification = {
-  id: number;
-  clientusername: string;
-  magasinname: string;
-  total_price: string;
-  status: string;
-  client__phone_number_1: string;
-};
+
+// type Notification = {
+//   id: number;
+//   client__username: string;
+//   magasin__name: string;
+//   total_price: string;
+//   status: string;
+//   client__phone_number_1: string;
+//   created_at: string;
+// };
 
 export default function Header({ user, token }: { user: Users, token: string }) {
 
   const [notification, setNotification] = useState<Notification[]>([])
   const [show, setShow] = useState<boolean>(false);
+
+  const router = useRouter()
+
+  const { notifications, setNotifications, addNotification, setSocket } = useNotificationStore();
 
 
   useEffect(() => {
@@ -29,6 +37,8 @@ export default function Header({ user, token }: { user: Users, token: string }) 
     // Create a new WebSocket connection
     const socket = new WebSocket(`ws://192.168.1.30:8000/ws/commandes/magasin/?token=${token}`);
     const audio = new Audio("/notification.wav");
+
+    setSocket(socket);
 
     // Handle WebSocket connection open event
     socket.onopen = () => {
@@ -40,27 +50,16 @@ export default function Header({ user, token }: { user: Users, token: string }) 
       const data = JSON.parse(event.data);
       console.log("Received data:", data);
 
-
+      router.refresh()
 
       if (Array.isArray(data.message)) {
-        setNotification(data.message);
+        setNotifications(data.message);
       } else {
-        setNotification(prevState => {
-          // Ensure prevState is always an array
-          const currentNotifications = prevState || [];
+        if (data.message?.status === "pending") {
+          audio.play();
+        }
 
-          // Check if the notification with the same id already exists
-          const isExisting = currentNotifications.some(notification => notification?.id === data.message?.id);
-
-          if (isExisting) {
-            // Remove notification if it exists
-            return currentNotifications.filter(notification => notification.id !== data.message.id);
-          } else {
-            // Add new notification to the state
-            audio.play();
-            return [...currentNotifications, data.message];
-          }
-        });
+        addNotification(data.message);
       }
     };
 
@@ -79,10 +78,10 @@ export default function Header({ user, token }: { user: Users, token: string }) 
       socket.close();
       console.log("WebSocket disconnected on cleanup");
     };
-  }, [token]);
+  }, [token, addNotification, setSocket]);
 
 
-  console.log(notification)
+  console.log(notifications)
 
 
   return (
@@ -90,12 +89,15 @@ export default function Header({ user, token }: { user: Users, token: string }) 
       <div className="py-2 px-4 text-white mx-auto flex justify-between items-center">
         <Image src="/tawsil.png" className="w-16 ml-10 cursor-pointer" alt="Tawsil" width={100} height={100} />
         <div className='flex items-center'>
-          <span className='relative cursor-pointer text-3xl'>
-            {notification &&
-              <p className='absolute rounded-full text-sm bg-red-600 w-5 h-5 text-center -top-1.5 -right-1.5'>{notification.length}</p>
-            }
-            <FaShoppingBag />
-          </span>
+          {user && user.role === "partener" ?
+            <span onClick={() => setShow(true)} className='relative cursor-pointer text-3xl'>
+              {notification &&
+                <p className='absolute rounded-full text-sm bg-red-600 w-5 h-5 text-center -top-1.5 -right-1.5'>{notifications.length}</p>
+              }
+              <FaShoppingBag />
+            </span>
+            : ""
+          }
           {user ?
             <Link href="/dashboard/profile" className='px-5 py-2 rounded-md flex gap-4 items-center'>
               <FaRegUser className='md:text-4xl text-2xl' />
@@ -110,8 +112,8 @@ export default function Header({ user, token }: { user: Users, token: string }) 
       {show &&
         <div>
           <div onClick={() => setShow(false)} className='absolute w-full h-screen top-0 bottom-0 right-0 left-0'></div>
-          <div className='absolute z-40 top-16 right-32'>
-            <Notification />
+          <div className='absolute z-40 top-16 p-2 md:right-32'>
+            <Notification not={notifications} onsub={setShow} />
           </div>
         </div>
       }

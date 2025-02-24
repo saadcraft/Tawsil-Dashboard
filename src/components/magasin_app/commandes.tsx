@@ -2,27 +2,41 @@
 
 import Link from 'next/link'
 import React, { useState } from 'react'
-import { FaPen, FaSearch, FaTrashAlt, FaRegCheckCircle } from 'react-icons/fa'
-import { MdClose, MdBlock } from 'react-icons/md'
-import AjouterProduct from '../windows/magasin_win/ajouter'
-import Image from 'next/image'
-import DeleteProduit from '../windows/magasin_win/delete_Product'
+import { MdBlock, MdClose } from 'react-icons/md'
 import { useRouter } from 'next/navigation'
-import ModifyProduct from '../windows/magasin_win/modifie_product'
 import { ModifieProduct } from '@/lib/auth'
 import toast from 'react-hot-toast'
 import { FormatDate } from '@/lib/tools/tools'
 import { RiCheckDoubleLine, RiLoader3Fill } from 'react-icons/ri'
 import { TbCancel } from 'react-icons/tb'
+import OrderInfo from '../windows/magasin_win/order_info'
+import CancelCommande from '../windows/magasin_win/cancel_order'
+import { useNotificationStore } from '@/lib/tools/store/web_socket'
+import { FaRegCheckCircle } from 'react-icons/fa'
 
 export default function Commande({ commande, magasin }: { commande: Order[], magasin: Magasin }) {
 
     const router = useRouter()
+    const { sendMessage } = useNotificationStore();
+
+    const handleAction = (id: number) => {
+        const message = {
+            type: "broadcast",
+            commande_id: id,
+            wilaya: magasin.wilaya
+            // additional data if needed
+        };
+
+        console.log(message)
+
+        // Send the message over WebSocket
+        sendMessage(message);
+    };
 
 
-    const [add, setAdd] = useState<boolean>(false);
+    const [show, setShow] = useState<{ id: number; total: number } | null>(null);
     const [delet, setDelet] = useState<number | null>(null);
-    const [modify, setModify] = useState<Produit | null>(null);
+    // const [modify, setModify] = useState<Produit | null>(null);
 
     const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -30,19 +44,6 @@ export default function Commande({ commande, magasin }: { commande: Order[], mag
         const cleint = formData.get('etat') as string;
 
         router.push(`?etat=${cleint}`);
-    }
-
-    const handleStatus = async (id: number, is_available: boolean) => {
-        const loadingToastId = toast.loading('Submite update...');
-
-        const res = await ModifieProduct({ id, is_available })
-
-        if (res.success) {
-            toast.success(is_available ? "Activé" : "Désactivé", { id: loadingToastId });
-            router.refresh();
-        } else {
-            toast.error(res.message, { id: loadingToastId });
-        }
     }
 
     const Products = commande.map((pre, index) => {
@@ -69,14 +70,18 @@ export default function Commande({ commande, magasin }: { commande: Order[], mag
                 <td className="px-6 py-4">
                     {pre.total_price}
                 </td>
-                <td className="px-3 py-7 flex justify-end gap-1 text-right">
-                    {/* {pre.is_available ?
-                        <button onClick={() => handleStatus(pre.id, false)} className='bg-red-700 text-white p-1 rounded-md hover:bg-red-500' title='désactiver'><MdBlock /></button>
-                        :
+                <td className="px-3 py-4 flex justify-end gap-2 text-right">
+                    {pre.status === "pending" &&
+                        <>
+                            <button onClick={() => setDelet(pre.id)} className='bg-red-700 text-white p-1 rounded-md hover:bg-red-500' title='désactiver'><MdBlock /></button>
+                            <button onClick={() => handleAction(pre.id)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500' title='activé'><FaRegCheckCircle /></button>
+                        </>
+                    }
+                    {/*   :
                         <button onClick={() => handleStatus(pre.id, true)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500' title='activé'><FaRegCheckCircle /></button>
                     }
-                    <button onClick={() => setModify(pre)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500' title='modifie'><FaPen /></button>
-                    <button onClick={() => setDelet(pre.id)} className='bg-red-700 text-white p-1 rounded-md hover:bg-red-500' title='supprimer'><FaTrashAlt /></button> */}
+                    <button onClick={() => setModify(pre)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500' title='modifie'><FaPen /></button> */}
+                    <button onClick={() => setShow({ id: pre.id, total: Number(pre.total_price) })} className='bg-gray-200 text-black p-1 border-1 rounded-md hover:bg-gray-500 hover:text-white' title='supprimer'>Détails</button>
                 </td>
             </tr>
         )
@@ -104,7 +109,6 @@ export default function Commande({ commande, magasin }: { commande: Order[], mag
                         </select>
                         <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherche</button>
                     </form>
-                    <button onClick={() => setAdd(true)} className='bg-green-600 disabled:bg-opacity-20 w-full lg:w-auto px-4 py-2 text-white rounded-lg font-semibold'>Ajouter</button>
                 </div>
                 <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table className="w-full text-sm text-left">
@@ -141,19 +145,19 @@ export default function Commande({ commande, magasin }: { commande: Order[], mag
                     <button onClick={() => setAdd(false)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
                     <AjouterProduct option={cat!} maga={magasin} onsub={setAdd} />
                 </div>
-            }
+            }*/}
             {delet &&
                 <div>
                     <button onClick={() => setDelet(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-                    <DeleteProduit id={delet} onsub={setDelet} />
+                    <CancelCommande id={delet} onsub={setDelet} />
                 </div>
             }
-            {modify &&
+            {show &&
                 <div>
-                    <button onClick={() => setModify(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-                    <ModifyProduct pro={modify} option={cat!} onsub={setModify} />
+                    <button onClick={() => setShow(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <OrderInfo id={show.id} total={show.total} />
                 </div>
-            } */}
+            }
         </div>
     )
 }
