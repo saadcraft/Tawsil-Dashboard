@@ -7,7 +7,6 @@ import { FaRegUser, FaShoppingBag } from "react-icons/fa";
 import Named from '@/lib/tools/named';
 import Notification from "@/components/windows/notification"
 import { useNotificationStore } from '@/lib/tools/store/web_socket';
-import { useRouter } from 'next/navigation';
 
 
 
@@ -25,8 +24,6 @@ export default function Header({ user, token }: { user: Users, token: string }) 
 
   const [notification, setNotification] = useState<Notification[]>([])
   const [show, setShow] = useState<boolean>(false);
-
-  const router = useRouter()
 
   const { notifications, setNotifications, addNotification, setSocket } = useNotificationStore();
 
@@ -50,7 +47,6 @@ export default function Header({ user, token }: { user: Users, token: string }) 
       const data = JSON.parse(event.data);
       console.log("Received data:", data);
 
-      router.refresh()
 
       if (Array.isArray(data.message)) {
         setNotifications(data.message);

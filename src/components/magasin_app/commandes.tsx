@@ -1,41 +1,59 @@
 "use client"
 
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdBlock, MdClose } from 'react-icons/md'
 import { useRouter } from 'next/navigation'
 import { ModifieProduct } from '@/lib/auth'
 import toast from 'react-hot-toast'
 import { FormatDate } from '@/lib/tools/tools'
-import { RiCheckDoubleLine, RiLoader3Fill } from 'react-icons/ri'
+import { RiCheckDoubleLine, RiCheckFill, RiLoader3Fill } from 'react-icons/ri'
 import { TbCancel } from 'react-icons/tb'
 import OrderInfo from '../windows/magasin_win/order_info'
 import CancelCommande from '../windows/magasin_win/cancel_order'
 import { useNotificationStore } from '@/lib/tools/store/web_socket'
 import { FaRegCheckCircle } from 'react-icons/fa'
+import Search from '../windows/magasin_win/search_deliver'
+
+
+type ChangeEtat = {
+    id: number;
+    etat: "search" | "pending" | "confirmed" | "ready" | "delivered" | "canceled";
+}
 
 export default function Commande({ commande, magasin }: { commande: Order[], magasin: Magasin }) {
 
     const router = useRouter()
-    const { sendMessage } = useNotificationStore();
+    const { sendMessage, socket } = useNotificationStore();
 
-    const handleAction = (id: number) => {
-        const message = {
-            type: "broadcast",
-            commande_id: id,
-            wilaya: magasin.wilaya
-            // additional data if needed
-        };
 
-        console.log(message)
+    useEffect(() => {
+        if (socket) {
+            const handleMessage = (event: MessageEvent) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    if (data.message?.status === "confirmed" || data.message?.status === "canceled" || data.message?.status == "pending") {
+                        router.refresh(); // Refresh the page
+                    }
+                } catch (error) {
+                    console.error('Error parsing WebSocket message:', error);
+                }
+            };
 
-        // Send the message over WebSocket
-        sendMessage(message);
-    };
+            // Attach the message event listener
+            socket.addEventListener('message', handleMessage);
+
+            // Clean up the event listener when the component unmounts
+            return () => {
+                socket.removeEventListener('message', handleMessage);
+            };
+        }
+    }, [socket, router]);
 
 
     const [show, setShow] = useState<{ id: number; total: number } | null>(null);
-    const [delet, setDelet] = useState<number | null>(null);
+    const [changeEtat, setChnageEtat] = useState<ChangeEtat | null>(null);
+    const [sendRq, setSendRq] = useState<number | null>(null)
     // const [modify, setModify] = useState<Produit | null>(null);
 
     const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
@@ -45,6 +63,38 @@ export default function Commande({ commande, magasin }: { commande: Order[], mag
 
         router.push(`?etat=${cleint}`);
     }
+
+    const handleAction = async (id: number, event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const loadingToastId = toast.loading("changer d'état en cours...");
+
+        const message = {
+            type: "broadcast",
+            commande_id: id,
+            wilaya: magasin.wilaya
+            // additional data if needed
+        };
+
+        console.log(message)
+
+        try {
+
+            const send = await sendMessage(message) as unknown as { success: string };
+
+            if (send?.success) {
+                setSendRq(null); // Reset the send request state
+                // Optionally, you can set a success message or perform other actions
+                toast.success(send.success, { id: loadingToastId });
+            } else {
+                toast.error("Problem network", { id: loadingToastId });
+            }
+            // Handle success
+        } catch (error) {
+            // Handle any errors that occur during the sendMessage call
+            toast.error(error, { id: loadingToastId });
+            // Optionally, you can set an error message or perform other actions
+        }
+    };
 
     const Products = commande.map((pre, index) => {
         return (
@@ -63,18 +113,30 @@ export default function Commande({ commande, magasin }: { commande: Order[], mag
                 </td>
                 <td className="px-6 py-4">
                     {pre.status == "pending" && <p className='text-gray-500 font-semibold flex items-center gap-1'><RiLoader3Fill className='animate-spin mt-0.5' />En attente</p>}
+                    {pre.status == "search" && <p className='text-gray-500 font-semibold flex items-center gap-1'><RiLoader3Fill className='animate-spin mt-0.5' />En cours</p>}
                     {pre.status == "confirmed" && <p className='text-yellow-600 font-semibold flex items-center gap-1'><RiLoader3Fill className='animate-spin mt-0.5' />En préparation</p>}
+                    {pre.status == "ready" && <p className='text-green-600 font-semibold flex items-center gap-1'><RiCheckFill className='mt-0.5' />Préte</p>}
                     {pre.status == "delivered" && <p className='text-green-600 font-semibold flex items-center gap-1'><RiCheckDoubleLine className='mt-0.5' />Livrer</p>}
                     {pre.status == "canceled" && <p className='text-red-600 font-semibold flex items-center gap-1'><TbCancel className='mt-0.5' />Annuler</p>}
                 </td>
                 <td className="px-6 py-4">
                     {pre.total_price}
                 </td>
-                <td className="px-3 py-4 flex justify-end gap-2 text-right">
+                <td className="px-3 py-4 flex justify-end gap-1 text-right">
                     {pre.status === "pending" &&
                         <>
-                            <button onClick={() => setDelet(pre.id)} className='bg-red-700 text-white p-1 rounded-md hover:bg-red-500' title='désactiver'><MdBlock /></button>
-                            <button onClick={() => handleAction(pre.id)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500' title='activé'><FaRegCheckCircle /></button>
+                            <button onClick={() => setChnageEtat({ id: pre.id, etat: "canceled" })} className='bg-red-700 text-white p-1 px-1.5 rounded-md hover:bg-red-500' title='désactiver'><MdBlock /></button>
+                            <button onClick={() => setSendRq(pre.id)} className='bg-green-700 text-white p-1 px-1.5 rounded-md hover:bg-green-500' title='activé'><FaRegCheckCircle /></button>
+                        </>
+                    }
+                    {pre.status === "search" &&
+                        <>
+                            <button className='bg-gray-200 text-black p-1 px-1.5 border-1 rounded-md hover:bg-gray-500 hover:text-white' title='désactiver'><RiLoader3Fill className='animate-spin mt-0.5' /></button>
+                        </>
+                    }
+                    {pre.status === "confirmed" &&
+                        <>
+                            <button onClick={() => setChnageEtat({ id: pre.id, etat: "ready" })} className='bg-green-700 flex items-center text-white p-1 rounded-md hover:bg-green-500' title='désactiver'><FaRegCheckCircle />Prét</button>
                         </>
                     }
                     {/*   :
@@ -146,16 +208,22 @@ export default function Commande({ commande, magasin }: { commande: Order[], mag
                     <AjouterProduct option={cat!} maga={magasin} onsub={setAdd} />
                 </div>
             }*/}
-            {delet &&
+            {changeEtat &&
                 <div>
-                    <button onClick={() => setDelet(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-                    <CancelCommande id={delet} onsub={setDelet} />
+                    <button onClick={() => setChnageEtat(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <CancelCommande id={changeEtat.id} onsub={setChnageEtat} etat={changeEtat.etat} />
                 </div>
             }
             {show &&
                 <div>
                     <button onClick={() => setShow(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
                     <OrderInfo id={show.id} total={show.total} />
+                </div>
+            }
+            {sendRq &&
+                <div>
+                    <button onClick={() => setSendRq(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <Search id={sendRq} onEvent={handleAction} />
                 </div>
             }
         </div>

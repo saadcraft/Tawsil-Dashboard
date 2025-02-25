@@ -42,9 +42,37 @@ export const useNotificationStore = create<NotificationStore>((set, get) => ({
     sendMessage: (message) => {
         const socket = get().socket;
         if (socket && socket.readyState === WebSocket.OPEN) {
-            socket.send(JSON.stringify(message));
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                return new Promise((resolve, reject) => {
+                    // Send the message
+                    socket.send(JSON.stringify(message));
+
+                    // Listen for a response from the server
+                    const handleMessage = (event: MessageEvent) => {
+                        try {
+                            const response = JSON.parse(event.data);
+                            resolve(response); // Resolve the promise with the server's response
+                        } catch (error) {
+                            reject(error); // Reject if parsing fails
+                        } finally {
+                            // Clean up the event listener
+                            socket.removeEventListener('message', handleMessage);
+                        }
+                    };
+
+                    // Listen for errors
+                    const handleError = (error: Event) => {
+                        reject(error); // Reject the promise if there's a WebSocket error
+                        socket.removeEventListener('error', handleError);
+                    };
+
+                    // Attach event listeners
+                    socket.addEventListener('message', handleMessage);
+                    socket.addEventListener('error', handleError);
+                });
+            }
         } else {
-            console.error('WebSocket is not connected');
+            return Promise.reject('Problem de connection');
         }
     },
     setSocket: (socket) => set({ socket }),

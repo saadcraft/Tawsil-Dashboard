@@ -66,7 +66,7 @@ type Produit = {
   name: string;
   description: string;
   price: string; // Assuming price is a string to handle decimals and formatting
-  is_available: boolean;
+  disponibilite: boolean;
   rating: number;
   magasin: number;
   catalogue: number;
@@ -233,7 +233,7 @@ type Order = {
   valide_payment: boolean;
   paye_par_livreur: boolean;
   prix_de_tax: number;
-  status: "pending" | "confirmed" | "delivered" | "canceled";
+  status: "pending" | "confirmed" | "search" | "ready" | "delivered" | "canceled";
   emp_val: string | null;
 }
 

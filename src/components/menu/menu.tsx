@@ -43,7 +43,8 @@ export default function Menu({ user }: props) {
 
     const handleMenu = (url: string | null) => {
         setIsMenuOpen(!isMenuOpen);
-        if (url === pathname || url == null) {
+        console.log(search)
+        if (url === pathname && search.size === 0 || url == null) {
             // If the clicked link is the same as the current path, do nothing
             return;
         }
@@ -53,7 +54,7 @@ export default function Menu({ user }: props) {
 
     useEffect(() => {
         setIsLoading(false)
-    }, [pathname])
+    }, [pathname, search])
 
 
 

@@ -30,13 +30,13 @@ export default function Products({ products, cat, magasin }: { products: Produit
         router.push(`?category=${categories}&name=${cleint}`);
     }
 
-    const handleStatus = async (id: number, is_available: boolean) => {
+    const handleStatus = async (id: number, disponibilite: boolean) => {
         const loadingToastId = toast.loading('Submite update...');
 
-        const res = await ModifieProduct({ id, is_available })
+        const res = await ModifieProduct({ id, disponibilite })
 
         if (res.success) {
-            toast.success(is_available ? "Activé" : "Désactivé", { id: loadingToastId });
+            toast.success(disponibilite ? "Activé" : "Désactivé", { id: loadingToastId });
             router.refresh();
         } else {
             toast.error(res.message, { id: loadingToastId });
@@ -67,10 +67,10 @@ export default function Products({ products, cat, magasin }: { products: Produit
                     {pre.price}
                 </td>
                 <td className="px-6 py-4">
-                    {pre.is_available ? <span className='text-green-700 font-bold'>Disponible</span> : <span className='text-red-700 font-bold'>Pas disponible</span>}
+                    {pre.disponibilite ? <span className='text-green-700 font-bold'>Disponible</span> : <span className='text-red-700 font-bold'>Pas disponible</span>}
                 </td>
                 <td className="px-3 py-7 flex justify-end gap-1 text-right">
-                    {pre.is_available ?
+                    {pre.disponibilite ?
                         <button onClick={() => handleStatus(pre.id, false)} className='bg-red-700 text-white p-1 rounded-md hover:bg-red-500' title='désactiver'><MdBlock /></button>
                         :
                         <button onClick={() => handleStatus(pre.id, true)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500' title='activé'><FaRegCheckCircle /></button>
