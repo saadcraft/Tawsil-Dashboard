@@ -30,11 +30,16 @@ export default function Caisses({ cass, total }: { cass: Result[], total: number
     cridt: 0
   })
 
+  const router = useRouter()
   const { user } = userInformation()
+
+  const handlePrint = useReactToPrint({
+    contentRef: componentRef,
+  });
+
 
   if (!user) return notFound()
 
-  const router = useRouter()
 
 
   const handleWindow = () => { setClose(pre => !pre) }
@@ -70,10 +75,6 @@ export default function Caisses({ cass, total }: { cass: Result[], total: number
     const cleint = formData.get('client') as string;
     router.push(`?search_date=${cleint}`);
   }
-
-  const handlePrint = useReactToPrint({
-    contentRef: componentRef,
-  });
 
   const handelPrint = async (t: number, r: number, c: number) => {
     await setData({ total: t, real: r, cridt: c });

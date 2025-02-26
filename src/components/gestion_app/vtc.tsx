@@ -25,11 +25,9 @@ export default function Vtc({ promise }: Props) {
 
     const [isVisible, setIsVisible] = useState<number>(0);
 
-    const { user } = userInformation()
-
-    if (!user) return notFound()
-
     const router = useRouter()
+
+    const { user } = userInformation()
 
     useEffect(() => {
         setSelect(promise)
@@ -41,7 +39,9 @@ export default function Vtc({ promise }: Props) {
         );
     }, [promise, selectedRows])
 
-    console.log(selectedRows)
+    if (!user) return notFound()
+
+    // console.log(selectedRows)
 
     const handleCheck = (index: number) => {
         setSelect((prev) => {

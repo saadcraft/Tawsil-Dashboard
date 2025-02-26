@@ -82,7 +82,7 @@ export default function Header({ user, token }: { user: Users, token: string }) 
       socket.close();
       console.log("WebSocket disconnected on cleanup");
     };
-  }, [token, addNotification, setSocket]);
+  }, [token, addNotification, setSocket, setNotifications, user]);
 
 
   return (

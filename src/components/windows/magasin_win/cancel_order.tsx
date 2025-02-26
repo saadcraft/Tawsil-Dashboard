@@ -1,4 +1,4 @@
-import { changeStatus, DeleteProduct } from '@/lib/stores_api';
+import { changeStatus } from '@/lib/stores_api';
 import { useRouter } from 'next/navigation';
 import React from 'react'
 

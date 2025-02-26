@@ -3,7 +3,6 @@ import React from 'react'
 import Delivery from "@/components/chef_app/deliveries"
 import { getCommand } from '@/lib/actions'
 import Pagination from "@/components/options/pagination";
-import { getUser } from "@/lib/auth";
 import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {

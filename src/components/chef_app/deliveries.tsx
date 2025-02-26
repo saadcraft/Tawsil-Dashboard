@@ -23,13 +23,9 @@ export default function Delivery({ promise }: Props) {
 
   const [isVisible, setIsVisible] = useState<number>(0);
 
-  const { user } = userInformation()
-
-  if (!user) return notFound()
-
-  console.log(selectedRows)
-
   const router = useRouter()
+
+  const { user } = userInformation()
 
   useEffect(() => {
     setSelect(promise)
@@ -40,6 +36,11 @@ export default function Delivery({ promise }: Props) {
       }))
     );
   }, [promise, selectedRows])
+
+
+  if (!user) return notFound()
+
+
 
   const handleCheck = (index: number) => {
     setSelect((prev) => {

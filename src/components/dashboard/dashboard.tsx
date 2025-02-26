@@ -47,17 +47,15 @@ import { userInformation } from '@/lib/tools/store/web_socket'
 // };
 
 
-export default function Dashboard({ data, cate }: { data: Context, cate: Catalogue[] }) {
+export default function Dashboard({ data }: { data: Context }) {
 
   const router = useRouter()
 
   const [types, setTypes] = useState<"background" | "profile" | null>(null)
   const [mody, setMody] = useState<boolean>(false)
-  const { user } = userInformation()
-
-  if (!user) return notFound()
-
   const [magasin, setMagasin] = useState<Magasin | null>(null);
+
+  const { user } = userInformation()
 
   // Fetch magasin on client side if user is a partener
   useEffect(() => {
@@ -74,6 +72,8 @@ export default function Dashboard({ data, cate }: { data: Context, cate: Catalog
 
     fetchMagasin();
   }, [user]);
+
+  if (!user) return notFound()
 
   // ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, PointElement, LineElement);
 
@@ -289,7 +289,7 @@ export default function Dashboard({ data, cate }: { data: Context, cate: Catalog
       {mody &&
         <>
           <button onClick={() => setMody(false)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-          <ModifieMagasin option={cate} maga={magasin!} onsub={setMody} />
+          <ModifieMagasin maga={magasin!} onsub={setMody} />
         </>
       }
     </div>

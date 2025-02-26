@@ -1,12 +1,9 @@
 import { UpdateMagasin } from '@/lib/stores_api';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react'
+import React from 'react'
 import toast from 'react-hot-toast';
 
-export default function ModifieMagasin({ maga, option, onsub }: { maga: Magasin, option: Catalogue[], onsub: (value: false) => void }) {
-
-    const [storeCat, setStoreCat] = useState<Catalogue[]>(maga.cataloguqe);
-    const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
+export default function ModifieMagasin({ maga, onsub }: { maga: Magasin, onsub: (value: false) => void }) {
 
     const router = useRouter()
 
@@ -73,7 +70,7 @@ export default function ModifieMagasin({ maga, option, onsub }: { maga: Magasin,
                     <textarea name='descprition' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le description' defaultValue={maga.descprition} />
                     <p>Categories</p>
                     <div className="flex flex-wrap gap-2">
-                        {storeCat.map((category) => (
+                        {maga.cataloguqe.map((category) => (
                             <div
                                 key={category.id}
                                 className="flex items-center gap-1 rounded-full bg-gray-200 px-3 py-1 text-sm text-primary"

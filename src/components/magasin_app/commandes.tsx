@@ -4,7 +4,6 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { MdBlock, MdClose } from 'react-icons/md'
 import { useRouter } from 'next/navigation'
-import { ModifieProduct } from '@/lib/auth'
 import toast from 'react-hot-toast'
 import { FormatDate } from '@/lib/tools/tools'
 import { RiCheckDoubleLine, RiCheckFill, RiLoader3Fill } from 'react-icons/ri'
@@ -75,7 +74,7 @@ export default function Commande({ commande, magasin }: { commande: Order[], mag
             // additional data if needed
         };
 
-        console.log(message)
+        // console.log(message)
 
         try {
 

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Dashboard from "@/components/dashboard/dashboard";
 import { GetStatic } from "@/lib/actions";
-import { getCategories } from "@/lib/stores_api";
+// import { getCategories } from "@/lib/stores_api";
 
 export const metadata: Metadata = {
   title: "Dashbord",
@@ -11,11 +11,11 @@ export const metadata: Metadata = {
 export default async function DashbordPage() {
 
   const staticData = await GetStatic()
-  const categories = await getCategories()
+  // const categories = await getCategories()
 
   return (
     <div>
-      <Dashboard data={staticData} cate={categories} />
+      <Dashboard data={staticData} />
     </div>
   )
 }

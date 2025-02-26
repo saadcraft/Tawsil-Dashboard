@@ -75,7 +75,7 @@ export default function Menu({ user }: props) {
         };
 
         fetchCount(); // Call the function to fetch count on pathname change
-    }, [pathname, search]);
+    }, [pathname, search, user]);
 
 
     function handleClick(index: number) {

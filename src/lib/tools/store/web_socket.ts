@@ -16,7 +16,11 @@ type NotificationStore = {
     setNotifications: (notifications: Notification[]) => void;
     addNotification: (notification: Notification) => void;
     removeNotification: (notificationId: number) => void;
-    sendMessage: (message: any) => void; // New function to send messages to WebSocket
+    sendMessage: (message: {
+        type: string;
+        commande_id: number;
+        wilaya: string;
+    }) => void; // New function to send messages to WebSocket
     setSocket: (socket: WebSocket | null) => void; // Set the socket reference
 };
 

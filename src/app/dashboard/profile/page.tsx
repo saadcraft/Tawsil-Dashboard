@@ -1,5 +1,4 @@
 import Profile from "@/components/profile/profile";
-import { getUser } from "@/lib/auth";
 import type { Metadata } from "next";
 import React from 'react'
 
