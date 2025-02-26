@@ -23,6 +23,7 @@ import toast from 'react-hot-toast';
 import PictureMagasin from '../windows/dashboard_win/upload_win'
 import ModifieMagasin from '../windows/magasin_win/modifie_magasin'
 import { userInformation } from '@/lib/tools/store/web_socket'
+import LoadingFirst from '../loading'
 // import { Pie, Bar, Line } from 'react-chartjs-2';
 // import {
 //   Chart as ChartJS,
@@ -54,6 +55,7 @@ export default function Dashboard({ data }: { data: Context }) {
   const [types, setTypes] = useState<"background" | "profile" | null>(null)
   const [mody, setMody] = useState<boolean>(false)
   const [magasin, setMagasin] = useState<Magasin | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const { user } = userInformation()
 
@@ -61,11 +63,13 @@ export default function Dashboard({ data }: { data: Context }) {
   useEffect(() => {
     const fetchMagasin = async () => {
       if (user?.role === "partener") {
+        setIsLoading(true);
         const fetchedMagasin = await getMagasin();
         if (!fetchedMagasin) {
           notFound(); // This should be handled client-side, you might need a different approach here.
         } else {
           setMagasin(fetchedMagasin);
+          setIsLoading(false);
         }
       }
     };
@@ -73,7 +77,7 @@ export default function Dashboard({ data }: { data: Context }) {
     fetchMagasin();
   }, [user]);
 
-  if (!user) return notFound()
+  // if (!user) return notFound()
 
   // ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, PointElement, LineElement);
 
@@ -159,7 +163,7 @@ export default function Dashboard({ data }: { data: Context }) {
 
   return (
     <div className="flex flex-col items-center justify-between">
-      {user.role == "gestion_commercial" ?
+      {user?.role == "gestion_commercial" ?
         <div className='py-5 px-5 sm:px-16 w-full'>
           <h1 className="text-2xl font-bold mb-5 text-gray-600">Tableau de bord</h1>
           <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 w-full mx-auto'>
@@ -175,21 +179,21 @@ export default function Dashboard({ data }: { data: Context }) {
           </div>
         </div>
         :
-        user.role == "partener" ?
+        user?.role == "partener" && !isLoading ?
           <div className='w-full'>
             <div className='relative w-full'>
               <div className='w-full h-52 overflow-hidden'>
                 {magasin?.image_background ?
                   <Image width={500} height={500} src={`${process.env.IMGS_DOMAIN}${magasin.image_background}`} alt='image cover' className='object-cover w-full h-full' />
                   :
-                  <Image width={500} height={500} src="/background.png" alt='image cover' className='object-cover w-full h-full' />
+                  <Image width={500} height={500} src="/placeholder.svg" alt='image cover' className='object-cover w-full h-full' />
                 }
               </div>
               <div className='absolute left-12 top-36 md:top-24'>
                 {magasin?.image ?
                   <Image width={150} height={150} src={`${process.env.IMGS_DOMAIN}${magasin.image}`} alt="image profile" className=' w-24 h-24 md:w-36 md:h-36 border-2 border-[#10c5f1] rounded-full object-cover bg-white shadow-md' />
                   :
-                  <Image width={150} height={150} src={`/dash.svg`} alt="image profile" className=' w-24 h-24 md:w-36 md:h-36 border-2 border-[#10c5f1] rounded-full bg-white shadow-md' />
+                  <Image width={150} height={150} src={`/placeholder.svg`} alt="image profile" className=' w-24 h-24 md:w-36 md:h-36 border-2 border-[#10c5f1] rounded-full bg-white shadow-md' />
                 }
                 <span onClick={() => setTypes("profile")} className='absolute right-3 bottom-1 md:text-3xl text-2xl text-gray-600 bg-slate-200 rounded-full drop-shadow-lg cursor-pointer'>
                   <MdOutlineFileUpload />
@@ -291,6 +295,9 @@ export default function Dashboard({ data }: { data: Context }) {
           <button onClick={() => setMody(false)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
           <ModifieMagasin maga={magasin!} onsub={setMody} />
         </>
+      }
+      {isLoading &&
+        <LoadingFirst />
       }
     </div>
   )
