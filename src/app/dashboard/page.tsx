@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import Dashboard from "@/components/dashboard/dashboard";
 import { GetStatic } from "@/lib/actions";
-import { getUser } from "@/lib/auth";
-import getMagasin, { getCategories } from "@/lib/stores_api";
-import { notFound } from "next/navigation";
+import { getCategories } from "@/lib/stores_api";
 
 export const metadata: Metadata = {
   title: "Dashbord",
@@ -13,19 +11,11 @@ export const metadata: Metadata = {
 export default async function DashbordPage() {
 
   const staticData = await GetStatic()
-  const users = await getUser()
-
-  let magasin: Magasin | null = null;
-  if (users?.role == "partener") {
-    magasin = await getMagasin();
-    if (!magasin) notFound();
-  }
-
   const categories = await getCategories()
 
   return (
     <div>
-      <Dashboard magasin={magasin} data={staticData} user={users!} cate={categories} />
+      <Dashboard data={staticData} cate={categories} />
     </div>
   )
 }

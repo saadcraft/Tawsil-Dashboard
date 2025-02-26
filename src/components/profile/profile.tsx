@@ -8,11 +8,16 @@ import Image from 'next/image';
 import PictureWin from '../windows/picture_win';
 import { MdClose, MdOutlineEdit } from 'react-icons/md';
 import ModifieForm from '../windows/chef_win/modifie_form';
+import { userInformation } from '@/lib/tools/store/web_socket';
+import { notFound } from 'next/navigation';
 
-export default function Profile({ user }: { user: Users }) {
+export default function Profile() {
 
     const [pic, setPic] = useState<number | null>(null)
     const [modify, setmodify] = useState<string | null>(null)
+    const { user } = userInformation()
+
+    if (!user) return notFound()
 
     return (
         <div className='py-5 px-5 sm:px-16'>

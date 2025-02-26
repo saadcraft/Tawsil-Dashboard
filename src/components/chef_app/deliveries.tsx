@@ -6,21 +6,26 @@ import { FaSearch } from 'react-icons/fa'
 import { ValideCommande, ValideSecond, ValideThird } from "../windows/chef_win/valide_commande"
 import { MdClose } from "react-icons/md";
 import { SubmitCommande } from '@/lib/action_client'
-import { useRouter } from "next/navigation"
+import { notFound, useRouter } from "next/navigation"
 import { FormatDate, handleInputChange } from "@/lib/tools/tools"
+import { userInformation } from '@/lib/tools/store/web_socket'
 
 type Props = {
   promise: Result[];
-  users: Users;
+  // users: Users;
 };
 
-export default function Delivery({ promise, users }: Props) {
+export default function Delivery({ promise }: Props) {
 
   const [select, setSelect] = useState(promise)
 
   const [selectedRows, setSelectedRows] = useState<Result[]>([])
 
   const [isVisible, setIsVisible] = useState<number>(0);
+
+  const { user } = userInformation()
+
+  if (!user) return notFound()
 
   console.log(selectedRows)
 
@@ -159,7 +164,7 @@ export default function Delivery({ promise, users }: Props) {
         <Link href="/dashboard" className='font-semibold text-third'>Tableau de bord /</Link>
         <h1 className='font-bold'>Livraisons</h1>
       </div>
-      <div className='p-3 pb-20 bg-white md:p-10 rounded-md shadow-md'>
+      <div className='p-3 pb-20 bg-white md:p-10 md:pb-20 rounded-md shadow-md'>
         <div className='flex lg:flex-row flex-col items-center justify-between mb-7 gap-5'>
           <form onSubmit={(event) => handleSearch(event)} className='flex flex-col lg:flex-row items-center gap-5'>
             <div className='relative'>
@@ -228,7 +233,7 @@ export default function Delivery({ promise, users }: Props) {
       {isVisible === 3 ?
         <div>
           <button onClick={handleClose} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-          <ValideThird command={selectedRows} onBack={handleSecond} onSub={hundleSubmite} user={users} />
+          <ValideThird command={selectedRows} onBack={handleSecond} onSub={hundleSubmite} user={user} />
         </div>
         : ""}
     </div>

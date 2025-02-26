@@ -32,11 +32,9 @@ export default async function CaissePage({ searchParams }: props) {
 
   const cassesData = await getCasses({ page: pageNumber, search_date: search_num });
 
-  if(!cassesData) notFound();
+  if (!cassesData) notFound();
 
-  const {result , totalAct } = cassesData;
-
-  const user = await getUser()
+  const { result, totalAct } = cassesData;
 
   const totalPages = Math.ceil(totalAct / 20);
 
@@ -44,7 +42,7 @@ export default async function CaissePage({ searchParams }: props) {
 
   return (
     <div>
-      <Caisses cass={result} user={user!} total={prixTotal} />
+      <Caisses cass={result} total={prixTotal} />
       <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`search_date=${search_num}`} />
     </div>
   );

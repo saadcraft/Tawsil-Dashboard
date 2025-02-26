@@ -28,8 +28,6 @@ export default async function DeliveryPage({ searchParams }: props) {
 
   const { result, totalAct } = data
 
-  const user = await getUser()
-
   const select = result.map(item => ({ ...item, selected: false }))
 
   const totalPages = Math.ceil(totalAct / 20);
@@ -37,7 +35,7 @@ export default async function DeliveryPage({ searchParams }: props) {
 
   return (
     <div>
-      <Delivery promise={select} users={user!} />
+      <Delivery promise={select} />
       <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`livreur=${client_num}&valide=${valide_payment}`} />
     </div>
   );

@@ -3,18 +3,19 @@
 import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 import { FaSearch } from 'react-icons/fa'
-import { useRouter } from "next/navigation"
+import { notFound, useRouter } from "next/navigation"
 import { FormatDate, handleInputChange } from '@/lib/tools/tools'
 import { ValideCommande, ValideSecond, ValideThird } from '../windows/gestion_win/valide_courses'
 import { MdClose } from 'react-icons/md'
 import { ValideCourses } from '@/lib/gestion_action'
+import { userInformation } from '@/lib/tools/store/web_socket'
 
 type Props = {
-    user: Users
+    // user: Users
     promise: Courses[];
 };
 
-export default function Vtc({ user, promise }: Props) {
+export default function Vtc({ promise }: Props) {
 
     // console.log(promise)
 
@@ -23,6 +24,10 @@ export default function Vtc({ user, promise }: Props) {
     const [selectedRows, setSelectedRows] = useState<Courses[]>([])
 
     const [isVisible, setIsVisible] = useState<number>(0);
+
+    const { user } = userInformation()
+
+    if (!user) return notFound()
 
     const router = useRouter()
 

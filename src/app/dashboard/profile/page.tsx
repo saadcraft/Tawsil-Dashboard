@@ -10,9 +10,7 @@ export const metadata: Metadata = {
 
 export default async function page() {
 
-    const user = await getUser()
-
     return (
-        <Profile user={user!} />
+        <Profile />
     )
 }

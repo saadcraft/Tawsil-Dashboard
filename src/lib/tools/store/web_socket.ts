@@ -77,3 +77,13 @@ export const useNotificationStore = create<NotificationStore>((set, get) => ({
     },
     setSocket: (socket) => set({ socket }),
 }));
+
+type UserInfo = {
+    user: Users | null;
+    setUser: (user: Users | null) => void;
+}
+
+export const userInformation = create<UserInfo>((set) => ({
+    user: null,
+    setUser: (user) => set({ user }),
+}));

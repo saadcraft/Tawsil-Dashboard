@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { FaRegUser, FaShoppingBag } from "react-icons/fa";
 import Named from '@/lib/tools/named';
 import Notification from "@/components/windows/notification"
-import { useNotificationStore } from '@/lib/tools/store/web_socket';
+import { useNotificationStore, userInformation } from '@/lib/tools/store/web_socket';
 
 
 
@@ -22,14 +22,22 @@ import { useNotificationStore } from '@/lib/tools/store/web_socket';
 
 export default function Header({ user, token }: { user: Users, token: string }) {
 
-  const [notification, setNotification] = useState<Notification[]>([])
   const [show, setShow] = useState<boolean>(false);
 
   const { notifications, setNotifications, addNotification, setSocket } = useNotificationStore();
 
+  const { setUser } = userInformation()
 
   useEffect(() => {
-    if (!token) return; // Ensure token exists before establishing WebSocket connection
+    // Initialize Zustand store with user data
+    if (user) {
+      setUser(user);
+    }
+  }, [user, setUser]);
+
+
+  useEffect(() => {
+    if (!token || user.role !== "partener") return; // Ensure token exists before establishing WebSocket connection
 
     // Create a new WebSocket connection
     const socket = new WebSocket(`ws://192.168.1.30:8000/ws/commandes/magasin/?token=${token}`);
@@ -77,9 +85,6 @@ export default function Header({ user, token }: { user: Users, token: string }) 
   }, [token, addNotification, setSocket]);
 
 
-  console.log(notifications)
-
-
   return (
     <header className="fixed top-0 z-30 w-full bg-white  bg-gradient-to-r from-primer to-second shadow-md">
       <div className="py-2 px-4 text-white mx-auto flex justify-between items-center">
@@ -87,7 +92,7 @@ export default function Header({ user, token }: { user: Users, token: string }) 
         <div className='flex items-center'>
           {user && user.role === "partener" ?
             <span onClick={() => setShow(true)} className='relative cursor-pointer text-3xl'>
-              {notification &&
+              {notifications.length !== 0 &&
                 <p className='absolute rounded-full text-sm bg-red-600 w-5 h-5 text-center -top-1.5 -right-1.5'>{notifications.length}</p>
               }
               <FaShoppingBag />

@@ -7,11 +7,12 @@ import { CloseCasses, OpenCasses } from "@/lib/action_client"
 import ValideCasses from "../windows/chef_win/valide_casses"
 import { MdClose } from "react-icons/md"
 import { Result } from "@/lib/type_module/casses_type"
-import { useRouter } from "next/navigation"
+import { notFound, useRouter } from "next/navigation"
 import { FormatDate } from "@/lib/tools/tools"
 import { FiPrinter } from "react-icons/fi";
 import { PrinteCasses } from '@/lib/tools/printer_models/printer_caisses'
 import { useReactToPrint } from 'react-to-print';
+import { userInformation } from '@/lib/tools/store/web_socket'
 
 
 type form = {
@@ -19,7 +20,7 @@ type form = {
   acompte: string;
 }
 
-export default function Caisses({ cass, user, total }: { cass: Result[], user: Users, total: number }) {
+export default function Caisses({ cass, total }: { cass: Result[], total: number }) {
 
   const [Close, setClose] = useState<boolean>(false)
   const componentRef = useRef<HTMLDivElement>(null);
@@ -28,6 +29,11 @@ export default function Caisses({ cass, user, total }: { cass: Result[], user: U
     real: 0,
     cridt: 0
   })
+
+  const { user } = userInformation()
+
+  if (!user) return notFound()
+
   const router = useRouter()
 
 

@@ -1,9 +1,9 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { StatsCard } from './carte'
-import { useRouter } from "next/navigation"
+import { notFound, useRouter } from "next/navigation"
 import {
   MdOutlineDesktopMac,
   MdSupportAgent,
@@ -18,10 +18,11 @@ import {
   MdClose
 } from "react-icons/md";
 import { GrUserWorker } from "react-icons/gr";
-import { UpdateMagasin } from '@/lib/stores_api';
+import getMagasin, { UpdateMagasin } from '@/lib/stores_api';
 import toast from 'react-hot-toast';
 import PictureMagasin from '../windows/dashboard_win/upload_win'
 import ModifieMagasin from '../windows/magasin_win/modifie_magasin'
+import { userInformation } from '@/lib/tools/store/web_socket'
 // import { Pie, Bar, Line } from 'react-chartjs-2';
 // import {
 //   Chart as ChartJS,
@@ -46,12 +47,33 @@ import ModifieMagasin from '../windows/magasin_win/modifie_magasin'
 // };
 
 
-export default function Dashboard({ magasin, data, user, cate }: { magasin: Magasin | null, data: Context, user: Users, cate: Catalogue[] }) {
+export default function Dashboard({ data, cate }: { data: Context, cate: Catalogue[] }) {
 
   const router = useRouter()
 
   const [types, setTypes] = useState<"background" | "profile" | null>(null)
   const [mody, setMody] = useState<boolean>(false)
+  const { user } = userInformation()
+
+  if (!user) return notFound()
+
+  const [magasin, setMagasin] = useState<Magasin | null>(null);
+
+  // Fetch magasin on client side if user is a partener
+  useEffect(() => {
+    const fetchMagasin = async () => {
+      if (user?.role === "partener") {
+        const fetchedMagasin = await getMagasin();
+        if (!fetchedMagasin) {
+          notFound(); // This should be handled client-side, you might need a different approach here.
+        } else {
+          setMagasin(fetchedMagasin);
+        }
+      }
+    };
+
+    fetchMagasin();
+  }, [user]);
 
   // ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, PointElement, LineElement);
 

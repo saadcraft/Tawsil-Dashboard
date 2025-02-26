@@ -85,6 +85,7 @@ export default function Commande({ commande, magasin }: { commande: Order[], mag
                 setSendRq(null); // Reset the send request state
                 // Optionally, you can set a success message or perform other actions
                 toast.success(send.success, { id: loadingToastId });
+                router.refresh()
             } else {
                 toast.error("Problem network", { id: loadingToastId });
             }
