@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Search({ id, onEvent }: { id: number, onEvent: (id: number, event: React.FormEvent<HTMLFormElement>) => void }) {
+export default function Search({ id, onEvent, livreur }: { id: number, onEvent: (id: number, event: React.FormEvent<HTMLFormElement>) => void, livreur: LivreurMagasine[] }) {
 
 
 
@@ -9,8 +9,15 @@ export default function Search({ id, onEvent }: { id: number, onEvent: (id: numb
             <div className='max-w-5xl mx-auto p-5 mt-10 rounded-xl bg-white'>
                 <h1 className='mb-5 font-bold text-xl text-center'>Regroupé</h1>
                 <form onSubmit={(event) => onEvent(id, event)} className='flex flex-col gap-10'>
-                    <select name='group' className='border-b-2 p-2 outline-none hover:border-third cursor-pointer'>
-                        <option value="">Seléctionée groupe</option>
+                    <select name='livreur' className='border-b-2 p-2 outline-none hover:border-third cursor-pointer'>
+                        <option value="">Seléctionée Livreur</option>
+                        {livreur.map((pre, index) => {
+                            if (pre.is_available) {
+                                return (
+                                    <option key={index} value={pre.id}>{pre.partenneur_first_name || 'null'} {pre.partenneur_last_name || 'null'}</option>
+                                )
+                            }
+                        })}
                     </select>
                     <button className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Submite</button>
                 </form>

@@ -18,7 +18,7 @@ export default function Notification({ not, onsub }: { not: Notification[], onsu
 
     return (
         <div>
-            <div className='bg-gray-100 rounded-lg overflow-auto h-[600px]'>
+            <div className='bg-gray-100 rounded-lg overflow-auto max-h-[600px]'>
                 {not.map((pre, index) => {
                     return (
                         <div key={index} onClick={() => onsub(false)} className="p-4 cursor-pointer rounded-lg hover:bg-gray-200 transition-colors">
@@ -37,6 +37,11 @@ export default function Notification({ not, onsub }: { not: Notification[], onsu
                         </div>
                     )
                 })
+                }
+                {not.length === 0 &&
+                    <div className='p-4 cursor-pointer rounded-lg hover:bg-gray-200 transition-colors'>
+                        <p className='text-md font-medium text-gray-700'>pas de commandes</p>
+                    </div>
                 }
             </div>
         </div>

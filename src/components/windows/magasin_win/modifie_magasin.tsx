@@ -61,21 +61,21 @@ export default function ModifieMagasin({ maga, onsub }: { maga: Magasin, onsub: 
                 <h1 className='mb-5 text-2xl font-bold text-center'>Modifie Magasin</h1>
                 <form onSubmit={handleChange} className='flex flex-col gap-4' encType="multipart/form-data">
                     <p>Le nom de magasin</p>
-                    <input type='text' name='name' className='p-2 w-full border border-slate-300 rounded-md' placeholder='Entre le Nom de magasin' defaultValue={maga.name} />
+                    <input type='text' name='name' className='p-2 w-full border border-slate-300 rounded-md' placeholder='Entre le Nom de magasin' defaultValue={maga?.name} />
                     <p>address</p>
-                    <input type='text' name='address' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le address' defaultValue={maga.address} />
+                    <input type='text' name='address' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le address' defaultValue={maga?.address} />
                     <p>Contact</p>
-                    <input type='text' name='contact' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le contact' defaultValue={maga.contact} />
+                    <input type='text' name='contact' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le contact' defaultValue={maga?.contact} />
                     <p>Description</p>
-                    <textarea name='descprition' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le description' defaultValue={maga.descprition} />
+                    <textarea name='descprition' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le description' defaultValue={maga?.descprition} />
                     <p>Categories</p>
                     <div className="flex flex-wrap gap-2">
-                        {maga.cataloguqe.map((category) => (
+                        {maga?.cataloguqe.map((category) => (
                             <div
-                                key={category.id}
+                                key={category?.id}
                                 className="flex items-center gap-1 rounded-full bg-gray-200 px-3 py-1 text-sm text-primary"
                             >
-                                {category.name}
+                                {category?.name}
                                 {/* <span
                                     // onClick={() => handleRemoveCategory(category.id)}
                                     className="ml-1 text-center cursor-pointer rounded-full p-1 hover:bg-gray-300"

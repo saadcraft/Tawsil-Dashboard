@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { StatsCard } from './carte'
-import { notFound, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import {
   MdOutlineDesktopMac,
   MdSupportAgent,
@@ -55,7 +55,7 @@ export default function Dashboard({ data }: { data: Context }) {
   const [types, setTypes] = useState<"background" | "profile" | null>(null)
   const [mody, setMody] = useState<boolean>(false)
   const [magasin, setMagasin] = useState<Magasin | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const { user } = userInformation()
 
@@ -63,14 +63,15 @@ export default function Dashboard({ data }: { data: Context }) {
   useEffect(() => {
     const fetchMagasin = async () => {
       if (user?.role === "partener") {
-        setIsLoading(true);
         const fetchedMagasin = await getMagasin();
         if (!fetchedMagasin) {
-          notFound(); // This should be handled client-side, you might need a different approach here.
+          setIsLoading(false); // This should be handled client-side, you might need a different approach here.
         } else {
           setMagasin(fetchedMagasin);
           setIsLoading(false);
         }
+      } else {
+        setIsLoading(false);
       }
     };
 
@@ -179,7 +180,7 @@ export default function Dashboard({ data }: { data: Context }) {
           </div>
         </div>
         :
-        user?.role == "partener" && !isLoading ?
+        user?.role == "partener" && !isLoading && magasin ?
           <div className='w-full'>
             <div className='relative w-full'>
               <div className='w-full h-52 overflow-hidden'>
@@ -199,7 +200,7 @@ export default function Dashboard({ data }: { data: Context }) {
                   <MdOutlineFileUpload />
                 </span>
               </div>
-              <span onClick={() => setTypes("background")} className='absolute text-3xl text-gray-600 right-3 top-3 bg-slate-400 bg-opacity-50 rounded-full p-1 cursor-pointer hover:bg-opacity-60 hover:text-gray-900'>
+              <span onClick={() => setTypes("background")} className='absolute text-3xl text-gray-800 right-3 top-3 bg-slate-400 bg-opacity-50 rounded-full p-1 cursor-pointer hover:bg-opacity-60 hover:text-gray-900'>
                 <MdModeEditOutline />
               </span>
               <p className='absolute md:top-36 bottom-2 md:left-52 left-40 drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] text-white bg-slate-600 p-2 rounded-xl bg-opacity-30 font-bold md:text-3xl text-xl'>{magasin?.name}</p>

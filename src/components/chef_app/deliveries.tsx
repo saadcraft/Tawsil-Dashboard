@@ -6,7 +6,7 @@ import { FaSearch } from 'react-icons/fa'
 import { ValideCommande, ValideSecond, ValideThird } from "../windows/chef_win/valide_commande"
 import { MdClose } from "react-icons/md";
 import { SubmitCommande } from '@/lib/action_client'
-import { notFound, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { FormatDate, handleInputChange } from "@/lib/tools/tools"
 import { userInformation } from '@/lib/tools/store/web_socket'
 
@@ -36,11 +36,6 @@ export default function Delivery({ promise }: Props) {
       }))
     );
   }, [promise, selectedRows])
-
-
-  if (!user) return notFound()
-
-
 
   const handleCheck = (index: number) => {
     setSelect((prev) => {
@@ -234,7 +229,7 @@ export default function Delivery({ promise }: Props) {
       {isVisible === 3 ?
         <div>
           <button onClick={handleClose} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-          <ValideThird command={selectedRows} onBack={handleSecond} onSub={hundleSubmite} user={user} />
+          <ValideThird command={selectedRows} onBack={handleSecond} onSub={hundleSubmite} user={user!} />
         </div>
         : ""}
     </div>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import getMagasin, { getCommande } from '@/lib/stores_api';
+import getMagasin, { getCommande, getLivreur } from '@/lib/stores_api';
 import Pagination from '@/components/options/pagination';
 import Commande from '@/components/magasin_app/commandes';
 
@@ -31,13 +31,15 @@ export default async function ProductPage({ searchParams }: props) {
 
     if (!commande) notFound();
 
+    const Livreur = await getLivreur(magasin.id)
+
     const { result, totalAct } = commande;
 
     const totalPages = Math.ceil(totalAct / 20);
 
     return (
         <div>
-            <Commande commande={result} magasin={magasin} />
+            <Commande commande={result} magasin={magasin} livreurs={Livreur!} />
             <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`status=${cat}`} />
         </div>
     )

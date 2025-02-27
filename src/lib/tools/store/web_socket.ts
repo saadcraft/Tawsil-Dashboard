@@ -18,6 +18,10 @@ type NotificationStore = {
     removeNotification: (notificationId: number) => void;
     sendMessage: (message: {
         type: string;
+        livreur_id: string;
+        commande_id: number;
+    } | {
+        type: string;
         commande_id: number;
         wilaya: string;
     }) => void; // New function to send messages to WebSocket

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { MdBlock, MdClose } from 'react-icons/md'
+import { MdBlock, MdClose, MdOutlineWorkspacePremium } from 'react-icons/md'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { FormatDate } from '@/lib/tools/tools'
@@ -20,7 +20,7 @@ type ChangeEtat = {
     etat: "search" | "pending" | "confirmed" | "ready" | "delivered" | "canceled";
 }
 
-export default function Commande({ commande, magasin }: { commande: Order[], magasin: Magasin }) {
+export default function Commande({ commande, magasin, livreurs }: { commande: Order[], magasin: Magasin, livreurs: LivreurMagasine[] }) {
 
     const router = useRouter()
     const { sendMessage, socket } = useNotificationStore();
@@ -67,12 +67,27 @@ export default function Commande({ commande, magasin }: { commande: Order[], mag
         event.preventDefault();
         const loadingToastId = toast.loading("changer d'état en cours...");
 
-        const message = {
-            type: "broadcast",
-            commande_id: id,
-            wilaya: magasin.wilaya
-            // additional data if needed
-        };
+        const formData = new FormData(event.currentTarget);
+        const livreur = formData.get("livreur") as string | null;
+
+        let message;
+
+        if (livreur) {
+            message = {
+                type: "assigne",
+                livreur_id: livreur,
+                commande_id: id
+            }
+
+        } else {
+
+            message = {
+                type: "broadcast",
+                commande_id: id,
+                wilaya: magasin.wilaya
+                // additional data if needed
+            };
+        }
 
         // console.log(message)
 
@@ -109,7 +124,7 @@ export default function Commande({ commande, magasin }: { commande: Order[], mag
                     {FormatDate(pre.created_at)}
                 </td>
                 <td className="px-6 py-4">
-                    {pre.livreur?.partenneur.user.phone_number_1}
+                    {pre.livreur?.partenneur.user.phone_number_1 || "En cours"}
                 </td>
                 <td className="px-6 py-4">
                     {pre.status == "pending" && <p className='text-gray-500 font-semibold flex items-center gap-1'><RiLoader3Fill className='animate-spin mt-0.5' />En attente</p>}
@@ -125,8 +140,8 @@ export default function Commande({ commande, magasin }: { commande: Order[], mag
                 <td className="px-3 py-4 flex justify-end gap-1 text-right">
                     {pre.status === "pending" &&
                         <>
-                            <button onClick={() => setChnageEtat({ id: pre.id, etat: "canceled" })} className='bg-red-700 text-white p-1 px-1.5 rounded-md hover:bg-red-500' title='désactiver'><MdBlock /></button>
-                            <button onClick={() => setSendRq(pre.id)} className='bg-green-700 text-white p-1 px-1.5 rounded-md hover:bg-green-500' title='activé'><FaRegCheckCircle /></button>
+                            <button onClick={() => setChnageEtat({ id: pre.id, etat: "canceled" })} className='bg-red-700 text-white p-1 px-3 rounded-md hover:bg-red-500' title='désactiver'><MdBlock /></button>
+                            <button onClick={() => setSendRq(pre.id)} className='bg-green-700 text-white p-1 px-3 rounded-md hover:bg-green-500' title='activé'><FaRegCheckCircle /></button>
                         </>
                     }
                     {pre.status === "search" &&
@@ -144,6 +159,11 @@ export default function Commande({ commande, magasin }: { commande: Order[], mag
                     }
                     <button onClick={() => setModify(pre)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500' title='modifie'><FaPen /></button> */}
                     <button onClick={() => setShow({ id: pre.id, total: Number(pre.total_price) })} className='bg-gray-200 text-black p-1 border-1 rounded-md hover:bg-gray-500 hover:text-white' title='supprimer'>Détails</button>
+                    {pre.type_livraison === "premium" &&
+                        <span className='bg-yellow-600 text-white p-1 px-1.5 text-lg rounded-md hover:bg-yellow-500 cursor-pointer'>
+                            <MdOutlineWorkspacePremium />
+                        </span>
+                    }
                 </td>
             </tr>
         )
@@ -165,6 +185,8 @@ export default function Commande({ commande, magasin }: { commande: Order[], mag
                         <select name='etat' className='p-2 w-full border border-slate-300 rounded-md' >
                             <option value="">Sélectionné Status</option>
                             <option value="pending">En attente</option>
+                            <option value="search">En cours</option>
+                            <option value="ready">Prét</option>
                             <option value="confirmed">en préparation</option>
                             <option value="delivered">livré</option>
                             <option value="canceled">annulé</option>
@@ -223,7 +245,7 @@ export default function Commande({ commande, magasin }: { commande: Order[], mag
             {sendRq &&
                 <div>
                     <button onClick={() => setSendRq(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-                    <Search id={sendRq} onEvent={handleAction} />
+                    <Search id={sendRq} onEvent={handleAction} livreur={livreurs} />
                 </div>
             }
         </div>

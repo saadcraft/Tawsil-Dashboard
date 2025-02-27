@@ -166,3 +166,20 @@ export async function changeStatus({ commande_id, status }: { commande_id: numbe
         return false
     }
 }
+
+export async function getLivreur(magasin_id: number): Promise<LivreurMagasine[] | null> {
+    try {
+        const response = await apiRequest({
+            method: "GET",
+            url: "api/v1/magasin/livreuses",
+            params: { magasin_id }
+        })
+        if (response.code == 200) {
+            return response.data;
+        } else {
+            return null;
+        }
+    } catch {
+        return null;
+    }
+}

@@ -235,6 +235,7 @@ type Order = {
   prix_de_tax: number;
   status: "pending" | "confirmed" | "search" | "ready" | "delivered" | "canceled";
   emp_val: string | null;
+  type_livraison: "classique" | "premium";
 }
 
 type Article = {
@@ -256,4 +257,12 @@ type OrderItem = {
   quantity: number;
   subtotal: string;
   wilaya: string;
+}
+
+type LivreurMagasine = {
+  id: number;
+  is_available: boolean,
+  partenneur_first_name: string;
+  partenneur_last_name: string;
+  partenneur_phone_number_1: string;
 }

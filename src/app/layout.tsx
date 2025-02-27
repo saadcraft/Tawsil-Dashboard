@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import ServerMenu from "@/components/server_layout";
 import { Toaster } from 'react-hot-toast';
+import { ToastContainer } from 'react-toastify';
 
 
 export const metadata: Metadata = {
@@ -24,6 +25,7 @@ export default function RootLayout({
         <main className='relative z-80 top-20 md:ml-80'>
           {children}
         </main>
+        <ToastContainer position="bottom-right" />
       </body>
     </html>
   );
