@@ -7,7 +7,7 @@ export default function Search({ id, onEvent, livreur }: { id: number, onEvent: 
     return (
         <div className='fixed z-20 top-0 flex items-center bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
             <div className='max-w-5xl mx-auto p-5 mt-10 rounded-xl bg-white'>
-                <h1 className='mb-5 font-bold text-xl text-center'>Regroupé</h1>
+                <h1 className='mb-5 font-bold text-xl text-center'>rechercher livreur</h1>
                 <form onSubmit={(event) => onEvent(id, event)} className='flex flex-col gap-10'>
                     <select name='livreur' className='border-b-2 p-2 outline-none hover:border-third cursor-pointer'>
                         <option value="">Seléctionée Livreur</option>

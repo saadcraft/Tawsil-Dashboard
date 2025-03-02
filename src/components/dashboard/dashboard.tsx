@@ -24,6 +24,7 @@ import PictureMagasin from '../windows/dashboard_win/upload_win'
 import ModifieMagasin from '../windows/magasin_win/modifie_magasin'
 import { userInformation } from '@/lib/tools/store/web_socket'
 import LoadingFirst from '../loading'
+import AddGeo from '../windows/magasin_win/add_geolocation'
 // import { Pie, Bar, Line } from 'react-chartjs-2';
 // import {
 //   Chart as ChartJS,
@@ -55,9 +56,12 @@ export default function Dashboard({ data }: { data: Context }) {
   const [types, setTypes] = useState<"background" | "profile" | null>(null)
   const [mody, setMody] = useState<boolean>(false)
   const [magasin, setMagasin] = useState<Magasin | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [geo, setGeo] = useState<number | null>(null)
 
   const { user } = userInformation()
+
+  console.log(magasin)
 
   // Fetch magasin on client side if user is a partener
   useEffect(() => {
@@ -255,7 +259,7 @@ export default function Dashboard({ data }: { data: Context }) {
                       </tr>
                     </tbody>
                   </table>
-                  <div className="mt-6">
+                  <div>
                     <h3 className="mb-3 text-lg font-medium">Categologe</h3>
                     <div className="flex flex-wrap gap-2">
                       {magasin?.cataloguqe?.map((category) => (
@@ -264,6 +268,32 @@ export default function Dashboard({ data }: { data: Context }) {
                         </span>
                       ))}
                     </div>
+                    <h3 className="text-lg mt-2 font-medium">Location</h3>
+                    {magasin.owner.longitude && magasin.owner.longitude ?
+                      <div className="mapouter">
+                        <div className="gmap_canvas">
+                          <iframe
+                            className="gmap_iframe"
+                            width="100%"
+                            frameBorder="0"
+                            scrolling="no"
+                            marginHeight={0}
+                            marginWidth={0}
+                            src={`https://maps.google.com/maps?width=200&height=150&hl=en&q=${magasin.owner.latitude},${magasin.owner.longitude}&t=&z=13&ie=UTF8&iwloc=B&output=embed`}
+                            title="Google Map"
+                          ></iframe>
+                          <a href="https://sprunkin.com/">Sprunki Game</a>
+                        </div>
+                      </div>
+                      :
+                      <div className='flex items-center gap-3'>
+                        <p className='text-red-600'>Localisation didn&apos;t exist</p>
+                        <span onClick={() => setGeo(magasin.owner.id)} className='bg-gray-200 p-1 rounded-full hover:bg-gray-400 cursor-pointer hover:text-white'>
+                          <MdModeEditOutline />
+                        </span>
+                      </div>
+                    }
+
                   </div>
                 </div>
               </div>
@@ -299,6 +329,12 @@ export default function Dashboard({ data }: { data: Context }) {
       }
       {isLoading &&
         <LoadingFirst />
+      }
+      {geo &&
+        <>
+          <button onClick={() => setGeo(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+          <AddGeo onEvent={setGeo} />
+        </>
       }
     </div>
   )

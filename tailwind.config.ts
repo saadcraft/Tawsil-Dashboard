@@ -16,6 +16,12 @@ export default {
         fifth: "#afe3f6",
         six: "#e2f5fc",
         seven: "#d0eaf8",
+        gold1: '#BF953F',
+        gold2: '#FCF6BA',
+        gold3: '#B38728',
+        gold4: '#FBF5B7',
+        gold5: '#AA771C',
+        gold6: '#d6ab54',
       },
       maxWidth: {
         "8xl": "85rem",

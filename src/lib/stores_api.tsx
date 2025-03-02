@@ -183,3 +183,25 @@ export async function getLivreur(magasin_id: number): Promise<LivreurMagasine[] 
         return null;
     }
 }
+
+export async function UpdatePertunair({ long, lat }: { long: number, lat: number }) {
+    const loadingToastId = toast.loading("Update en cours...");
+    try {
+        const response = await apiRequest({
+            method: "PATCH",
+            url: "api/v1/partenneur/update",
+            data: { long, lat }
+        })
+
+        if (response.code == 200) {
+            toast.success(response.data.message, { id: loadingToastId });
+            return true
+        } else {
+            toast.error(response.message, { id: loadingToastId })
+            return false
+        }
+    } catch {
+        toast.error("Problème de connexion", { id: loadingToastId })
+        return false
+    }
+}

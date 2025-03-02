@@ -55,7 +55,7 @@ export default function Pagination({ currentPage, pages, params }: props) {
                             )
                         }
                         return (
-                            <span onClick={() => handlePageChange(Number(Num))} key={index} className={`${Num == currentPage ? 'bg-primer text-white' : 'bg-forth'} rounded-full px-1 text-sm sm:text-base  sm:py-1 sm:px-3 cursor-pointer hover:bg-third`}>
+                            <span onClick={() => handlePageChange(Number(Num))} key={index} className={`${Num == currentPage ? 'bg-primer text-white' : 'bg-forth'} rounded-full px-1 text-sm sm:text-base  sm:py-1 sm:px-3 cursor-pointer hover:bg-third`} title={`page${Num}`}>
                                 {Num}
                             </span>
                         )

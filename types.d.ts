@@ -56,7 +56,7 @@ type Magasin = {
   wilaya: string;
   image: string | null;
   image_background: string | null;
-  owner: number;
+  owner: Partenaire;
   EtatOuverture: boolean;
 }
 
@@ -150,6 +150,7 @@ type Users = {
   permission_vlider: boolean;
   is_superuser: boolean;
   date_joined: string;
+  type_account: "premium" | "classique";
 };
 
 type actionData = {

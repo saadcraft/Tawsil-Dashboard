@@ -132,7 +132,7 @@ export default function Menu({ user }: props) {
                 <div className={`relative w-full h-1.5 bg-third transition-all duration-500 ${isMenuOpen ? '-top-3.5  rotate-45' : ''} `}></div>
                 {countState && countState != 0 && user.role == "centre_appel" ? (<span className='absolute -top-3 -right-3 py-0.5 px-2 text-sm rounded-full text-white font-bold bg-red-600' >{countState}</span>) : ""}
             </div>
-            <div className={`fixed z-40 text-white top-0 overflow-y-auto md:overflow-y-hidden left-0 bottom-0 transition-all md:-translate-x-0  ${isMenuOpen ? "" : "-translate-x-80"}  bg-primer w-80 px-5`}>
+            <div className={`fixed z-40 text-white top-0 overflow-y-auto md:overflow-y-hidden left-0 bottom-0 transition-all md:-translate-x-0  ${isMenuOpen ? "" : "-translate-x-80"} ${user?.type_account === "premium" ? 'bg-gradient-to-r from-gold5 to-gold6' : 'bg-primer'}  w-80 px-5`}>
                 <div onClick={() => handleMenu('/')} className='flex flex-col justify-center'>
                     <Image height={100} width={100} src="/tawsil-start.png" alt="Tawsil" className='w-40 cursor-pointer mx-auto' />
                 </div>

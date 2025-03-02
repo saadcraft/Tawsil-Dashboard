@@ -41,7 +41,7 @@ export default function Header({ user, token }: { user: Users, token: string }) 
     if (!token || user.role !== "partener") return; // Ensure token exists before establishing WebSocket connection
 
     // Create a new WebSocket connection
-    const socket = new WebSocket(`ws://192.168.1.30:8000/ws/commandes/magasin/?token=${token}`);
+    const socket = new WebSocket(`${process.env.WS_SERVER}/ws/commandes/magasin/?token=${token}`);
     const audio = new Audio("/notification.mp3");
 
     setSocket(socket);
@@ -54,7 +54,6 @@ export default function Header({ user, token }: { user: Users, token: string }) 
     // Handle WebSocket message event
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log("Received data:", data);
 
 
       if (Array.isArray(data.message)) {
@@ -91,7 +90,7 @@ export default function Header({ user, token }: { user: Users, token: string }) 
 
 
   return (
-    <header className="fixed top-0 z-30 w-full bg-white  bg-gradient-to-r from-primer to-second shadow-md">
+    <header className={`fixed top-0 z-30 w-full bg-white  bg-gradient-to-r ${user?.type_account === "premium" ? "from-gold5 via-gold2 to-gold5" : "from-primer to-second"} shadow-md`}>
       <div className="py-2 px-4 text-white mx-auto flex justify-between items-center">
         <Image src="/tawsil.png" className="w-16 ml-10 cursor-pointer" alt="Tawsil" width={100} height={100} />
         <div className='flex items-center gap-2'>

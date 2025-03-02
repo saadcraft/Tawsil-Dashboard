@@ -140,8 +140,8 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
                 <td className="px-3 py-4 flex justify-end gap-1 text-right">
                     {pre.status === "pending" &&
                         <>
-                            <button onClick={() => setChnageEtat({ id: pre.id, etat: "canceled" })} className='bg-red-700 text-white p-1 px-3 rounded-md hover:bg-red-500' title='désactiver'><MdBlock /></button>
-                            <button onClick={() => setSendRq(pre.id)} className='bg-green-700 text-white p-1 px-3 rounded-md hover:bg-green-500' title='activé'><FaRegCheckCircle /></button>
+                            <button onClick={() => setChnageEtat({ id: pre.id, etat: "canceled" })} className='bg-red-700 text-white p-1 px-3 rounded-md hover:bg-red-500' title='annulé'><MdBlock /></button>
+                            <button onClick={() => setSendRq(pre.id)} className='bg-green-700 text-white p-1 px-3 rounded-md hover:bg-green-500' title='accepté'><FaRegCheckCircle /></button>
                         </>
                     }
                     {pre.status === "search" &&
@@ -158,9 +158,9 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
                         <button onClick={() => handleStatus(pre.id, true)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500' title='activé'><FaRegCheckCircle /></button>
                     }
                     <button onClick={() => setModify(pre)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500' title='modifie'><FaPen /></button> */}
-                    <button onClick={() => setShow({ id: pre.id, total: Number(pre.total_price) })} className='bg-gray-200 text-black p-1 border-1 rounded-md hover:bg-gray-500 hover:text-white' title='supprimer'>Détails</button>
+                    <button onClick={() => setShow({ id: pre.id, total: Number(pre.total_price) })} className='bg-gray-200 text-black p-1 border-1 rounded-md hover:bg-gray-500 hover:text-white' title='Détail de commande'>Détails</button>
                     {pre.type_livraison === "premium" &&
-                        <span className='bg-yellow-600 text-white p-1 px-1.5 text-lg rounded-md hover:bg-yellow-500 cursor-pointer'>
+                        <span className='bg-yellow-600 text-white p-1 px-1.5 text-lg rounded-md hover:bg-yellow-500 cursor-pointer' title='Premium commande'>
                             <MdOutlineWorkspacePremium />
                         </span>
                     }

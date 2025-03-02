@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@googlemaps/js-api-loader": "^1.16.8",
     "@reduxjs/toolkit": "^2.5.0",
     "axios": "^1.7.9",
     "next": "15.1.2",
