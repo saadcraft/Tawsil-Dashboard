@@ -6,18 +6,20 @@ import { FaRegCheckCircle, FaSearch } from 'react-icons/fa'
 import { handleInputChange } from "@/lib/tools/tools"
 import { Wilaya } from '@/lib/tools/named'
 import { useRouter } from "next/navigation"
-import { MdClose, MdOutlineDisabledByDefault, MdOutlineReport } from 'react-icons/md'
+import { MdClose, MdGpsFixed, MdOutlineDisabledByDefault, MdOutlineReport } from 'react-icons/md'
 import ActiveCompte from '../windows/chef_win/active-compte'
 import toast from 'react-hot-toast'
 import { AddReport } from '@/lib/super_action'
 import SuperReport from '../windows/super_win/super_report'
 import Display from '../windows/gestion_win/display'
+import ModifieGeo from '../windows/super_win/modifie_goe'
 
 export default function Validation({ users }: { users: Partenaire[] }) {
 
-    const [user, setUser] = useState<{ id: number, statue: boolean } | null>(null)
+    const [user, setUser] = useState<{ id: number, statue: boolean } | null>(null);
     const [activePartnerId, setActivePartnerId] = useState<number | null>(null);
     const [show, setShow] = useState<Partenaire | null>(null);
+    const [geo, setGeo] = useState<number | null>(null)
 
     const router = useRouter();
 
@@ -49,34 +51,39 @@ export default function Validation({ users }: { users: Partenaire[] }) {
 
     const parteneur = users.map((pre, index) => {
         return (
-            <tr key={index} className="bg-white border-b text-black hover:bg-gray-50">
-                <td className="px-6 py-4">
+            <tr key={index} className="bg-white border-b text-black hover:bg-gray-50 text-nowrap">
+                <td className="px-4 py-4">
                     {pre.id}
                 </td>
-                <td className="px-6 py-4 text-nowrap">
+                <td className="px-4 py-4">
                     Group {pre.user.groupe}
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-4 py-4">
                     {pre.user.first_name} {pre.user.last_name}
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-4 py-4">
                     {pre.user.email}
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-4 py-4">
                     {pre.user.phone_number_1}
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-4 py-4">
                     {pre.type_compte?.name}
                 </td>
-                <td className="px-6 py-4 flex gap-2 justify-center">
+                <td className="px-4 py-4 flex mt-1 gap-2 justify-center">
                     {pre.user.is_active ?
                         <button onClick={() => setUser({ id: pre.user.id, statue: pre.user.is_active })} className='bg-red-700 text-white p-1 rounded-md hover:bg-red-500 flex items-center'>Désactivé <MdOutlineDisabledByDefault /></button> :
                         <button onClick={() => setUser({ id: pre.user.id, statue: pre.user.is_active })} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500 flex items-center'>Activé <FaRegCheckCircle /></button>
                     }
-                    <button onClick={() => setActivePartnerId(pre.id)} className='bg-red-700 text-white p-1 rounded-md hover:bg-red-500 inline-flex items-center'>Raport <MdOutlineReport /></button>
+                    <button onClick={() => setActivePartnerId(pre.id)} className='bg-red-700 text-white p-1 px-2 rounded-md hover:bg-red-500 inline-flex items-center'><MdOutlineReport /></button>
                 </td>
-                <td className="px-6 py-4 text-right">
-                    <button onClick={() => setShow(pre)} className='p-1 rounded-md border-blue-800 border hover:text-white hover:bg-blue-800 inline-flex items-center text-nowrap'>voir plus  ...</button>
+                <td className="px-4 py-4 text-right">
+                    <div className='flex gap-1 justify-end'>
+                        {pre.type_compte.name === "magasin" &&
+                            <button onClick={() => setGeo(pre.id)} className='p-1 px-2 rounded-md border-blue-800 border hover:text-white hover:bg-blue-800 inline-flex items-center text-nowrap'><MdGpsFixed /></button>
+                        }
+                        <button onClick={() => setShow(pre)} className='p-1 rounded-md border-blue-800 border hover:text-white hover:bg-blue-800 inline-flex items-center text-nowrap'>Détails</button>
+                    </div>
                 </td>
             </tr>
         )
@@ -164,6 +171,12 @@ export default function Validation({ users }: { users: Partenaire[] }) {
                 <>
                     <button onClick={() => setShow(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
                     <Display document={show} />
+                </>
+            }
+            {geo &&
+                <>
+                    <button onClick={() => setGeo(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <ModifieGeo id={geo} onEvent={setGeo} />
                 </>
             }
         </div>
