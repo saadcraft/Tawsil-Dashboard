@@ -243,13 +243,14 @@ export async function AproveDm({ flixy_id }: { flixy_id: number }) {
     }
 }
 
-export async function modifyGeo({ id, long, lat, wilaya, wilaya_code }: { id: number, long: number, lat: number, wilaya: string, wilaya_code: number }) {
+// export async function modifyGeo({ id, long, lat, wilaya, wilaya_code }: { id: number, long: number, lat: number, wilaya: string, wilaya_code: number }) {
+export async function modifyGeo({ id, long, lat }: { id: number, long: number, lat: number }) {
     const loadingToastId = toast.loading("Update en cours...");
     try {
         const response = await apiRequest({
             method: "PATCH",
             url: "api/v1/supervisseur/magasin/gbs",
-            data: { id, long, lat, wilaya, wilaya_code }
+            data: { id, long, lat }
         })
 
         if (response.code == 200) {

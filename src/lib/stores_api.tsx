@@ -205,3 +205,24 @@ export async function UpdatePertunair({ long, lat }: { long: number, lat: number
         return false
     }
 }
+
+export async function Reviews(produis_id: number, page: number): Promise<{ result: ReviewType[]; totalAct: number; } | null> {
+    try {
+        const response = await apiRequest({
+            method: "GET",
+            url: "api/v1/produis/reviews",
+            params: { produis_id, page }
+        })
+
+        if (response.code == 200) {
+            return {
+                result: response.data.results,
+                totalAct: response.data.count
+            };
+        } else {
+            return null;
+        }
+    } catch {
+        return null;
+    }
+}

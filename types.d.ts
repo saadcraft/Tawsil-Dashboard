@@ -267,3 +267,12 @@ type LivreurMagasine = {
   partenneur_last_name: string;
   partenneur_phone_number_1: string;
 }
+
+type ReviewType = {
+  id: number;
+  client: Users;
+  article: number;
+  commentaire: string | null;
+  star: number;
+  created_at: string;
+}

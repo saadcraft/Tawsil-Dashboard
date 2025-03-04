@@ -40,5 +40,5 @@ export function getDateDifference(dateString: string): string {
   const minutes = Math.floor((differenceInMs % msInHour) / msInMinute);
 
   // Format the result
-  return `${days !== 0 ? (days + " days,") : ""}  ${hours !== 0 ? (hours + " hours,") : ""}  ${minutes} minutes`;
+  return `${days !== 0 ? (days + " days") : ""}  ${hours !== 0 && days === 0 ? (hours + " hours") : ""}  ${hours === 0 && days === 0 ? (minutes + "minutes") : ""}`;
 }
