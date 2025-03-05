@@ -58,6 +58,7 @@ type Magasin = {
   image_background: string | null;
   owner: Partenaire;
   EtatOuverture: boolean;
+  rating: number;
 }
 
 type Produit = {

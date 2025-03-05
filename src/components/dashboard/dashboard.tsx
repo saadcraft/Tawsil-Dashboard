@@ -15,7 +15,8 @@ import {
   MdOutlineFactCheck,
   MdOutlineFileUpload,
   MdModeEditOutline,
-  MdClose
+  MdClose,
+  MdOutlineStar
 } from "react-icons/md";
 import { GrUserWorker } from "react-icons/gr";
 import getMagasin, { UpdateMagasin } from '@/lib/stores_api';
@@ -25,6 +26,7 @@ import ModifieMagasin from '../windows/magasin_win/modifie_magasin'
 import { userInformation } from '@/lib/tools/store/web_socket'
 import LoadingFirst from '../loading'
 import AddGeo from '../windows/magasin_win/add_geolocation'
+import GlobleComment from '../windows/magasin_win/globle_comment'
 // import { Pie, Bar, Line } from 'react-chartjs-2';
 // import {
 //   Chart as ChartJS,
@@ -58,10 +60,9 @@ export default function Dashboard({ data }: { data: Context }) {
   const [magasin, setMagasin] = useState<Magasin | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [geo, setGeo] = useState<number | null>(null)
+  const [review, setReview] = useState<number | null>(null)
 
   const { user } = userInformation()
-
-  console.log(magasin)
 
   // Fetch magasin on client side if user is a partener
   useEffect(() => {
@@ -207,7 +208,10 @@ export default function Dashboard({ data }: { data: Context }) {
               <span onClick={() => setTypes("background")} className='absolute text-3xl text-gray-800 right-3 top-3 bg-slate-400 bg-opacity-50 rounded-full p-1 cursor-pointer hover:bg-opacity-60 hover:text-gray-900'>
                 <MdModeEditOutline />
               </span>
-              <p className='absolute md:top-36 bottom-2 md:left-52 left-40 drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] text-white bg-slate-600 p-2 rounded-xl bg-opacity-30 font-bold md:text-3xl text-xl'>{magasin?.name}</p>
+              <div className='absolute md:top-36 drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] bottom-2 md:left-52 left-40 text-white md:flex items-center'>
+                <p className=' bg-slate-600 p-2 rounded-xl bg-opacity-30 font-bold md:text-3xl text-md'>{magasin?.name}</p>
+                <span onClick={() => setReview(1)} className='md:h-10 cursor-pointer flex gap-0.5 font-bold bg-slate-600 bg-opacity-30 items-center justify-center text-center border-2 px-1 hover:border-gold6 rounded-lg'>{magasin?.rating} <MdOutlineStar className='text-lg text-gold6' /></span>
+              </div>
             </div>
             <div className='relative'>
               <div className="absolute md:right-20 right-5 top-3 flex items-center space-x-3">
@@ -335,6 +339,12 @@ export default function Dashboard({ data }: { data: Context }) {
           <button onClick={() => setGeo(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
           <AddGeo onEvent={setGeo} />
         </>
+      }
+      {review &&
+        <div>
+          <button onClick={() => setReview(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+          <GlobleComment comment={review} />
+        </div>
       }
     </div>
   )

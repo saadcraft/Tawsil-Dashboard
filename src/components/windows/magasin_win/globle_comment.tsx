@@ -1,20 +1,20 @@
-import { Reviews } from '@/lib/stores_api';
+import { GlobelReviews } from '@/lib/stores_api';
 import React, { useEffect, useState } from 'react'
 import Image from "next/image"
 import { getDateDifference } from '@/lib/tools/tools';
 import { MdOutlineStar } from 'react-icons/md';
 
-export default function ClientComment({ comment }: { comment: number[] }) {
+export default function GlobleComment({ comment }: { comment: number }) {
 
-    const [comments, setComments] = useState<number[] | null>(null)
+    const [comments, setComments] = useState<number | null>(null)
     const [orderData, setOrderData] = useState<ReviewType[] | null>(null);
 
     useEffect(() => {
         const fetchOrderInfo = async () => {
-            const data = await Reviews(comment![0], comment![1]); // Fetch order info
+            const data = await GlobelReviews(comment); // Fetch order info
             if (data && data.totalAct > 0) {
                 setOrderData(data.result); // Update state with the fetched data
-                setComments(comment);
+                setComments(comment + 1);
             } else {
                 setComments(null)
             }
@@ -24,13 +24,13 @@ export default function ClientComment({ comment }: { comment: number[] }) {
     }, [comment]); // Re-run effect when `id` changes
 
     const handlePlus = async () => {
-        const data = await Reviews(comments![0], comments![1] + 1);
+        const data = await GlobelReviews(comments!);
 
         if (data) {
             setOrderData((prevState) => {
                 return [...prevState || [], ...data.result]; // Adds new data to the existing array
             });
-            setComments([comments![0], comments![1] + 1])
+            setComments(comments! + 1)
         } else {
             setComments(null)
         }

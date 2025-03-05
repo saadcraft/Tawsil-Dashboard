@@ -51,10 +51,10 @@ export default function Products({ products, cat, magasin }: { products: Produit
                 {/* <td className="px-6 py-4">
               <input type="checkbox" name='check' id="check" onChange={() => handleCheck(index)} disabled={pre.valide_payment} checked={pre.valide_payment ? false : pre.selected} />
             </td> */}
-                <td className="px-6 py-4">
+                <td className="px-4 py-4">
                     {pre.id}
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-2 py-4">
                     {pre.image &&
                         <Image src={`${process.env.IMGS_DOMAIN}${pre.image}`} width={50} height={50} alt='product image' className='w-12 h-12 object-cover rounded-md' />
                     }

@@ -226,3 +226,23 @@ export async function Reviews(produis_id: number, page: number): Promise<{ resul
         return null;
     }
 }
+
+export async function GlobelReviews(page: number) {
+    try {
+        const response = await apiRequest({
+            method: "GET",
+            url: "api/v1/reviews/magasin",
+            params: { page }
+        })
+        if (response.code == 200) {
+            return {
+                result: response.data.results,
+                totalAct: response.data.count
+            };
+        } else {
+            return null;
+        }
+    } catch {
+        return null;
+    }
+}
