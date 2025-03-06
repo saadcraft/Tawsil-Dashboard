@@ -54,7 +54,7 @@ export default function Header({ user, token }: { user: Users, token: string }) 
     // Handle WebSocket message event
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-
+      // console.log(data)
 
       if (Array.isArray(data.message)) {
         setNotifications(data.message);
