@@ -64,7 +64,7 @@ export default function AjouterProduct({ option, maga, onsub }: { option: Catalo
                     <p>Price</p>
                     <input type='text' name='price' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le prix' />
                     <p>description</p>
-                    <input type='text' name='description' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le email' />
+                    <input type='text' name='description' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le description' />
                     <input type="file" accept='images/*' name='image' />
                     <button className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Submite</button>
                 </form>
