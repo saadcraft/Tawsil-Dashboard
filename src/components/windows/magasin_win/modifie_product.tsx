@@ -62,13 +62,15 @@ export default function ModifyProduct({ pro, option, onsub }: { pro: Produit, op
                     <div className='flex gap-3'>
                         <p>Status:</p>
                         {pro.disponibilite ? <span className='text-green-700 font-bold'>Disponible</span> : <span className='text-red-700 font-bold'>Pas disponible</span>}
-                        <div>
-                            <input type="radio" id="noValide" name="is_available" value="true" className="peer hidden" defaultChecked={pro.disponibilite === true} />
-                            <label htmlFor="noValide" className='cursor-pointer border-2 rounded-lg text-slate-400 peer-checked:text-green-700 text-nowrap peer-checked:border-green-700 p-2'> Activé</label>
-                        </div>
-                        <div>
-                            <input type="radio" id="valide" name="is_available" value="false" className="peer hidden" defaultChecked={pro.disponibilite === false} />
-                            <label htmlFor="valide" className='cursor-pointer border-2 rounded-lg text-slate-400 peer-checked:text-red-700 peer-checked:border-red-700 p-2'>Désactiver</label>
+                        <div className='flex md:gap-2 md:flex-row flex-col gap-5'>
+                            <div>
+                                <input type="radio" id="noValide" name="is_available" value="true" className="peer hidden" defaultChecked={pro.disponibilite === true} />
+                                <label htmlFor="noValide" className='cursor-pointer border-2 rounded-lg text-slate-400 peer-checked:text-green-700 text-nowrap peer-checked:border-green-700 p-2'> Activé</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="valide" name="is_available" value="false" className="peer hidden" defaultChecked={pro.disponibilite === false} />
+                                <label htmlFor="valide" className='cursor-pointer border-2 rounded-lg text-slate-400 peer-checked:text-red-700 peer-checked:border-red-700 p-2'>Désactiver</label>
+                            </div>
                         </div>
                     </div>
                     <p>catégorie</p>
