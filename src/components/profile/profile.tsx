@@ -10,6 +10,7 @@ import { MdClose, MdOutlineEdit } from 'react-icons/md';
 import ModifieForm from '../windows/chef_win/modifie_form';
 import { userInformation } from '@/lib/tools/store/web_socket';
 import { notFound } from 'next/navigation';
+import Named from '@/lib/tools/named';
 
 export default function Profile() {
 
@@ -25,46 +26,115 @@ export default function Profile() {
                 <Link href="/dashboard" className='font-semibold text-third'>Tableau de bord /</Link>
                 <h1 className='font-bold text-xl'>Profile</h1>
             </div>
-            <div className='relative top-20 md:top-10 pt-10 md:px-10 px-2 pb-10 max-w-5xl mx-auto bg-white rounded-md shadow-md'>
-                <div className='absolute left-0 -top-20 flex justify-center w-full'>
-                    <div className='relative rounded-full w-32 h-32 bg-slate-100 shadow-md'>
-                        {user.image_url ? <Image width={100} height={100} src={`${process.env.IMGS_DOMAIN}${user.image_url}`} alt="profile photo" className='rounded-full w-full h-full object-cover' /> : <FaRegUser className='text-8xl p-4 w-32 h-32' />}
-                        <span onClick={() => setPic(user.id)} className='absolute bottom-1 right-1 text-xl p-1 rounded-full bg-white shadow-md cursor-pointer hover:bg-slate-300' title='upload photo'><LuUpload /></span>
+            <div className='relative flex flex-col gap-3 pt-10 md:px-10 px-2 pb-10 max-w-6xl mx-auto bg-white rounded-md shadow-md'>
+                <div className="p-5 border border-gray-200 rounded-2xl lg:p-6">
+                    <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
+                        <div className="flex flex-col items-center w-full gap-6 xl:flex-row">
+                            <div className="w-20 h-20 overflow-hidden border border-gray-200 rounded-full">
+                                <Image
+                                    width={80}
+                                    height={80}
+                                    src={`${process.env.IMGS_DOMAIN}${user.image_url}`}
+                                    alt="user"
+                                />
+                            </div>
+                            <div className="order-3 xl:order-2">
+                                <h4 className="mb-2 text-lg font-semibold text-center text-gray-800 xl:text-left">
+                                    {user.last_name} {user.first_name}
+                                </h4>
+                                <div className="flex flex-col items-center gap-1 text-center xl:flex-row xl:gap-3 xl:text-left">
+                                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                                        {Named(user.role)}
+                                    </p>
+                                    <div className="hidden h-3.5 w-px bg-gray-300 xl:block"></div>
+                                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                                        {user.wilaya || "/"}, Algerie
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <button
+                            onClick={() => setPic(user.id)}
+                            className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 lg:inline-flex lg:w-auto"
+                        >
+                            <LuUpload />
+
+                            Modifier
+                        </button>
                     </div>
                 </div>
-                <div className='flex justify-center items-center'>
-                    <p className='font-semibold ml-5 text-3xl p-3 text-center'>{user.last_name + " " + user.first_name}</p>
-                    <MdOutlineEdit onClick={() => setmodify("nom")} className=' text-2xl text-gray-600 cursor-pointer hover:text-gray-950' title='Modifie Profile' />
-                </div>
-                <div className="h-5/6 rounded-lg flex justify-center text-xs md:text-lg">
-                    <table>
-                        <tbody className='text-left'>
-                            <tr className='border-b'>
-                                <th className='p-2'>email : </th>
-                                <td className='text-nowrap'>{user.email}</td>
-                            </tr>
-                            <tr className='border-b p-2'>
-                                <th className='p-2'>Télephone : </th>
-                                <td>{user.phone_number_1}</td>
-                            </tr>
-                            <tr className='border-b'>
-                                <th className='p-2'>Role: </th>
-                                <td>{user.role}</td>
-                            </tr>
-                            <tr className='border-b'>
-                                <th className='p-2'>La date de naissaance: </th>
-                                <td>{user.date_de_naissance || "/"}</td>
-                            </tr>
-                            <tr className='border-b'>
-                                <th className='p-2'>Wilaya : </th>
-                                <td>{user.wilaya}</td>
-                            </tr>
-                            <tr className='border-b'>
-                                <th className='p-2'>Lieux : </th>
-                                <td>{user.lieux || "/"}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div className="p-5 border border-gray-200 rounded-2xl lg:p-6">
+                    <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+                        <div>
+                            <h4 className="text-lg font-semibold text-gray-800 lg:mb-6">
+                                Informations personnelles
+                            </h4>
+
+                            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32">
+                                <div>
+                                    <p className="mb-2 text-xs leading-normal text-gray-500">
+                                        Email address
+                                    </p>
+                                    <p className="text-sm font-medium text-gray-800">
+                                        {user.email}
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <p className="mb-2 text-xs leading-normal text-gray-500">
+                                        Télephone
+                                    </p>
+                                    <p className="text-sm font-medium text-gray-800">
+                                        {user.phone_number_1}
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <p className="mb-2 text-xs leading-normal text-gray-500">
+                                        La date de naissaance
+                                    </p>
+                                    <p className="text-sm font-medium text-gray-800">
+                                        {user.date_de_naissance || "/"}
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <p className="mb-2 text-xs leading-normal text-gray-500">
+                                        Lieux
+                                    </p>
+                                    <p className="text-sm font-medium text-gray-800">
+                                        {user.lieux || "/"}
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <p className="mb-2 text-xs leading-normal text-gray-500">
+                                        Wilaya
+                                    </p>
+                                    <p className="text-sm font-medium text-gray-800">
+                                        {user.wilaya}
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <p className="mb-2 text-xs leading-normal text-gray-500">
+                                        Role
+                                    </p>
+                                    <p className="text-sm font-medium text-gray-800">
+                                        {Named(user.role)}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <button
+                            onClick={() => setmodify("nom")}
+                            className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 lg:inline-flex lg:w-auto"
+                        >
+
+                            <MdOutlineEdit className=' text-xl' />
+                            Modifier
+                        </button>
+                    </div>
                 </div>
             </div>
             {pic &&

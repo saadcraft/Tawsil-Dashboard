@@ -31,30 +31,36 @@ export default function OrderInfo({ id, total }: { id: number, total: number }) 
                 <div className='flex flex-col gap-3'>
                     {orderData?.map(pre => {
                         return (
-                            <div key={pre.id} className='flex justify-between items-center border-2 p-2 rounded-md'>
-                                <div className="relative w-16 h-16 shrink-0">
-                                    <Image
-                                        src={`${process.env.SERVER_DOMAIN}${pre.article.image}`}
-                                        alt="Product image"
-                                        className="object-cover rounded-md"
-                                        fill
-                                        priority
-                                    />
+                            <div key={pre.id} className='border-2 p-2 rounded-md'>
+                                <div className='flex justify-between items-center'>
+                                    <div className="relative w-16 h-16 shrink-0">
+                                        <Image
+                                            src={`${process.env.SERVER_DOMAIN}${pre.article.image}`}
+                                            alt="Product image"
+                                            className="object-cover rounded-md"
+                                            fill
+                                            priority
+                                        />
+                                    </div>
+                                    <div className="flex-1 min-w-0 ml-2">
+                                        <h3 className="font-medium text-lg truncate">{pre.article.name}</h3>
+                                        <p className="text-sm font-semibold text-primary">{pre.article.price} DA</p>
+                                    </div>
+                                    <div className="flex items-center gap-1">
+                                        <p>Quantité :</p>
+                                        <span className="text-sm w-8 text-center">{pre.quantity}</span>
+                                    </div>
                                 </div>
-                                <div className="flex-1 min-w-0 ml-2">
-                                    <h3 className="font-medium text-lg truncate">{pre.article.name}</h3>
-                                    <p className="text-sm font-semibold text-primary">{pre.subtotal} DA</p>
-                                </div>
-                                <div className="flex items-center gap-1">
-                                    <p>Quantité :</p>
-                                    <span className="text-sm w-8 text-center">{pre.quantity}</span>
-                                </div>
+                                {pre.specific &&
+                                    <p className='text-yellow-600 text-sm font-bold p-1 bg-yellow-100 rounded-md border-2 border-yellow-600'>**{pre.specific}</p>
+
+                                }
                             </div>
                         )
                     })}
                     <span className='text-right font-bold text-xl truncate'>Total: {total} DA</span>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }

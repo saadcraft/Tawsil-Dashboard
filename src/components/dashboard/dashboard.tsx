@@ -16,7 +16,8 @@ import {
   MdOutlineFileUpload,
   MdModeEditOutline,
   MdClose,
-  MdOutlineStar
+  MdOutlineStar,
+  MdOutlineEdit
 } from "react-icons/md";
 import { GrUserWorker } from "react-icons/gr";
 import getMagasin, { UpdateMagasin } from '@/lib/stores_api';
@@ -235,69 +236,114 @@ export default function Dashboard({ data }: { data: Context }) {
               </div>
             </div>
             <div className='py-5 px-5 sm:px-16'>
-              <div className='relative top-10 p-3 pb-20 bg-white md:p-10 rounded-md shadow-md'>
-                <div className='relative md:-top-5 flex items-center justify-between'>
-                  <h1 className='font-bold text-xl'>Information</h1>
-                  <span onClick={() => setMody(true)} className='text-3xl text-gray-600 right-3 bg-slate-400 bg-opacity-50 rounded-full p-1 cursor-pointer hover:bg-opacity-60 hover:text-gray-900'>
-                    <MdModeEditOutline />
-                  </span>
-                </div>
-                <div className="h-5/6 rounded-lg flex justify-around flex-col lg:flex-row text-xs md:text-lg">
-                  <table className='max-w-xl'>
-                    <tbody className='text-left'>
-                      <tr className='border-b'>
-                        <th className='p-2'>Address : </th>
-                        <td className='text-nowrap'>{magasin?.address || "/"}</td>
-                      </tr>
-                      <tr className='border-b p-2'>
-                        <th className='p-2'>Télephone : </th>
-                        <td>{magasin?.contact || "/"}</td>
-                      </tr>
-                      <tr className='border-b'>
-                        <th className='p-2'>Wilaya: </th>
-                        <td>{magasin?.wilaya || "/"}</td>
-                      </tr>
-                      <tr className='border-b'>
-                        <th className='p-2'>Discreption: </th>
-                        <td>{magasin?.descprition || "/"}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <div>
-                    <h3 className="mb-3 text-lg font-medium">Categologe</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {magasin?.cataloguqe?.map((category) => (
-                        <span key={category.id} className="rounded-full font-semibold bg-slate-300  px-3 py-1 text-sm text-primary">
-                          {category.name}
-                        </span>
-                      ))}
-                    </div>
-                    <h3 className="text-lg mt-2 font-medium">Location</h3>
-                    {magasin.owner.longitude && magasin.owner.longitude ?
-                      <div className="mapouter">
-                        <div className="gmap_canvas">
-                          <iframe
-                            className="gmap_iframe"
-                            width="100%"
-                            frameBorder="0"
-                            scrolling="no"
-                            marginHeight={0}
-                            marginWidth={0}
-                            src={`https://maps.google.com/maps?width=200&height=150&hl=en&q=${magasin.owner.latitude},${magasin.owner.longitude}&t=&z=13&ie=UTF8&iwloc=B&output=embed`}
-                            title="Google Map"
-                          ></iframe>
-                          <a href="https://sprunkin.com/">Sprunki Game</a>
+              <div className='relative top-10 p-3 bg-white md:p-10 rounded-md shadow-md'>
+                <div className="p-5 border border-gray-200 rounded-2xl lg:p-6">
+                  <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+                    <div>
+                      <h4 className="text-lg font-semibold text-gray-800 lg:mb-6">
+                        Informations
+                      </h4>
+
+                      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32">
+                        <div>
+                          <p className="mb-2 text-xs leading-normal text-gray-500">
+                            Address
+                          </p>
+                          <p className="text-sm font-medium text-gray-800">
+                            {magasin?.address || "/"}
+                          </p>
+                        </div>
+
+                        <div>
+                          <p className="mb-2 text-xs leading-normal text-gray-500">
+                            Télephone
+                          </p>
+                          <p className="text-sm font-medium text-gray-800">
+                            {magasin?.contact || "/"}
+                          </p>
+                        </div>
+
+                        <div>
+                          <p className="mb-2 text-xs leading-normal text-gray-500">
+                            Wilaya
+                          </p>
+                          <p className="text-sm font-medium text-gray-800">
+                            {magasin?.wilaya || "/"}
+                          </p>
+                        </div>
+
+                        <div>
+                          <p className="mb-2 text-xs leading-normal text-gray-500">
+                            Discreption
+                          </p>
+                          <p className="text-sm font-medium text-gray-800">
+                            {magasin?.descprition || "/"}
+                          </p>
+                        </div>
+
+                        <div>
+                          <p className="mb-2 text-xs leading-normal text-gray-500">
+                            Categologe
+                          </p>
+                          <p className="text-sm font-medium text-gray-800 flex flex-wrap gap-2">
+                            {magasin?.cataloguqe?.map((category) => (
+                              <span key={category.id} className="rounded-full font-semibold bg-slate-300  px-3 py-1 text-sm text-primary">
+                                {category.name}
+                              </span>
+                            ))}
+                          </p>
+                        </div>
+
+                        {/* <div>
+                          <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
+                            Wilaya
+                          </p>
+                          <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                            {user.wilaya}
+                          </p>
+                        </div> */}
+
+                        <div>
+                          <p className="mb-2 text-xs leading-normal text-gray-500">
+                            Location
+                          </p>
+                          <div className="text-sm font-medium text-gray-800">
+                            {magasin.owner.longitude && magasin.owner.longitude ?
+                              <div className="mapouter">
+                                <div className="gmap_canvas">
+                                  <iframe
+                                    className="gmap_iframe"
+                                    width="100%"
+                                    frameBorder="0"
+                                    scrolling="no"
+                                    marginHeight={0}
+                                    marginWidth={0}
+                                    src={`https://maps.google.com/maps?width=200&height=150&hl=en&q=${magasin.owner.latitude},${magasin.owner.longitude}&t=&z=13&ie=UTF8&iwloc=B&output=embed`}
+                                    title="Google Map"
+                                  ></iframe>
+                                  <a href="https://sprunkin.com/">Sprunki Game</a>
+                                </div>
+                              </div>
+                              :
+                              <div className='flex items-center gap-3'>
+                                <p className='text-red-600'>Localisation didn&apos;t exist</p>
+                                <span onClick={() => setGeo(magasin.owner.id)} className='bg-gray-200 p-1 rounded-full hover:bg-gray-400 cursor-pointer hover:text-white'>
+                                  <MdModeEditOutline />
+                                </span>
+                              </div>
+                            }
+                          </div>
                         </div>
                       </div>
-                      :
-                      <div className='flex items-center gap-3'>
-                        <p className='text-red-600'>Localisation didn&apos;t exist</p>
-                        <span onClick={() => setGeo(magasin.owner.id)} className='bg-gray-200 p-1 rounded-full hover:bg-gray-400 cursor-pointer hover:text-white'>
-                          <MdModeEditOutline />
-                        </span>
-                      </div>
-                    }
+                    </div>
+                    <button
+                      onClick={() => setMody(true)}
+                      className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 lg:inline-flex lg:w-auto"
+                    >
 
+                      <MdOutlineEdit className=' text-xl' />
+                      Modifier
+                    </button>
                   </div>
                 </div>
               </div>

@@ -4,9 +4,10 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaRegUser, FaShoppingBag } from "react-icons/fa";
-import Named from '@/lib/tools/named';
+import { MdKeyboardArrowDown } from "react-icons/md";
 import Notification from "@/components/windows/notification"
 import { useNotificationStore, userInformation } from '@/lib/tools/store/web_socket';
+import DropDown from "@/components/windows/drop_down"
 import { toast } from 'react-toastify';
 
 
@@ -24,6 +25,7 @@ import { toast } from 'react-toastify';
 export default function Header({ user, token }: { user: Users, token: string }) {
 
   const [show, setShow] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const { notifications, setNotifications, addNotification, setSocket } = useNotificationStore();
 
@@ -95,22 +97,42 @@ export default function Header({ user, token }: { user: Users, token: string }) 
         <Image src="/tawsil.png" className="w-16 ml-10 cursor-pointer" alt="Tawsil" width={100} height={100} />
         <div className='flex items-center gap-2'>
           {user && user.role === "partener" ?
-            <span onClick={() => setShow(true)} className='relative cursor-pointer text-3xl'>
-              {notifications.length !== 0 &&
-                <p className='absolute rounded-full text-sm bg-red-600 w-5 h-5 text-center -top-1.5 -right-1.5'>{notifications.length}</p>
+            // <span onClick={() => setShow(true)} className='relative cursor-pointer text-3xl'>
+            //   {notifications.length !== 0 &&
+            //     <p className='absolute rounded-full text-sm bg-red-600 w-5 h-5 text-center -top-1.5 -right-1.5'>{notifications.length}</p>
+            //   }
+            //   <FaShoppingBag />
+            // </span>
+            <button
+              className="relative dropdown-toggle flex items-center justify-center text-white transition-colors border border-gray-200 rounded-full hover:text-gray-700 h-11 w-11 hover:bg-gray-100"
+              onClick={() => setShow(true)}
+            >
+              {notifications.length > 0 &&
+                <p className='absolute rounded-full text-sm bg-red-600 w-5 h-5 text-center -top-1.5 text-white -right-1.5'>{notifications.length}</p>
               }
+              <span className={`${notifications.length > 0 && "absolute inline-flex w-full h-full bg-orange-400 rounded-full opacity-75 animate-ping"}`}></span>
               <FaShoppingBag />
-            </span>
+            </button>
             : ""
           }
           {user ?
-            <Link href="/dashboard/profile" className='p-2 rounded-md flex gap-4 items-center'>
-              <FaRegUser className='md:text-4xl text-2xl' />
-              <span className='flex flex-col md:gap-1.5 text-sm'>
-                <p>{user.username}</p>
-                <p>{Named(user.role)}</p>
+            <button
+              onClick={() => setIsOpen(pre => !pre)}
+              className="flex items-center text-gray-400"
+            >
+              <span className="mr-3 overflow-hidden rounded-full h-11 w-11">
+                <Image
+                  width={44}
+                  height={44}
+                  src={`${process.env.IMGS_DOMAIN}${user.image_url}`}
+                  alt="User"
+                />
               </span>
-            </Link>
+
+              <span className="block mr-1 md:max-w-32 max-w-20 overflow-hidden line-clamp-1 font-medium text-nowrap">{user.username}</span>
+
+              <MdKeyboardArrowDown className={`stroke-gray-500 dark:stroke-gray-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
+            </button>
             : <Link href="/login" className='px-5 py-2 rounded-md flex gap-2 items-center'><FaRegUser className='text-xl' />Compte</Link>}
         </div>
       </div>
@@ -119,6 +141,14 @@ export default function Header({ user, token }: { user: Users, token: string }) 
           <div onClick={() => setShow(false)} className='absolute w-full h-screen top-0 bottom-0 right-0 left-0'></div>
           <div className='absolute z-40 top-16 p-2 md:right-32'>
             <Notification not={notifications} onsub={setShow} />
+          </div>
+        </div>
+      }
+      {isOpen &&
+        <div>
+          <div onClick={() => setIsOpen(false)} className='absolute w-full h-screen top-0 bottom-0 right-0 left-0'></div>
+          <div className='absolute z-40 top-16 p-2 right-2'>
+            <DropDown onClose={setIsOpen} />
           </div>
         </div>
       }

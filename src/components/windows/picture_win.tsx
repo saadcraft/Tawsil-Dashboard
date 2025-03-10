@@ -50,7 +50,7 @@ export default function PictureWin({ user, onsub }: { user: number, onsub: (valu
 
     return (
         <div className='fixed z-20 top-0 flex items-center bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
-            <div className='max-w-5xl mx-auto rounded-xl p-5 mt-10 bg-white'>
+            <div className='md:max-w-5xl max-w-full mx-auto rounded-xl p-5 mt-10 bg-white'>
                 <h1 className='mb-5 text-center'>upload une image</h1>
                 <form onSubmit={handleChange} className='flex flex-col gap-10' encType="multipart/form-data">
                     <input type='file' name='image_url' className='p-2' placeholder='Entre le commentaire' accept="image/*" />

@@ -259,6 +259,7 @@ type OrderItem = {
   quantity: number;
   subtotal: string;
   wilaya: string;
+  specific: string | null;
 }
 
 type LivreurMagasine = {
