@@ -34,7 +34,7 @@ export default function Profile() {
                                 <Image
                                     width={80}
                                     height={80}
-                                    src={`${process.env.IMGS_DOMAIN}${user.image_url}`}
+                                    src={user.image_url ? `${process.env.IMGS_DOMAIN}${user.image_url}` : "/placeholder.svg"}
                                     alt="user"
                                 />
                             </div>

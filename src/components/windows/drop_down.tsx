@@ -39,8 +39,8 @@ export default function DropDown({ onClose }: { onClose: (value: false) => void 
     return (
         <div>
             <div className='bg-gray-100 rounded-lg'>
-                <ul onClick={() => onClose(false)} className="flex flex-col gap-1 pt-4 pb-3 border-b border-gray-200">
-                    <li>
+                <ul onClick={() => onClose(false)} className="flex flex-col gap-1 pt-4 pb-3 border-gray-200">
+                    <li className='border-b'>
                         <Link
                             href="/dashboard/profile"
                             className="flex items-center gap-3 px-3 py-2 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700"

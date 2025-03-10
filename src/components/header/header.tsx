@@ -97,12 +97,6 @@ export default function Header({ user, token }: { user: Users, token: string }) 
         <Image src="/tawsil.png" className="w-16 ml-10 cursor-pointer" alt="Tawsil" width={100} height={100} />
         <div className='flex items-center gap-2'>
           {user && user.role === "partener" ?
-            // <span onClick={() => setShow(true)} className='relative cursor-pointer text-3xl'>
-            //   {notifications.length !== 0 &&
-            //     <p className='absolute rounded-full text-sm bg-red-600 w-5 h-5 text-center -top-1.5 -right-1.5'>{notifications.length}</p>
-            //   }
-            //   <FaShoppingBag />
-            // </span>
             <button
               className="relative dropdown-toggle flex items-center justify-center text-white transition-colors border border-gray-200 rounded-full hover:text-gray-700 h-11 w-11 hover:bg-gray-100"
               onClick={() => setShow(true)}
@@ -124,7 +118,7 @@ export default function Header({ user, token }: { user: Users, token: string }) 
                 <Image
                   width={44}
                   height={44}
-                  src={`${process.env.IMGS_DOMAIN}${user.image_url}`}
+                  src={user.image_url ? `${process.env.IMGS_DOMAIN}${user.image_url}` : "/placeholder.svg"}
                   alt="User"
                 />
               </span>
