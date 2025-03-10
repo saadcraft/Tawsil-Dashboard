@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import React, { useState } from 'react'
-import { FaRegUser } from "react-icons/fa";
 import { LuUpload } from "react-icons/lu";
 import Image from 'next/image';
 import PictureWin from '../windows/picture_win';
