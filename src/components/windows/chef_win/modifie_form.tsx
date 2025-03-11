@@ -12,18 +12,15 @@ export default function ModifieForm({ user, onsub }: { user: Users, onsub: (valu
     const formData = new FormData(e.currentTarget)
     const formObject = Object.fromEntries(formData.entries())
 
-    // const password = formData.get("password") as string;
-    // const confirmPassword = formData.get("confirm_password") as string;
+    if (formObject.phone_number_1) {
+      formObject.phone_number_1 = String(formObject.phone_number_1).replace(/^0+/, '');
+      formObject.phone_number_1 = String(formObject.code) + String(formObject.phone_number_1);
+    }
 
 
     const filteredData = Object.fromEntries(
       Object.entries(formObject).filter(([, value]) => value !== "")
     );
-
-    // if (password !== confirmPassword) {
-    //   toast.error('Passwords do not match.');
-    //   return;
-    // }
 
     delete filteredData.confirm_password;
 
@@ -52,7 +49,10 @@ export default function ModifieForm({ user, onsub }: { user: Users, onsub: (valu
             <input type='text' name='first_name' className='p-2 w-full border border-slate-300 rounded-md' placeholder='Entre le prénom' defaultValue={user.first_name} />
           </div>
           <p>Le Numéro de Télephone</p>
-          <input type='text' name='phone_number_1' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le numéro de téléphone' defaultValue={user.phone_number_1} />
+          <div className="flex gap-2">
+            <input readOnly name='code' value="+213" className='p-2 border border-slate-300 rounded-md w-1/4' />
+            <input type='text' name='phone_number_1' className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre le numéro de téléphone' defaultValue={user.phone_number_1.replace(/^\+213/, '')} />
+          </div>
           <p>Email</p>
           <input type='email' name='email' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le email' defaultValue={user.email} />
           <p>Date de naissance</p>

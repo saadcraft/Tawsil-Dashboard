@@ -60,7 +60,7 @@ export async function getSuperviseur({ page, search }: { page: string, search: s
     }
 }
 
-export async function AddSuperViseur(Data: Data) {
+export async function AddSuperViseur(Data: { [k: string]: FormDataEntryValue; }) {
 
     const { last_name, first_name, username, email, date_de_naissance, lieux, sexe, phone_number_1, phone_number_2, pass, password } = Data
 

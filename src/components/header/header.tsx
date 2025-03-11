@@ -112,7 +112,7 @@ export default function Header({ user, token }: { user: Users, token: string }) 
           {user ?
             <button
               onClick={() => setIsOpen(pre => !pre)}
-              className="flex items-center text-gray-400"
+              className="flex items-center text-gray-200"
             >
               <span className="mr-3 overflow-hidden rounded-full h-11 w-11">
                 <Image

@@ -1,6 +1,6 @@
 import { PrinteCasses } from '@/lib/tools/printer_models/printer_caisses';
 import { handleInputChange } from '@/lib/tools/tools';
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 
 type form = {

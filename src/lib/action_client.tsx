@@ -24,7 +24,7 @@ type apiCasses = {
     totalAct: number;
 }
 
-export async function AddAgent(Data: Data) {
+export async function AddAgent(Data: { [k: string]: FormDataEntryValue; }) {
 
     const { last_name, first_name, username, email, date_de_naissance, lieux, sexe, phone_number_1, phone_number_2, pass, password } = Data
 
