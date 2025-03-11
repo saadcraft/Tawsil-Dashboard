@@ -43,7 +43,7 @@ export default function ValideCasses({ onEvent, user, total }: { onEvent: (data:
 
   return (
     <div className='fixed z-20 top-20 bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
-      <div className='max-w-5xl mx-auto p-5 bg-white'>
+      <div className='max-w-5xl mx-auto p-5 mt-10 bg-white'>
         <h1 className='mb-5 text-center text-xl font-semibold'>Valider le montant</h1>
         <div className='flex flex-col gap-3'>
           <p>Montant réel:</p>

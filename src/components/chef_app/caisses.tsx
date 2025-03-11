@@ -162,7 +162,7 @@ export default function Caisses({ cass, total }: { cass: Result[], total: number
       </div>
       {Close ?
         <div>
-          <button onClick={handleWindow} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
+          <button onClick={handleWindow} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
           <ValideCasses onEvent={handleClose} user={user} total={total} />
         </div>
         : ""}
