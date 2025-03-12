@@ -54,12 +54,12 @@ export default function AddSuperviseur() {
         <div className='py-5 px-5 sm:px-16'>
             <div className='flex items-center gap-2 px-5 pb-5 text-xs lg:text-xl'>
                 <Link href="/dashboard" className='font-semibold text-third'>Tableau de bord /</Link>
-                <h1 className='font-semibold'>Agent Administratif /</h1>
-                <h1 className='font-bold'>Ajouté Agent</h1>
+                <h1 className='font-semibold'>Superviseur /</h1>
+                <h1 className='font-bold'>Ajouté Superviseur</h1>
             </div>
             <div className='py-10 max-w-2xl mx-auto bg-white rounded-md shadow-md'>
                 <form onSubmit={handleSubmit} ref={formRef} className='flex flex-col gap-4 py-5 px-2 sm:px-5 lg:px-10'>
-                    <h1 className="text-xl font-bold">Ajouté agent</h1>
+                    <h1 className="text-xl font-bold">Ajouté Superviseur</h1>
                     <div className='flex flex-col gap-1 p-1'>
                         <p className='flex'><span>Nom et prénome</span><span className='text-red-600 text-2xl'>*</span></p>
                         <div className='flex flex-col lg:flex-row gap-3'>

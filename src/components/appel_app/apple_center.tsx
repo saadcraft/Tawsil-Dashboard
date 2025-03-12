@@ -10,6 +10,7 @@ import { AddComment, UpdateGroup } from '@/lib/call_action'
 import ShowComment from '../windows/centre_win/show-comments'
 import Group from '../windows/chef_win/group'
 import { useRouter } from 'next/navigation'
+import toast from 'react-hot-toast';
 
 type Props = {
   parteners: Partenaire[];
@@ -36,6 +37,10 @@ export default function AppleCenter({ parteners, chefs }: Props) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const add = formData.get('comment') as string;
+    if (add === "") {
+      toast.error("si vous plaît ajouter une commentaire");
+      return;
+    }
     const res = await AddComment({ id: id, comment: add })
     if (res) {
       setActivePartnerId(null)

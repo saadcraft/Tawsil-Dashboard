@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import React, { useState } from 'react'
-import { FaPen, FaSearch } from 'react-icons/fa'
+import { FaPen } from 'react-icons/fa'
 import { MdClose } from 'react-icons/md'
 import AddMagasin from '../windows/gestion_win/add_magasin';
 import ModifyMagasinWin from '../windows/gestion_win/modify_magasin'
@@ -42,13 +42,13 @@ export default function Magasin({ allMagasin }: { allMagasin: MagasinType[] }) {
             </div>
             <div className='p-3 pb-20 bg-white md:p-10 rounded-md shadow-md'>
                 <div className='flex lg:flex-row flex-col items-center justify-between mb-7 gap-5'>
-                    <form className='flex flex-col lg:flex-row items-center gap-5'>
+                    {/* <form className='flex flex-col lg:flex-row items-center gap-5'>
                         <div className='relative'>
                             <FaSearch className='absolute top-3 text-slate-500' />
                             <input type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         </div>
                         <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Submit</button>
-                    </form>
+                    </form> */}
                     <div>
                         <button onClick={() => setAddMagasin(true)} className='bg-green-600 hover:bg-green-500 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Add Magasin</button>
                     </div>

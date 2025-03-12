@@ -19,6 +19,8 @@ export default function ActionsCenter({ actions }: { actions: centerAction[] }) 
         router.push(`?search=${cleint}&date=${date}`);
     }
 
+    // console.log(actions)
+
     const action = actions.map((pre, index) => {
         return (
             <tr key={index} className="bg-white border-b text-black hover:bg-gray-50">
@@ -85,6 +87,6 @@ export default function ActionsCenter({ actions }: { actions: centerAction[] }) 
                     </table>
                 </div>
             </div>
-        </div >
+        </div>
     )
 }
