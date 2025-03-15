@@ -35,6 +35,7 @@ export default function Profile() {
                                     height={80}
                                     src={user.image_url ? `${process.env.IMGS_DOMAIN}${user.image_url}` : "/placeholder.svg"}
                                     alt="user"
+                                    className='object-cover h-full'
                                 />
                             </div>
                             <div className="order-3 xl:order-2">

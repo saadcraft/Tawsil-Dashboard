@@ -120,6 +120,7 @@ export default function Header({ user, token }: { user: Users, token: string }) 
                   height={44}
                   src={user.image_url ? `${process.env.IMGS_DOMAIN}${user.image_url}` : "/placeholder.svg"}
                   alt="User"
+                  className='object-cover h-full'
                 />
               </span>
 
