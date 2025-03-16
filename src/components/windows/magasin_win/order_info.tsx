@@ -35,7 +35,7 @@ export default function OrderInfo({ id, total }: { id: number, total: number }) 
                                 <div className='flex justify-between items-center'>
                                     <div className="relative w-16 h-16 shrink-0">
                                         <Image
-                                            src={`${process.env.SERVER_DOMAIN}${pre.article.image}`}
+                                            src={`${process.env.IMGS_DOMAIN}${pre.article.image}`}
                                             alt="Product image"
                                             className="object-cover rounded-md"
                                             fill

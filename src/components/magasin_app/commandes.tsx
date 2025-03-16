@@ -27,26 +27,23 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
 
 
     useEffect(() => {
-        if (socket) {
-            const handleMessage = (event: MessageEvent) => {
-                try {
-                    const data = JSON.parse(event.data);
-                    if (data.message?.status === "confirmed" || data.message?.status === "canceled" || data.message?.status == "pending") {
-                        router.refresh(); // Refresh the page
-                    }
-                } catch (error) {
-                    console.error('Error parsing WebSocket message:', error);
+        if (!socket) return;
+        const handleMessage = (event: MessageEvent) => {
+            try {
+                const data = JSON.parse(event.data);
+                if (data.message?.status === "confirmed" || data.message?.status === "canceled" || data.message?.status == "pending") {
+                    router.refresh(); // Refresh the page
                 }
-            };
+            } catch (error) {
+                console.error('Error parsing WebSocket message:', error);
+            }
+        };
 
-            // Attach the message event listener
-            socket.addEventListener('message', handleMessage);
+        // Attach the message event listener
+        socket.addEventListener('message', handleMessage);
 
-            // Clean up the event listener when the component unmounts
-            return () => {
-                socket.removeEventListener('message', handleMessage);
-            };
-        }
+        // Clean up the event listener when the component unmounts
+        return () => socket.removeEventListener('message', handleMessage);
     }, [socket, router]);
 
 
