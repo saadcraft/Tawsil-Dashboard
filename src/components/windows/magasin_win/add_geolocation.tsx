@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 // import { Loader } from '@googlemaps/js-api-loader';
 import { useRouter } from 'next/navigation';
 
-export default function AddGeo({ onEvent }: { onEvent: (value: null) => void }) {
+export default function AddGeo({ onEvent }: { onEvent: (value: false) => void }) {
     const [latitude, setLatitude] = useState<number | null>(null);
     const [longitude, setLongitude] = useState<number | null>(null);
 
@@ -46,7 +46,7 @@ export default function AddGeo({ onEvent }: { onEvent: (value: null) => void }) 
 
         if (res) {
             router.refresh();
-            onEvent(null)
+            onEvent(false)
         }
 
     }

@@ -63,7 +63,7 @@ export default function Action({ actions, agents, total }: { actions: Actions[],
                         </div>
                         <input type="date" name="date" className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         <select name="agent" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
-                            <option value="">Sélection Groupe</option>
+                            <option value="">Sélection Agent</option>
                             {result.map(pre => {
                                 if (pre != null) {
                                     return (

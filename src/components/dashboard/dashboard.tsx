@@ -60,7 +60,7 @@ export default function Dashboard({ data }: { data: Context }) {
   const [mody, setMody] = useState<boolean>(false)
   const [magasin, setMagasin] = useState<Magasin | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [geo, setGeo] = useState<number | null>(null)
+  const [geo, setGeo] = useState<boolean>(false)
   const [review, setReview] = useState<number | null>(null)
 
   const { user } = userInformation()
@@ -154,6 +154,8 @@ export default function Dashboard({ data }: { data: Context }) {
   //   return <Line data={data} className='bg-white p-5 rounded-xl' />
   // }
 
+
+
   const handleStatusChange = async (magasin_id: number, EtatOuverture: boolean) => {
     const loadingToastId = toast.loading('Submite update...');
 
@@ -166,6 +168,8 @@ export default function Dashboard({ data }: { data: Context }) {
       toast.error(updateStatus, { id: loadingToastId });
     }
   }
+
+  console.log(magasin)
 
 
   return (
@@ -327,7 +331,7 @@ export default function Dashboard({ data }: { data: Context }) {
                               :
                               <div className='flex items-center gap-3'>
                                 <p className='text-red-600'>Localisation didn&apos;t exist</p>
-                                <span onClick={() => setGeo(magasin.owner.id)} className='bg-gray-200 p-1 rounded-full hover:bg-gray-400 cursor-pointer hover:text-white'>
+                                <span onClick={() => setGeo(true)} className='bg-gray-200 p-1 rounded-full hover:bg-gray-400 cursor-pointer hover:text-white'>
                                   <MdModeEditOutline />
                                 </span>
                               </div>
@@ -382,7 +386,7 @@ export default function Dashboard({ data }: { data: Context }) {
       }
       {geo &&
         <>
-          <button onClick={() => setGeo(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+          <button onClick={() => setGeo(false)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
           <AddGeo onEvent={setGeo} />
         </>
       }
