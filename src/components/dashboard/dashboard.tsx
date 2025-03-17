@@ -169,7 +169,7 @@ export default function Dashboard({ data }: { data: Context }) {
     }
   }
 
-  console.log(magasin)
+  // console.log(magasin)
 
 
   return (
