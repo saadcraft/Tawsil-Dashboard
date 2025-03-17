@@ -7,7 +7,7 @@ export default function ModifyProduct({ pro, option, onsub }: { pro: Produit, op
 
     const router = useRouter()
 
-    console.log(option)
+    // console.log(option)
 
     const handleCreate = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -40,7 +40,7 @@ export default function ModifyProduct({ pro, option, onsub }: { pro: Produit, op
 
         const updatedProduct = { id: pro.id, ...filteredData };
 
-        console.log(updatedProduct)
+        // console.log(updatedProduct)
 
         const res = await ModifieProduct(updatedProduct)
 
