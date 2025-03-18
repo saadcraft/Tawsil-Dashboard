@@ -9,6 +9,7 @@ import { ValideCommande, ValideSecond, ValideThird } from '../windows/gestion_wi
 import { MdClose } from 'react-icons/md'
 import { ValideCourses } from '@/lib/gestion_action'
 import { userInformation } from '@/lib/tools/store/web_socket'
+import { Wilaya } from '@/lib/tools/named'
 
 type Props = {
     // user: Users
@@ -127,8 +128,9 @@ export default function Vtc({ promise }: Props) {
         const formData = new FormData(event.currentTarget);
         const cleint = formData.get('client') as string;
         const validation = formData.get('valide') as string;
+        const wilaya = formData.get('wilaya') as string;
 
-        router.push(`?search=${cleint}&valide=${validation}`);
+        router.push(`?search=${cleint}&valide=${validation}&wilaya=${wilaya}`);
     }
 
     const Commands = select.map((pre, index) => {
@@ -181,6 +183,14 @@ export default function Vtc({ promise }: Props) {
                                 <label htmlFor="valide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> valider</label>
                             </div>
                         </div>
+                        <select name="wilaya" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
+                            <option value="">Sélection Wilaya</option>
+                            {Wilaya.map(pre => {
+                                return (
+                                    <option key={pre.id} value={pre.name}>{pre.id} - {pre.name}</option>
+                                )
+                            })}
+                        </select>
                         <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Submit</button>
                     </form>
                     <button onClick={handleValidate} disabled={selectedRows.length === 0 || new Set(selectedRows.map((row) => row.partener.user.id)).size > 1 ? true : false} className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>validé</button>

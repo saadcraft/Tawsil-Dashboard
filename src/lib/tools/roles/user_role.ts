@@ -18,6 +18,8 @@ export function Role(role: string) {
             return ["/dashboard", "/dashboard/profile", "/dashboard/comptable"];
         case "partener":
             return ["/dashboard", "/dashboard/profile", "/dashboard/product_management", "/dashboard/commandes"];
+        case "aide_comptable":
+            return ["/dashboard", "/dashboard/profile"];
         // Add more roles as needed
         default:
             return null

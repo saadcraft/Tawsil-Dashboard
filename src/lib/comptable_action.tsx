@@ -7,12 +7,12 @@ type apiCasses = {
     totalAct: number
 }
 
-export async function GetAllCasses({ page, search, date, chef }: { page: string, search: string, date: string, chef: string }): Promise<apiCasses | null> {
+export async function GetAllCasses({ page, search, date, chef, approvie }: { page: string, search: string, date: string, chef: string, approvie: string }): Promise<apiCasses | null> {
     try {
         const response = await apiRequest({
             method: "GET",
             url: "api/v1/comtable/cassies",
-            params: { page, search, date, chef }
+            params: { page, search, date, chef, approvie }
         })
         if (response.code == 200) {
             return {

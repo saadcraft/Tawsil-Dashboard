@@ -73,14 +73,14 @@ export async function modifyMagasin(Data: DataType) {
 }
 
 export async function getCourses(
-    { page, search, valide }:
-        { page: string, search: string, valide: string }
+    { page, search, valide, wilaya }:
+        { page: string, search: string, valide: string, wilaya: string }
 ): Promise<apiAction | null> {
     try {
         const response = await apiRequest({
             method: "GET",
             url: "/api/v1/vtc/courses",
-            params: { page, search, valide }
+            params: { page, search, valide, wilaya }
         })
         if (response.code == 200) {
             return {

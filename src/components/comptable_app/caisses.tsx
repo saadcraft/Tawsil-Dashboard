@@ -20,8 +20,9 @@ export default function Caisses({ promise, chefs }: { promise: Caisses[], chefs:
         const cleint = formData.get('client') as string;
         const validation = formData.get('date') as string;
         const groupe = formData.get('group') as string
+        const aprove = formData.get('valide') as string
 
-        router.push(`?search=${cleint}&date=${validation}&chef=${groupe}`);
+        router.push(`?search=${cleint}&date=${validation}&chef=${groupe}&approvie=${aprove}`);
     }
 
     const casses = promise.map((pre, index) => {
@@ -62,7 +63,17 @@ export default function Caisses({ promise, chefs }: { promise: Caisses[], chefs:
                         <FaSearch className='absolute text-slate-500' />
                         <input type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         <input type="date" name="date" className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
-                        <select name="group">
+                        <div className='flex gap-2'>
+                            <div>
+                                <input type="radio" id="noValide" name="valide" defaultChecked value="False" className="peer hidden" />
+                                <label htmlFor="noValide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> False</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="valide" name="valide" value="True" className="peer hidden" />
+                                <label htmlFor="valide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> True</label>
+                            </div>
+                        </div>
+                        <select name="group" className='border-b outline-none py-2 focus:border-slate-950'>
                             <option value="">Sélectioné groupe</option>
                             {chefs.map((pre, index) => {
                                 return (

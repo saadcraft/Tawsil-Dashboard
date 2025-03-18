@@ -12,17 +12,18 @@ export const metadata: Metadata = {
 };
 
 type props = {
-  searchParams: Promise<{ page?: string, search?: string, valide?: string }>;
+  searchParams: Promise<{ page?: string, search?: string, valide?: string, wilaya?: string }>;
 }
 
 export default async function CoursesPage({ searchParams }: props) {
 
-  const { page, search, valide } = await searchParams;
+  const { page, search, valide, wilaya } = await searchParams;
   const pageNumber = page ?? "1";
   const client_num = search ?? "";
   const valide_payment = valide ?? "";
+  const city = wilaya ?? "";
 
-  const data = await getCourses({ page: pageNumber, search: client_num, valide: valide_payment })
+  const data = await getCourses({ page: pageNumber, search: client_num, valide: valide_payment, wilaya: city })
 
   if (!data) notFound()
 
@@ -35,7 +36,7 @@ export default async function CoursesPage({ searchParams }: props) {
   return (
     <div>
       <Vtc promise={select} />
-      <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`search=${client_num}&valide=${valide_payment}`} />
+      <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`search=${client_num}&valide=${valide_payment}&wilaya=${city}`} />
     </div>
   )
 }

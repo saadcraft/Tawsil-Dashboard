@@ -15,7 +15,7 @@ export default function Named(role: string) {
         case "gestion_commercial":
             return "Gestion commercial";
         case "validation_vtc":
-            return "Aide comptable";
+            return "charger VTC";
         case "comptable":
             return "Comptable";
         case "partener":

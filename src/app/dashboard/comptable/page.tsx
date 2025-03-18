@@ -1,5 +1,6 @@
 
 import Caisses from '@/components/comptable_app/caisses';
+import Pagination from '@/components/options/pagination';
 import { getAllChef } from '@/lib/call_action';
 import { GetAllCasses } from '@/lib/comptable_action';
 import { Metadata } from 'next';
@@ -12,28 +13,33 @@ export const metadata: Metadata = {
 };
 
 type Props = {
-    searchParams: Promise<{ page?: string, search?: string, date: string, chef: string }>
+    searchParams: Promise<{ page?: string, search?: string, date: string, chef: string, approvie: string }>
 }
 
 export default async function page({ searchParams }: Props) {
 
-    const { page, search, date, chef } = await searchParams;
+    const { page, search, date, chef, approvie } = await searchParams;
     const pageNumber = page ?? "1";
     const client_num = search ?? "";
     const date_case = date ?? "";
     const chef_bureau = chef ?? "";
+    const aprove = approvie ?? "";
 
-    const data = await GetAllCasses({ page: pageNumber, search: client_num, date: date_case, chef: chef_bureau })
+
+    const data = await GetAllCasses({ page: pageNumber, search: client_num, date: date_case, chef: chef_bureau, approvie: aprove })
 
     if (!data) notFound()
 
     const Allchef = await getAllChef()
 
-    const { result } = data
+    const { result, totalAct } = data
+
+    const totalPages = Math.ceil(totalAct / 20);
 
     return (
         <div>
             <Caisses promise={result} chefs={Allchef} />
+            <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`search=${client_num}&date=${date_case}&approvie=${aprove}&chef=${chef_bureau}`} />
         </div>
     )
 }
