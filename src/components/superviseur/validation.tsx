@@ -4,7 +4,7 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 import { FaRegCheckCircle, FaSearch } from 'react-icons/fa'
 import { handleInputChange } from "@/lib/tools/tools"
-import { Wilaya } from '@/lib/tools/named'
+import Named, { Wilaya } from '@/lib/tools/named'
 import { useRouter } from "next/navigation"
 import { MdClose, MdGpsFixed, MdOutlineDisabledByDefault, MdOutlineReport } from 'react-icons/md'
 import ActiveCompte from '../windows/chef_win/active-compte'
@@ -68,7 +68,7 @@ export default function Validation({ users }: { users: Partenaire[] }) {
                     {pre.user.phone_number_1}
                 </td>
                 <td className="px-4 py-4">
-                    {pre.type_compte?.name}
+                    {Named(pre.type_compte?.name)}
                 </td>
                 <td className="px-4 py-4 flex mt-1 gap-2 justify-center">
                     {pre.user.is_active ?

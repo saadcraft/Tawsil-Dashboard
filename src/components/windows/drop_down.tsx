@@ -55,7 +55,7 @@ export default function DropDown({ onClose }: { onClose: (value: false) => void 
                             className="flex items-center gap-3 cursor-pointer px-3 py-2 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700"
                         >
                             <CiLogout className='fill-gray-500 group-hover:fill-gray-700' />
-                            Déconnection
+                            Déconnecter
                         </div>
                     </li>
                 </ul>

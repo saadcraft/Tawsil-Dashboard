@@ -7,6 +7,12 @@ type apiCasses = {
     totalAct: number
 }
 
+type apiAction = {
+    result: actionData;
+    totalAct: number;
+    prixTotal: number;
+}
+
 export async function GetAllCasses({ page, search, date, chef, approvie }: { page: string, search: string, date: string, chef: string, approvie: string }): Promise<apiCasses | null> {
     try {
         const response = await apiRequest({
@@ -48,5 +54,27 @@ export async function AproveCass({ cassie_id }: { cassie_id: number }) {
     } catch {
         toast.success("Problem connection", { id: loadingToastId });
         return false;
+    }
+}
+
+
+export async function getComptAction({ page, search, groupe, date }: { page: string, search: string, groupe: string, date: string }): Promise<apiAction | null> {
+    try {
+        const response = await apiRequest({
+            method: "GET",
+            url: "/api/v1/comtable/actions",
+            params: { page, search, groupe, date }
+        });
+        if (response.code == 200) {
+            return {
+                result: response.data.results,
+                totalAct: response.data.count,
+                prixTotal: response.data.prix_count
+            }
+        } else {
+            return null
+        }
+    } catch {
+        return null
     }
 }

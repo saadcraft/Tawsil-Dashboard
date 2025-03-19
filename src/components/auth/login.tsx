@@ -55,7 +55,7 @@ export default function Login() {
             <h1 className='font-bold px-5 pb-5 text-xl'>Se connecter</h1>
             <div className='p-10 bg-white grid xl:grid-cols-2 gap-10 rounded-md shadow-md'>
                 <form onSubmit={handleSubmit} className='flex flex-col gap-4 py-5 px-0 sm:px-10 lg:px-20'>
-                    <p className="text-slate-500 font-semibold">Tawsil Start</p>
+                    <p className="text-slate-500 font-semibold">Tawsil Star</p>
                     <h1 className="text-xl font-bold">Connectez-vous au tableau de bord</h1>
                     <div className='flex flex-col gap-2 p-2'>
                         <label htmlFor="email">Nom d&apos;utilisateur</label>

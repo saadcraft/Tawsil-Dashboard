@@ -15,7 +15,7 @@ export function Role(role: string) {
         case "validation_vtc":
             return ["/dashboard", "/dashboard/profile", "/dashboard/courses"];
         case "comptable":
-            return ["/dashboard", "/dashboard/profile", "/dashboard/comptable"];
+            return ["/dashboard", "/dashboard/profile", "/dashboard/comptable", "/dashboard/group_actions"];
         case "partener":
             return ["/dashboard", "/dashboard/profile", "/dashboard/product_management", "/dashboard/commandes"];
         case "aide_comptable":

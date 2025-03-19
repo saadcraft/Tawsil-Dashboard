@@ -7,10 +7,12 @@ import React, { useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
 import Aprove from '../windows/comp_win/aprove'
 import { MdClose } from 'react-icons/md'
+import { Wilaya } from '@/lib/tools/named'
 
 export default function Caisses({ promise, chefs }: { promise: Caisses[], chefs: Users[] }) {
 
     const [aprove, setAprove] = useState<Caisses | null>(null)
+    const [city, setCity] = useState<number | null>(null)
 
     const router = useRouter()
 
@@ -22,25 +24,34 @@ export default function Caisses({ promise, chefs }: { promise: Caisses[], chefs:
         const groupe = formData.get('group') as string
         const aprove = formData.get('valide') as string
 
-        router.push(`?search=${cleint}&date=${validation}&chef=${groupe}&approvie=${aprove}`);
+        router.push(`?search=${cleint}&date=${validation}&chef=${groupe || ""}&approvie=${aprove}`);
     }
 
     const casses = promise.map((pre, index) => {
         return (
             <tr key={index} className="bg-white border-b text-black hover:bg-gray-50">
-                <td className="px-6 py-4">
+                <td className="px-4 py-4">
                     {index + 1}
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-4 py-4">
                     {FormatDate(pre.date_creationn)}
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-4 py-4">
+                    {pre.chef_bu.username}
+                </td>
+                <td className="px-4 py-4">
+                    {pre.chef_bu.wilaya}
+                </td>
+                <td className="px-4 py-4">
+                    {pre.a_compte}
+                </td>
+                <td className="px-4 py-4">
                     {pre.resut}
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-4 py-4">
                     {pre.prix_reale}
                 </td>
-                <td className="px-6 py-4 text-right">
+                <td className="px-4 py-4 text-right">
                     {pre.approuve ?
                         <p className='text-green-600'>Approuvé</p>
                         :
@@ -57,12 +68,14 @@ export default function Caisses({ promise, chefs }: { promise: Caisses[], chefs:
                 <Link href="/dashboard" className='font-semibold text-third'>Tableau de bord /</Link>
                 <h1 className='font-bold'>Les caisses</h1>
             </div>
-            <div className='p-10 pb-20 bg-white gap-10 rounded-md shadow-md'>
-                <div className='mb-7 flex justify-between items-center'>
-                    <form onSubmit={handleSearch} className='flex items-center gap-2'>
-                        <FaSearch className='absolute text-slate-500' />
-                        <input type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
-                        <input type="date" name="date" className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+            <div className='p-3 pb-20 bg-white md:p-10 md:pb-20 rounded-md shadow-md'>
+                <div className='flex lg:flex-row flex-col items-center justify-between mb-7 gap-5'>
+                    <form onSubmit={handleSearch} className='flex flex-wrap flex-col lg:flex-row justify-left items-center gap-5'>
+                        <div className='relative'>
+                            <FaSearch className='absolute top-3 text-slate-500' />
+                            <input type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-5 focus:border-slate-950' />
+                        </div>
+                        <input type="date" name="date" className='border-b outline-none py-2 pl-1 focus:border-slate-950' />
                         <div className='flex gap-2'>
                             <div>
                                 <input type="radio" id="noValide" name="valide" defaultChecked value="False" className="peer hidden" />
@@ -73,15 +86,28 @@ export default function Caisses({ promise, chefs }: { promise: Caisses[], chefs:
                                 <label htmlFor="valide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> True</label>
                             </div>
                         </div>
-                        <select name="group" className='border-b outline-none py-2 focus:border-slate-950'>
-                            <option value="">Sélectioné groupe</option>
-                            {chefs.map((pre, index) => {
-                                return (
-                                    <option key={index} value={pre.id}>Group {pre.wilaya} {pre.groupe}</option>
-                                )
-                            })
-                            }
+                        <select name="wilaya" onChange={(e) => setCity(Number(e.target.value) || null)} className='border-b outline-none py-2 pl-1 focus:border-slate-950'>
+                            <option value="">Sélection par Wilaya</option>
+                            {Wilaya.map(pre => {
+                                if (pre != null) {
+                                    return (
+                                        <option key={pre.id} value={pre.id}>{pre.code} - {pre.name}</option>
+                                    )
+                                }
+                            })}
                         </select>
+                        {city &&
+                            <select name="group" className='border-b outline-none py-2 pl-1 focus:border-slate-950'>
+                                <option value="">Sélectioné groupe</option>
+                                {chefs.map((pre, index) => {
+                                    if (city === pre.wilaya_code)
+                                        return (
+                                            <option key={index} value={pre.id}>Group {pre.wilaya} {pre.groupe}</option>
+                                        )
+                                })
+                                }
+                            </select>
+                        }
                         <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherch</button>
                     </form>
                 </div>
@@ -89,19 +115,28 @@ export default function Caisses({ promise, chefs }: { promise: Caisses[], chefs:
                     <table className="w-full text-sm text-left">
                         <thead className="text-xs text-gray-500 uppercase bg-primer">
                             <tr>
-                                <th className="px-6 py-3">
+                                <th className="px-4 py-3">
                                     ID
                                 </th>
-                                <th className="px-6 py-3">
+                                <th className="px-4 py-3">
                                     Date de creation
+                                </th>
+                                <th className="px-4 py-3">
+                                    utilisateur
+                                </th>
+                                <th className="px-4 py-3">
+                                    wilaya
                                 </th>
                                 <th className="px-6 py-3">
                                     Montent
                                 </th>
-                                <th className="px-6 py-3">
+                                <th className="px-4 py-3">
                                     Montant Réel
                                 </th>
-                                <th className="px-6 py-3 text-right">
+                                <th className="px-4 py-3">
+                                    A compte
+                                </th>
+                                <th className="px-4 py-3 text-right">
                                     Etat
                                 </th>
                             </tr>

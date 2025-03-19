@@ -152,6 +152,7 @@ type Users = {
   is_superuser: boolean;
   date_joined: string;
   type_account: "premium" | "classique";
+  wilaya_code: number;
 };
 
 type actionData = {

@@ -1,3 +1,4 @@
+import Named from '@/lib/tools/named'
 import React from 'react'
 
 export default function Display({ document }: { document: Partenaire }) {
@@ -11,7 +12,7 @@ export default function Display({ document }: { document: Partenaire }) {
                         <p><span className='font-bold'>Email : </span> {`${document.user.email}`}</p>
                         <p><span className='font-bold'>Télephone : </span> {`${document.user.phone_number_1}`}</p>
                         <p><span className='font-bold'>Télephone 2 : </span> {` ${document.user.phone_number_2 ? document.user.phone_number_2 : '/'}`}</p>
-                        <p><span className='font-bold'>Type de compte : </span> {` ${document.type_compte?.name}`}</p>
+                        <p><span className='font-bold'>Type de compte : </span> {` ${Named(document.type_compte?.name)}`}</p>
                         <p><span className='font-bold'>Wilaya : </span> {` ${document.user.wilaya}`}</p>
                         <p><span className='font-bold'>Lieux : </span> {` ${document.user.lieux ? document.user.lieux : "/"}`}</p>
                         <p><span className='font-bold'>Groupe : </span> {` ${document.user.groupe}`}</p>
@@ -23,7 +24,7 @@ export default function Display({ document }: { document: Partenaire }) {
                         <p><span className='font-bold'>Nif : </span> {` ${document.Nif ? document.Nif : '/'}`}</p>
                         {document.vihucule &&
                             <>
-                                <p><span className='font-bold'>Type véhicule : </span> {` ${document.vihucule.type_vehicule ? document.vihucule.type_vehicule : "/"}`}</p>
+                                <p><span className='font-bold'>Type véhicule : </span> {` ${document.vihucule.type_vehicule ? Named(document.vihucule.type_vehicule) : "/"}`}</p>
                                 <p><span className='font-bold'>Marque : </span> {` ${document.vihucule.marque ? document.vihucule.marque : "/"}`}</p>
                                 <p><span className='font-bold'>Matricule : </span> {` ${document.vihucule.matricule ? document.vihucule.matricule : "/"}`}</p>
                                 <p><span className='font-bold'>N° assurance : </span> {` ${document.vihucule.num_assurance ? document.vihucule.num_assurance : "/"}`}</p>

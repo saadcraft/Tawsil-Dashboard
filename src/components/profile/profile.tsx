@@ -50,6 +50,15 @@ export default function Profile() {
                                     <p className="text-sm text-gray-500 dark:text-gray-400">
                                         {user.wilaya || "/"}, Algerie
                                     </p>
+                                    {user.role === "chef_bureau" &&
+                                        <div className='flex items-center gap-2
+                                        '>
+                                            <div className="hidden h-3.5 w-px bg-gray-300 xl:block"></div>
+                                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                                                Groupe: {user.groupe}
+                                            </p>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>

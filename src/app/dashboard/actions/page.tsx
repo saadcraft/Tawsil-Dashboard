@@ -45,7 +45,7 @@ export default async function ActionPage({ searchParams }:
   return (
     <div>
       <Action actions={result} agents={Allagent} total={prixTotal} />
-      <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`search=${searchNum}`} />
+      <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`?search=${searchNum}&agent=${searchAgent}&date=${searchDate}`} />
     </div>
   );
 }

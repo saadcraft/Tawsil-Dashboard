@@ -210,7 +210,10 @@ export default function Menu({ user }: props) {
                                 </>
                             }
                             {user.role == "comptable" &&
-                                <MenuParams title={`Caisses`} icon={<MdAttachMoney />} onEvent={() => handleMenu("/dashboard/comptable")} />
+                                <>
+                                    <MenuParams title={`Caisses`} icon={<MdAttachMoney />} onEvent={() => handleMenu("/dashboard/comptable")} />
+                                    <MenuParams title={`Actions par groupe`} icon={<MdOutlinePendingActions />} onEvent={() => handleMenu("/dashboard/group_actions")} />
+                                </>
                             }
                             {
                                 user.role == "partener" &&

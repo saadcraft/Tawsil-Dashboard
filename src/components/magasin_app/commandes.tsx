@@ -101,9 +101,9 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
                 toast.error("Problem network", { id: loadingToastId });
             }
             // Handle success
-        } catch (error) {
+        } catch {
             // Handle any errors that occur during the sendMessage call
-            toast.error(error, { id: loadingToastId });
+            toast.error("Problem network", { id: loadingToastId });
             // Optionally, you can set an error message or perform other actions
         }
     };
