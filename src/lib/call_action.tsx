@@ -165,23 +165,24 @@ export async function UpdateDocument(Data: UpdateData) {
     }
 }
 
-export async function UpdateGroup({ id, groupe }: { id: number, groupe: string }) {
+export async function UpdateGroup({ id, groupe, wilaya, code }: { id: number, groupe: string, wilaya: string, code: string }) {
     const loadingToastId = toast.loading('Submite Commande...');
+
     try {
         const data = await apiRequest({
             url: `/api/v1/user/add/groupe`,
             method: "PATCH",
-            data: { id, groupe }
+            data: { id, groupe, wilaya, code }
         });
         if (data.code == 200) {
             toast.success('Commentaire ajouté Avec succès', { id: loadingToastId });
             return true;
         } else {
-            toast.success(data.message, { id: loadingToastId });
+            toast.error(data.message, { id: loadingToastId });
             return false;
         }
     } catch {
-        toast.success("problem connection", { id: loadingToastId });
+        toast.error("problem connection", { id: loadingToastId });
         return false;
     }
 }

@@ -40,7 +40,7 @@ export default function Header({ user, token }: { user: Users, token: string }) 
 
 
   useEffect(() => {
-    if (!token || user.role !== "partener") return; // Ensure token exists before establishing WebSocket connection
+    if (!token || user?.role !== "partener") return; // Ensure token exists before establishing WebSocket connection
 
     // Create a new WebSocket connection
     const socket = new WebSocket(`${process.env.WS_SERVER}/ws/commandes/magasin/?token=${token}`);

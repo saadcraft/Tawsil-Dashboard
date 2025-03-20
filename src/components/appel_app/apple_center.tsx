@@ -51,7 +51,9 @@ export default function AppleCenter({ parteners, chefs }: Props) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const add = formData.get('group') as string;
-    const res = await UpdateGroup({ id: id, groupe: add })
+    const wilaya = formData.get('wilaya') as string;
+    const code = formData.get('code') as string;
+    const res = await UpdateGroup({ id: id, groupe: add, wilaya: wilaya, code: code })
     if (res) {
       setResomble(0)
       router.refresh()

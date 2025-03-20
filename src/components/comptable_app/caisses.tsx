@@ -23,8 +23,9 @@ export default function Caisses({ promise, chefs }: { promise: Caisses[], chefs:
         const validation = formData.get('date') as string;
         const groupe = formData.get('group') as string
         const aprove = formData.get('valide') as string
+        const wilaya = formData.get('wilaya') as string
 
-        router.push(`?search=${cleint}&date=${validation}&chef=${groupe || ""}&approvie=${aprove}`);
+        router.push(`?search=${cleint}&date=${validation}&chef=${groupe || ""}&approvie=${aprove}&wilaya=${wilaya}`);
     }
 
     const casses = promise.map((pre, index) => {

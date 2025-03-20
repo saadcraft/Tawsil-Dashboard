@@ -13,20 +13,21 @@ export const metadata: Metadata = {
 };
 
 type Props = {
-    searchParams: Promise<{ page?: string, search?: string, date: string, chef: string, approvie: string }>
+    searchParams: Promise<{ page?: string, search?: string, date: string, chef: string, approvie: string, wilaya?: string }>
 }
 
 export default async function page({ searchParams }: Props) {
 
-    const { page, search, date, chef, approvie } = await searchParams;
+    const { page, search, date, chef, approvie, wilaya } = await searchParams;
     const pageNumber = page ?? "1";
     const client_num = search ?? "";
     const date_case = date ?? "";
     const chef_bureau = chef ?? "";
     const aprove = approvie ?? "";
+    const city = wilaya ?? "";
 
 
-    const data = await GetAllCasses({ page: pageNumber, search: client_num, date: date_case, chef: chef_bureau, approvie: aprove })
+    const data = await GetAllCasses({ page: pageNumber, search: client_num, date: date_case, chef: chef_bureau, approvie: aprove, wilaya: city })
 
     if (!data) notFound()
 
@@ -39,7 +40,7 @@ export default async function page({ searchParams }: Props) {
     return (
         <div>
             <Caisses promise={result} chefs={Allchef} />
-            <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`search=${client_num}&date=${date_case}&approvie=${aprove}&chef=${chef_bureau}`} />
+            <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`search=${client_num}&date=${date_case}&approvie=${aprove}&chef=${chef_bureau}&wilaya=${wilaya}`} />
         </div>
     )
 }
