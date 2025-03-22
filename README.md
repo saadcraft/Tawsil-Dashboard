@@ -1,7 +1,7 @@
 # Frontend Platform Documentation
 
 <div align="center">
-  <img src="/Logo_Horizontal.svg" alt="Company Logo" width="200" />
+  <img src="./public/Logo_Horizontal.svg" alt="Company Logo" width="200" />
 </div>
 
 **Platform Link:** [https://platforme.tawsilstar.dz](https://platforme.tawsilstar.dz)
