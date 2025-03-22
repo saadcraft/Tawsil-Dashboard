@@ -27,7 +27,7 @@ export default function Header({ user, token }: { user: Users, token: string }) 
   const [show, setShow] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const { notifications, setNotifications, addNotification, setSocket } = useNotificationStore();
+  const { notifications, setNotifications, addNotification, removeNotification, setSocket } = useNotificationStore();
 
   const { setUser } = userInformation()
 
@@ -56,7 +56,7 @@ export default function Header({ user, token }: { user: Users, token: string }) 
     // Handle WebSocket message event
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      // console.log(data)
+      console.log(data)
 
       if (Array.isArray(data.message)) {
         setNotifications(data.message);
@@ -67,9 +67,11 @@ export default function Header({ user, token }: { user: Users, token: string }) 
             autoClose: 4000,
             closeButton: true,
           });
+          addNotification(data.message);
+        } else {
+          if (data.message) removeNotification(data.message.id)
         }
 
-        addNotification(data.message);
       }
     };
 

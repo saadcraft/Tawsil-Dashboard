@@ -35,14 +35,7 @@ export const useNotificationStore = create<NotificationStore>((set, get) => ({
     addNotification: (notification) => set((state) => {
         if (!notification?.id) return state;  // Prevent processing if id is undefined
 
-        const isExisting = state.notifications.some(n => n.id === notification.id);
-        if (isExisting) {
-            // Remove existing notification if same id
-            const updatedNotifications = state.notifications.filter(n => n.id !== notification.id);
-            return { notifications: updatedNotifications };
-        } else {
-            return { notifications: [notification, ...state.notifications] };
-        }
+        return { notifications: [notification, ...state.notifications] };
     }),
     removeNotification: (notificationId) => set((state) => ({
         notifications: state.notifications.filter(n => n.id !== notificationId),
