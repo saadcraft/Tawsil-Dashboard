@@ -13,7 +13,7 @@ export function Role(role: string) {
         case "gestion_commercial":
             return ["/dashboard", "/dashboard/profile", "/dashboard/modifie_superviseur", "/dashboard/agent_administratif", "/dashboard/ajoute_superviseur", "/dashboard/magasin", "/dashboard/partenaire"];
         case "validation_vtc":
-            return ["/dashboard", "/dashboard/profile", "/dashboard/courses"];
+            return ["/dashboard", "/dashboard/profile", "/dashboard/courses", "/dashboard/vtc_rapide"];
         case "comptable":
             return ["/dashboard", "/dashboard/profile", "/dashboard/comptable", "/dashboard/group_actions"];
         case "partener":

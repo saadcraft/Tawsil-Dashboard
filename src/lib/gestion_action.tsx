@@ -6,6 +6,11 @@ type apiAction = {
     totalAct: number;
 }
 
+type apiCourses = {
+    result: GroupeVTC[];
+    totalAct: number;
+}
+
 
 //type agent result
 type apiAgents = {
@@ -153,6 +158,29 @@ export async function getAllAgent({ role, page, search, wilaya, groupe }:
             return null
         }
 
+    } catch {
+        return null
+    }
+}
+
+export async function getAllInOneCourses(
+    { page, search, valide, wilaya }:
+        { page: string, search: string, valide: string, wilaya: string }
+): Promise<apiCourses | null> {
+    try {
+        const response = await apiRequest({
+            method: "GET",
+            url: "/api/v1/groupe/partener/vtc",
+            params: { page, search, valide, wilaya }
+        })
+        if (response.code == 200) {
+            return {
+                result: response.data.data,
+                totalAct: response.data.pagination.total_pages
+            }
+        } else {
+            return null
+        }
     } catch {
         return null
     }

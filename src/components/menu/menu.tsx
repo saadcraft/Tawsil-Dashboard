@@ -235,7 +235,7 @@ export default function Menu({ user, token }: props) {
                                             <li className='flex items-center cursor-pointer text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><div onClick={() => handleMenu("/dashboard/courses")}> VTC par détail</div></li>
                                         </ul>
                                         <ul className='flex flex-col gap-2 p-3 ml-5'>
-                                            <li className='flex items-center cursor-pointer text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><div onClick={() => handleMenu("/dashboard/courses")}> VTC par groupe</div></li>
+                                            <li className='flex items-center cursor-pointer text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><div onClick={() => handleMenu("/dashboard/vtc_rapide")}> VTC par groupe</div></li>
                                         </ul>
                                     </div>
                                 </>
