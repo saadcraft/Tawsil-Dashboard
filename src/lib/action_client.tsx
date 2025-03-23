@@ -156,3 +156,20 @@ export async function getTotalDemande() {
         return null
     }
 }
+
+export async function getTotalNoGroup() {
+    try {
+        const response = await apiRequest({
+            method: "GET",
+            url: "api/v1/pertenneur/account",
+        })
+
+        if (response.code == 200) {
+            return response.data.count
+        } else {
+            return null;
+        }
+    } catch {
+        return null
+    }
+}

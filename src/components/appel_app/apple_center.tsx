@@ -76,7 +76,7 @@ export default function AppleCenter({ parteners, chefs }: Props) {
         <td className="px-6 py-4">
           {pre.id}
         </td>
-        <td className="px-6 py-4">
+        <td className="px-6 py-4 max-w-52 text-wrap overflow-hidden">
           {pre.user.username}
         </td>
         <td className="px-6 py-4">

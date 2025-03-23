@@ -22,7 +22,7 @@ export default async function ServerMenu() {
 
   return (
     <div>
-      <Menu user={users!} />
+      <Menu user={users!} token={access!} />
       <Header user={users!} token={access!} />
       {users && <ContactSupport />}
     </div>

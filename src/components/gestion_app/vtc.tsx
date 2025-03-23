@@ -203,13 +203,13 @@ export default function Vtc({ promise }: Props) {
                                     <input type="checkbox" name='check' id="check" onChange={handleCheckAll} checked={select.every((row) => (row.selected && !row.paye) || row.paye)} />
                                 </th>
                                 <th className="px-6 py-3">
-                                    id
-                                </th>
-                                <th className="px-6 py-3">
                                     Date
                                 </th>
                                 <th className="px-6 py-3">
-                                    agent
+                                    Client
+                                </th>
+                                <th className="px-6 py-3">
+                                    Numéro
                                 </th>
                                 <th className="px-6 py-3">
                                     Taxieur

@@ -24,13 +24,14 @@ import { SignOut } from '@/lib/auth';
 import { toast } from "react-hot-toast";
 import { MenuParams } from "./params";
 import LoadingFirst from '../loading';
-import { getTotalDemande } from '@/lib/action_client';
+import { getTotalDemande, getTotalNoGroup } from '@/lib/action_client';
 
 type props = {
     user: Users;
+    token: string;
 }
 
-export default function Menu({ user }: props) {
+export default function Menu({ user, token }: props) {
 
     const router = useRouter();
     const pathname = usePathname();
@@ -40,6 +41,7 @@ export default function Menu({ user }: props) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [countState, setCountState] = useState<number | null>(null);
+    const [countPart, setCountPart] = useState<number | null>(null);
 
     const handleMenu = (url: string | null) => {
         setIsMenuOpen(!isMenuOpen);
@@ -58,21 +60,32 @@ export default function Menu({ user }: props) {
 
 
     useEffect(() => {
+        if (!token || user?.role !== "centre_appel") {
+            setCountState(null);
+            setCountPart(null);
+            return;
+        }
         // Fetch fresh count data when pathname changes
         const fetchCount = async () => {
-            if (user?.role === "centre_appel") {
-                try {
-                    const num = await getTotalDemande(); // Fetch fresh count
-                    setCountState(num); // Update count state
-                } catch (error) {
-                    console.error('Failed to fetch count:', error);
-                    setCountState(null); // Handle error
-                }
-            } else {
-                setCountState(null);
+            try {
+                const num = await getTotalDemande(); // Fetch fresh count
+                setCountState(num); // Update count state
+            } catch (error) {
+                console.error('Failed to fetch count:', error);
+                setCountState(null); // Handle error
             }
         };
 
+        const fetchNoGroup = async () => {
+            try {
+                const total = await getTotalNoGroup()
+                setCountPart(total)
+            } catch (error) {
+                console.error('Failed to fetch total:', error);
+                setCountPart(null)
+            }
+        }
+        fetchNoGroup();
         fetchCount(); // Call the function to fetch count on pathname change
     }, [pathname, search, user]);
 
@@ -129,7 +142,9 @@ export default function Menu({ user }: props) {
                 <div className={`relative w-full h-1.5 bg-third transition-all duration-500 ${isMenuOpen ? 'top-3.5 -rotate-45' : ''} `}></div>
                 <div className={`w-full h-1.5 bg-third transition-all duration-500 ${isMenuOpen ? ' -rotate-45' : ''} `}></div>
                 <div className={`relative w-full h-1.5 bg-third transition-all duration-500 ${isMenuOpen ? '-top-3.5  rotate-45' : ''} `}></div>
-                {countState && countState != 0 && user.role == "centre_appel" ? (<span className='absolute -top-3 -right-3 py-0.5 px-2 text-sm rounded-full text-white font-bold bg-red-600' >{countState}</span>) : ""}
+                {user?.role == "centre_appel" &&
+                    countState && countState != 0 || countPart && countPart != 0
+                    ? (<span className='absolute -top-3 -right-3 py-0.5 px-2 text-sm rounded-full text-white font-bold bg-red-600' >{(countState || 0) + (countPart || 0)}</span>) : ""}
             </div>
             <div className={`fixed z-40 text-white top-0 overflow-y-auto md:overflow-y-hidden left-0 bottom-0 transition-all md:-translate-x-0  ${isMenuOpen ? "" : "-translate-x-80"} ${user?.type_account === "premium" ? 'bg-gradient-to-r from-gold5 to-gold6' : 'bg-primer'}  w-80 px-5`}>
                 <div onClick={() => handleMenu('/')} className='flex flex-col justify-center'>
@@ -186,7 +201,11 @@ export default function Menu({ user }: props) {
                                 </>
                             }
                             {user.role == "chef_bureau" || user.role == "centre_appel" || user.role == "agent_administratif" ?
-                                <MenuParams title={`Center d'apple`} icon={<MdContactSupport />} onEvent={() => handleMenu("/dashboard/apple_center")} /> : ""
+                                <div className='relative'>
+                                    <MenuParams title={`Center d'apple`} icon={<MdContactSupport />} onEvent={() => handleMenu("/dashboard/apple_center")} />
+                                    {countPart && countPart != 0 ? <span className='absolute top-3.5 right-10 py-0.5 px-2 text-sm rounded-full text-white font-bold bg-red-600' >{countPart}</span> : ""}
+                                </div>
+                                : ""
                             }
                             {user.role == "centre_appel" &&
                                 <>
@@ -206,7 +225,19 @@ export default function Menu({ user }: props) {
                             }
                             {user.role == "validation_vtc" &&
                                 <>
-                                    <MenuParams title={`VTC`} icon={<MdLocalTaxi />} onEvent={() => handleMenu("/dashboard/courses")} />
+                                    {/* <MenuParams title={`VTC`} icon={<MdLocalTaxi />} onEvent={() => handleMenu("/dashboard/courses")} /> */}
+                                    <div onClick={() => handleClick(2)} className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>
+                                        <h1 className='flex items-center gap-2'><MdLocalTaxi /> VTC</h1>
+                                        <MdKeyboardArrowUp className={`${isFaqOpen[2] ? 'rotate-180' : ''}`} />
+                                    </div>
+                                    <div className={`transition-all duration-200 overflow-hidden ${isFaqOpen[2] ? 'max-h-screen' : 'max-h-0'}`}>
+                                        <ul className='flex flex-col gap-2 p-3 ml-5'>
+                                            <li className='flex items-center cursor-pointer text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><div onClick={() => handleMenu("/dashboard/courses")}> VTC par détail</div></li>
+                                        </ul>
+                                        <ul className='flex flex-col gap-2 p-3 ml-5'>
+                                            <li className='flex items-center cursor-pointer text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><div onClick={() => handleMenu("/dashboard/courses")}> VTC par groupe</div></li>
+                                        </ul>
+                                    </div>
                                 </>
                             }
                             {user.role == "comptable" &&
