@@ -7,7 +7,7 @@ import React from 'react'
 import { notFound } from 'next/navigation';
 
 export const metadata: Metadata = {
-  title: "livraisons",
+  title: "courses",
   description: "Tawsil Start Dashbord",
 };
 
