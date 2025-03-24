@@ -1,11 +1,14 @@
 "use client"
 
 import { Wilaya } from '@/lib/tools/named'
+import { userInformation } from '@/lib/tools/store/web_socket'
 import { handleInputChange } from '@/lib/tools/tools'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import React from 'react'
+import { notFound, useRouter } from 'next/navigation'
+import React, { useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
+import { MdClose } from 'react-icons/md'
+import { ValideCommande, ValideThird, ValideSecond } from '../windows/gestion_win/valide_total'
 
 type Props = {
     // user: Users
@@ -14,7 +17,35 @@ type Props = {
 
 export default function GroupVtc({ promise }: Props) {
 
+    const [isVisible, setIsVisible] = useState<number>(0);
+    const [select, setSelect] = useState<GroupeVTC | null>(null)
+
     const router = useRouter()
+
+    const { user } = userInformation()
+
+    if (!user) return notFound()
+
+    const handleValidate = () => { setIsVisible(1) }
+    const handleSecond = () => { setIsVisible(2) }
+    const handleThird = () => { setIsVisible(3) }
+    const handleClose = () => {
+        setIsVisible(0)
+        setSelect(null)
+
+    }
+
+    const handleFirstClick = (com: GroupeVTC) => {
+        setSelect(com)
+        setIsVisible(1)
+    }
+
+    const hundleSubmite = async (id: number) => {
+
+        setIsVisible(0);
+        console.log("Done with id: ", id);
+        return true
+    }
 
     const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -42,13 +73,13 @@ export default function GroupVtc({ promise }: Props) {
                     {pre.paye ? "true" : "false"}
                 </td>
                 <td className="px-6 py-4 text-right">
-                    action
+                    {pre.paye ? <span className='text-green-600 font-semibold'>Payé</span> : <button onClick={() => handleFirstClick(pre)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500'>Valider</button>}
                 </td>
             </tr>
         )
     })
 
-    console.log(promise)
+    // console.log(promise)
 
     return (
         <div className='py-5 px-5 sm:px-16'>
@@ -109,6 +140,27 @@ export default function GroupVtc({ promise }: Props) {
                     </table>
                 </div>
             </div>
+            {select ?
+                isVisible === 1 ?
+                    <div>
+                        <button onClick={handleClose} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                        <ValideCommande command={select} onEvent={handleSecond} onBack={handleClose} />
+                    </div>
+                    :
+                    isVisible === 2 ?
+                        <div>
+                            <button onClick={handleClose} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                            <ValideSecond command={select} onEvent={handleThird} onBack={handleValidate} />
+                        </div>
+                        :
+                        isVisible === 3 &&
+                        <div>
+                            <button onClick={handleClose} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                            <ValideThird command={select} onBack={handleSecond} onSub={hundleSubmite} user={user} />
+                        </div>
+                :
+                ""
+            }
         </div>
     )
 }

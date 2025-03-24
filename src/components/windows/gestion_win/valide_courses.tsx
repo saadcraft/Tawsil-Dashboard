@@ -108,7 +108,7 @@ export function ValideThird({ command, onBack, onSub, user }: { command: Courses
         contentRef: componentRef,
     });
 
-    console.log(ids)
+    // console.log(ids)
 
 
     const handlePrintAndSubmit = async () => {
@@ -125,7 +125,8 @@ export function ValideThird({ command, onBack, onSub, user }: { command: Courses
                 <h1 className='font-semibold text-2xl text-center'>Les loyer de term</h1>
                 <div className='mt-3 overflow-auto h-5/6 flex gap-10 p-10'>
                     <div className='font-semibold text-xl'>
-                        <h1>lorem sifo kda maravel chambre lorem sifo kda maravel chambre lorem sifo kda maravel chambre
+                        <h1>
+                            lorem sifo kda maravel chambre lorem sifo kda maravel chambre lorem sifo kda maravel chambre
                             lorem sifo kda maravel chambre lorem sifo kda maravel chambre lorem sifo kda maravel chambre
                             lorem sifo kda maravel chambre lorem sifo kda maravel chambre lorem sifo kda maravel chambre
                             lorem sifo kda maravel chambre lorem sifo kda maravel chambre lorem sifo kda maravel chambre

@@ -90,7 +90,7 @@ export default function Header({ user, token }: { user: Users, token: string }) 
       socket.close();
       console.log("WebSocket disconnected on cleanup");
     };
-  }, [token, addNotification, setSocket, setNotifications]);
+  }, [token, addNotification, setSocket, setNotifications, removeNotification]);
 
 
   return (
