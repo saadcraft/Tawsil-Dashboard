@@ -9,6 +9,7 @@ import React, { useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
 import { MdClose } from 'react-icons/md'
 import { ValideCommande, ValideThird, ValideSecond } from '../windows/gestion_win/valide_total'
+import { SubmitGroupeVTC } from '@/lib/comptable_action'
 
 type Props = {
     // user: Users
@@ -26,6 +27,8 @@ export default function GroupVtc({ promise }: Props) {
 
     if (!user) return notFound()
 
+    console.log(promise)
+
     const handleValidate = () => { setIsVisible(1) }
     const handleSecond = () => { setIsVisible(2) }
     const handleThird = () => { setIsVisible(3) }
@@ -41,10 +44,15 @@ export default function GroupVtc({ promise }: Props) {
     }
 
     const hundleSubmite = async (id: number) => {
-
-        setIsVisible(0);
-        console.log("Done with id: ", id);
-        return true
+        const result = await SubmitGroupeVTC({ id: id });
+        if (result) {
+            setIsVisible(0);
+            setSelect(null);
+            router.refresh();
+            return true
+        } else {
+            return false
+        }
     }
 
     const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
@@ -61,7 +69,7 @@ export default function GroupVtc({ promise }: Props) {
         return (
             <tr key={index} className="bg-white border-b text-black hover:bg-gray-50">
                 <td className="px-6 py-4">
-                    {pre.partener__user__id}
+                    {pre.partener__id}
                 </td>
                 <td className="px-6 py-4">
                     {pre.partener__user__first_name} {pre.partener__user__first_name}

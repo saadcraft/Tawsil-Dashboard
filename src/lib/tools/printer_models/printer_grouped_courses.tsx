@@ -12,7 +12,7 @@ type PrintableModelProps = {
 const PrintableModelCousesGroup = ({ command, user }: PrintableModelProps) => {
 
     return (
-        <div className="print-container">
+        <div className="print-container mt-10">
             <div className="page">
                 <div className="header mb-5">
                     <div className="logo-printer"></div>
@@ -78,7 +78,7 @@ const PrintableModelCousesGroup = ({ command, user }: PrintableModelProps) => {
                                 {/* <th></th> */}
                                 <th className="px-6 py-3 text-right">Total</th>
                                 <th>
-                                    <h1 className="text-right p-2 font-semibold text-xl flex whitespace-nowrap">
+                                    <h1 className="text-right p-2 font-semibold text-xl whitespace-nowrap">
                                         {command.total_tax_wi.toFixed(2)} DA
                                     </h1>
                                 </th>

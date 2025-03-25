@@ -105,7 +105,7 @@ export function ValideThird({ command, onBack, onSub, user }: { command: GroupeV
 
 
     const handlePrintAndSubmit = async () => {
-        const sub = await onSub(command.partener__user__id) as unknown as boolean; // Submit the command
+        const sub = await onSub(command.partener__id) as unknown as boolean; // Submit the command
         if (sub) {
             handlePrint(); // Trigger print
         }

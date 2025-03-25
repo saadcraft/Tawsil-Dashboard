@@ -281,6 +281,7 @@ type ReviewType = {
 }
 
 type GroupeVTC = {
+  partener__id: number;
   partener__user__id: number;
   partener__user__first_name: string;
   partener__user__last_name: string;

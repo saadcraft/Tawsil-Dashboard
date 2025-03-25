@@ -80,3 +80,25 @@ export async function getComptAction({ page, search, groupe, date }: { page: str
         return null
     }
 }
+
+export async function SubmitGroupeVTC({ id }: { id: number }) {
+    const loadingToastId = toast.loading('Submite Commande...');
+    try {
+        const response = await apiRequest({
+            method: "POST",
+            url: "/api/v1/courses/validation",
+            data: { id }
+        });
+        if (response.code == 200) {
+            toast.success('valider Succesfully', { id: loadingToastId });
+            return true
+        } else {
+            toast.error(response.message, { id: loadingToastId });
+            return false
+        }
+
+    } catch {
+        toast.error("Problem connection", { id: loadingToastId });
+        return false
+    }
+}
