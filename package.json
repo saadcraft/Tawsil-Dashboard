@@ -9,12 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@googlemaps/js-api-loader": "^1.16.8",
     "@reduxjs/toolkit": "^2.5.0",
     "algeria-map-ts": "^0.1.5",
     "axios": "^1.7.9",
     "next": "15.1.2",
     "next-auth": "^4.24.11",
+    "next-qrcode": "^2.5.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-toastify": "^11.0.5",

@@ -32,6 +32,7 @@ import GlobleComment from '../windows/magasin_win/globle_comment'
 // import Algeria from "@react-map/algeria";
 
 import { Wilaya } from '@/lib/tools/named'
+import QRcode from '../windows/magasin_win/qrcode';
 // import { Pie, Bar, Line } from 'react-chartjs-2';
 // import {
 //   Chart as ChartJS,
@@ -66,6 +67,7 @@ export default function Dashboard({ data }: { data: Context }) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [geo, setGeo] = useState<boolean>(false)
   const [review, setReview] = useState<number | null>(null)
+  const [qrCode, setQrCode] = useState<number | null>(null)
 
   const { user } = userInformation()
 
@@ -358,14 +360,22 @@ export default function Dashboard({ data }: { data: Context }) {
                         </div>
                       </div>
                     </div>
-                    <button
-                      onClick={() => setMody(true)}
-                      className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 lg:inline-flex lg:w-auto"
-                    >
+                    <div className='flex gap-2'>
+                      <button
+                        onClick={() => setQrCode(magasin.id)}
+                        className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 lg:inline-flex lg:w-auto"
+                      >
+                        QRcode
+                      </button>
+                      <button
+                        onClick={() => setMody(true)}
+                        className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 lg:inline-flex lg:w-auto"
+                      >
 
-                      <MdOutlineEdit className=' text-xl' />
-                      Modifier
-                    </button>
+                        <MdOutlineEdit className=' text-xl' />
+                        Modifier
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -374,7 +384,7 @@ export default function Dashboard({ data }: { data: Context }) {
 
           :
 
-          user?.role === "comptable" ?
+          user?.role === "comptable" || user?.role === "centre_appel" ?
             <div className='fixed bottom-0 top-20 right-0 left-0 md:left-80 flex items-center justify-center'>
               <Map
                 color="#dbffe5"
@@ -442,6 +452,13 @@ export default function Dashboard({ data }: { data: Context }) {
           <button onClick={() => setReview(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
           <GlobleComment comment={review} />
         </div>
+      }
+      {qrCode &&
+        <div>
+          <button onClick={() => setQrCode(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+          <QRcode id={qrCode} />
+        </div>
+
       }
     </div>
   )

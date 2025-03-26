@@ -78,6 +78,9 @@ export default function GroupVtc({ promise }: Props) {
                     {pre.partener__user__phone_number_1}
                 </td>
                 <td className="px-6 py-4">
+                    {pre.partener__user__wilaya}
+                </td>
+                <td className="px-6 py-4">
                     {pre.paye ? "true" : "false"}
                 </td>
                 <td className="px-6 py-4 text-right">
@@ -103,11 +106,11 @@ export default function GroupVtc({ promise }: Props) {
                     </div>
                     <div className='flex gap-2'>
                         <div>
-                            <input type="radio" id="noValide" name="valide" defaultChecked value="false" className="peer hidden" />
+                            <input type="radio" id="noValide" name="valide" defaultChecked value="False" className="peer hidden" />
                             <label htmlFor="noValide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> No valider</label>
                         </div>
                         <div>
-                            <input type="radio" id="valide" name="valide" value="true" className="peer hidden" />
+                            <input type="radio" id="valide" name="valide" value="True" className="peer hidden" />
                             <label htmlFor="valide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> valider</label>
                         </div>
                     </div>
@@ -133,6 +136,9 @@ export default function GroupVtc({ promise }: Props) {
                                 </th>
                                 <th className="px-6 py-3">
                                     Télephone
+                                </th>
+                                <th className="px-6 py-3">
+                                    Wilaya
                                 </th>
                                 <th className="px-6 py-3">
                                     validation

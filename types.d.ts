@@ -285,6 +285,7 @@ type GroupeVTC = {
   partener__user__id: number;
   partener__user__first_name: string;
   partener__user__last_name: string;
+  partener__user__wilaya: string;
   paye: boolean;
   partener__user__phone_number_1: string;
   total_tax_wi: number;
