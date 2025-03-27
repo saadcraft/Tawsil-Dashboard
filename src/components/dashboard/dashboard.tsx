@@ -33,7 +33,7 @@ import GlobleComment from '../windows/magasin_win/globle_comment'
 
 import { Wilaya } from '@/lib/tools/named'
 import QRcode from '../windows/magasin_win/qrcode';
-import { getAllChef } from '@/lib/call_action';
+// import { getAllChef } from '@/lib/call_action';
 // import { Pie, Bar, Line } from 'react-chartjs-2';
 // import {
 //   Chart as ChartJS,
