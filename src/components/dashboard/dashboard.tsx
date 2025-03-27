@@ -33,6 +33,7 @@ import GlobleComment from '../windows/magasin_win/globle_comment'
 
 import { Wilaya } from '@/lib/tools/named'
 import QRcode from '../windows/magasin_win/qrcode';
+import { getAllChef } from '@/lib/call_action';
 // import { Pie, Bar, Line } from 'react-chartjs-2';
 // import {
 //   Chart as ChartJS,
@@ -68,6 +69,7 @@ export default function Dashboard({ data }: { data: Context }) {
   const [geo, setGeo] = useState<boolean>(false)
   const [review, setReview] = useState<number | null>(null)
   const [qrCode, setQrCode] = useState<number | null>(null)
+  const [chef, setChef] = useState<Users[] | null>(null)
 
   const { user } = userInformation()
 
@@ -84,6 +86,12 @@ export default function Dashboard({ data }: { data: Context }) {
         }
       } else {
         setIsLoading(false);
+      }
+      if (user?.role === "comptable" || user?.role === "centre_appel") {
+        const allChef = await getAllChef();
+        if (allChef) {
+          setChef(allChef)
+        }
       }
     };
 
@@ -393,17 +401,18 @@ export default function Dashboard({ data }: { data: Context }) {
                 hoverStroke="#218c74"
                 data={city}
                 // onWilayaClick={(wilaya, data) => alert(`${wilaya}, ${data}`)}
-                getHoverContent={(record) => record ? `${record.name} <pre /> ${record.value}` : ""}
+                getHoverContent={(record) => record ? `${record.name}  ${record.value} <pre /> Pertner : ${(chef?.filter(pre => pre.wilaya_code == record.value).length)}` : ""}
                 getHoverContentStyle={() => ({
                   backgroundColor: "white",
                   textAlign: "center",
                   padding: "5px",
                   height: "auto",
+                  width: "200px",
                   borderRadius: "5px",
                   boxShadow: "0px 0px 5px rgba(0,0,0,0.2)",
                   position: "fixed",
                   top: "0",
-                  right: "0"
+                  right: "0",
                 })}
               // hoverContentStyle={{
 
