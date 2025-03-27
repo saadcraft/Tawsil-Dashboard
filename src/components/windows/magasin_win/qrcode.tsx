@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { useQRCode } from 'next-qrcode';
 import { useReactToPrint } from 'react-to-print';
 import { FiPrinter } from 'react-icons/fi';
-import { FormatDate } from '@/lib/tools/tools';
+// import { FormatDate } from '@/lib/tools/tools';
 
 export default function QRcode({ id }: { id: number }) {
 
