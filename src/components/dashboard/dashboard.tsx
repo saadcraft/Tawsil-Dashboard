@@ -69,7 +69,7 @@ export default function Dashboard({ data }: { data: Context }) {
   const [geo, setGeo] = useState<boolean>(false)
   const [review, setReview] = useState<number | null>(null)
   const [qrCode, setQrCode] = useState<number | null>(null)
-  const [chef, setChef] = useState<Users[] | null>(null)
+  // const [chef, setChef] = useState<Users[] | null>(null)
 
   const { user } = userInformation()
 
@@ -87,12 +87,12 @@ export default function Dashboard({ data }: { data: Context }) {
       } else {
         setIsLoading(false);
       }
-      if (user?.role === "comptable" || user?.role === "centre_appel") {
-        const allChef = await getAllChef();
-        if (allChef) {
-          setChef(allChef)
-        }
-      }
+      // if (user?.role === "comptable" || user?.role === "centre_appel") {
+      //   const allChef = await getAllChef();
+      //   if (allChef) {
+      //     setChef(allChef)
+      //   }
+      // }
     };
 
     fetchMagasin();
