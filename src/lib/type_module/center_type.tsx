@@ -66,6 +66,7 @@ export type CommentaireData = {
   centre_appel: CentreAppel;
   comm: string | null;
   pertener: number;
+  date_de_creation: string;
 };
 
 export type ApiResponse = {
