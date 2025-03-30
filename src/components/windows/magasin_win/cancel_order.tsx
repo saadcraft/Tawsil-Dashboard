@@ -2,7 +2,7 @@ import { changeStatus } from '@/lib/stores_api';
 import { useRouter } from 'next/navigation';
 import React from 'react'
 
-export default function CancelCommande({ id, etat, onsub }: { id: number, etat: "pending" | "confirmed" | "search" | "ready" | "delivered" | "canceled", onsub: (value: null) => void }) {
+export default function CancelCommande({ id, etat, onsub }: { id: number, etat: "pending" | "confirmed" | "search" | "ready" | "delivered" | "canceled" | "in_progress", onsub: (value: null) => void }) {
 
     const router = useRouter()
 

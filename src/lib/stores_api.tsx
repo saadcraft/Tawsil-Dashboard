@@ -145,7 +145,7 @@ export async function getComInfo(commande_id: number): Promise<OrderItem[] | nul
     }
 }
 
-export async function changeStatus({ commande_id, status }: { commande_id: number, status: "pending" | "confirmed" | "search" | "ready" | "delivered" | "canceled" }) {
+export async function changeStatus({ commande_id, status }: { commande_id: number, status: "pending" | "confirmed" | "search" | "ready" | "delivered" | "canceled" | "in_progress" }) {
     const loadingToastId = toast.loading("changer d'état en cours...");
     try {
         const response = await apiRequest({

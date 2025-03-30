@@ -34,6 +34,9 @@ export default function ActionsCenter({ actions }: { actions: centerAction[] }) 
                     {pre.centre_appel.username}
                 </td>
                 <td className="px-6 py-4">
+                    {pre.superviseur?.username}
+                </td>
+                <td className="px-6 py-4">
                     {pre.prix?.toFixed(2)} DA
                 </td>
                 <td className="px-6 py-4 text-right">
@@ -72,6 +75,9 @@ export default function ActionsCenter({ actions }: { actions: centerAction[] }) 
                                 </th>
                                 <th className="px-6 py-3">
                                     Utilisateur
+                                </th>
+                                <th className="px-6 py-3">
+                                    Demandeur
                                 </th>
                                 <th className="px-6 py-3">
                                     Prix Demandé

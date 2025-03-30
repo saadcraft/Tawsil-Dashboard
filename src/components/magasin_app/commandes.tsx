@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { MdBlock, MdClose, MdOutlineWorkspacePremium } from 'react-icons/md'
+import { MdBlock, MdClose, MdOutlineWorkspacePremium, MdOutlineQrCodeScanner, MdDeliveryDining } from 'react-icons/md'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { FormatDate } from '@/lib/tools/tools'
@@ -13,11 +13,12 @@ import CancelCommande from '../windows/magasin_win/cancel_order'
 import { useNotificationStore } from '@/lib/tools/store/web_socket'
 import { FaRegCheckCircle } from 'react-icons/fa'
 import Search from '../windows/magasin_win/search_deliver'
+import QRcode from '../windows/magasin_win/qrcode'
 
 
 type ChangeEtat = {
     id: number;
-    etat: "search" | "pending" | "confirmed" | "ready" | "delivered" | "canceled";
+    etat: "search" | "pending" | "confirmed" | "ready" | "delivered" | "canceled" | "in_progress";
 }
 
 export default function Commande({ commande, magasin, livreurs }: { commande: Order[], magasin: Magasin, livreurs: LivreurMagasine[] }) {
@@ -31,7 +32,8 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
         const handleMessage = (event: MessageEvent) => {
             try {
                 const data = JSON.parse(event.data);
-                if (data.message?.status === "confirmed" || data.message?.status === "canceled" || data.message?.status == "pending") {
+                // if (data.message?.status === "confirmed" || data.message?.status === "canceled" || data.message?.status == "pending" || data.message?.status == "in_progress") {
+                if (data) {
                     router.refresh(); // Refresh the page
                 }
             } catch (error) {
@@ -50,6 +52,7 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
     const [show, setShow] = useState<{ id: number; total: number } | null>(null);
     const [changeEtat, setChnageEtat] = useState<ChangeEtat | null>(null);
     const [sendRq, setSendRq] = useState<number | null>(null)
+    const [qrCode, setQrCode] = useState<number | null>(null)
     // const [modify, setModify] = useState<Produit | null>(null);
 
     const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
@@ -128,6 +131,7 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
                     {pre.status == "search" && <p className='text-gray-500 font-semibold flex items-center gap-1'><RiLoader3Fill className='animate-spin mt-0.5' />En cours</p>}
                     {pre.status == "confirmed" && <p className='text-yellow-600 font-semibold flex items-center gap-1'><RiLoader3Fill className='animate-spin mt-0.5' />En préparation</p>}
                     {pre.status == "ready" && <p className='text-green-600 font-semibold flex items-center gap-1'><RiCheckFill className='mt-0.5' />Préte</p>}
+                    {pre.status == "in_progress" && <p className='text-yellow-600 font-semibold flex items-center gap-1 animate-pulse'><MdDeliveryDining className='mt-0.5' />En route</p>}
                     {pre.status == "delivered" && <p className='text-green-600 font-semibold flex items-center gap-1'><RiCheckDoubleLine className='mt-0.5' />Livrer</p>}
                     {pre.status == "canceled" && <p className='text-red-600 font-semibold flex items-center gap-1'><TbCancel className='mt-0.5' />Annuler</p>}
                 </td>
@@ -149,6 +153,11 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
                     {pre.status === "confirmed" &&
                         <>
                             <button onClick={() => setChnageEtat({ id: pre.id, etat: "ready" })} className='bg-green-700 flex items-center text-white p-1 rounded-md hover:bg-green-500' title='désactiver'><FaRegCheckCircle />Prét</button>
+                        </>
+                    }
+                    {pre.status === "ready" &&
+                        <>
+                            <button onClick={() => setQrCode(pre.id)} className='bg-gray-200 text-black p-1 px-1.5 border-1 rounded-md hover:bg-gray-500 hover:text-white' title='QR code'><MdOutlineQrCodeScanner className='mt-0.5' /></button>
                         </>
                     }
                     {/*   :
@@ -244,6 +253,13 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
                     <button onClick={() => setSendRq(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
                     <Search id={sendRq} onEvent={handleAction} livreur={livreurs} />
                 </div>
+            }
+            {qrCode &&
+                <div>
+                    <button onClick={() => setQrCode(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <QRcode id={qrCode} />
+                </div>
+
             }
         </div>
     )

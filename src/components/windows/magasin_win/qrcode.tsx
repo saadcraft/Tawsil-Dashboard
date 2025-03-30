@@ -14,18 +14,18 @@ export default function QRcode({ id }: { id: number }) {
         contentRef: componentRef,
     });
 
-    // const qrData = {
-    //     idMagasine: id,
-    //     message: "QRcode magasine",
-    //     timestamp: FormatDate(new Date().toISOString()),
-    // };
+    const qrData = {
+        commande_id: id,
+        // message: "QRcode magasine",
+        // timestamp: FormatDate(new Date().toISOString()),
+    };
 
     const PrintQR = () => {
         handlePrint();
     }
 
     // Convert the object to a JSON string
-    // const jsonData = JSON.stringify(qrData);
+    const jsonData = JSON.stringify(qrData);
 
     return (
         <div className='fixed z-20 top-0 flex items-center bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
@@ -34,7 +34,7 @@ export default function QRcode({ id }: { id: number }) {
                     <h1 className='mb-5 font-bold text-xl'>Code QR magasine</h1>
                     <div className='flex justify-center items-center p-1 border-2 rounded-xl'>
                         <SVG
-                            text={id.toString()}
+                            text={jsonData}
                             options={{
                                 margin: 2,
                                 width: 200,

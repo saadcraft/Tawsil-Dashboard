@@ -37,11 +37,14 @@ export default function AppleCenter({ parteners, chefs }: Props) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const add = formData.get('comment') as string;
-    if (add === "") {
+    const model = formData.get('model') as string;
+
+    const comment = model ? model + `. \n` + add : add
+    if (comment === "") {
       toast.error("si vous plaît ajouter une commentaire");
       return;
     }
-    const res = await AddComment({ id: id, comment: add })
+    const res = await AddComment({ id: id, comment: comment })
     if (res) {
       setActivePartnerId(null)
     }
@@ -150,19 +153,19 @@ export default function AppleCenter({ parteners, chefs }: Props) {
       </div>
       {activePartnerId !== null && (
         <div>
-          <button onClick={handleClose} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
+          <button onClick={handleClose} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
           <Comment onEvent={hundleClick} id={activePartnerId} />
         </div>
       )}
       {showComment !== null && (
         <div>
-          <button onClick={handleShowClose} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
+          <button onClick={handleShowClose} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
           <ShowComment id={showComment} />
         </div>
       )}
       {resomble > 0 && (
         <div>
-          <button onClick={() => setResomble(0)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
+          <button onClick={() => setResomble(0)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
           <Group id={resomble} onEvent={hundleGroup} all={chefs} />
         </div>
       )}

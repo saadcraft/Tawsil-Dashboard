@@ -219,6 +219,7 @@ type Demande = {
 type centerAction = {
   id: number;
   centre_appel: Users;
+  superviseur: Users;
   etat: string;
   data_de_creation: string;
   prix: number;
@@ -236,7 +237,7 @@ type Order = {
   valide_payment: boolean;
   paye_par_livreur: boolean;
   prix_de_tax: number;
-  status: "pending" | "confirmed" | "search" | "ready" | "delivered" | "canceled";
+  status: "pending" | "confirmed" | "search" | "ready" | "delivered" | "in_progress" | "canceled";
   emp_val: string | null;
   type_livraison: "classique" | "premium";
 }
