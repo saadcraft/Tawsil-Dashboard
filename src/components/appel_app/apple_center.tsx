@@ -11,6 +11,7 @@ import ShowComment from '../windows/centre_win/show-comments'
 import Group from '../windows/chef_win/group'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast';
+import { RiCheckFill } from 'react-icons/ri';
 
 type Props = {
   parteners: Partenaire[];
@@ -20,6 +21,8 @@ type Props = {
 export default function AppleCenter({ parteners, chefs }: Props) {
 
   const router = useRouter()
+
+  // console.log(parteners)
 
   const [activePartnerId, setActivePartnerId] = useState<number | null>(null);
   const [showComment, setshowComment] = useState<number | null>(null);
@@ -91,12 +94,18 @@ export default function AppleCenter({ parteners, chefs }: Props) {
         <td className="px-6 py-4 text-center">
           {pre.user.groupe ? pre.user.groupe :
             <>
-              <button onClick={() => setResomble(pre.user.id)} className='text-xl'><FaUserGroup /></button>
+              <button onClick={() => setResomble(pre.user.id)} className='text-2xl'><FaUserGroup /></button>
             </>
           }
         </td>
-        <td className="px-6 py-4 text-center">
-          <button onClick={() => handleShowClick(pre.id)} className='text-xl'><FaCommentDots /></button>
+        <td className="relative px-6 py-4 text-center">
+          <button onClick={() => handleShowClick(pre.id)}>
+            {pre.pre_en_charge &&
+              <div className='absolute top-3 bg-green-600 p-0.5 rounded-full right-12'>
+                <RiCheckFill className='text-white' />
+              </div>
+            }
+            <FaCommentDots className='text-2xl' /></button>
         </td>
         <td className="px-6 py-4 text-right">
           <button onClick={() => handleCommentClick(pre.id)} className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Comment</button>

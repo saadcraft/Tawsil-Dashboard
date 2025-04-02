@@ -6,20 +6,22 @@ import { FaRegCheckCircle, FaSearch } from 'react-icons/fa'
 import { handleInputChange } from "@/lib/tools/tools"
 import Named, { Wilaya } from '@/lib/tools/named'
 import { useRouter } from "next/navigation"
-import { MdClose, MdGpsFixed, MdOutlineDisabledByDefault, MdOutlineReport } from 'react-icons/md'
+import { MdClose, MdGpsFixed, MdOutlineDisabledByDefault, MdOutlineQrCodeScanner, MdOutlineReport } from 'react-icons/md'
 import ActiveCompte from '../windows/chef_win/active-compte'
 import toast from 'react-hot-toast'
 import { AddReport } from '@/lib/super_action'
 import SuperReport from '../windows/super_win/super_report'
 import Display from '../windows/gestion_win/display'
 import ModifieGeo from '../windows/super_win/modifie_goe'
+import QRcode from '../windows/magasin_win/qrcode'
 
 export default function Validation({ users }: { users: Partenaire[] }) {
 
     const [user, setUser] = useState<{ id: number, statue: boolean } | null>(null);
     const [activePartnerId, setActivePartnerId] = useState<number | null>(null);
     const [show, setShow] = useState<Partenaire | null>(null);
-    const [geo, setGeo] = useState<number | null>(null)
+    const [geo, setGeo] = useState<number | null>(null);
+    const [qrCode, setQrCode] = useState<number | null>(null);
 
     const router = useRouter();
 
@@ -58,7 +60,7 @@ export default function Validation({ users }: { users: Partenaire[] }) {
                 <td className="px-4 py-4">
                     Group {pre.user.groupe}
                 </td>
-                <td className="px-4 py-4">
+                <td className="px-4 py-4 max-w-24 overflow-hidden text-nowrap">
                     {pre.user.first_name} {pre.user.last_name}
                 </td>
                 <td className="px-4 py-4">
@@ -79,8 +81,11 @@ export default function Validation({ users }: { users: Partenaire[] }) {
                 </td>
                 <td className="px-4 py-4 text-right">
                     <div className='flex gap-1 justify-end'>
-                        {pre.type_compte.name === "magasin" &&
-                            <button onClick={() => setGeo(pre.id)} className='p-1 px-2 rounded-md border-blue-800 border hover:text-white hover:bg-blue-800 inline-flex items-center text-nowrap'><MdGpsFixed /></button>
+                        {pre.type_compte?.name === "magasin" &&
+                            <>
+                                <button onClick={() => setGeo(pre.id)} className='p-1 px-2 rounded-md border-blue-800 border hover:text-white hover:bg-blue-800 inline-flex items-center text-nowrap'><MdGpsFixed /></button>
+                                <button onClick={() => setQrCode(pre.magasin_id ? Number(pre.magasin_id) : (toast.error("n'a pas magasin"), null))} className='p-1 px-2 rounded-md border-blue-800 border hover:text-white hover:bg-blue-800 inline-flex items-center text-nowrap'><MdOutlineQrCodeScanner className='mt-0.5' /></button>
+                            </>
                         }
                         <button onClick={() => setShow(pre)} className='p-1 rounded-md border-blue-800 border hover:text-white hover:bg-blue-800 inline-flex items-center text-nowrap'>Détails</button>
                     </div>
@@ -124,28 +129,29 @@ export default function Validation({ users }: { users: Partenaire[] }) {
                     <table className="w-full text-sm text-left">
                         <thead className="text-xs text-gray-500 uppercase bg-primer">
                             <tr>
-                                <th className="px-6 py-3">
+                                <th className="px-4 py-3">
                                     ID
                                 </th>
-                                <th className="px-6 py-3">
+                                <th className="px-4 py-3">
                                     Groupe
                                 </th>
-                                <th className="px-6 py-3">
+                                <th className="px-4 py-3">
                                     Nom et Prénom
                                 </th>
-                                <th className="px-6 py-3">
+                                <th className="px-4 py-3">
                                     Email
                                 </th>
-                                <th className="px-6 py-3">
+                                <th className="px-4 py-3">
                                     Télephone
                                 </th>
-                                <th className="px-6 py-3">
+                                <th className="px-4 py-3">
                                     Type de compte
                                 </th>
-                                <th className="px-6 py-3 text-center">
+                                <th className="px-4 py-3 text-center">
                                     Actions
                                 </th>
-                                <th className="px-6 py-3 text-right">
+                                <th className="px-4 py-3 text-right">
+                                    plus
                                 </th>
                             </tr>
                         </thead>
@@ -178,6 +184,13 @@ export default function Validation({ users }: { users: Partenaire[] }) {
                     <button onClick={() => setGeo(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
                     <ModifieGeo id={geo} onEvent={setGeo} />
                 </>
+            }
+            {qrCode &&
+                <div>
+                    <button onClick={() => setQrCode(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <QRcode id={qrCode} />
+                </div>
+
             }
         </div>
     )

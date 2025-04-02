@@ -26,6 +26,8 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
     const router = useRouter()
     const { sendMessage, socket } = useNotificationStore();
 
+    console.log(commande)
+
 
     useEffect(() => {
         if (!socket) return;
@@ -157,7 +159,7 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
                     }
                     {pre.status === "ready" &&
                         <>
-                            <button onClick={() => setQrCode(pre.id)} className='bg-gray-200 text-black p-1 px-1.5 border-1 rounded-md hover:bg-gray-500 hover:text-white' title='QR code'><MdOutlineQrCodeScanner className='mt-0.5' /></button>
+                            <button onClick={() => setQrCode(pre.magasin)} className='bg-gray-200 text-black p-1 px-1.5 border-1 rounded-md hover:bg-gray-500 hover:text-white' title='QR code'><MdOutlineQrCodeScanner className='mt-0.5' /></button>
                         </>
                     }
                     {/*   :

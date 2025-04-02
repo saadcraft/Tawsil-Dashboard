@@ -125,6 +125,7 @@ type Partenaire = {
   is_available: boolean;
   type_partener: string | null;
   type_compte: typeCompte;
+  magasin_id: number | null;
 }
 
 type Users = {
@@ -229,7 +230,7 @@ type centerAction = {
 type Order = {
   id: number;
   client: Users;
-  magasin: Magasin;
+  magasin: number;
   livreur: Livreur;
   total_price: string;
   created_at: string;
