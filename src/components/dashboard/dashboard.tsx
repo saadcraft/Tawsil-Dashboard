@@ -369,12 +369,12 @@ export default function Dashboard({ data }: { data: Context }) {
                       </div>
                     </div>
                     <div className='flex gap-2'>
-                      {/* <button
+                      <button
                         onClick={() => setQrCode(magasin.id)}
                         className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 lg:inline-flex lg:w-auto"
                       >
                         QRcode
-                      </button> */}
+                      </button>
                       <button
                         onClick={() => setMody(true)}
                         className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 lg:inline-flex lg:w-auto"
@@ -462,13 +462,13 @@ export default function Dashboard({ data }: { data: Context }) {
           <GlobleComment comment={review} />
         </div>
       }
-      {/* {qrCode &&
+      {qrCode &&
         <div>
           <button onClick={() => setQrCode(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
           <QRcode id={qrCode} />
         </div>
 
-      } */}
+      }
     </div>
   )
 }

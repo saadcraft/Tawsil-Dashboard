@@ -15,7 +15,7 @@ export default function QRcode({ id }: { id: number }) {
     });
 
     const qrData = {
-        commande_id: id,
+        magasin_id: id,
         // message: "QRcode magasine",
         // timestamp: FormatDate(new Date().toISOString()),
     };
