@@ -190,7 +190,7 @@ export default function Dashboard({ data }: { data: Context }) {
     const updateStatus = await UpdateMagasin({ magasin_id, EtatOuverture })
 
     if (updateStatus.code == 200) {
-      toast.success(EtatOuverture ? "Ouvert" : "Farmé", { id: loadingToastId });
+      toast.success(EtatOuverture ? "Ouvert" : "Fermé", { id: loadingToastId });
       router.refresh();
     } else {
       toast.error(updateStatus, { id: loadingToastId });

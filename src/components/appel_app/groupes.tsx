@@ -6,10 +6,15 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { FaPen, FaSearch } from 'react-icons/fa'
+import UpdateGroupeName from '../windows/centre_win/update_groupe_name'
+import toast from 'react-hot-toast'
+import { UpdateUser } from '@/lib/call_action'
+import { MdClose } from 'react-icons/md'
 
 export default function Groupes({ groupe }: { groupe: Users[] }) {
 
     const [group, setGroup] = useState<Groupes[] | null>(null)
+    const [activePartnerId, setActivePartnerId] = useState<number | null>(null);
 
     const router = useRouter()
 
@@ -36,6 +41,27 @@ export default function Groupes({ groupe }: { groupe: Users[] }) {
         router.push(`?search=${cleint}&wilaya=${wilaya}&groupe=${groupe || ""}`);
     }
 
+    const handleSubmit = async (id: number, e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.currentTarget)
+        const groupeName = formData.get('groupe') as string;
+
+        //check if some input is null
+        if (groupeName === "") {
+            toast.error('Aucun champ à mettre à jour.');
+            return;
+        }
+
+        const updatedUser = { id: id.toString(), groupe_name: groupeName };
+
+        const res = await UpdateUser(updatedUser)
+        if (res) {
+            router.refresh()
+            setActivePartnerId(null)
+        }
+    }
+
     const data = groupe.map((pre, index) => {
         return (
             <tr key={index} className="bg-white border-b text-black hover:bg-gray-50">
@@ -55,7 +81,7 @@ export default function Groupes({ groupe }: { groupe: Users[] }) {
                     {pre.phone_number_1}
                 </td>
                 <td className="px-6 py-4 text-right">
-                    <button className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500'><FaPen /></button>
+                    <button onClick={() => setActivePartnerId(pre.id)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500'><FaPen /></button>
                 </td>
             </tr>
         )
@@ -67,7 +93,7 @@ export default function Groupes({ groupe }: { groupe: Users[] }) {
                 <h1 className='font-bold'>Groupes</h1>
             </div>
             <div className='p-10 pb-20 bg-white rounded-md shadow-md'>
-                <form onClick={handleSearch} className='mb-7 flex flex-col lg:flex-row items-center gap-5'>
+                <form onSubmit={handleSearch} className='mb-7 flex flex-col lg:flex-row items-center gap-5'>
                     <div className='relative'>
                         <FaSearch className='absolute top-3 text-slate-500' />
                         <input type="text" name="client" placeholder='Recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
@@ -124,13 +150,13 @@ export default function Groupes({ groupe }: { groupe: Users[] }) {
                     </table>
                 </div>
             </div>
-            {/* {modify &&
+            {activePartnerId &&
                 <div>
-                    <button onClick={() => setModify(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-                    <ModifieForm user={modify} onsub={setModify} />
+                    <button onClick={() => setActivePartnerId(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <UpdateGroupeName id={activePartnerId} onEvent={handleSubmit} onClose={setActivePartnerId} />
                 </div>
             }
-            {disabled > 0 &&
+            {/* {disabled > 0 &&
                 <div>
                     <button onClick={() => setDisabled(0)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
                     <Disable onClose={setDisabled} user={disabled} />

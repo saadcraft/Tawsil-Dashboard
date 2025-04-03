@@ -57,6 +57,11 @@ export default function AppleCenter({ parteners }: Props) {
     const add = formData.get('group') as string;
     const wilaya = formData.get('wilaya') as string;
     const code = formData.get('code') as string;
+
+    if (add === "" || wilaya === "" || code === "") {
+      toast.error("Informations incomplétes");
+      return null;
+    }
     const res = await UpdateGroup({ id: id, groupe: add, wilaya: wilaya, code: code })
     if (res) {
       setResomble(0)

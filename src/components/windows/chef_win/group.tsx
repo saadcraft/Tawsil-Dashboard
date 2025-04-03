@@ -50,7 +50,7 @@ export default function Group({ id, onEvent }: { id: number, onEvent: (id: numbe
               {group.map(pre => {
                 if (pre != null) {
                   return (
-                    <option key={pre.groupe} value={pre.groupe}>Groupe {pre.groupe} {pre.wilaya}</option>
+                    <option key={pre.groupe} value={pre.groupe}>{pre.groupe_name || pre.groupe}</option>
                   )
                 }
               })}

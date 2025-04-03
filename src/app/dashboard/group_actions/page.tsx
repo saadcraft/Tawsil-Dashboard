@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import React from 'react'
 import Pagination from "@/components/options/pagination";
-import { getAllChef } from "@/lib/call_action";
 import { notFound } from "next/navigation";
 import CompAction from "@/components/comptable_app/comp_action";
 import { getComptAction } from "@/lib/comptable_action";

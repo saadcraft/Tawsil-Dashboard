@@ -25,7 +25,7 @@ export default function ModifieForm({ user, onsub }: { user: Users, onsub: (valu
     delete filteredData.confirm_password;
 
     if (Object.keys(filteredData).length === 0) {
-      toast.error('No fields to update.');
+      toast.error('Aucun champ à mettre à jour.');
       return;
     }
 
