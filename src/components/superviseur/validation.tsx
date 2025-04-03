@@ -119,7 +119,7 @@ export default function Validation({ users }: { users: Partenaire[] }) {
                         <option value="">Sélection Wilaya</option>
                         {Wilaya.map(pre => {
                             return (
-                                <option key={pre.id} value={pre.name}>{pre.id} - {pre.name}</option>
+                                <option key={pre.id} value={pre.code}>{pre.id} - {pre.name}</option>
                             )
                         })}
                     </select>

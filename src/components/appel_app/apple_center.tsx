@@ -104,7 +104,7 @@ export default function AppleCenter({ parteners }: Props) {
         <td className="relative px-6 py-4 text-center">
           <button onClick={() => handleShowClick(pre.id)}>
             {pre.pre_en_charge &&
-              <div className='absolute top-3 bg-green-600 p-0.5 rounded-full right-12'>
+              <div className='absolute top-3 bg-green-600 p-0.5 rounded-full left-[85px]'>
                 <RiCheckFill className='text-white' />
               </div>
             }
