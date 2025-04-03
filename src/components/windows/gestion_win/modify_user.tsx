@@ -26,7 +26,7 @@ export default function ModifyUser({ user, magasine, onsub }: { user: Partenaire
 
         const updatedUser = { id: user.user.id.toString(), partener_id: user.id.toString(), ...filteredData };
 
-        console.log(updatedUser)
+        // console.log(updatedUser)
 
         const res = await UpdateDocument(updatedUser)
         if (res) {

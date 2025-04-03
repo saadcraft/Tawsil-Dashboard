@@ -78,7 +78,7 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
 
     const filteredData = { id: data.id, ...filterEmptyValues(data) };
 
-    console.log(filteredData)
+    // console.log(filteredData)
 
 
     // const filteredData = Object.fromEntries(

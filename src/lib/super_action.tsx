@@ -100,21 +100,16 @@ export async function getValidation({ page, search, wilaya, is_active, groupe }:
             url: "/api/v1/supervisseur/pertenneurs",
             params: { page, search, wilaya, is_active, groupe }
         })
-        return {
-            result: data.data.results,
-            totalAct: data.data.count
-        };
-    } catch (error) {
-        if (error instanceof Error) {
-            // Handle 404 errors explicitly
-            if (error.message.includes("404")) {
-                return null
-            }
-
-            // For other errors, rethrow them
-            throw new Error(error.message || "An error occurred");
+        if (data.code == 200) {
+            return {
+                result: data.data.results,
+                totalAct: data.data.count
+            };
+        } else {
+            return null
         }
-        throw new Error("Unexpected error");
+    } catch {
+        return null
     }
 }
 
@@ -139,22 +134,23 @@ export async function AddReport({ id, message }: { id: number, message: string }
     }
 }
 
-export async function ShowReport({ page }: { page: string }): Promise<apiRaport> {
+export async function ShowReport({ page }: { page: string }): Promise<apiRaport | null> {
     try {
         const response = await apiRequest({
             method: "GET",
             url: "/api/v1/superviseur/rapports",
             params: { page }
         })
-        return {
-            result: response.data.results,
-            totalAct: response.data.count
+        if (response.code == 200) {
+            return {
+                result: response.data.results,
+                totalAct: response.data.count
+            }
+        } else {
+            return null
         }
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
-        }
-        throw new Error("Unexpected error");
+    } catch {
+        return null
     }
 }
 

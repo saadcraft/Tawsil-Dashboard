@@ -15,7 +15,8 @@ import {
     MdOutlineStorefront,
     MdOutlineReport,
     MdOutlineRequestQuote,
-    MdOutlineShoppingBasket
+    MdOutlineShoppingBasket,
+    MdGroup
 } from "react-icons/md";
 import { TbRecharging } from "react-icons/tb";
 import { GrValidate, GrUserWorker } from "react-icons/gr";
@@ -209,6 +210,7 @@ export default function Menu({ user, token }: props) {
                             }
                             {user.role == "centre_appel" &&
                                 <>
+                                    <MenuParams title={`Groupes`} icon={<MdGroup />} onEvent={() => handleMenu("/dashboard/groupes")} />
                                     <MenuParams title={`Actions`} icon={<MdOutlinePendingActions />} onEvent={() => handleMenu("/dashboard/center_actions")} />
                                     <div className='relative'>
                                         <MenuParams title={`Demandes`} icon={<MdOutlineRequestQuote />} onEvent={() => handleMenu("/dashboard/demande")} />

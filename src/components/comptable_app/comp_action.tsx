@@ -6,12 +6,26 @@ import { FaSearch } from "react-icons/fa";
 import { FormatDate } from "@/lib/tools/tools"
 import { useRouter } from 'next/navigation'
 import { Wilaya } from '@/lib/tools/named';
+import { getGroup } from '@/lib/gestion_action';
 
 
-export default function CompAction({ actions, groupe, total }: { actions: Actions[], groupe: Users[], total: number }) {
+export default function CompAction({ actions, total }: { actions: Actions[], total: number }) {
 
-    const [city, setCity] = useState<number | null>(null)
+    const [group, setGroup] = useState<Groupes[] | null>(null)
     const router = useRouter()
+
+    const handleGroup = async ({ wilaya }: { wilaya: string }) => {
+        try {
+            const data = await getGroup({ wilaya })
+            if (data.data.length > 0) {
+                setGroup(data.data)
+            } else {
+                setGroup(null)
+            }
+        } catch {
+            setGroup(null)
+        }
+    }
 
 
     const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
@@ -19,9 +33,9 @@ export default function CompAction({ actions, groupe, total }: { actions: Action
         const formData = new FormData(event.currentTarget);
         const cleint = formData.get('client') as string;
         const date = formData.get('date') as string;
-        const agent = formData.get('agent') as string;
+        const agent = formData.get('group') as string;
 
-        router.push(`?search=${cleint}&groupe=${agent}&date=${date}`);
+        router.push(`?search=${cleint}&groupe=${agent || ""}&date=${date}`);
     }
 
     const action = actions.map((pre, index) => {
@@ -60,7 +74,7 @@ export default function CompAction({ actions, groupe, total }: { actions: Action
                             <input type="text" name="client" placeholder='recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         </div>
                         <input type="date" name="date" className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
-                        <select name="wilaya" onChange={(e) => setCity(Number(e.target.value) || null)} className='border-b outline-none py-2 pl-1 focus:border-slate-950'>
+                        <select name="wilaya" onChange={(e) => handleGroup({ wilaya: e.target.value })} className='border-b outline-none py-2 pl-1 focus:border-slate-950'>
                             <option value="">Sélection par Wilaya</option>
                             {Wilaya.map(pre => {
                                 if (pre != null) {
@@ -70,16 +84,16 @@ export default function CompAction({ actions, groupe, total }: { actions: Action
                                 }
                             })}
                         </select>
-                        {city &&
-                            <select name="agent" className='border-b outline-none py-2 pl-1 focus:border-slate-950'>
-                                <option value="">Sélectioné groupe</option>
-                                {groupe.map((pre, index) => {
-                                    if (city === pre.wilaya_code)
+                        {group &&
+                            <select name="group" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
+                                <option value="">Sélection Groupe</option>
+                                {group.map(pre => {
+                                    if (pre != null) {
                                         return (
-                                            <option key={index} value={pre.id}>Group {pre.wilaya} {pre.groupe}</option>
+                                            <option key={pre.groupe} value={pre.groupe}>Groupe {pre.groupe} {pre.wilaya}</option>
                                         )
-                                })
-                                }
+                                    }
+                                })}
                             </select>
                         }
                         <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherche</button>

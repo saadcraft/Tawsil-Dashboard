@@ -9,7 +9,7 @@ import { MdClose } from 'react-icons/md'
 
 export default function Reports({ reports }: { reports: Report[] }) {
 
-    console.log(reports)
+    // console.log(reports)
 
     const [activePartnerId, setActivePartnerId] = useState<string | null>(null);
 

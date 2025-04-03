@@ -26,7 +26,7 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
     const router = useRouter()
     const { sendMessage, socket } = useNotificationStore();
 
-    console.log(commande)
+    // console.log(commande)
 
 
     useEffect(() => {

@@ -13,7 +13,7 @@ export default function CenterChef({ parteners }: { parteners: Partenaire[] }) {
 
   const router = useRouter()
 
-  console.log(parteners)
+  // console.log(parteners)
 
   const [modify, setModify] = useState<Partenaire | null>(null)
   const [user, setUser] = useState<{ id: number, statue: boolean } | null>(null)

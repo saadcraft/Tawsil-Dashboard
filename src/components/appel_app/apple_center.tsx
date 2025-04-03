@@ -18,11 +18,9 @@ type Props = {
   chefs: Users[];
 };
 
-export default function AppleCenter({ parteners, chefs }: Props) {
+export default function AppleCenter({ parteners }: Props) {
 
   const router = useRouter()
-
-  // console.log(parteners)
 
   const [activePartnerId, setActivePartnerId] = useState<number | null>(null);
   const [showComment, setshowComment] = useState<number | null>(null);
@@ -175,7 +173,7 @@ export default function AppleCenter({ parteners, chefs }: Props) {
       {resomble > 0 && (
         <div>
           <button onClick={() => setResomble(0)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-          <Group id={resomble} onEvent={hundleGroup} all={chefs} />
+          <Group id={resomble} onEvent={hundleGroup} />
         </div>
       )}
     </div>

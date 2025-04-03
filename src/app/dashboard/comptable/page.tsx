@@ -1,7 +1,6 @@
 
 import Caisses from '@/components/comptable_app/caisses';
 import Pagination from '@/components/options/pagination';
-import { getAllChef } from '@/lib/call_action';
 import { GetAllCasses } from '@/lib/comptable_action';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -31,15 +30,13 @@ export default async function page({ searchParams }: Props) {
 
     if (!data) notFound()
 
-    const Allchef = await getAllChef()
-
     const { result, totalAct } = data
 
     const totalPages = Math.ceil(totalAct / 20);
 
     return (
         <div>
-            <Caisses promise={result} chefs={Allchef} />
+            <Caisses promise={result} />
             <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`search=${client_num}&date=${date_case}&approvie=${aprove}&chef=${chef_bureau}&wilaya=${wilaya}`} />
         </div>
     )

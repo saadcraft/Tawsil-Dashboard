@@ -105,6 +105,12 @@ type typeCompte = {
   tax_tawsile: number;
 }
 
+type Groupes = {
+  groupe: string;
+  wilaya: string;
+  groupe_name: string;
+}
+
 type Partenaire = {
   id: number;
   user: Users;
@@ -154,6 +160,7 @@ type Users = {
   date_joined: string;
   type_account: "premium" | "classique";
   wilaya_code: number;
+  groupe_name: string;
 };
 
 type actionData = {

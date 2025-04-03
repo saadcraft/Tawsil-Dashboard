@@ -12,7 +12,7 @@ export default function Reset({ token, id }: { token: string, id: string }) {
 
     const router = useRouter()
 
-    console.log(token, id)
+    // console.log(token, id)
 
     const handleSubmite = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();

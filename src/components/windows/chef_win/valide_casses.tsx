@@ -34,7 +34,7 @@ export default function ValideCasses({ onEvent, user, total }: { onEvent: (data:
 
   const handlePrintAndSubmit = async () => {
     const sub = await onEvent(form) as unknown as boolean; // Submit the command
-    console.log('Submission result:', sub);
+    // console.log('Submission result:', sub);
     if (sub) {
       handlePrint(); // Trigger print
     }

@@ -8,11 +8,25 @@ import { FaSearch } from 'react-icons/fa'
 import Aprove from '../windows/comp_win/aprove'
 import { MdClose } from 'react-icons/md'
 import { Wilaya } from '@/lib/tools/named'
+import { getGroup } from '@/lib/gestion_action'
 
-export default function Caisses({ promise, chefs }: { promise: Caisses[], chefs: Users[] }) {
+export default function Caisses({ promise }: { promise: Caisses[] }) {
 
     const [aprove, setAprove] = useState<Caisses | null>(null)
-    const [city, setCity] = useState<number | null>(null)
+    const [group, setGroup] = useState<Groupes[] | null>(null)
+
+    const handleGroup = async ({ wilaya }: { wilaya: string }) => {
+        try {
+            const data = await getGroup({ wilaya })
+            if (data.data.length > 0) {
+                setGroup(data.data)
+            } else {
+                setGroup(null)
+            }
+        } catch {
+            setGroup(null)
+        }
+    }
 
     const router = useRouter()
 
@@ -87,7 +101,7 @@ export default function Caisses({ promise, chefs }: { promise: Caisses[], chefs:
                                 <label htmlFor="valide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> True</label>
                             </div>
                         </div>
-                        <select name="wilaya" onChange={(e) => setCity(Number(e.target.value) || null)} className='border-b outline-none py-2 pl-1 focus:border-slate-950'>
+                        <select name="wilaya" onChange={(e) => handleGroup({ wilaya: e.target.value })} className='border-b outline-none py-2 pl-1 focus:border-slate-950'>
                             <option value="">Sélection par Wilaya</option>
                             {Wilaya.map(pre => {
                                 if (pre != null) {
@@ -97,16 +111,16 @@ export default function Caisses({ promise, chefs }: { promise: Caisses[], chefs:
                                 }
                             })}
                         </select>
-                        {city &&
-                            <select name="group" className='border-b outline-none py-2 pl-1 focus:border-slate-950'>
-                                <option value="">Sélectioné groupe</option>
-                                {chefs.map((pre, index) => {
-                                    if (city === pre.wilaya_code)
+                        {group &&
+                            <select name="group" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
+                                <option value="">Sélection Groupe</option>
+                                {group.map(pre => {
+                                    if (pre != null) {
                                         return (
-                                            <option key={index} value={pre.id}>Group {pre.wilaya} {pre.groupe}</option>
+                                            <option key={pre.groupe} value={pre.groupe}>Groupe {pre.groupe} {pre.wilaya}</option>
                                         )
-                                })
-                                }
+                                    }
+                                })}
                             </select>
                         }
                         <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherch</button>

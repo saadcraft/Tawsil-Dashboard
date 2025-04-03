@@ -6,7 +6,7 @@ export default function ActiveCompte({ onClose, user }: { onClose: (result: null
 
     const router = useRouter()
 
-    console.log(user)
+    // console.log(user)
 
     const handleActive = async (user_id: number) => {
 

@@ -32,15 +32,13 @@ export default async function GroupActionpage({ searchParams }:
 
     if (!data) notFound();
 
-    const Allchef = await getAllChef()
-
     const { result, totalAct, prixTotal } = data;
 
     const totalPages = Math.ceil(totalAct / 20);
 
     return (
         <div>
-            <CompAction actions={result} groupe={Allchef} total={prixTotal} />
+            <CompAction actions={result} total={prixTotal} />
             <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`?search=${client_num}&groupe=${chef_bureau}&date=${date_case}`} />
         </div>
     )

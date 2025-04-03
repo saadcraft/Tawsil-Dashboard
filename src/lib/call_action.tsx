@@ -187,18 +187,23 @@ export async function UpdateGroup({ id, groupe, wilaya, code }: { id: number, gr
     }
 }
 
-export async function getAllChef(): Promise<Users[]> {
+export async function getAllChef({ page, search, wilaya, groupe }: { page: string, search: string, wilaya: string, groupe: string }): Promise<apiRequest | null> {
     try {
         const data = await apiRequest({
             url: `/api/v1/user/chefbureux`,
             method: "GET",
+            params: { page, search, wilaya, groupe }
         });
-        return data.data;
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
+        if (data.code == 200) {
+            return {
+                result: data.data.results,
+                totalAct: data.data.count
+            };
+        } else {
+            return null
         }
-        throw new Error("Unexpected error");
+    } catch {
+        return null
     }
 }
 

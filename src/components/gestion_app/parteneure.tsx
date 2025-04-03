@@ -14,12 +14,11 @@ import { getGroup } from '@/lib/gestion_action'
 export default function Parteneure({ users }: { users: Partenaire[] }) {
 
     const [user, setUser] = useState<{ id: number, statue: boolean } | null>(null)
-    const [group, setGroup] = useState<number[] | null>(null)
+    const [group, setGroup] = useState<Groupes[] | null>(null)
     // const [modify, setModify] = useState<Partenaire | null>(null)
     const router = useRouter();
 
     // const hundelModify = (info: Partenaire) => setModify(info);
-
 
     const handleGroup = async ({ wilaya }: { wilaya: string }) => {
         try {
@@ -42,7 +41,7 @@ export default function Parteneure({ users }: { users: Partenaire[] }) {
         const validation = formData.get('valide') as string;
         const groupe = formData.get('group') as string;
 
-        router.push(`?search=${cleint}&wilaya=${wilaya}&is_active=${validation}&groupe=${groupe}`);
+        router.push(`?search=${cleint}&wilaya=${wilaya}&is_active=${validation}&groupe=${groupe || ""}`);
     }
 
     const parteneur = users.map((pre, index) => {
@@ -102,7 +101,7 @@ export default function Parteneure({ users }: { users: Partenaire[] }) {
                         <option value="">Sélection Wilaya</option>
                         {Wilaya.map(pre => {
                             return (
-                                <option key={pre.id} value={pre.name}>{pre.id} - {pre.name}</option>
+                                <option key={pre.id} value={pre.id}>{pre.id} - {pre.name}</option>
                             )
                         })}
                     </select>
@@ -112,7 +111,7 @@ export default function Parteneure({ users }: { users: Partenaire[] }) {
                             {group.map(pre => {
                                 if (pre != null) {
                                     return (
-                                        <option key={pre} value={pre}>Groupe {pre}</option>
+                                        <option key={pre.groupe} value={pre.groupe}>Groupe {pre.groupe} {pre.wilaya}</option>
                                     )
                                 }
                             })}
