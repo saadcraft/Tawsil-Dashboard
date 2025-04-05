@@ -3,18 +3,22 @@ import React, { useEffect, useState } from 'react'
 import { getCommant } from "@/lib/call_action"
 import { CommentaireData } from "@/lib/type_module/center_type"
 import { FormatDate } from '@/lib/tools/tools';
+import { TbLoader3 } from 'react-icons/tb';
 
 export default function ShowComment({ id }: { id: number }) {
     const [comments, setComments] = useState<CommentaireData[]>([]);
     const [error, setError] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchComments = async () => {
             try {
                 const data = await getCommant(id);
                 setComments(data);
+                setIsLoading(false)
             } catch (err) {
                 setError((err as Error).message || "Failed to load comments.");
+                setIsLoading(false)
             }
         };
 
@@ -53,7 +57,7 @@ export default function ShowComment({ id }: { id: number }) {
 
     return (
         <div className='fixed z-20 top-20 flex items-center bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
-            <div className='max-w-5xl h-5/6 overflow-auto mx-auto w-full rounded-xl p-5 bg-white'>
+            <div className='relative max-w-5xl h-5/6 overflow-auto mx-auto w-full rounded-xl p-5 bg-white'>
                 <h1 className='font-semibold text-2xl'>Commentaires</h1>
                 <div className="relative overflow-auto">
                     <table className="w-full text-sm text-left rtl:text-right0">
@@ -79,6 +83,9 @@ export default function ShowComment({ id }: { id: number }) {
                             {mappedComment || error} */}
                         </tbody>
                     </table>
+                </div>
+                <div className={`${isLoading ? '' : 'hidden'} absolute top-0 left-0 right-0 bottom-0 bg-forth bg-opacity-50 text-xl flex justify-center items-center gap-3`}>
+                    <TbLoader3 className="animate-spin text-2xl" /> Loading ...
                 </div>
             </div>
         </div>

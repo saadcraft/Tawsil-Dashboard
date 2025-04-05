@@ -104,7 +104,7 @@ export default function AppleCenter({ parteners }: Props) {
         <td className="relative px-6 py-4 text-center">
           <button onClick={() => handleShowClick(pre.id)}>
             {pre.pre_en_charge &&
-              <div className='absolute top-3 bg-green-600 p-0.5 rounded-full left-[85px]'>
+              <div className='absolute top-3 bg-green-600 p-0.5 rounded-full ml-4'>
                 <RiCheckFill className='text-white' />
               </div>
             }
@@ -124,10 +124,12 @@ export default function AppleCenter({ parteners }: Props) {
         <Link href="/dashboard" className='font-semibold text-third'>Tableau de bord /</Link>
         <h1 className='font-bold'>{`Centre d'appel`}</h1>
       </div>
-      <div className='p-10 pb-20 bg-white gap-10 rounded-md shadow-md'>
-        <form onSubmit={handleSearch} className='mb-7 flex items-center gap-2'>
-          <FaSearch className='absolute text-slate-500' />
-          <input type="text" name="client" placeholder='Recherche par numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+      <div className='p-3 md:p-10 pb-20 md:pb-20 bg-white gap-10 rounded-md shadow-md'>
+        <form onSubmit={handleSearch} className='mb-7 flex flex-col md:flex-row items-center gap-2'>
+          <div className='relative'>
+            <FaSearch className='absolute top-3 text-slate-500' />
+            <input type="text" name="client" placeholder='Recherche par numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+          </div>
           <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherche</button>
         </form>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">

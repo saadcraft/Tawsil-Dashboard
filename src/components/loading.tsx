@@ -14,9 +14,9 @@ export default function LoadingFirst() {
                     Loading...
                     <TbLoader3 className="animate-spin text-4xl text-blue-600" />
                 </h1>
-                <div className="mt-6 h-2 w-48 bg-gray-200 rounded-full overflow-hidden mx-auto">
+                {/* <div className="mt-6 h-2 w-48 bg-gray-200 rounded-full overflow-hidden mx-auto">
                     <div className="h-full bg-blue-600 rounded-full animate-progress"></div>
-                </div>
+                </div> */}
             </div>
         </div>
     )

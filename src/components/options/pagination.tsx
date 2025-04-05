@@ -1,8 +1,9 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 import { useRouter } from 'next/navigation'
+import LoadingFirst from '../loading'
 
 type props = {
     currentPage: number;
@@ -12,13 +13,20 @@ type props = {
 
 export default function Pagination({ currentPage, pages, params }: props) {
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const router = useRouter()
 
     const handlePageChange = (page: number) => {
         if (page >= 1 && page <= pages) {
             router.push(`?page=${page}&${params}`);
+            setIsLoading(true);
         }
     };
+
+    useEffect(() => {
+        setIsLoading(false)
+    }, [currentPage])
 
     const generatePageNumbers = (): (number | string)[] => {
         const pageNumbers: (number | string)[] = [];
@@ -65,9 +73,9 @@ export default function Pagination({ currentPage, pages, params }: props) {
                     </span>
                 </div>
             </div>
-            {/* <div className={`${isLoading ? '' : 'hidden'} fixed top-0 left-0 right-0 bottom-0 bg-forth bg-opacity-50 flex justify-center items-center`}>
-            Loading ...
-        </div> */}
+            <div className={`${isLoading ? '' : 'hidden'} fixed top-0 left-0 right-0 bottom-0 bg-forth bg-opacity-50 flex justify-center items-center`}>
+                <LoadingFirst />
+            </div>
         </div>
     )
 }
