@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState, useEffect } from 'react'
-// import { Map } from "algeria-map-ts";
 import Image from 'next/image'
 import { StatsCard } from './carte'
 import { useRouter } from "next/navigation"
@@ -29,11 +28,10 @@ import { userInformation } from '@/lib/tools/store/web_socket'
 import LoadingFirst from '../loading'
 import AddGeo from '../windows/magasin_win/add_geolocation'
 import GlobleComment from '../windows/magasin_win/globle_comment'
-// import Algeria from "@react-map/algeria";
+import Algeria from '@/lib/tools/map/Algeria'
 
-import { Wilaya } from '@/lib/tools/named'
+// import { Wilaya } from '@/lib/tools/named'
 import QRcode from '../windows/magasin_win/qrcode';
-// import { getAllChef } from '@/lib/call_action';
 // import { Pie, Bar, Line } from 'react-chartjs-2';
 // import {
 //   Chart as ChartJS,
@@ -87,30 +85,10 @@ export default function Dashboard({ data }: { data: Context }) {
       } else {
         setIsLoading(false);
       }
-      // if (user?.role === "comptable" || user?.role === "centre_appel") {
-      //   const allChef = await getAllChef();
-      //   if (allChef) {
-      //     setChef(allChef)
-      //   }
-      // }
     };
 
     fetchMagasin();
   }, [user]);
-
-  // const onMap = (sc: string | null) => {
-  //   const result = Wilaya.find(item => item.name.toLowerCase() === sc?.toLocaleLowerCase());
-  //   alert(`${sc}: ${result?.code}`)
-  // }
-
-  const city: Record<string, { value: number | string; name?: string }> = {};
-
-  Wilaya.forEach((pre) => {
-    city[pre.name] = {
-      value: pre.code, // Replace with an appropriate property from `pre`
-      name: pre.name
-    };
-  });
 
   // if (!user) return notFound()
 
@@ -202,7 +180,7 @@ export default function Dashboard({ data }: { data: Context }) {
 
   return (
     <div className="flex flex-col items-center justify-between">
-      {user?.role == "gestion_commercial" ?
+      {user?.role == "gestion_commercial" || user?.role == "admin" ?
         <div className='py-5 px-5 sm:px-16 w-full'>
           <h1 className="text-2xl font-bold mb-5 text-gray-600">Tableau de bord</h1>
           <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 w-full mx-auto'>
@@ -392,39 +370,14 @@ export default function Dashboard({ data }: { data: Context }) {
 
           :
 
-          // user?.role === "comptable" || user?.role === "centre_appel" ?
-          //   <div className='fixed bottom-0 top-20 right-0 left-0 md:left-80 flex items-center justify-center'>
-          //     <Map
-          //       color="#dbffe5"
-          //       HoverColor="#3da159"
-          //       stroke="#000"
-          //       hoverStroke="#218c74"
-          //       data={city}
-          //       // onWilayaClick={(wilaya, data) => alert(`${wilaya}, ${data}`)}
-          //       getHoverContent={(record) => record ? `${record.name}  ${record.value} <pre /> Pertner : ${(chef?.filter(pre => pre.wilaya_code == record.value).length)}` : ""}
-          //       getHoverContentStyle={() => ({
-          //         backgroundColor: "white",
-          //         textAlign: "center",
-          //         padding: "5px",
-          //         height: "auto",
-          //         width: "200px",
-          //         borderRadius: "5px",
-          //         boxShadow: "0px 0px 5px rgba(0,0,0,0.2)",
-          //         position: "fixed",
-          //         top: "0",
-          //         right: "0",
-          //       })}
-          //     // hoverContentStyle={{
+          user?.role === "centre_appel" ?
+            <Algeria size={600} hoverColor="orange" type='select-single' onSelect={(state) => console.log(state)} />
 
-          //     // }}
-          //     >
-          //     </Map>
-          //   </div>
-          //   :
+            :
 
-          <div className='fixed bottom-0 top-0 right-0 left-0 md:left-80 flex items-center justify-center'>
-            <Image height={300} width={300} src={`/dash.svg`} alt='' />
-          </div>
+            <div className='fixed bottom-0 top-0 right-0 left-0 md:left-80 flex items-center justify-center'>
+              <Image height={300} width={300} src={`/dash.svg`} alt='' />
+            </div>
       }
       {/* <div className="grid grid-cols-2 gap-5 w-full">
         <div className='py-1'>

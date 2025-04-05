@@ -1,7 +1,7 @@
 export function Role(role: string) {
     switch (role.toLowerCase()) {
         case "admin":
-            return "Administrator";
+            return ["/dashboard", "/dashboard/profile"];
         case "chef_bureau":
             return ["/dashboard", "/dashboard/profile", "/dashboard/actions", "/dashboard/agent_administratif", "/dashboard/ajoute_agent", "/dashboard/apple_center", "/dashboard/caisses", "/dashboard/deliveries"];
         case "centre_appel":
