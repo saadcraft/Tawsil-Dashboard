@@ -137,6 +137,7 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
                     {pre.status == "delivered" && <p className='text-green-600 font-semibold flex items-center gap-1'><RiCheckDoubleLine className='mt-0.5' />Livrer</p>}
                     {pre.status == "annule_par_livreur" && <p className='text-red-600 font-semibold flex items-center gap-1'><TbCancel className='mt-0.5' />Livreur Annuler</p>}
                     {pre.status == "annule_par_client" && <p className='text-red-600 font-semibold flex items-center gap-1'><TbCancel className='mt-0.5' />Client Annuler</p>}
+                    {pre.status == "canceled" && <p className='text-red-600 font-semibold flex items-center gap-1'><TbCancel className='mt-0.5' />Annuler</p>}
                 </td>
                 <td className="px-6 py-4">
                     {pre.total_price}

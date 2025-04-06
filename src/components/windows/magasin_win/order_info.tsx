@@ -22,7 +22,7 @@ export default function OrderInfo({ id, total }: { id: number, total: number }) 
         fetchOrderInfo(); // Call the async function
     }, [id]); // Re-run effect when `id` changes
 
-    console.log(orderData); // Log the fetched data
+    // console.log(orderData); // Log the fetched data
 
     return (
         <div className='fixed z-20 top-0 flex items-center bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>

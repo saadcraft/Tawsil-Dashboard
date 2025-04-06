@@ -245,7 +245,7 @@ type Order = {
   valide_payment: boolean;
   paye_par_livreur: boolean;
   prix_de_tax: number;
-  status: "pending" | "confirmed" | "search" | "ready" | "delivered" | "in_progress" | "annule_par_livreur" | "annule_par_client";
+  status: "pending" | "confirmed" | "search" | "ready" | "delivered" | "in_progress" | "annule_par_livreur" | "annule_par_client" | "canceled";
   emp_val: string | null;
   type_livraison: "classique" | "premium";
 }

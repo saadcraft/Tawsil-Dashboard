@@ -30,8 +30,9 @@ import AddGeo from '../windows/magasin_win/add_geolocation'
 import GlobleComment from '../windows/magasin_win/globle_comment'
 import Algeria from '@/lib/tools/map/Algeria'
 
-// import { Wilaya } from '@/lib/tools/named'
+import { Wilaya, City } from '@/lib/tools/named'
 import QRcode from '../windows/magasin_win/qrcode';
+import { getGroup } from '@/lib/gestion_action'
 // import { Pie, Bar, Line } from 'react-chartjs-2';
 // import {
 //   Chart as ChartJS,
@@ -67,7 +68,7 @@ export default function Dashboard({ data }: { data: Context }) {
   const [geo, setGeo] = useState<boolean>(false)
   const [review, setReview] = useState<number | null>(null)
   const [qrCode, setQrCode] = useState<number | null>(null)
-  // const [chef, setChef] = useState<Users[] | null>(null)
+  const [chef, setChef] = useState<{ wilaya: string, code: string, chefs: number } | null>(null)
 
   const { user } = userInformation()
 
@@ -90,7 +91,38 @@ export default function Dashboard({ data }: { data: Context }) {
     fetchMagasin();
   }, [user]);
 
-  // if (!user) return notFound()
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     if (window.innerWidth < 760) {
+  //       setSize(300);
+  //     } else {
+  //       setSize(500);
+  //     }
+  //   };
+
+  //   window.addEventListener('resize', handleResize);
+
+  //   // Initial check
+  //   handleResize();
+
+  //   return () => {
+  //     window.removeEventListener('resize', handleResize);
+  //   };
+  // }, []);
+
+  const viewStat = async (wilaya: City) => {
+    try {
+      const data = await getGroup({ wilaya: wilaya.id })
+      setChef({
+        wilaya: wilaya.name,
+        code: wilaya.id,
+        chefs: data.data.length
+      })
+    } catch {
+      setChef(null)
+    }
+  }
+
 
   // ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, PointElement, LineElement);
 
@@ -175,24 +207,36 @@ export default function Dashboard({ data }: { data: Context }) {
     }
   }
 
-  // console.log(magasin)
-
 
   return (
     <div className="flex flex-col items-center justify-between">
       {user?.role == "gestion_commercial" || user?.role == "admin" ?
-        <div className='py-5 px-5 sm:px-16 w-full'>
-          <h1 className="text-2xl font-bold mb-5 text-gray-600">Tableau de bord</h1>
-          <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 w-full mx-auto'>
-            <StatsCard title='Chef bureux' value={data.total_users_chef_bureux.toString()} icon={<MdOutlineDesktopMac />} />
-            <StatsCard title='Agent administratif' value={data.tolat_users_agents.toString()} icon={<GrUserWorker />} />
-            <StatsCard title='Centre d&apos;appel' value={data.total_users_centre_appel.toString()} icon={<MdSupportAgent />} />
-            <StatsCard title='Livreur' value={data.total_partners__livreur.toString()} icon={<MdOutlineDeliveryDining />} />
-            <StatsCard title='Magasin' value={data.total_partners__magasin.toString()} icon={<MdOutlineStorefront />} />
-            <StatsCard title='Choffeur' value={data.total_partners__choffeur.toString()} icon={<MdOutlineLocalTaxi />} />
-            <StatsCard title='Superviseurs' value={data.total_users_superviseurs.toString()} icon={<MdSupervisorAccount />} />
-            <StatsCard title='Courses' value={data.total_courses.toString()} icon={<MdMap />} />
-            <StatsCard title='Validation' value={data.total_users_validation.toString()} icon={<MdOutlineFactCheck />} />
+        <div className='w-full'>
+          <div className='py-5 px-5 sm:px-16'>
+            <h1 className="text-2xl font-bold mb-5 text-gray-600">Tableau de bord</h1>
+            <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 w-full mx-auto'>
+              <StatsCard title='Chef bureux' value={data.total_users_chef_bureux.toString()} icon={<MdOutlineDesktopMac />} />
+              <StatsCard title='Agent administratif' value={data.tolat_users_agents.toString()} icon={<GrUserWorker />} />
+              <StatsCard title='Centre d&apos;appel' value={data.total_users_centre_appel.toString()} icon={<MdSupportAgent />} />
+              <StatsCard title='Livreur' value={data.total_partners__livreur.toString()} icon={<MdOutlineDeliveryDining />} />
+              <StatsCard title='Magasin' value={data.total_partners__magasin.toString()} icon={<MdOutlineStorefront />} />
+              <StatsCard title='Choffeur' value={data.total_partners__choffeur.toString()} icon={<MdOutlineLocalTaxi />} />
+              <StatsCard title='Superviseurs' value={data.total_users_superviseurs.toString()} icon={<MdSupervisorAccount />} />
+              <StatsCard title='Courses' value={data.total_courses.toString()} icon={<MdMap />} />
+              <StatsCard title='Validation' value={data.total_users_validation.toString()} icon={<MdOutlineFactCheck />} />
+            </div>
+          </div>
+          <div className='py-5 px-2 sm:px-16'>
+            <div className='relative w-full mx-auto px-3 py-5 border flex justify-center rounded-md bg-white shadow-lg'>
+              <Algeria strokeColor='#000' hoverColor="#10b8eb" selectColor='blue' type='select-single' onSelect={(state) => viewStat(Wilaya.find((stat) => stat.name === state) as City)} />
+
+              {chef &&
+                <div onClick={() => setChef(null)} className='absolute top-0 left-0 bg-slate-50 px-2 text-sm md:text-lg py-2 rounded-lg shadow-lg cursor-pointer'>
+                  <p>{chef.wilaya} {chef.code}</p>
+                  <p>Partener: {chef.chefs}</p>
+                </div>
+              }
+            </div>
           </div>
         </div>
         :
@@ -371,8 +415,15 @@ export default function Dashboard({ data }: { data: Context }) {
           :
 
           user?.role === "centre_appel" ?
-            <Algeria size={600} hoverColor="orange" type='select-single' onSelect={(state) => console.log(state)} />
-
+            <div className='relative w-full top-20 mx-auto px-3 py-5 flex justify-center'>
+              <Algeria hoverColor="#10b8eb" selectColor='blue' type='select-single' onSelect={(state) => viewStat(Wilaya.find((stat) => stat.name === state) as City)} />
+              {chef &&
+                <div onClick={() => setChef(null)} className='absolute -top-10 left-3 bg-slate-50 px-2 text-sm md:text-lg py-2 rounded-lg shadow-lg cursor-pointer'>
+                  <p>{chef.wilaya} {chef.code}</p>
+                  <p>Partener: {chef.chefs}</p>
+                </div>
+              }
+            </div>
             :
 
             <div className='fixed bottom-0 top-0 right-0 left-0 md:left-80 flex items-center justify-center'>
@@ -420,7 +471,6 @@ export default function Dashboard({ data }: { data: Context }) {
           <button onClick={() => setQrCode(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
           <QRcode id={qrCode} />
         </div>
-
       }
     </div>
   )
