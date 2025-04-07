@@ -212,6 +212,10 @@ type Context = {
   total_partners__choffeur: number;
   total_partners__magasin: number;
   total_partners__livreur: number; // Note: Double underscore in the key name
+  partennneur_groupe: number;
+  partenneur_commente: number;
+  partenneur_active: number;
+  paretnneur_en_attend: number;
 };
 
 type Demande = {

@@ -8,7 +8,7 @@ type props = {
 
 export function StatsCard({ title, value, icon }: props) {
     return (
-        <div className="w-48 rounded-xl transition-all duration-200 border gradient-border cursor-pointer overflow-hidden shadow-lg bg-gradient-to-r from-fourth to-third text-white p-5 hover:scale-105">
+        <div className="w-full rounded-xl transition-all duration-200 border gradient-border cursor-pointer overflow-hidden shadow-lg bg-gradient-to-r from-fourth to-third text-white p-5 hover:scale-105">
             <div className="font-bold text-xl mb-2">{icon}</div>
             <div className="text-gray-300 text-base">
                 <p>{title}</p>

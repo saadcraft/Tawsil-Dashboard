@@ -134,3 +134,15 @@
   .gmap_iframe {
     height: 150px !important;
   }
+
+  .splide__pagination {
+    @apply relative flex justify-center gap-3
+  }
+  
+  .splide__pagination li .splide__pagination__page {
+    @apply bg-second transition-all w-3 h-3 duration-300;
+  }
+  
+  .splide__pagination li .is-active {
+    @apply w-6 bg-third rounded-md;
+  }

@@ -102,18 +102,19 @@ export async function verifyChangeToken({ token, uid }: { token: string, uid: st
 
 // Get statistic of users
 
-export async function GetStatic(): Promise<Context> {
+export async function GetStatic(): Promise<Context | null> {
     try {
         const response = await apiRequest({
             method: "GET",
             url: "api/v1/commercial/static",
         })
-        return response.data.context
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
+        if (response.code == 200) {
+            return response.data.context
+        } else {
+            return null
         }
-        throw new Error("Unexpected error");
+    } catch {
+        return null;
     }
 }
 
