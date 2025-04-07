@@ -212,18 +212,23 @@ export default function Dashboard({ data }: { data: Context }) {
     <div className="flex flex-col items-center justify-between">
       {user?.role == "gestion_commercial" || user?.role == "admin" ?
         <div className='w-full'>
-          <div className='py-5 px-5 sm:px-16'>
-            <h1 className="text-2xl font-bold mb-5 text-gray-600">Tableau de bord</h1>
-            <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 w-full mx-auto'>
-              <StatsCard title='Chef bureux' value={data.total_users_chef_bureux.toString()} icon={<MdOutlineDesktopMac />} />
-              <StatsCard title='Agent administratif' value={data.tolat_users_agents.toString()} icon={<GrUserWorker />} />
-              <StatsCard title='Centre d&apos;appel' value={data.total_users_centre_appel.toString()} icon={<MdSupportAgent />} />
-              <StatsCard title='Livreur' value={data.total_partners__livreur.toString()} icon={<MdOutlineDeliveryDining />} />
-              <StatsCard title='Magasin' value={data.total_partners__magasin.toString()} icon={<MdOutlineStorefront />} />
-              <StatsCard title='Choffeur' value={data.total_partners__choffeur.toString()} icon={<MdOutlineLocalTaxi />} />
-              <StatsCard title='Superviseurs' value={data.total_users_superviseurs.toString()} icon={<MdSupervisorAccount />} />
-              <StatsCard title='Courses' value={data.total_courses.toString()} icon={<MdMap />} />
-              <StatsCard title='Validation' value={data.total_users_validation.toString()} icon={<MdOutlineFactCheck />} />
+          <div className='py-5 px-5'>
+            {/* <h1 className="text-2xl font-bold mb-5 text-gray-600">Tableau de bord</h1> */}
+            <div className='grid grid-cols-2 w-full'>
+              <div className='flex flex-wrap gap-3 justify-center items-center w-full mx-auto'>
+                <StatsCard title='Chef bureux' value={data.total_users_chef_bureux.toString()} icon={<MdOutlineDesktopMac />} />
+                <StatsCard title='Agent administratif' value={data.tolat_users_agents.toString()} icon={<GrUserWorker />} />
+                <StatsCard title='Centre d&apos;appel' value={data.total_users_centre_appel.toString()} icon={<MdSupportAgent />} />
+                <StatsCard title='Livreur' value={data.total_partners__livreur.toString()} icon={<MdOutlineDeliveryDining />} />
+                <StatsCard title='Magasin' value={data.total_partners__magasin.toString()} icon={<MdOutlineStorefront />} />
+                <StatsCard title='Choffeur' value={data.total_partners__choffeur.toString()} icon={<MdOutlineLocalTaxi />} />
+                <StatsCard title='Superviseurs' value={data.total_users_superviseurs.toString()} icon={<MdSupervisorAccount />} />
+                <StatsCard title='Courses' value={data.total_courses.toString()} icon={<MdMap />} />
+                <StatsCard title='Validation' value={data.total_users_validation.toString()} icon={<MdOutlineFactCheck />} />
+              </div>
+              <div>
+
+              </div>
             </div>
           </div>
           <div className='py-5 px-2 sm:px-16'>
