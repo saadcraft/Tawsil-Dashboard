@@ -27,7 +27,7 @@ import MapDz from './map-dz';
 
 
 
-export default function Dashboard({ data }: { data: Context | null }) {
+export default function Dashboard({ data, dataStatic }: { data: Context | null, dataStatic: { date: string, count: string }[] }) {
 
   const router = useRouter()
 
@@ -42,7 +42,7 @@ export default function Dashboard({ data }: { data: Context | null }) {
 
   const { user } = userInformation()
 
-  console.log(data)
+  // console.log(data, staticData)
 
   // Fetch magasin on client side if user is a partener
   useEffect(() => {
@@ -93,7 +93,7 @@ export default function Dashboard({ data }: { data: Context | null }) {
           <div className={`py-5 px-2 sm:px-16`}>
             {user?.role == "admin" &&
               <div className=''>
-                <Chart data={data} />
+                <Chart data={data} staticLiv={dataStatic} />
               </div>
             }
             <div className='mt-4'>

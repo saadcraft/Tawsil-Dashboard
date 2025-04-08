@@ -104,16 +104,34 @@ export async function SubmitGroupeVTC({ id }: { id: number }) {
 }
 
 
-export async function staticVTC({ anne, paye }: { anne: number, paye: string }) {
+export async function staticVTC({ mounth, anne, paye }: { mounth: string, anne: string, paye: string }) {
     try {
         const response = await apiRequest({
             method: "GET",
             url: "/api/v1/admin/coursa/month",
-            params: { anne, paye }
+            params: { mounth, anne, paye }
         })
 
         if (response.code == 200) {
-            return response.data
+            return response.data.data
+        } else {
+            return null
+        }
+    } catch {
+        return null
+    }
+}
+
+export async function staticCommande({ mounth, anne, paye }: { mounth: string, anne: string, paye: string }) {
+    try {
+        const response = await apiRequest({
+            method: "GET",
+            url: "/api/v1/admin/commande/month",
+            params: { mounth, anne, paye }
+        })
+
+        if (response.code == 200) {
+            return response.data.data
         } else {
             return null
         }

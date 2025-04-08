@@ -23,7 +23,7 @@ const YearSelector = () => {
                 id="year-select"
                 value={selectedYear}
                 onChange={handleChange}
-                className='px-3 py-1 outline-none border-b'
+                className='px-3 py-1 outline-none border-b text-sm'
             >
                 {years.map((year) => (
                     <option key={year} value={year}>
@@ -34,5 +34,7 @@ const YearSelector = () => {
         </div>
     );
 };
+
+
 
 export default YearSelector;
