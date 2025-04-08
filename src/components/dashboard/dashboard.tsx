@@ -90,13 +90,13 @@ export default function Dashboard({ data }: { data: Context | null }) {
               <Satistic data={data} />
             </div>
           </div>
-          <div className={`grid ${user?.role == "admin" && 'lg:grid-cols-2'} py-5 px-2 sm:px-16 grid-cols-1 gap-3`}>
+          <div className={`py-5 px-2 sm:px-16`}>
             {user?.role == "admin" &&
               <div className=''>
                 <Chart data={data} />
               </div>
             }
-            <div className=''>
+            <div className='mt-4'>
               <MapDz />
             </div>
           </div>

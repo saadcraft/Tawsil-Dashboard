@@ -102,3 +102,22 @@ export async function SubmitGroupeVTC({ id }: { id: number }) {
         return false
     }
 }
+
+
+export async function staticVTC({ anne, paye }: { anne: number, paye: string }) {
+    try {
+        const response = await apiRequest({
+            method: "GET",
+            url: "/api/v1/admin/coursa/month",
+            params: { anne, paye }
+        })
+
+        if (response.code == 200) {
+            return response.data
+        } else {
+            return null
+        }
+    } catch {
+        return null
+    }
+}
