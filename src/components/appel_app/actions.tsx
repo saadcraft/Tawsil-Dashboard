@@ -1,6 +1,6 @@
 "use client"
 
-import { FormatDate } from '@/lib/tools/tools';
+import { FormatDate, handleInputChange } from '@/lib/tools/tools';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react'
@@ -16,7 +16,7 @@ export default function ActionsCenter({ actions }: { actions: centerAction[] }) 
         const cleint = formData.get('client') as string;
         const date = formData.get('date') as string;
 
-        router.push(`?search=${cleint}&date=${date}`);
+        router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}&date=${date}`);
     }
 
     // console.log(actions)
@@ -57,7 +57,7 @@ export default function ActionsCenter({ actions }: { actions: centerAction[] }) 
                     <form onSubmit={handleSearch} className='flex flex-col lg:flex-row items-center gap-5'>
                         <div className='relative'>
                             <FaSearch className='absolute top-3 text-slate-500' />
-                            <input type="text" name="client" placeholder='recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                            <input type="text" name="client" onChange={handleInputChange} placeholder='recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         </div>
                         <input type="date" name="date" className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherche</button>

@@ -12,6 +12,7 @@ import Group from '../windows/chef_win/group'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast';
 import { RiCheckFill } from 'react-icons/ri';
+import { handleInputChange } from '@/lib/tools/tools';
 
 type Props = {
   parteners: Partenaire[];
@@ -76,7 +77,7 @@ export default function AppleCenter({ parteners }: Props) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const cleint = formData.get('client') as string;
-    router.push(`?search=${cleint}`);
+    router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}`);
   }
 
   const pertener = parteners.map((pre, index) => {
@@ -128,7 +129,7 @@ export default function AppleCenter({ parteners }: Props) {
         <form onSubmit={handleSearch} className='mb-7 flex flex-col md:flex-row items-center gap-2'>
           <div className='relative'>
             <FaSearch className='absolute top-3 text-slate-500' />
-            <input type="text" name="client" placeholder='Recherche par numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+            <input type="text" name="client" onChange={handleInputChange} placeholder='Recherche par numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
           </div>
           <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherche</button>
         </form>

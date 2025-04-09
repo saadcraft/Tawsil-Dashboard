@@ -32,7 +32,7 @@ export default function Validation({ users }: { users: Partenaire[] }) {
         const wilaya = formData.get('wilaya') as string;
         const validation = formData.get('valide') as string;
 
-        router.push(`?search=${cleint}&wilaya=${wilaya}&is_active=${validation}`);
+        router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}&wilaya=${wilaya}&is_active=${validation}`);
     }
 
     const handleSubmite = async (id: number, event: React.FormEvent<HTMLFormElement>) => {

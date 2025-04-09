@@ -27,7 +27,7 @@ import MapDz from './map-dz';
 
 
 
-export default function Dashboard({ data, dataStatic }: { data: Context | null, dataStatic: { date: string, count: string }[] }) {
+export default function Dashboard({ data, dataStatic, vtcStatic }: { data: Context | null, dataStatic: Chart[], vtcStatic: Chart[] }) {
 
   const router = useRouter()
 
@@ -93,7 +93,7 @@ export default function Dashboard({ data, dataStatic }: { data: Context | null, 
           <div className={`py-5 px-2 sm:px-16`}>
             {user?.role == "admin" &&
               <div className=''>
-                <Chart data={data} staticLiv={dataStatic} />
+                <Chart data={data} staticLiv={dataStatic} staticVtc={vtcStatic} />
               </div>
             }
             <div className='mt-4'>

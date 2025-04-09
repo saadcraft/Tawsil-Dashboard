@@ -1,6 +1,6 @@
 "use client"
 
-import { FormatDate } from '@/lib/tools/tools'
+import { FormatDate, handleInputChange } from '@/lib/tools/tools'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { RiCheckDoubleLine, RiCloseFill, RiSendPlaneLine } from 'react-icons/ri'
@@ -31,7 +31,7 @@ export default function Demande({ dm }: { dm: Demande[] }) {
         const date = formData.get('date') as string;
         const etat = formData.get('etat') as string;
 
-        router.push(`?search=${cleint}&date=${date}&etat=${etat}`);
+        router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}&date=${date}&etat=${etat}`);
     }
 
     const hundleClick = async (id: number, event: React.FormEvent<HTMLFormElement>) => {
@@ -93,7 +93,7 @@ export default function Demande({ dm }: { dm: Demande[] }) {
                     <form onSubmit={handleSearch} className='flex flex-col lg:flex-row items-center gap-5'>
                         <div className='relative'>
                             <FaSearch className='absolute top-3 text-slate-500' />
-                            <input type="text" name="client" placeholder='recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                            <input type="text" onChange={handleInputChange} name="client" placeholder='recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         </div>
                         <input type="date" name="date" className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         <select name="etat" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>

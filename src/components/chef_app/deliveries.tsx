@@ -71,7 +71,7 @@ export default function Delivery({ promise }: Props) {
     const cleint = formData.get('client') as string;
     const validation = formData.get('valide') as string;
 
-    router.push(`?livreur=${cleint}&valide=${validation}`);
+    router.push(`?livreur=${cleint.replace(/^0+(?=\d)/, '')}&valide=${validation}`);
   }
 
   const handleCheckAll = () => {

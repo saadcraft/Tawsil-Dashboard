@@ -1,6 +1,6 @@
 "use client"
 
-import { FormatDate } from '@/lib/tools/tools'
+import { FormatDate, handleInputChange } from '@/lib/tools/tools'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
@@ -39,7 +39,7 @@ export default function Caisses({ promise }: { promise: Caisses[] }) {
         const aprove = formData.get('valide') as string
         const wilaya = formData.get('wilaya') as string
 
-        router.push(`?search=${cleint}&date=${validation}&chef=${groupe || ""}&approvie=${aprove}&wilaya=${wilaya}`);
+        router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}&date=${validation}&chef=${groupe || ""}&approvie=${aprove}&wilaya=${wilaya}`);
     }
 
     const casses = promise.map((pre, index) => {
@@ -88,7 +88,7 @@ export default function Caisses({ promise }: { promise: Caisses[] }) {
                     <form onSubmit={handleSearch} className='flex flex-wrap flex-col lg:flex-row justify-left items-center gap-5'>
                         <div className='relative'>
                             <FaSearch className='absolute top-3 text-slate-500' />
-                            <input type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-5 focus:border-slate-950' />
+                            <input type="text" name="client" onChange={handleInputChange} placeholder='Search with Number' className='border-b outline-none py-2 pl-5 focus:border-slate-950' />
                         </div>
                         <input type="date" name="date" className='border-b outline-none py-2 pl-1 focus:border-slate-950' />
                         <div className='flex gap-2'>

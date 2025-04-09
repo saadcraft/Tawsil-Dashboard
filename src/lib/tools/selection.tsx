@@ -24,6 +24,7 @@ const YearSelector = () => {
                 value={selectedYear}
                 onChange={handleChange}
                 className='px-3 py-1 outline-none border-b text-sm'
+                name='anne'
             >
                 {years.map((year) => (
                     <option key={year} value={year}>

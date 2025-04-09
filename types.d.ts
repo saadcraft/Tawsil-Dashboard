@@ -303,3 +303,8 @@ type GroupeVTC = {
   partener__user__phone_number_1: string;
   total_tax_wi: number;
 }
+
+type Chart = {
+  day: string;
+  count: string;
+}

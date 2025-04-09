@@ -8,6 +8,7 @@ import ModifieForm from '../windows/chef_win/modifie_form'
 import { MdClose } from "react-icons/md";
 import Disable from '../windows/chef_win/disable';
 import { useRouter } from "next/navigation"
+import { handleInputChange } from '@/lib/tools/tools';
 
 export default function ModAgent({ results }: { results: Users[] }) {
 
@@ -26,7 +27,7 @@ export default function ModAgent({ results }: { results: Users[] }) {
         const formData = new FormData(event.currentTarget);
         const cleint = formData.get('client') as string;
 
-        router.push(`?search=${cleint}`);
+        router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}`);
     }
 
 
@@ -72,7 +73,7 @@ export default function ModAgent({ results }: { results: Users[] }) {
                 <form onSubmit={handleSearch} className='mb-7 flex flex-col lg:flex-row items-center gap-5'>
                     <div className='relative'>
                         <FaSearch className='absolute top-3 text-slate-500' />
-                        <input type="text" name="client" placeholder='Recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                        <input type="text" name="client" onChange={handleInputChange} placeholder='Recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                     </div>
                     <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherche</button>
                 </form>

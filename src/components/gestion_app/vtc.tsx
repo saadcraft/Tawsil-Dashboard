@@ -130,7 +130,7 @@ export default function Vtc({ promise }: Props) {
         const validation = formData.get('valide') as string;
         const wilaya = formData.get('wilaya') as string;
 
-        router.push(`?search=${cleint}&valide=${validation}&wilaya=${wilaya}`);
+        router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}&valide=${validation}&wilaya=${wilaya}`);
     }
 
     const Commands = select.map((pre, index) => {

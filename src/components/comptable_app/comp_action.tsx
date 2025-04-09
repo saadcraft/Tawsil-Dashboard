@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { FaSearch } from "react-icons/fa";
-import { FormatDate } from "@/lib/tools/tools"
+import { FormatDate, handleInputChange } from "@/lib/tools/tools"
 import { useRouter } from 'next/navigation'
 import { Wilaya } from '@/lib/tools/named';
 import { getGroup } from '@/lib/gestion_action';
@@ -35,7 +35,7 @@ export default function CompAction({ actions, total }: { actions: Actions[], tot
         const date = formData.get('date') as string;
         const agent = formData.get('group') as string;
 
-        router.push(`?search=${cleint}&groupe=${agent || ""}&date=${date}`);
+        router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}&groupe=${agent || ""}&date=${date}`);
     }
 
     const action = actions.map((pre, index) => {
@@ -71,7 +71,7 @@ export default function CompAction({ actions, total }: { actions: Actions[], tot
                     <form onSubmit={handleSearch} className='flex flex-wrap flex-col lg:flex-row items-center gap-5'>
                         <div className='relative'>
                             <FaSearch className='absolute top-3 text-slate-500' />
-                            <input type="text" name="client" placeholder='recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                            <input type="text" name="client" onChange={handleInputChange} placeholder='recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         </div>
                         <input type="date" name="date" className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         <select name="wilaya" onChange={(e) => handleGroup({ wilaya: e.target.value })} className='border-b outline-none py-2 pl-1 focus:border-slate-950'>

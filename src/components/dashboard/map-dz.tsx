@@ -22,14 +22,20 @@ export default function MapDz() {
 
     return (
         <div className='relative w-full mx-auto px-3 py-5 border flex justify-center rounded-2xl bg-white shadow-lg'>
-            <Algeria strokeColor='#000' hoverColor="#10b8eb" selectColor='blue' type='select-single' onSelect={(state) => viewStat(Wilaya.find((stat) => stat.name === state) as City)} />
-
-            {chef &&
-                <div onClick={() => setChef(null)} className='absolute top-0 left-0 bg-slate-50 px-2 text-sm md:text-lg py-2 rounded-lg shadow-lg cursor-pointer'>
-                    <p>{chef.wilaya} {chef.code}</p>
-                    <p>Partener: {chef.chefs}</p>
-                </div>
-            }
+            <p className='absolute right-3 top-2 lg:right-auto font-bold text-2xl text-gray-600'>Partenaires</p>
+            <div className='mt-5 w-full mx-auto px-3 py-5 flex justify-center'>
+                <Algeria strokeColor='#000' hoverColor="#10b8eb" selectColor='blue' type='select-single' onSelect={(state) => viewStat(Wilaya.find((stat) => stat.name === state) as City)} />
+            </div>
+            <div onClick={() => setChef(null)} className='absolute top-0 left-0 bg-slate-50 px-2 text-sm md:text-lg py-2 rounded-lg shadow-lg cursor-pointer'>
+                {chef ?
+                    <>
+                        <p>{chef.wilaya} {chef.code}</p>
+                        <p>Partener: {chef.chefs}</p>
+                    </>
+                    :
+                    <p>Cliquez sur wilaya</p>
+                }
+            </div>
         </div>
     )
 }

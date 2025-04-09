@@ -113,31 +113,35 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
           <input type='text' name='numero_act' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le Numéro Act' defaultValue={user.numero_act || ''} />
           <p className="flex items-center">Numéro de la carte national <span className='text-red-600 text-2xl'>*</span></p>
           <input type="text" name="card_number" className='p-2 border border-slate-300 rounded-md' placeholder='Entre ID cart' defaultValue={user.card_number || ''} />
-          <p className="flex items-center">type Vihucule <span className='text-red-600 text-2xl'>*</span></p>
-          <select name="type_vehicule" className='p-2 border border-slate-300 rounded-md' >
-            <option value={user.vihucule?.type_vehicule || ''} >{user.vihucule?.type_vehicule ? user.vihucule?.type_vehicule : 'Sélecte vihucule'}</option>
-            {TypeChoices.map((pre, index) => {
-              if (user.vihucule?.type_vehicule != pre) {
-                return (
-                  <option key={index} value={pre}>{pre}</option>
-                )
-              }
-            })}
-          </select>
-          <p className="flex items-center">Vihucule <span className='text-red-600 text-2xl'>*</span></p>
-          <input type="text" name="modele" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.modele || ''} />
-          <p className="flex items-center">Numéro et date {`d'assurance`} <span className='text-red-600 text-2xl'>*</span></p>
-          <div className="flex gap-3">
-            <input type="text" name="num_assurance" className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.num_assurance || ''} />
-            <input type="date" name="Date_expiration_assurance" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.Date_expiration_assurance ? new Date(user.vihucule.Date_expiration_assurance).toISOString().split('T')[0] : ""} />
-          </div>
-          <p className="flex items-center">Numéro et date scanner <span className='text-red-600 text-2xl'>*</span></p>
-          <div className="flex gap-3">
-            <input type="text" name="num_scanner" className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.num_scanner || ''} />
-            <input type="date" name="Date_expiration_scanner" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.Date_expiration_scanner ? new Date(user.vihucule?.Date_expiration_scanner).toISOString().split('T')[0] : ""} />
-          </div>
-          <p className="flex items-center">Numéro de matricule <span className='text-red-600 text-2xl'>*</span></p>
-          <input type="text" name="matricule" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.matricule || ''} />
+          {user.vihucule?.type_vehicule &&
+            <>
+              <p className="flex items-center">type Vihucule <span className='text-red-600 text-2xl'>*</span></p>
+              <select name="type_vehicule" className='p-2 border border-slate-300 rounded-md' >
+                <option value={user.vihucule?.type_vehicule || ''} >{user.vihucule?.type_vehicule ? user.vihucule?.type_vehicule : 'Sélecte vihucule'}</option>
+                {TypeChoices.map((pre, index) => {
+                  if (user.vihucule?.type_vehicule != pre) {
+                    return (
+                      <option key={index} value={pre}>{pre}</option>
+                    )
+                  }
+                })}
+              </select>
+              <p className="flex items-center">Vihucule <span className='text-red-600 text-2xl'>*</span></p>
+              <input type="text" name="modele" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.modele || ''} />
+              <p className="flex items-center">Numéro et date {`d'assurance`} <span className='text-red-600 text-2xl'>*</span></p>
+              <div className="flex gap-3">
+                <input type="text" name="num_assurance" className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.num_assurance || ''} />
+                <input type="date" name="Date_expiration_assurance" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.Date_expiration_assurance ? new Date(user.vihucule.Date_expiration_assurance).toISOString().split('T')[0] : ""} />
+              </div>
+              <p className="flex items-center">Numéro et date scanner <span className='text-red-600 text-2xl'>*</span></p>
+              <div className="flex gap-3">
+                <input type="text" name="num_scanner" className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.num_scanner || ''} />
+                <input type="date" name="Date_expiration_scanner" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.Date_expiration_scanner ? new Date(user.vihucule?.Date_expiration_scanner).toISOString().split('T')[0] : ""} />
+              </div>
+              <p className="flex items-center">Numéro de matricule <span className='text-red-600 text-2xl'>*</span></p>
+              <input type="text" name="matricule" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.matricule || ''} />
+            </>
+          }
           <button className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Submite</button>
         </form>
       </div>

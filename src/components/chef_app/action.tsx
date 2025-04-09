@@ -3,7 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { FaSearch } from "react-icons/fa";
-import { FormatDate } from "@/lib/tools/tools"
+import { FormatDate, handleInputChange } from "@/lib/tools/tools"
 import { useRouter } from 'next/navigation'
 
 type Agents = {
@@ -23,7 +23,7 @@ export default function Action({ actions, agents, total }: { actions: Actions[],
         const date = formData.get('date') as string;
         const agent = formData.get('agent') as string;
 
-        router.push(`?search=${cleint}&agent=${agent}&date=${date}`);
+        router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}&agent=${agent}&date=${date}`);
     }
 
     const action = actions.map((pre, index) => {
@@ -59,7 +59,7 @@ export default function Action({ actions, agents, total }: { actions: Actions[],
                     <form onSubmit={handleSearch} className='flex flex-col lg:flex-row items-center gap-5'>
                         <div className='relative'>
                             <FaSearch className='absolute top-3 text-slate-500' />
-                            <input type="text" name="client" placeholder='recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                            <input type="text" name="client" onChange={handleInputChange} placeholder='recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         </div>
                         <input type="date" name="date" className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         <select name="agent" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>

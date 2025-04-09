@@ -104,12 +104,12 @@ export async function SubmitGroupeVTC({ id }: { id: number }) {
 }
 
 
-export async function staticVTC({ mounth, anne, paye }: { mounth: string, anne: string, paye: string }) {
+export async function staticVTC({ month, anne, paye }: { month: string, anne: string, paye: string }): Promise<Chart[] | null> {
     try {
         const response = await apiRequest({
             method: "GET",
             url: "/api/v1/admin/coursa/month",
-            params: { mounth, anne, paye }
+            params: { month, anne, paye }
         })
 
         if (response.code == 200) {
@@ -122,12 +122,12 @@ export async function staticVTC({ mounth, anne, paye }: { mounth: string, anne: 
     }
 }
 
-export async function staticCommande({ mounth, anne, paye }: { mounth: string, anne: string, paye: string }) {
+export async function staticCommande({ month, anne, paye }: { month: string, anne: string, paye: string }): Promise<Chart[] | null> {
     try {
         const response = await apiRequest({
             method: "GET",
             url: "/api/v1/admin/commande/month",
-            params: { mounth, anne, paye }
+            params: { month, anne, paye }
         })
 
         if (response.code == 200) {

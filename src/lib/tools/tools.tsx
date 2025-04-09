@@ -42,3 +42,26 @@ export function getDateDifference(dateString: string): string {
   // Format the result
   return `${days !== 0 ? (days + " days") : ""}  ${hours !== 0 && days === 0 ? (hours + " hours") : ""}  ${hours === 0 && days === 0 ? (minutes + "minutes") : ""}`;
 }
+
+
+export const Utils = {
+  months: ({ count }: { count: number }) => {
+    const monthNames = [
+      'January', 'February', 'March', 'April', 'May', 'June', 'July',
+      'August', 'September', 'October', 'November', 'December'
+    ];
+    return monthNames.slice(0, count); // Return the first `count` months
+  }
+};
+
+export const UtilsDay = {
+  months: ({ count }: { count: number }) => {
+    const monthNames = [
+      '01', '02', '03', '04', '05', '06', '07',
+      '08', '09', '10', '11', '12', '13', '14', '15',
+      '16', '17', '18', '19', '20', '21', '22', '23',
+      '24', '25', '26', '27', '28', '29', '30'
+    ];
+    return monthNames.slice(0, count); // Return the first `count` months
+  }
+};

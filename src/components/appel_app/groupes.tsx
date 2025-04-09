@@ -10,6 +10,7 @@ import UpdateGroupeName from '../windows/centre_win/update_groupe_name'
 import toast from 'react-hot-toast'
 import { UpdateUser } from '@/lib/call_action'
 import { MdClose } from 'react-icons/md'
+import { handleInputChange } from '@/lib/tools/tools'
 
 export default function Groupes({ groupe }: { groupe: Users[] }) {
 
@@ -38,7 +39,7 @@ export default function Groupes({ groupe }: { groupe: Users[] }) {
         const wilaya = formData.get('wilaya') as string;
         const groupe = formData.get('group') as string;
 
-        router.push(`?search=${cleint}&wilaya=${wilaya}&groupe=${groupe || ""}`);
+        router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}&wilaya=${wilaya}&groupe=${groupe || ""}`);
     }
 
     const handleSubmit = async (id: number, e: React.FormEvent<HTMLFormElement>) => {
@@ -96,7 +97,7 @@ export default function Groupes({ groupe }: { groupe: Users[] }) {
                 <form onSubmit={handleSearch} className='mb-7 flex flex-col lg:flex-row items-center gap-5'>
                     <div className='relative'>
                         <FaSearch className='absolute top-3 text-slate-500' />
-                        <input type="text" name="client" placeholder='Recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                        <input type="text" name="client" onChange={handleInputChange} placeholder='Recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                     </div>
                     <select onChange={(e) => handleGroup({ wilaya: e.target.value })} name="wilaya" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
                         <option value="">Sélection Wilaya</option>

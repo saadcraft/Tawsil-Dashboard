@@ -41,7 +41,7 @@ export default function Parteneure({ users }: { users: Partenaire[] }) {
         const validation = formData.get('valide') as string;
         const groupe = formData.get('group') as string;
 
-        router.push(`?search=${cleint}&wilaya=${wilaya}&is_active=${validation}&groupe=${groupe || ""}`);
+        router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}&wilaya=${wilaya}&is_active=${validation}&groupe=${groupe || ""}`);
     }
 
     const parteneur = users.map((pre, index) => {

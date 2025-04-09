@@ -38,7 +38,7 @@ export default function ShowAgent({ results }: { results: Users[] }) {
         const wilaya = formData.get('wilaya') as string;
         const groupe = formData.get('group') as string || "";
 
-        router.push(`?search=${cleint}&wilaya=${wilaya}&groupe=${groupe}`);
+        router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}&wilaya=${wilaya}&groupe=${groupe}`);
     }
 
     const result = results.map((pre, index) => {
