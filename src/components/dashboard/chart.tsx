@@ -43,7 +43,7 @@ export default function Chart({ data, staticLiv, staticVtc }: { data: Context | 
     return (
         <div className='relative grid lg:grid-cols-2 gap-3 grid-cols-1'>
             <div className='relative'>
-                <span className='absolute text-xl top-2 left-2 font-bold text-gray-700'>Centre d'appel</span>
+                <span className='absolute text-xl top-2 left-2 font-bold text-gray-700'>Centre d&apos;appel</span>
                 <PieChart />
             </div>
             <div className='grid grid-cols-1 gap-2'>

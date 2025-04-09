@@ -23,7 +23,7 @@ const YearSelector = () => {
                 id="year-select"
                 value={selectedYear}
                 onChange={handleChange}
-                className='px-3 py-1 outline-none border-b text-sm'
+                className='px-3 py-1 outline-none border-b text-sm bg-white'
                 name='anne'
             >
                 {years.map((year) => (

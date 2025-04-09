@@ -4,8 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { SignIn } from "@/lib/auth";
 import { toast } from "react-hot-toast"
+import React, { useState } from 'react';
+import LoadingFirst from '../loading';
+import { TbLoader3 } from 'react-icons/tb';
 
 export default function Login() {
+
+    const [isLoading, setLoading] = useState<boolean>(false);
+    const [isClicked, seIsClicked] = useState<boolean>(false)
 
     const router = useRouter();
 
@@ -22,6 +28,8 @@ export default function Login() {
             return;
         }
 
+        seIsClicked(true)
+
 
         try {
             const result = await SignIn({ username, password });
@@ -33,6 +41,7 @@ export default function Login() {
             // });
 
             if (result?.code == 200) {
+                setLoading(true)
                 toast.success('Connexion réussie', { id: loadingToastId });
                 router.push('/dashboard');
                 return result;
@@ -42,10 +51,16 @@ export default function Login() {
                 } else {
                     toast.error(result, { id: loadingToastId });
                 }
+                setTimeout(() => {
+                    seIsClicked(false);
+                }, 3000);
             }
         } catch {
             toast.error("Problem connection", { id: loadingToastId });
         }
+        setTimeout(() => {
+            seIsClicked(false);
+        }, 3000);
 
     };
 
@@ -67,7 +82,15 @@ export default function Login() {
                     </div>
                     <Link href="/forget" className="p-2 hover:underline">Oublier le mot de passe ?</Link>
                     <div className="p-2">
-                        <button className='bg-blue-600 hover:bg-third w-full text-white text-xl p-2 rounded-md'>Se connecter</button>
+                        <button disabled={isClicked} className='bg-blue-600 hover:bg-third w-full text-white text-xl p-2 rounded-md disabled:bg-opacity-20'>
+                            {isClicked ?
+                                <div className={` bg-forth bg-opacity-50 text-xl flex justify-center items-center gap-3`}>
+                                    <TbLoader3 className="animate-spin text-2xl" /> Loading ...
+                                </div>
+                                :
+                                "Se connecter"
+                            }
+                        </button>
                     </div>
                 </form>
                 <div className="hidden xl:block border-l-2">
@@ -77,6 +100,9 @@ export default function Login() {
                     </div>
                 </div>
             </div>
+            {isLoading &&
+                <LoadingFirst />
+            }
         </div>
     )
 }

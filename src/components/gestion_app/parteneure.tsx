@@ -50,7 +50,7 @@ export default function Parteneure({ users }: { users: Partenaire[] }) {
                 <td className="px-6 py-4">
                     {pre.id}
                 </td>
-                <td className="px-6 py-4">
+                <td className="px-6 py-4 text-nowrap">
                     Group {pre.user.groupe}
                 </td>
                 <td className="px-6 py-4">

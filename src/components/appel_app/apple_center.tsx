@@ -25,7 +25,7 @@ export default function AppleCenter({ parteners }: Props) {
 
   const [activePartnerId, setActivePartnerId] = useState<number | null>(null);
   const [showComment, setshowComment] = useState<number | null>(null);
-  const [resomble, setResomble] = useState<number>(0);
+  const [resomble, setResomble] = useState<Partenaire | null>(null);
 
   const handleCommentClick = (id: number) => {
     setActivePartnerId(activePartnerId === id ? null : id); // Toggle visibility
@@ -65,7 +65,7 @@ export default function AppleCenter({ parteners }: Props) {
     }
     const res = await UpdateGroup({ id: id, groupe: add, wilaya: wilaya, code: code })
     if (res) {
-      setResomble(0)
+      setResomble(null)
       router.refresh()
     }
   }
@@ -98,7 +98,7 @@ export default function AppleCenter({ parteners }: Props) {
         <td className="px-6 py-4 text-center">
           {pre.user.groupe ? pre.user.groupe :
             <>
-              <button onClick={() => setResomble(pre.user.id)} className='text-2xl'><FaUserGroup /></button>
+              <button onClick={() => setResomble(pre)} className='text-2xl'><FaUserGroup /></button>
             </>
           }
         </td>
@@ -178,10 +178,10 @@ export default function AppleCenter({ parteners }: Props) {
           <ShowComment id={showComment} />
         </div>
       )}
-      {resomble > 0 && (
+      {resomble && (
         <div>
-          <button onClick={() => setResomble(0)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-          <Group id={resomble} onEvent={hundleGroup} />
+          <button onClick={() => setResomble(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+          <Group id={resomble} onEvent={hundleGroup} onClose={setResomble} />
         </div>
       )}
     </div>

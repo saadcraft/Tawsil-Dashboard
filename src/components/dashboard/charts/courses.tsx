@@ -59,7 +59,7 @@ export default function Courses({ staticVtc }: { staticVtc: Chart[] | null }) {
                 <span className='text-xl font-bold text-gray-700'>Courses</span>
                 <div className='flex gap-2'>
                     <YearSelector />
-                    <select name='month' className='outline-none border-b text-sm'>
+                    <select name='month' className='outline-none border-b text-sm bg-white'>
                         {Utils.months({ count: 12 }).map((pre, index) => {
                             return (
                                 <option key={index} value={index + 1}>{pre}</option>
@@ -68,10 +68,10 @@ export default function Courses({ staticVtc }: { staticVtc: Chart[] | null }) {
 
                         }
                     </select>
-                    <select name='statue' className='outline-none border-b text-sm'>
-                        <option>All</option>
-                        <option>Payé</option>
-                        <option>No payé</option>
+                    <select name='statue' className='outline-none border-b text-sm bg-white'>
+                        <option value=''>All</option>
+                        <option value="true">Payé</option>
+                        <option value="false">No payé</option>
                     </select>
                 </div>
             </form>
