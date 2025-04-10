@@ -19,22 +19,23 @@ type apiParteneur = {
     totalAct: number;
 }
 
-export async function getParteners({ page, search }: { page: string, search: string }): Promise<apiParteneur> {
+export async function getParteners({ page, search }: { page: string, search: string }): Promise<apiParteneur | null> {
     try {
         const response = await apiRequest({
             method: "GET",
             url: "/api/v1/centreappel/parteners",
             params: { page, search }
         });
-        return {
-            result: response.data.results,
-            totalAct: response.data.count
-        };
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
+        if (response.code == 200) {
+            return {
+                result: response.data.results,
+                totalAct: response.data.count
+            };
+        } else {
+            return null;
         }
-        throw new Error("Unexpected error");
+    } catch {
+        return null;
     }
 }
 
@@ -75,22 +76,23 @@ export const getCommant = async (id: number): Promise<CommentaireData[]> => {
     }
 };
 
-export async function getChefCentre({ page, search }: { page: string, search: string }): Promise<apiParteneur> {
+export async function getChefCentre({ page, search }: { page: string, search: string }): Promise<apiParteneur | null> {
     try {
         const data = await apiRequest({
             url: `/api/v1/centreappelgroupe/pertener`,
             method: "GET",
             params: { page, search }
         });
-        return {
-            result: data.data.results,
-            totalAct: data.data.count
-        };
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
+        if (data.code == 200) {
+            return {
+                result: data.data.results,
+                totalAct: data.data.count
+            };
+        } else {
+            return null
         }
-        throw new Error("Unexpected error");
+    } catch {
+        return null
     }
 }
 

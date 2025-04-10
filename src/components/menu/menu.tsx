@@ -105,6 +105,7 @@ export default function Menu({ user, token }: props) {
             if (result) {
                 toast.success('Déconnecter avec succès', { id: loadingToastId });
                 router.push('/');
+                setIsLoading(true)
             } else {
                 toast.success('Probleme avec Déconnection', { id: loadingToastId });
             }

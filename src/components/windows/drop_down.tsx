@@ -1,15 +1,25 @@
 import { SignOut } from '@/lib/auth';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import React from 'react'
+import { usePathname, useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 import { FaRegUserCircle } from "react-icons/fa";
 import { CiLogout } from "react-icons/ci";
+import LoadingFirst from '../loading';
 
 
 export default function DropDown({ onClose }: { onClose: (value: false) => void }) {
 
+
+    const [isLoading, setIsLoading] = useState(false);
     const router = useRouter()
+    const search = usePathname()
+
+    useEffect(() => {
+        if (isLoading) {
+            onClose(false);
+        }
+    }, [search, isLoading, onClose])
 
     const handleSubmit = async () => {
 
@@ -19,11 +29,11 @@ export default function DropDown({ onClose }: { onClose: (value: false) => void 
 
             if (result) {
                 toast.success('Déconnecter avec succès', { id: loadingToastId });
-                onClose(false)
+                setIsLoading(true)
                 router.push('/');
             } else {
-                toast.success('Probleme avec Déconnection', { id: loadingToastId });
-                onClose(false)
+                toast.error('Probleme avec Déconnection', { id: loadingToastId });
+                // onClose(false)
             }
 
         } catch (error) {
@@ -60,6 +70,9 @@ export default function DropDown({ onClose }: { onClose: (value: false) => void 
                     </li>
                 </ul>
             </div>
+            {isLoading &&
+                <LoadingFirst />
+            }
         </div>
     )
 }

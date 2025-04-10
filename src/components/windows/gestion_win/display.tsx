@@ -22,6 +22,7 @@ export default function Display({ document }: { document: Partenaire }) {
                         <p><span className='font-bold'>Numero nationale : </span> {`${document.card_number ? document.card_number : "/"}`}</p>
                         <p><span className='font-bold'>Numero d&apos;act : </span> {`${document.numero_act ? document.numero_act : "/"}`}</p>
                         <p><span className='font-bold'>Nif : </span> {` ${document.Nif ? document.Nif : '/'}`}</p>
+                        {/* <p><span className='font-bold'>RIB : </span> {` ${document.num_de_carte_prenneur ? document.num_de_carte_prenneur : '/'}`}</p> */}
                         {document.vihucule &&
                             <>
                                 <p><span className='font-bold'>Type véhicule : </span> {` ${document.vihucule.type_vehicule ? Named(document.vihucule.type_vehicule) : "/"}`}</p>

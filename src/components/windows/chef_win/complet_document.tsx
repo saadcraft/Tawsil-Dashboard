@@ -59,6 +59,7 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
       Nif: formData.get('Nif')?.toString() || undefined,
       numero_act: formData.get('numero_act')?.toString() || undefined,
       card_number: formData.get('card_number')?.toString() || undefined,
+      // num_de_carte_prenneur: formData.get('num_de_carte_prenneur')?.toString() || undefined,
       type_id: user.type_compte?.id,
       vihucule: {
         modele: formData.get('modele')?.toString() || undefined,
@@ -78,7 +79,7 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
 
     const filteredData = { id: data.id, ...filterEmptyValues(data) };
 
-    // console.log(filteredData)
+    console.log(filteredData)
 
 
     // const filteredData = Object.fromEntries(
@@ -111,6 +112,8 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
           <input type='text' name='Nif' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le numéro de Nif' defaultValue={user.Nif || ''} />
           <p className="flex items-center">Numero Act <span className='text-red-600 text-2xl'>*</span></p>
           <input type='text' name='numero_act' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le Numéro Act' defaultValue={user.numero_act || ''} />
+          {/* <p className="flex items-center">RIB <span className='text-red-600 text-2xl'>*</span></p>
+          <input type='text' name='num_de_carte_prenneur' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le Numéro Act' defaultValue={user.num_de_carte_prenneur || ''} /> */}
           <p className="flex items-center">Numéro de la carte national <span className='text-red-600 text-2xl'>*</span></p>
           <input type="text" name="card_number" className='p-2 border border-slate-300 rounded-md' placeholder='Entre ID cart' defaultValue={user.card_number || ''} />
           {user.vihucule?.type_vehicule &&

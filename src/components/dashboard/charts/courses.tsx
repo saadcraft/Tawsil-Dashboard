@@ -1,4 +1,3 @@
-import LoadingFirst from '@/components/loading';
 import { staticVTC } from '@/lib/comptable_action';
 import YearSelector from '@/lib/tools/selection';
 import { Utils, UtilsDay } from '@/lib/tools/tools';

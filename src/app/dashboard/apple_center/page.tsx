@@ -6,6 +6,7 @@ import { getParteners } from "@/lib/call_action";
 import { getUser } from "@/lib/auth";
 import { getChefCentre } from "@/lib/call_action";
 import Pagination from "@/components/options/pagination";
+import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Center d'apple",
@@ -31,17 +32,19 @@ export default async function ApplePage({ searchParams }: props) {
 
   if (user?.role === "centre_appel" || user?.role === "admin") {
 
-    const { result, totalAct } = await getParteners({ page: pageNumber, search: search_num });
+    const data = await getParteners({ page: pageNumber, search: search_num });
 
-    results = result
-    totalActs = totalAct
+    if (!data) notFound()
+    results = data.result
+    totalActs = data.totalAct
 
   } else {
 
-    const { result, totalAct } = await getChefCentre({ page: pageNumber, search: search_num });
+    const data = await getChefCentre({ page: pageNumber, search: search_num });
 
-    results = result
-    totalActs = totalAct
+    if (!data) notFound()
+    results = data.result
+    totalActs = data.totalAct
 
   }
 

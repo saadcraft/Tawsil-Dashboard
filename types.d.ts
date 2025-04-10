@@ -132,6 +132,7 @@ type Partenaire = {
   type_partener: string | null;
   type_compte: typeCompte;
   magasin_id: number | null;
+  num_de_carte_prenneur: string | null; // RIB Number
 }
 
 type Users = {
@@ -309,6 +310,11 @@ type Chart = {
   count: string;
 }
 
+type Categories = {
+  id: number;
+  name: string;
+}
+
 type Video = {
   id: number;
   name: string;
@@ -316,5 +322,5 @@ type Video = {
   image: string;
   time: string;
   lien: string;
-  catalogue: string;
+  cataloguevideo: categories;
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState } from "react"
 import Image from "next/image"
 // import { Play, Clock, User } from "lucide-react"
 import { IoPlayOutline } from "react-icons/io5";
@@ -8,71 +8,97 @@ import { LuClock4 } from "react-icons/lu";
 import ShowVideo from "../windows/show_video";
 
 
-export default function VideoTutorials() {
-    const [selectedCategory, setSelectedCategory] = useState("All")
+export default function VideoTutorials({ tutorials, categories }: { tutorials: Video[], categories: Categories[] }) {
+    const [selectedCategory, setSelectedCategory] = useState<string>("All")
     const [selectedVideo, setSelectedVideo] = useState<Video | null>(null)
 
-    const categories = ["All", "Ecotrack", "autre"]
+    console.log(categories)
 
-    const tutorials = [
+    const modifiedCategories = [
         {
-            id: 1,
-            name: "Getting Started with React",
-            description: "Learn the basics of React and build your first component",
-            time: "15:30",
-            image: "/placeholder.svg?height=720&width=1280",
-            catalogue: "Ecotrack",
-            lien: "CD1Y2DmL5JM"
+            id: categories.length + 1,
+            name: "All",
         },
-        {
-            id: 2,
-            name: "Advanced State Management",
-            description: "Master complex state patterns in React applications",
-            time: "22:45",
-            image: "/placeholder.svg?height=720&width=1280",
-            catalogue: "Ecotrack",
-            lien: "CD1Y2DmL5JM"
-        },
-        {
-            id: 3,
-            name: "Building Custom Hooks",
-            description: "Create reusable logic with React custom hooks",
-            time: "18:20",
-            image: "/placeholder.svg?height=720&width=1280",
-            catalogue: "Ecotrack",
-            lien: "CD1Y2DmL5JM"
-        },
-        {
-            id: 4,
-            name: "Responsive Layouts with Tailwind",
-            description: "Design beautiful responsive interfaces using Tailwind CSS",
-            time: "25:10",
-            image: "/placeholder.svg?height=720&width=1280",
-            catalogue: "Ecotrack",
-            lien: "CD1Y2DmL5JM"
-        },
-        {
-            id: 5,
-            name: "API Integration Strategies",
-            description: "Learn best practices for integrating APIs in your React app",
-            time: "20:15",
-            image: "/placeholder.svg?height=720&width=1280",
-            catalogue: "Ecotrack",
-            lien: "CD1Y2DmL5JM"
-        },
-        {
-            id: 6,
-            name: "Performance Optimization",
-            description: "Techniques to make your React applications lightning fast",
-            time: "28:45",
-            image: "/placeholder.svg?height=720&width=1280",
-            catalogue: "autre",
-            lien: "CD1Y2DmL5JM"
-        },
+        ...categories
     ]
 
+    // const tutorials = [
+    //     {
+    //         id: 1,
+    //         name: "Getting Started with React",
+    //         description: "Learn the basics of React and build your first component",
+    //         time: "15:30",
+    //         image: "/placeholder.svg?height=720&width=1280",
+    //         cataloguevideo: {
+    //             id: 1,
+    //             name: "Ecotrack"
+    //         },
+    //         lien: "CD1Y2DmL5JM"
+    //     },
+    //     {
+    //         id: 2,
+    //         name: "Advanced State Management",
+    //         description: "Master complex state patterns in React applications",
+    //         time: "22:45",
+    //         image: "/placeholder.svg?height=720&width=1280",
+    //         cataloguevideo: {
+    //             id: 1,
+    //             name: "Ecotrack"
+    //         },
+    //         lien: "CD1Y2DmL5JM"
+    //     },
+    //     {
+    //         id: 3,
+    //         name: "Building Custom Hooks",
+    //         description: "Create reusable logic with React custom hooks",
+    //         time: "18:20",
+    //         image: "/placeholder.svg?height=720&width=1280",
+    //         cataloguevideo: {
+    //             id: 1,
+    //             name: "Ecotrack"
+    //         },
+    //         lien: "CD1Y2DmL5JM"
+    //     },
+    //     {
+    //         id: 4,
+    //         name: "Responsive Layouts with Tailwind",
+    //         description: "Design beautiful responsive interfaces using Tailwind CSS",
+    //         time: "25:10",
+    //         image: "/placeholder.svg?height=720&width=1280",
+    //         cataloguevideo: {
+    //             id: 1,
+    //             name: "Ecotrack"
+    //         },
+    //         lien: "CD1Y2DmL5JM"
+    //     },
+    //     {
+    //         id: 5,
+    //         name: "API Integration Strategies",
+    //         description: "Learn best practices for integrating APIs in your React app",
+    //         time: "20:15",
+    //         image: "/placeholder.svg?height=720&width=1280",
+    //         cataloguevideo: {
+    //             id: 1,
+    //             name: "Ecotrack"
+    //         },
+    //         lien: "CD1Y2DmL5JM"
+    //     },
+    //     {
+    //         id: 6,
+    //         name: "Performance Optimization",
+    //         description: "Techniques to make your React applications lightning fast",
+    //         time: "28:45",
+    //         image: "/placeholder.svg?height=720&width=1280",
+    //         cataloguevideo: {
+    //             id: 1,
+    //             name: "Ecotrack"
+    //         },
+    //         lien: "CD1Y2DmL5JM"
+    //     },
+    // ]
+
     const filteredTutorials =
-        selectedCategory === "All" ? tutorials : tutorials.filter((tutorial) => tutorial.catalogue === selectedCategory)
+        selectedCategory === "All" ? tutorials : tutorials.filter((tutorial) => tutorial.cataloguevideo.name === selectedCategory)
 
     return (
         <div className="container mx-auto px-4 py-12">
@@ -80,16 +106,16 @@ export default function VideoTutorials() {
 
             {/* Category Filter */}
             <div className="flex flex-wrap justify-center gap-2 mb-8">
-                {categories.map((category) => (
+                {modifiedCategories.map((category) => (
                     <button
-                        key={category}
-                        onClick={() => setSelectedCategory(category)}
-                        className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${selectedCategory === category
+                        key={category.id}
+                        onClick={() => setSelectedCategory(category.name)}
+                        className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${selectedCategory === category.name
                             ? "bg-third text-white"
                             : "bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
                             }`}
                     >
-                        {category}
+                        {category.name}
                     </button>
                 ))}
             </div>
@@ -105,7 +131,7 @@ export default function VideoTutorials() {
                         {/* Thumbnail */}
                         <div className="relative aspect-video overflow-hidden">
                             <Image
-                                src={tutorial.image || "/placeholder.svg"}
+                                src={process.env.IMGS_DOMAIN + tutorial.image || "/placeholder.svg"}
                                 alt={tutorial.name}
                                 fill
                                 className="object-cover transition-transform group-hover:scale-105"
@@ -120,7 +146,7 @@ export default function VideoTutorials() {
                                 {tutorial.time}
                             </div>
                             <div className="absolute top-2 right-2 bg-third text-white text-xs px-2 py-1 rounded-md">
-                                {tutorial.catalogue}
+                                {tutorial.cataloguevideo.name}
                             </div>
                         </div>
 
