@@ -12,7 +12,7 @@ export default function VideoTutorials({ tutorials, categories }: { tutorials: V
     const [selectedCategory, setSelectedCategory] = useState<string>("All")
     const [selectedVideo, setSelectedVideo] = useState<Video | null>(null)
 
-    console.log(categories)
+    // console.log(categories)
 
     const modifiedCategories = [
         {

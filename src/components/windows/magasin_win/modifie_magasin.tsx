@@ -22,7 +22,7 @@ export default function ModifieMagasin({ maga, onsub }: { maga: Magasin, onsub: 
         // const updatedProduct = { magasin_id: maga.id, catalogue: storeCat.map(cat => cat.id), ...filteredData };
         const updatedProduct = { magasin_id: maga.id, ...filteredData };
 
-        console.log(updatedProduct)
+        // console.log(updatedProduct)
 
         const res = await UpdateMagasin(updatedProduct)
 
