@@ -308,3 +308,13 @@ type Chart = {
   day: string;
   count: string;
 }
+
+type Video = {
+  id: number;
+  name: string;
+  description: string;
+  image: string;
+  time: string;
+  lien: string;
+  catalogue: string;
+}

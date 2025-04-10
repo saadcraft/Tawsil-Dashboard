@@ -3,10 +3,12 @@ import YearSelector from '@/lib/tools/selection';
 import { Utils, UtilsDay } from '@/lib/tools/tools';
 import React, { useState } from 'react'
 import { Line } from 'react-chartjs-2';
+import { TbLoader3 } from 'react-icons/tb';
 
 export default function Livraison({ staticLiv }: { staticLiv: Chart[] | null }) {
 
     const [livraison, setLivraison] = useState<Chart[] | null>(staticLiv)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const LineChart = () => {
         const labels = UtilsDay.months({ count: 30 });
@@ -43,6 +45,7 @@ export default function Livraison({ staticLiv }: { staticLiv: Chart[] | null }) 
     const statisLiv = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget)
+        setIsLoading(true)
 
         const month = formData.get("month") as string
         const year = formData.get("anne") as string
@@ -51,6 +54,7 @@ export default function Livraison({ staticLiv }: { staticLiv: Chart[] | null }) 
 
         if (response) {
             setLivraison(response)
+            setIsLoading(false)
         }
     }
     return (
@@ -76,6 +80,13 @@ export default function Livraison({ staticLiv }: { staticLiv: Chart[] | null }) 
                 </div>
             </form>
             <LineChart />
+            {isLoading &&
+
+                <div className='absolute inset-0 bg-slate-500 bg-opacity-50 flex justify-center items-center gap-3'>
+                    <TbLoader3 className="animate-spin text-2xl" /> Loading ...
+                </div>
+
+            }
         </div>
     )
 }

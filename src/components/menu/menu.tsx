@@ -16,7 +16,8 @@ import {
     MdOutlineReport,
     MdOutlineRequestQuote,
     MdOutlineShoppingBasket,
-    MdGroup
+    MdGroup,
+    MdVideoSettings
 } from "react-icons/md";
 import { TbRecharging } from "react-icons/tb";
 import { GrValidate, GrUserWorker } from "react-icons/gr";
@@ -159,6 +160,7 @@ export default function Menu({ user, token }: props) {
                             {user.role == "chef_bureau" || user.role == "agent_administratif" ?
                                 <>
                                     <MenuParams title='livraisons' icon={<MdDeliveryDining />} onEvent={() => handleMenu("/dashboard/deliveries")} />
+                                    <MenuParams title={`Tutorial`} icon={<MdVideoSettings />} onEvent={() => handleMenu("/dashboard/tutorial")} />
                                     {user.role == "chef_bureau" &&
                                         <>
                                             <MenuParams title='Les Action' icon={<MdOutlinePendingActions />} onEvent={() => handleMenu("/dashboard/actions")} />
@@ -202,10 +204,12 @@ export default function Menu({ user, token }: props) {
                                 </>
                             }
                             {user.role == "chef_bureau" || user.role == "centre_appel" || user.role == "agent_administratif" ?
-                                <div className='relative'>
-                                    <MenuParams title={`Center d'apple`} icon={<MdContactSupport />} onEvent={() => handleMenu("/dashboard/apple_center")} />
-                                    {countPart && countPart != 0 ? <span className='absolute top-3.5 right-10 py-0.5 px-2 text-sm rounded-full text-white font-bold bg-red-600' >{countPart}</span> : ""}
-                                </div>
+                                <>
+                                    <div className='relative'>
+                                        <MenuParams title={`Center d'apple`} icon={<MdContactSupport />} onEvent={() => handleMenu("/dashboard/apple_center")} />
+                                        {countPart && countPart != 0 ? <span className='absolute top-3.5 right-10 py-0.5 px-2 text-sm rounded-full text-white font-bold bg-red-600' >{countPart}</span> : ""}
+                                    </div>
+                                </>
                                 : ""
                             }
                             {user.role == "centre_appel" &&

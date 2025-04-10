@@ -1,13 +1,13 @@
 export function Role(role: string) {
     switch (role.toLowerCase()) {
         case "admin":
-            return ["/dashboard", "/dashboard/profile"];
+            return ["/dashboard", "/dashboard/profile", "/dashboard/tutorial"];
         case "chef_bureau":
-            return ["/dashboard", "/dashboard/profile", "/dashboard/actions", "/dashboard/agent_administratif", "/dashboard/ajoute_agent", "/dashboard/apple_center", "/dashboard/caisses", "/dashboard/deliveries"];
+            return ["/dashboard", "/dashboard/profile", "/dashboard/actions", "/dashboard/agent_administratif", "/dashboard/ajoute_agent", "/dashboard/apple_center", "/dashboard/caisses", "/dashboard/deliveries", "/dashboard/tutorial"];
         case "centre_appel":
             return ["/dashboard", "/dashboard/profile", "/dashboard/apple_center", "/dashboard/demande", "/dashboard/center_actions", "/dashboard/groupes"];
         case "agent_administratif":
-            return ["/dashboard", "/dashboard/profile", "/dashboard/apple_center", "/dashboard/deliveries"];
+            return ["/dashboard", "/dashboard/profile", "/dashboard/apple_center", "/dashboard/deliveries", "/dashboard/tutorial"];
         case "superviseur":
             return ["/dashboard", "/dashboard/profile", "/dashboard/rapports", "/dashboard/validation", "/dashboard/recharge"];
         case "gestion_commercial":
