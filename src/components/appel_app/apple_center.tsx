@@ -13,6 +13,8 @@ import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast';
 import { RiCheckFill } from 'react-icons/ri';
 import { handleInputChange } from '@/lib/tools/tools';
+import { useSearchLoader } from '../options/useSearchLoader';
+import LoadingFirst from '../loading';
 
 type Props = {
   parteners: Partenaire[];
@@ -20,6 +22,8 @@ type Props = {
 };
 
 export default function AppleCenter({ parteners }: Props) {
+
+  const { isLoading, handleSearch } = useSearchLoader(['search']);
 
   const router = useRouter()
 
@@ -73,13 +77,6 @@ export default function AppleCenter({ parteners }: Props) {
   const handleClose = () => { setActivePartnerId(null) }
   const handleShowClose = () => { setshowComment(null) }
 
-  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const cleint = formData.get('client') as string;
-    router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}`);
-  }
-
   const pertener = parteners.map((pre, index) => {
     return (
       <tr key={index} className="bg-white border-b text-black hover:bg-gray-50">
@@ -129,7 +126,7 @@ export default function AppleCenter({ parteners }: Props) {
         <form onSubmit={handleSearch} className='mb-7 flex flex-col md:flex-row items-center gap-2'>
           <div className='relative'>
             <FaSearch className='absolute top-3 text-slate-500' />
-            <input type="text" name="client" onChange={handleInputChange} placeholder='Recherche par numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+            <input type="text" name="search" onChange={handleInputChange} placeholder='Recherche par numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
           </div>
           <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherche</button>
         </form>
@@ -184,6 +181,9 @@ export default function AppleCenter({ parteners }: Props) {
           <Group id={resomble} onEvent={hundleGroup} onClose={setResomble} />
         </div>
       )}
+      {isLoading &&
+        <LoadingFirst />
+      }
     </div>
   )
 }

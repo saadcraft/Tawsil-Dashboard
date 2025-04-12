@@ -4,7 +4,8 @@ import React from 'react'
 import Link from 'next/link'
 import { FaSearch } from "react-icons/fa";
 import { FormatDate, handleInputChange } from "@/lib/tools/tools"
-import { useRouter } from 'next/navigation'
+import { useSearchLoader } from '../options/useSearchLoader';
+import LoadingFirst from '../loading';
 
 type Agents = {
     result: Users[];
@@ -12,19 +13,9 @@ type Agents = {
 
 export default function Action({ actions, agents, total }: { actions: Actions[], agents: Agents, total: number }) {
 
+    const { isLoading, handleSearch } = useSearchLoader(['search', 'date', 'agent']);
+
     const { result } = agents
-
-    const router = useRouter()
-
-    const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const cleint = formData.get('client') as string;
-        const date = formData.get('date') as string;
-        const agent = formData.get('agent') as string;
-
-        router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}&agent=${agent}&date=${date}`);
-    }
 
     const action = actions.map((pre, index) => {
         return (
@@ -59,7 +50,7 @@ export default function Action({ actions, agents, total }: { actions: Actions[],
                     <form onSubmit={handleSearch} className='flex flex-col lg:flex-row items-center gap-5'>
                         <div className='relative'>
                             <FaSearch className='absolute top-3 text-slate-500' />
-                            <input type="text" name="client" onChange={handleInputChange} placeholder='recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                            <input type="text" name="search" onChange={handleInputChange} placeholder='recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         </div>
                         <input type="date" name="date" className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         <select name="agent" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
@@ -103,6 +94,9 @@ export default function Action({ actions, agents, total }: { actions: Actions[],
                     </table>
                 </div>
             </div>
+            {isLoading &&
+                <LoadingFirst />
+            }
         </div >
     )
 }

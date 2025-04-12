@@ -12,8 +12,12 @@ import ModifyProduct from '../windows/magasin_win/modifie_product'
 import { ModifieProduct } from '@/lib/auth'
 import toast from 'react-hot-toast'
 import ClientComment from '../windows/magasin_win/client_comment'
+import { useSearchLoader } from '../options/useSearchLoader'
+import LoadingFirst from '../loading'
 
 export default function Products({ products, cat, magasin }: { products: Produit[], cat: Catalogue[], magasin: Magasin }) {
+
+    const { isLoading, handleSearch } = useSearchLoader(['name', 'category']);
 
     const router = useRouter()
 
@@ -23,14 +27,14 @@ export default function Products({ products, cat, magasin }: { products: Produit
     const [modify, setModify] = useState<Produit | null>(null);
     const [page, setPage] = useState<number[] | null>(null);
 
-    const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const cleint = formData.get('client') as string;
-        const categories = formData.get('catalogue_id') as string;
+    // const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    //     event.preventDefault();
+    //     const formData = new FormData(event.currentTarget);
+    //     const cleint = formData.get('client') as string;
+    //     const categories = formData.get('catalogue_id') as string;
 
-        router.push(`?category=${categories}&name=${cleint}`);
-    }
+    //     router.push(`?category=${categories}&name=${cleint}`);
+    // }
 
     const handleStatus = async (id: number, disponibilite: boolean) => {
         const loadingToastId = toast.loading('Submite update...');
@@ -96,9 +100,9 @@ export default function Products({ products, cat, magasin }: { products: Produit
                     <form onSubmit={handleSearch} className='flex flex-col lg:flex-row items-center gap-5'>
                         <div className='relative'>
                             <FaSearch className='absolute top-3 text-slate-500' />
-                            <input type="text" name="client" placeholder='Recherche par Produit' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                            <input type="text" name="name" placeholder='Recherche par Produit' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         </div>
-                        <select name='catalogue_id' className='p-2 w-full border border-slate-300 rounded-md' >
+                        <select name='category' className='p-2 w-full border border-slate-300 rounded-md' >
                             <option value="">Sélectionné catégorie</option>
                             {magasin.cataloguqe.map((pre, index) => {
                                 return (
@@ -166,6 +170,9 @@ export default function Products({ products, cat, magasin }: { products: Produit
                     <button onClick={() => setPage(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
                     <ClientComment comment={page} />
                 </div>
+            }
+            {isLoading &&
+                <LoadingFirst />
             }
         </div>
     )

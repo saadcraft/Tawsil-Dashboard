@@ -12,21 +12,22 @@ export const metadata: Metadata = {
 };
 
 type Props = {
-    searchParams: Promise<{ page?: string, search?: string, date: string, chef: string, approvie: string, wilaya?: string }>
+    searchParams: Promise<{ page?: string, search?: string, date: string, chef: string, approvie: string, wilaya?: string, groupe?: string }>
 }
 
 export default async function page({ searchParams }: Props) {
 
-    const { page, search, date, chef, approvie, wilaya } = await searchParams;
+    const { page, search, date, chef, approvie, wilaya, groupe } = await searchParams;
     const pageNumber = page ?? "1";
     const client_num = search ?? "";
     const date_case = date ?? "";
     const chef_bureau = chef ?? "";
     const aprove = approvie ?? "";
     const city = wilaya ?? "";
+    const group = groupe ?? "";
 
 
-    const data = await GetAllCasses({ page: pageNumber, search: client_num, date: date_case, chef: chef_bureau, approvie: aprove, wilaya: city })
+    const data = await GetAllCasses({ page: pageNumber, search: client_num, date: date_case, chef: chef_bureau, approvie: aprove, wilaya: city, groupe: group })
 
     if (!data) notFound()
 

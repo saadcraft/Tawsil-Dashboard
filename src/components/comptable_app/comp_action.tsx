@@ -4,15 +4,17 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { FaSearch } from "react-icons/fa";
 import { FormatDate, handleInputChange } from "@/lib/tools/tools"
-import { useRouter } from 'next/navigation'
 import { Wilaya } from '@/lib/tools/named';
 import { getGroup } from '@/lib/gestion_action';
+import { useSearchLoader } from '../options/useSearchLoader';
+import LoadingFirst from '../loading';
 
 
 export default function CompAction({ actions, total }: { actions: Actions[], total: number }) {
 
+    const { isLoading, handleSearch } = useSearchLoader(['search', 'groupe', 'date']);
+
     const [group, setGroup] = useState<Groupes[] | null>(null)
-    const router = useRouter()
 
     const handleGroup = async ({ wilaya }: { wilaya: string }) => {
         try {
@@ -25,17 +27,6 @@ export default function CompAction({ actions, total }: { actions: Actions[], tot
         } catch {
             setGroup(null)
         }
-    }
-
-
-    const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const cleint = formData.get('client') as string;
-        const date = formData.get('date') as string;
-        const agent = formData.get('group') as string;
-
-        router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}&groupe=${agent || ""}&date=${date}`);
     }
 
     const action = actions.map((pre, index) => {
@@ -71,7 +62,7 @@ export default function CompAction({ actions, total }: { actions: Actions[], tot
                     <form onSubmit={handleSearch} className='flex flex-wrap flex-col lg:flex-row items-center gap-5'>
                         <div className='relative'>
                             <FaSearch className='absolute top-3 text-slate-500' />
-                            <input type="text" name="client" onChange={handleInputChange} placeholder='recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                            <input type="text" name="search" onChange={handleInputChange} placeholder='recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         </div>
                         <input type="date" name="date" className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         <select name="wilaya" onChange={(e) => handleGroup({ wilaya: e.target.value })} className='border-b outline-none py-2 pl-1 focus:border-slate-950'>
@@ -85,7 +76,7 @@ export default function CompAction({ actions, total }: { actions: Actions[], tot
                             })}
                         </select>
                         {group &&
-                            <select name="group" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
+                            <select name="groupe" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
                                 <option value="">Sélection Groupe</option>
                                 {group.map(pre => {
                                     if (pre != null) {
@@ -127,6 +118,9 @@ export default function CompAction({ actions, total }: { actions: Actions[], tot
                     </table>
                 </div>
             </div>
+            {isLoading &&
+                <LoadingFirst />
+            }
         </div >
     )
 }

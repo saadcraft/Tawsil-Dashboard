@@ -11,13 +11,17 @@ import toast from 'react-hot-toast'
 import { UpdateUser } from '@/lib/call_action'
 import { MdClose } from 'react-icons/md'
 import { handleInputChange } from '@/lib/tools/tools'
+import LoadingFirst from '../loading'
+import { useSearchLoader } from '../options/useSearchLoader'
 
 export default function Groupes({ groupe }: { groupe: Users[] }) {
 
+    const { isLoading, handleSearch } = useSearchLoader(['search', 'wilaya', 'groupe']);
+
     const [group, setGroup] = useState<Groupes[] | null>(null)
     const [activePartnerId, setActivePartnerId] = useState<number | null>(null);
-
     const router = useRouter()
+
 
     const handleGroup = async ({ wilaya }: { wilaya: string }) => {
         try {
@@ -30,16 +34,6 @@ export default function Groupes({ groupe }: { groupe: Users[] }) {
         } catch {
             setGroup(null)
         }
-    }
-
-    const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const cleint = formData.get('client') as string;
-        const wilaya = formData.get('wilaya') as string;
-        const groupe = formData.get('group') as string;
-
-        router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}&wilaya=${wilaya}&groupe=${groupe || ""}`);
     }
 
     const handleSubmit = async (id: number, e: React.FormEvent<HTMLFormElement>) => {
@@ -97,7 +91,7 @@ export default function Groupes({ groupe }: { groupe: Users[] }) {
                 <form onSubmit={handleSearch} className='mb-7 flex flex-col lg:flex-row items-center gap-5'>
                     <div className='relative'>
                         <FaSearch className='absolute top-3 text-slate-500' />
-                        <input type="text" name="client" onChange={handleInputChange} placeholder='Recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                        <input type="text" name="search" onChange={handleInputChange} placeholder='Recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                     </div>
                     <select onChange={(e) => handleGroup({ wilaya: e.target.value })} name="wilaya" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
                         <option value="">Sélection Wilaya</option>
@@ -108,7 +102,7 @@ export default function Groupes({ groupe }: { groupe: Users[] }) {
                         })}
                     </select>
                     {group &&
-                        <select name="group" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
+                        <select name="groupe" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
                             <option value="">Sélection Groupe</option>
                             {group.map(pre => {
                                 if (pre != null) {
@@ -163,6 +157,9 @@ export default function Groupes({ groupe }: { groupe: Users[] }) {
                     <Disable onClose={setDisabled} user={disabled} />
                 </div>
             } */}
+            {isLoading &&
+                <LoadingFirst />
+            }
         </div>
     )
 }

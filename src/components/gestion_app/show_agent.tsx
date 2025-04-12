@@ -6,13 +6,14 @@ import { handleInputChange } from '@/lib/tools/tools'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
-import { useRouter } from "next/navigation"
+import LoadingFirst from '../loading'
+import { useSearchLoader } from '../options/useSearchLoader'
 
 export default function ShowAgent({ results }: { results: Users[] }) {
 
-    const router = useRouter()
+    const { isLoading, handleSearch } = useSearchLoader(['search', 'wilaya', 'groupe']);
 
-    const [group, setGroup] = useState<number[] | null>(null)
+    const [group, setGroup] = useState<Groupes[] | null>(null)
 
     // console.log(group)
 
@@ -31,15 +32,15 @@ export default function ShowAgent({ results }: { results: Users[] }) {
         }
     }
 
-    const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const cleint = formData.get('client') as string;
-        const wilaya = formData.get('wilaya') as string;
-        const groupe = formData.get('group') as string || "";
+    // const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    //     event.preventDefault();
+    //     const formData = new FormData(event.currentTarget);
+    //     const cleint = formData.get('client') as string;
+    //     const wilaya = formData.get('wilaya') as string;
+    //     const groupe = formData.get('group') as string || "";
 
-        router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}&wilaya=${wilaya}&groupe=${groupe}`);
-    }
+    //     router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}&wilaya=${wilaya}&groupe=${groupe}`);
+    // }
 
     const result = results.map((pre, index) => {
         return (
@@ -77,23 +78,23 @@ export default function ShowAgent({ results }: { results: Users[] }) {
                 <form onSubmit={handleSearch} className='mb-7 flex items-center gap-2'>
                     <div className='relative'>
                         <FaSearch className='absolute top-3 text-slate-500' />
-                        <input onChange={handleInputChange} type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                        <input onChange={handleInputChange} type="text" name="search" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                     </div>
                     <select onChange={(e) => handleGroup({ wilaya: e.target.value })} name="wilaya" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
                         <option value="">Sélection Wilaya</option>
-                        {Wilaya.map(pre => {
+                        {Wilaya.map((pre, index) => {
                             return (
-                                <option key={pre.id} value={pre.name}>{pre.id} - {pre.name}</option>
+                                <option key={index} value={pre.id}>{pre.id} - {pre.name}</option>
                             )
                         })}
                     </select>
                     {group &&
-                        <select name="group" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
+                        <select name="groupe" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
                             <option value="">Sélection Groupe</option>
-                            {group.map(pre => {
+                            {group.map((pre, index) => {
                                 if (pre != null) {
                                     return (
-                                        <option key={pre} value={pre}>Groupe {pre}</option>
+                                        <option key={index} value={pre.groupe}>Groupe {pre.groupe} {pre.wilaya}</option>
                                     )
                                 }
                             })}
@@ -131,6 +132,9 @@ export default function ShowAgent({ results }: { results: Users[] }) {
                     </table>
                 </div>
             </div>
+            {isLoading &&
+                <LoadingFirst />
+            }
         </div>
     )
 }

@@ -10,6 +10,8 @@ import { FaSearch } from 'react-icons/fa'
 import { MdClose } from 'react-icons/md'
 import { ValideCommande, ValideThird, ValideSecond } from '../windows/gestion_win/valide_total'
 import { SubmitGroupeVTC } from '@/lib/comptable_action'
+import { useSearchLoader } from '../options/useSearchLoader'
+import LoadingFirst from '../loading'
 
 type Props = {
     // user: Users
@@ -17,6 +19,8 @@ type Props = {
 };
 
 export default function GroupVtc({ promise }: Props) {
+
+    const { isLoading, handleSearch } = useSearchLoader(['search', 'valide', 'wilaya']);
 
     const [isVisible, setIsVisible] = useState<number>(0);
     const [select, setSelect] = useState<GroupeVTC | null>(null)
@@ -53,16 +57,6 @@ export default function GroupVtc({ promise }: Props) {
         } else {
             return false
         }
-    }
-
-    const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const cleint = formData.get('client') as string;
-        const validation = formData.get('valide') as string;
-        const wilaya = formData.get('wilaya') as string;
-
-        router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}&valide=${validation}&wilaya=${wilaya}`);
     }
 
     const Commands = promise.map((pre, index) => {
@@ -102,7 +96,7 @@ export default function GroupVtc({ promise }: Props) {
                 <form onSubmit={handleSearch} className='mb-7 flex flex-col lg:flex-row items-center gap-5'>
                     <div className='relative'>
                         <FaSearch className='absolute top-3 text-slate-500' />
-                        <input onChange={handleInputChange} type="text" name="client" placeholder='Recherche par numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                        <input onChange={handleInputChange} type="text" name="search" placeholder='Recherche par numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                     </div>
                     <div className='flex gap-2'>
                         <div>
@@ -174,6 +168,9 @@ export default function GroupVtc({ promise }: Props) {
                         </div>
                 :
                 ""
+            }
+            {isLoading &&
+                <LoadingFirst />
             }
         </div>
     )

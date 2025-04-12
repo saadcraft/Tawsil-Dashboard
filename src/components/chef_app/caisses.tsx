@@ -13,6 +13,8 @@ import { FiPrinter } from "react-icons/fi";
 import { PrinteCasses } from '@/lib/tools/printer_models/printer_caisses'
 import { useReactToPrint } from 'react-to-print';
 import { userInformation } from '@/lib/tools/store/web_socket'
+import { useSearchLoader } from '../options/useSearchLoader'
+import LoadingFirst from '../loading'
 
 
 type form = {
@@ -21,6 +23,8 @@ type form = {
 }
 
 export default function Caisses({ cass, total }: { cass: Result[], total: number }) {
+
+  const { isLoading, handleSearch } = useSearchLoader(['search_date']);
 
   const [Close, setClose] = useState<boolean>(false)
   const componentRef = useRef<HTMLDivElement>(null);
@@ -69,13 +73,6 @@ export default function Caisses({ cass, total }: { cass: Result[], total: number
     }
   }
 
-  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const cleint = formData.get('client') as string;
-    router.push(`?search_date=${cleint}`);
-  }
-
   const handelPrint = async (t: number, r: number, c: number) => {
     await setData({ total: t, real: r, cridt: c });
     if (data.total != 0) handlePrint();
@@ -120,7 +117,7 @@ export default function Caisses({ cass, total }: { cass: Result[], total: number
           <form onSubmit={handleSearch} className='flex items-center gap-2'>
             <div className='relative'>
               <FaSearch className='absolute top-3 text-slate-500' />
-              <input type="date" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+              <input type="date" name="search_date" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
             </div>
             <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherche</button>
           </form>
@@ -171,6 +168,9 @@ export default function Caisses({ cass, total }: { cass: Result[], total: number
           <PrinteCasses total={data.total} user={user} real={data.real} acount={data.cridt} />
         </div>
       </div>
+      {isLoading &&
+        <LoadingFirst />
+      }
     </div>
   )
 }

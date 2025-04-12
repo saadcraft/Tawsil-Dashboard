@@ -11,6 +11,8 @@ import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import AcceptDemande from '../windows/centre_win/accepte'
 import { FaSearch } from 'react-icons/fa'
+import { useSearchLoader } from '../options/useSearchLoader'
+import LoadingFirst from '../loading'
 
 type acceptDemande = {
     id: number;
@@ -19,20 +21,12 @@ type acceptDemande = {
 
 export default function Demande({ dm }: { dm: Demande[] }) {
 
+    const { isLoading, handleSearch } = useSearchLoader(['search', 'date', 'etat']);
+
     const router = useRouter()
 
     const [reject, SetReject] = useState<number | null>(null)
     const [demande, SetDemande] = useState<acceptDemande | null>(null)
-
-    const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const cleint = formData.get('client') as string;
-        const date = formData.get('date') as string;
-        const etat = formData.get('etat') as string;
-
-        router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}&date=${date}&etat=${etat}`);
-    }
 
     const hundleClick = async (id: number, event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -93,7 +87,7 @@ export default function Demande({ dm }: { dm: Demande[] }) {
                     <form onSubmit={handleSearch} className='flex flex-col lg:flex-row items-center gap-5'>
                         <div className='relative'>
                             <FaSearch className='absolute top-3 text-slate-500' />
-                            <input type="text" onChange={handleInputChange} name="client" placeholder='recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                            <input type="text" onChange={handleInputChange} name="search" placeholder='recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         </div>
                         <input type="date" name="date" className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         <select name="etat" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
@@ -146,6 +140,9 @@ export default function Demande({ dm }: { dm: Demande[] }) {
                     <button onClick={() => SetDemande(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
                     <AcceptDemande onEvent={hundleClick} id={demande} />
                 </div>
+            }
+            {isLoading &&
+                <LoadingFirst />
             }
         </div>
     )

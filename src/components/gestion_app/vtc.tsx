@@ -10,6 +10,8 @@ import { MdClose } from 'react-icons/md'
 import { ValideCourses } from '@/lib/gestion_action'
 import { userInformation } from '@/lib/tools/store/web_socket'
 import { Wilaya } from '@/lib/tools/named'
+import LoadingFirst from '../loading'
+import { useSearchLoader } from '../options/useSearchLoader'
 
 type Props = {
     // user: Users
@@ -17,6 +19,8 @@ type Props = {
 };
 
 export default function Vtc({ promise }: Props) {
+
+    const { isLoading, handleSearch } = useSearchLoader(['search', 'valide', 'wilaya']);
 
     // console.log(promise)
 
@@ -123,16 +127,6 @@ export default function Vtc({ promise }: Props) {
         }
     }
 
-    const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const cleint = formData.get('client') as string;
-        const validation = formData.get('valide') as string;
-        const wilaya = formData.get('wilaya') as string;
-
-        router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}&valide=${validation}&wilaya=${wilaya}`);
-    }
-
     const Commands = select.map((pre, index) => {
         return (
             <tr key={index} className="bg-white border-b text-black hover:bg-gray-50">
@@ -172,7 +166,7 @@ export default function Vtc({ promise }: Props) {
                 <div className='flex justify-between mb-7 items-center'>
                     <form onSubmit={handleSearch} className='flex items-center gap-2'>
                         <FaSearch className='absolute text-slate-500' />
-                        <input onChange={handleInputChange} type="text" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                        <input onChange={handleInputChange} type="text" name="search" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         <div className='flex gap-2'>
                             <div>
                                 <input type="radio" id="noValide" name="valide" defaultChecked value="false" className="peer hidden" />
@@ -191,7 +185,7 @@ export default function Vtc({ promise }: Props) {
                                 )
                             })}
                         </select>
-                        <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Submit</button>
+                        <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Rechercher</button>
                     </form>
                     <button onClick={handleValidate} disabled={selectedRows.length === 0 || new Set(selectedRows.map((row) => row.partener.user.id)).size > 1 ? true : false} className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>validé</button>
                 </div>
@@ -246,6 +240,9 @@ export default function Vtc({ promise }: Props) {
                     <ValideThird command={selectedRows} onBack={handleSecond} onSub={hundleSubmite} user={user} />
                 </div>
                 : ""}
+            {isLoading &&
+                <LoadingFirst />
+            }
         </div>
     )
 }

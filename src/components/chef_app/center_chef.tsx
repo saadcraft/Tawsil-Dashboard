@@ -5,27 +5,20 @@ import { FaSearch } from 'react-icons/fa'
 import React, { useState } from 'react'
 import Link from "next/link";
 import ComplitDocument from "../windows/chef_win/complet_document"
-import { useRouter } from "next/navigation"
 import ActiveCompte from "../windows/chef_win/active-compte"
 import { FormatDate, handleInputChange } from "@/lib/tools/tools"
+import { useSearchLoader } from "../options/useSearchLoader";
+import LoadingFirst from "../loading";
 
 export default function CenterChef({ parteners }: { parteners: Partenaire[] }) {
 
-  const router = useRouter()
-
+  const { isLoading, handleSearch } = useSearchLoader(['search']);
   // console.log(parteners)
 
   const [modify, setModify] = useState<Partenaire | null>(null)
   const [user, setUser] = useState<{ id: number, statue: boolean } | null>(null)
 
   const hundelModify = (info: Partenaire) => setModify(info);
-
-  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const cleint = formData.get('client') as string;
-    router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}`);
-  }
 
   const pertener = parteners.map((pre, index) => {
     return (
@@ -63,7 +56,7 @@ export default function CenterChef({ parteners }: { parteners: Partenaire[] }) {
         <form onSubmit={handleSearch} className='mb-7 flex flex-col lg:flex-row items-center gap-5'>
           <div className="relative">
             <FaSearch className='absolute top-3 text-slate-500' />
-            <input type="text" name="client" onChange={handleInputChange} placeholder='Recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+            <input type="text" name="search" onChange={handleInputChange} placeholder='Recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
           </div>
           <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherche</button>
         </form>
@@ -108,6 +101,9 @@ export default function CenterChef({ parteners }: { parteners: Partenaire[] }) {
           <button onClick={() => setUser(null)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
           <ActiveCompte onClose={setUser} user={user} />
         </div>
+      }
+      {isLoading &&
+        <LoadingFirst />
       }
     </div>
   )

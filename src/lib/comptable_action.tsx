@@ -14,13 +14,13 @@ type apiAction = {
 }
 
 export async function GetAllCasses(
-    { page, search, date, chef, approvie, wilaya }: { page: string, search: string, date: string, chef: string, approvie: string, wilaya: string }
+    { page, search, date, chef, approvie, wilaya, groupe }: { page: string, search: string, date: string, chef: string, approvie: string, wilaya: string, groupe: string }
 ): Promise<apiCasses | null> {
     try {
         const response = await apiRequest({
             method: "GET",
             url: "api/v1/comtable/cassies",
-            params: { page, search, date, chef, approvie, wilaya }
+            params: { page, search, date, chef, approvie, wilaya, groupe }
         })
         if (response.code == 200) {
             return {

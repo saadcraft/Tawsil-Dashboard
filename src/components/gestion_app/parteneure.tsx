@@ -9,14 +9,17 @@ import { FaRegCheckCircle, FaSearch } from 'react-icons/fa'
 import ActiveCompte from '../windows/chef_win/active-compte'
 import { MdClose, MdOutlineDisabledByDefault } from 'react-icons/md'
 import { getGroup } from '@/lib/gestion_action'
+import { useSearchLoader } from '../options/useSearchLoader'
+import LoadingFirst from '../loading'
 // import ModifyUser from '../windows/gestion_win/modify_user'
 
 export default function Parteneure({ users }: { users: Partenaire[] }) {
 
+    const { isLoading, handleSearch } = useSearchLoader(['search', 'wilaya', 'is_active', 'groupe']);
+
     const [user, setUser] = useState<{ id: number, statue: boolean } | null>(null)
     const [group, setGroup] = useState<Groupes[] | null>(null)
     // const [modify, setModify] = useState<Partenaire | null>(null)
-    const router = useRouter();
 
     // const hundelModify = (info: Partenaire) => setModify(info);
 
@@ -33,16 +36,16 @@ export default function Parteneure({ users }: { users: Partenaire[] }) {
         }
     }
 
-    const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const cleint = formData.get('client') as string;
-        const wilaya = formData.get('wilaya') as string;
-        const validation = formData.get('valide') as string;
-        const groupe = formData.get('group') as string;
+    // const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    //     event.preventDefault();
+    //     const formData = new FormData(event.currentTarget);
+    //     const cleint = formData.get('client') as string;
+    //     const wilaya = formData.get('wilaya') as string;
+    //     const validation = formData.get('valide') as string;
+    //     const groupe = formData.get('group') as string;
 
-        router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}&wilaya=${wilaya}&is_active=${validation}&groupe=${groupe || ""}`);
-    }
+    //     router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}&wilaya=${wilaya}&is_active=${validation}&groupe=${groupe || ""}`);
+    // }
 
     const parteneur = users.map((pre, index) => {
         return (
@@ -85,16 +88,16 @@ export default function Parteneure({ users }: { users: Partenaire[] }) {
                 <form onSubmit={handleSearch} className='mb-7 flex flex-col lg:flex-row items-center gap-5'>
                     <div className='relative'>
                         <FaSearch className='absolute top-3 text-slate-500' />
-                        <input onChange={handleInputChange} type="text" name="client" placeholder='Recherche par numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                        <input onChange={handleInputChange} type="text" name="search" placeholder='Recherche par numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                     </div>
                     <div className='flex gap-2'>
                         <div>
-                            <input type="radio" id="noValide" name="valide" defaultChecked value="false" className="peer hidden" />
-                            <label htmlFor="noValide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> No valider</label>
+                            <input type="radio" id="noValide" name="is_active" defaultChecked value="false" className="peer hidden" />
+                            <label htmlFor="noValide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> Désactivé</label>
                         </div>
                         <div>
-                            <input type="radio" id="valide" name="valide" value="true" className="peer hidden" />
-                            <label htmlFor="valide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> valider</label>
+                            <input type="radio" id="valide" name="is_active" value="true" className="peer hidden" />
+                            <label htmlFor="valide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> Activé</label>
                         </div>
                     </div>
                     <select onChange={(e) => handleGroup({ wilaya: e.target.value })} name="wilaya" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
@@ -164,6 +167,9 @@ export default function Parteneure({ users }: { users: Partenaire[] }) {
                     <ModifyUser user={modify} magasine={maga} onsub={setModify} />
                 </div>
             } */}
+            {isLoading &&
+                <LoadingFirst />
+            }
         </div>
     )
 }

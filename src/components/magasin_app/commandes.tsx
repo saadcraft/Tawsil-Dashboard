@@ -14,6 +14,8 @@ import { useNotificationStore } from '@/lib/tools/store/web_socket'
 import { FaRegCheckCircle } from 'react-icons/fa'
 import Search from '../windows/magasin_win/search_deliver'
 import QRcode from '../windows/magasin_win/qrcode'
+import { useSearchLoader } from '../options/useSearchLoader'
+import LoadingFirst from '../loading'
 
 
 type ChangeEtat = {
@@ -22,6 +24,8 @@ type ChangeEtat = {
 }
 
 export default function Commande({ commande, magasin, livreurs }: { commande: Order[], magasin: Magasin, livreurs: LivreurMagasine[] }) {
+
+    const { isLoading, handleSearch } = useSearchLoader(['etat']);
 
     const router = useRouter()
     const { sendMessage, socket } = useNotificationStore();
@@ -55,15 +59,6 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
     const [changeEtat, setChnageEtat] = useState<ChangeEtat | null>(null);
     const [sendRq, setSendRq] = useState<number | null>(null)
     const [qrCode, setQrCode] = useState<number | null>(null)
-    // const [modify, setModify] = useState<Produit | null>(null);
-
-    const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const cleint = formData.get('etat') as string;
-
-        router.push(`?etat=${cleint}`);
-    }
 
     const handleAction = async (id: number, event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -264,6 +259,9 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
                     <QRcode id={qrCode} />
                 </div>
 
+            }
+            {isLoading &&
+                <LoadingFirst />
             }
         </div>
     )

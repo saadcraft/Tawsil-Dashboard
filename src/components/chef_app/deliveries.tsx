@@ -9,6 +9,8 @@ import { SubmitCommande } from '@/lib/action_client'
 import { useRouter } from "next/navigation"
 import { FormatDate, handleInputChange } from "@/lib/tools/tools"
 import { userInformation } from '@/lib/tools/store/web_socket'
+import LoadingFirst from '../loading'
+import { useSearchLoader } from '../options/useSearchLoader'
 
 type Props = {
   promise: Result[];
@@ -16,6 +18,8 @@ type Props = {
 };
 
 export default function Delivery({ promise }: Props) {
+
+  const { isLoading, handleSearch } = useSearchLoader(['livreur', 'valide']);
 
   const [select, setSelect] = useState(promise)
 
@@ -64,15 +68,6 @@ export default function Delivery({ promise }: Props) {
       });
     });
   };
-
-  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const cleint = formData.get('client') as string;
-    const validation = formData.get('valide') as string;
-
-    router.push(`?livreur=${cleint.replace(/^0+(?=\d)/, '')}&valide=${validation}`);
-  }
 
   const handleCheckAll = () => {
     const nonValideRows = select.filter((row) => !row.valide_payment);
@@ -165,7 +160,7 @@ export default function Delivery({ promise }: Props) {
           <form onSubmit={(event) => handleSearch(event)} className='flex flex-col lg:flex-row items-center gap-5'>
             <div className='relative'>
               <FaSearch className='absolute top-3 text-slate-500' />
-              <input onChange={handleInputChange} type="text" name="client" placeholder='Recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+              <input onChange={handleInputChange} type="text" name="livreur" placeholder='Recherche avec numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
             </div>
             <div className='flex gap-2'>
               <div>
@@ -232,6 +227,9 @@ export default function Delivery({ promise }: Props) {
           <ValideThird command={selectedRows} onBack={handleSecond} onSub={hundleSubmite} user={user!} />
         </div>
         : ""}
+      {isLoading &&
+        <LoadingFirst />
+      }
     </div>
   )
 }

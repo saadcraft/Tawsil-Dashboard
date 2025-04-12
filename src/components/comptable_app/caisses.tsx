@@ -2,15 +2,18 @@
 
 import { FormatDate, handleInputChange } from '@/lib/tools/tools'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
 import Aprove from '../windows/comp_win/aprove'
 import { MdClose } from 'react-icons/md'
 import { Wilaya } from '@/lib/tools/named'
 import { getGroup } from '@/lib/gestion_action'
+import { useSearchLoader } from '../options/useSearchLoader'
+import LoadingFirst from '../loading'
 
 export default function Caisses({ promise }: { promise: Caisses[] }) {
+
+    const { isLoading, handleSearch } = useSearchLoader(['search', 'date', 'chef', 'approvie', 'wilaya', 'groupe']);
 
     const [aprove, setAprove] = useState<Caisses | null>(null)
     const [group, setGroup] = useState<Groupes[] | null>(null)
@@ -26,20 +29,6 @@ export default function Caisses({ promise }: { promise: Caisses[] }) {
         } catch {
             setGroup(null)
         }
-    }
-
-    const router = useRouter()
-
-    const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const cleint = formData.get('client') as string;
-        const validation = formData.get('date') as string;
-        const groupe = formData.get('group') as string
-        const aprove = formData.get('valide') as string
-        const wilaya = formData.get('wilaya') as string
-
-        router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}&date=${validation}&chef=${groupe || ""}&approvie=${aprove}&wilaya=${wilaya}`);
     }
 
     const casses = promise.map((pre, index) => {
@@ -88,16 +77,16 @@ export default function Caisses({ promise }: { promise: Caisses[] }) {
                     <form onSubmit={handleSearch} className='flex flex-wrap flex-col lg:flex-row justify-left items-center gap-5'>
                         <div className='relative'>
                             <FaSearch className='absolute top-3 text-slate-500' />
-                            <input type="text" name="client" onChange={handleInputChange} placeholder='Search with Number' className='border-b outline-none py-2 pl-5 focus:border-slate-950' />
+                            <input type="text" name="search" onChange={handleInputChange} placeholder='Search with Number' className='border-b outline-none py-2 pl-5 focus:border-slate-950' />
                         </div>
                         <input type="date" name="date" className='border-b outline-none py-2 pl-1 focus:border-slate-950' />
                         <div className='flex gap-2'>
                             <div>
-                                <input type="radio" id="noValide" name="valide" defaultChecked value="False" className="peer hidden" />
+                                <input type="radio" id="noValide" name="approvie" defaultChecked value="False" className="peer hidden" />
                                 <label htmlFor="noValide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> False</label>
                             </div>
                             <div>
-                                <input type="radio" id="valide" name="valide" value="True" className="peer hidden" />
+                                <input type="radio" id="valide" name="approvie" value="True" className="peer hidden" />
                                 <label htmlFor="valide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> True</label>
                             </div>
                         </div>
@@ -112,7 +101,7 @@ export default function Caisses({ promise }: { promise: Caisses[] }) {
                             })}
                         </select>
                         {group &&
-                            <select name="group" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
+                            <select name="groupe" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
                                 <option value="">Sélection Groupe</option>
                                 {group.map(pre => {
                                     if (pre != null) {
@@ -167,6 +156,9 @@ export default function Caisses({ promise }: { promise: Caisses[] }) {
                     <button onClick={() => setAprove(null)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
                     <Aprove onClose={setAprove} casse={aprove} />
                 </div>
+            }
+            {isLoading &&
+                <LoadingFirst />
             }
         </div>
     )
