@@ -1,14 +1,29 @@
 import { staticCommande } from '@/lib/comptable_action';
 import YearSelector from '@/lib/tools/selection';
 import { Utils, UtilsDay } from '@/lib/tools/tools';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Line } from 'react-chartjs-2';
 import { TbLoader3 } from 'react-icons/tb';
 
-export default function Livraison({ staticLiv }: { staticLiv: Chart[] | null }) {
+export default function Livraison({ user }: { user: Users }) {
 
-    const [livraison, setLivraison] = useState<Chart[] | null>(staticLiv)
-    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [livraison, setLivraison] = useState<Chart[] | null>(null)
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+
+    useEffect(() => {
+        const fetchCourses = async () => {
+            if (user?.role === "admin") {
+                const StaticCommande = await staticCommande({ month: "", anne: "", paye: "" })
+                if (!StaticCommande) {
+                    setIsLoading(false);
+                } else {
+                    setLivraison(StaticCommande);
+                    setIsLoading(false);
+                }
+            }
+        }
+        fetchCourses();
+    }, [user])
 
     const LineChart = () => {
         const labels = UtilsDay.months({ count: 30 });
@@ -63,7 +78,7 @@ export default function Livraison({ staticLiv }: { staticLiv: Chart[] | null }) 
                 <span className='text-xl font-bold text-gray-700'>Livraison</span>
                 <div className='flex gap-2'>
                     <YearSelector />
-                    <select name='month' className='outline-none border-b text-sm bg-white'>
+                    <select name='month' className='outline-none border-b text-sm bg-white' defaultValue={new Date().getMonth() + 1}>
                         {Utils.months({ count: 12 }).map((pre, index) => {
                             return (
                                 <option key={index} value={index + 1}>{pre}</option>

@@ -50,7 +50,7 @@ type Magasin = {
   cataloguqe: Catalogue[];
   descprition: string;
   name: string;
-  address: string;
+  adresse: string;
   contact: string;
   is_active: boolean;
   wilaya: string;

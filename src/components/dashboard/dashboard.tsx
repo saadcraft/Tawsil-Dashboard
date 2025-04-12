@@ -24,20 +24,21 @@ import QRcode from '../windows/magasin_win/qrcode';
 import Satistic from './statistic'
 import Chart from './chart';
 import MapDz from './map-dz';
+import { staticCommande, staticVTC } from '@/lib/comptable_action';
 
 
 
-export default function Dashboard({ data, dataStatic, vtcStatic }: { data: Context | null, dataStatic: Chart[], vtcStatic: Chart[] }) {
+export default function Dashboard({ data }: { data: Context | null }) {
 
   const router = useRouter()
 
-  const [types, setTypes] = useState<"background" | "profile" | null>(null)
-  const [mody, setMody] = useState<boolean>(false)
+  const [types, setTypes] = useState<"background" | "profile" | null>(null);
+  const [mody, setMody] = useState<boolean>(false);
   const [magasin, setMagasin] = useState<Magasin | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [geo, setGeo] = useState<boolean>(false)
-  const [review, setReview] = useState<number | null>(null)
-  const [qrCode, setQrCode] = useState<number | null>(null)
+  const [geo, setGeo] = useState<boolean>(false);
+  const [review, setReview] = useState<number | null>(null);
+  const [qrCode, setQrCode] = useState<number | null>(null);
 
 
   const { user } = userInformation()
@@ -93,7 +94,7 @@ export default function Dashboard({ data, dataStatic, vtcStatic }: { data: Conte
           <div className={`py-5 px-2 sm:px-16`}>
             {user?.role == "admin" &&
               <div className=''>
-                <Chart data={data} staticLiv={dataStatic} staticVtc={vtcStatic} />
+                <Chart data={data} user={user} />
               </div>
             }
             <div className='mt-4'>
@@ -166,7 +167,7 @@ export default function Dashboard({ data, dataStatic, vtcStatic }: { data: Conte
                             Address
                           </p>
                           <p className="text-sm font-medium text-gray-800">
-                            {magasin?.address || "/"}
+                            {magasin?.adresse || "/"}
                           </p>
                         </div>
 

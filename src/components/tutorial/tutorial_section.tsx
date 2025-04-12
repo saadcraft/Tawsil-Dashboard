@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import Image from "next/image"
-// import { Play, Clock, User } from "lucide-react"
 import { IoPlayOutline } from "react-icons/io5";
 import { LuClock4 } from "react-icons/lu";
 import ShowVideo from "../windows/show_video";
@@ -21,81 +20,6 @@ export default function VideoTutorials({ tutorials, categories }: { tutorials: V
         },
         ...categories
     ]
-
-    // const tutorials = [
-    //     {
-    //         id: 1,
-    //         name: "Getting Started with React",
-    //         description: "Learn the basics of React and build your first component",
-    //         time: "15:30",
-    //         image: "/placeholder.svg?height=720&width=1280",
-    //         cataloguevideo: {
-    //             id: 1,
-    //             name: "Ecotrack"
-    //         },
-    //         lien: "CD1Y2DmL5JM"
-    //     },
-    //     {
-    //         id: 2,
-    //         name: "Advanced State Management",
-    //         description: "Master complex state patterns in React applications",
-    //         time: "22:45",
-    //         image: "/placeholder.svg?height=720&width=1280",
-    //         cataloguevideo: {
-    //             id: 1,
-    //             name: "Ecotrack"
-    //         },
-    //         lien: "CD1Y2DmL5JM"
-    //     },
-    //     {
-    //         id: 3,
-    //         name: "Building Custom Hooks",
-    //         description: "Create reusable logic with React custom hooks",
-    //         time: "18:20",
-    //         image: "/placeholder.svg?height=720&width=1280",
-    //         cataloguevideo: {
-    //             id: 1,
-    //             name: "Ecotrack"
-    //         },
-    //         lien: "CD1Y2DmL5JM"
-    //     },
-    //     {
-    //         id: 4,
-    //         name: "Responsive Layouts with Tailwind",
-    //         description: "Design beautiful responsive interfaces using Tailwind CSS",
-    //         time: "25:10",
-    //         image: "/placeholder.svg?height=720&width=1280",
-    //         cataloguevideo: {
-    //             id: 1,
-    //             name: "Ecotrack"
-    //         },
-    //         lien: "CD1Y2DmL5JM"
-    //     },
-    //     {
-    //         id: 5,
-    //         name: "API Integration Strategies",
-    //         description: "Learn best practices for integrating APIs in your React app",
-    //         time: "20:15",
-    //         image: "/placeholder.svg?height=720&width=1280",
-    //         cataloguevideo: {
-    //             id: 1,
-    //             name: "Ecotrack"
-    //         },
-    //         lien: "CD1Y2DmL5JM"
-    //     },
-    //     {
-    //         id: 6,
-    //         name: "Performance Optimization",
-    //         description: "Techniques to make your React applications lightning fast",
-    //         time: "28:45",
-    //         image: "/placeholder.svg?height=720&width=1280",
-    //         cataloguevideo: {
-    //             id: 1,
-    //             name: "Ecotrack"
-    //         },
-    //         lien: "CD1Y2DmL5JM"
-    //     },
-    // ]
 
     const filteredTutorials =
         selectedCategory === "All" ? tutorials : tutorials.filter((tutorial) => tutorial.cataloguevideo.name === selectedCategory)

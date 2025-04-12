@@ -15,7 +15,7 @@ import {
 import Livraison from './charts/livraison';
 import Courses from './charts/courses';
 
-export default function Chart({ data, staticLiv, staticVtc }: { data: Context | null, staticLiv: Chart[] | null, staticVtc: Chart[] | null }) {
+export default function Chart({ data, user }: { data: Context | null, user: Users }) {
 
     ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, PointElement, LineElement);
 
@@ -47,8 +47,8 @@ export default function Chart({ data, staticLiv, staticVtc }: { data: Context | 
                 <PieChart />
             </div>
             <div className='grid grid-cols-1 gap-2'>
-                <Courses staticVtc={staticVtc} />
-                <Livraison staticLiv={staticLiv} />
+                <Courses user={user} />
+                <Livraison user={user} />
             </div>
         </div>
     )

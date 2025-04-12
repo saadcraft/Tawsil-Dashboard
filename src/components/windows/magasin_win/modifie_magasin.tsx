@@ -63,7 +63,7 @@ export default function ModifieMagasin({ maga, onsub }: { maga: Magasin, onsub: 
                     <p>Le nom de magasin</p>
                     <input type='text' name='name' className='p-2 w-full border border-slate-300 rounded-md' placeholder='Entre le Nom de magasin' defaultValue={maga?.name} />
                     <p>address</p>
-                    <input type='text' name='address' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le address' defaultValue={maga?.address} />
+                    <input type='text' name='adresse' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le address' defaultValue={maga?.adresse} />
                     <p>Contact</p>
                     <input type='text' name='contact' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le contact' defaultValue={maga?.contact} />
                     <p>Description</p>
