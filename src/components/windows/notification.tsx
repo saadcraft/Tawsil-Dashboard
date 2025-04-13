@@ -25,12 +25,12 @@ export default function Notification({ not, onsub }: { not: Notification[], onsu
 
 
     const command = search.get('id')
-    // console.log(command)
+    // console.log(isLoading)
     useEffect(() => {
         if (isLoading) {
             onsub(false);
         }
-    }, [search, isLoading, onsub])
+    }, [search, onsub])
 
     return (
         <div>

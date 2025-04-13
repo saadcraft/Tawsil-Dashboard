@@ -24,7 +24,6 @@ import QRcode from '../windows/magasin_win/qrcode';
 import Satistic from './statistic'
 import Chart from './chart';
 import MapDz from './map-dz';
-import { staticCommande, staticVTC } from '@/lib/comptable_action';
 
 
 

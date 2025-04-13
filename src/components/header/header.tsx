@@ -41,52 +41,58 @@ export default function Header({ user, token }: { user: Users, token: string }) 
 
   useEffect(() => {
     if (!token || user?.role !== "partener") return; // Ensure token exists before establishing WebSocket connection
-
-    // Create a new WebSocket connection
-    const socket = new WebSocket(`${process.env.WS_SERVER}/ws/commandes/magasin/?token=${token}`);
     const audio = new Audio("/notification.mp3");
+    let socket: WebSocket; // Declare it in the parent scope
+    let reconnectTimeout: NodeJS.Timeout;
+    // Create a new WebSocket connection
+    const connectWebSocket = () => {
+      socket = new WebSocket(`${process.env.WS_SERVER}/ws/commandes/magasin/?token=${token}`);
 
-    setSocket(socket);
+      setSocket(socket);
 
-    // Handle WebSocket connection open event
-    socket.onopen = () => {
-      console.log("Connected to WebSocket server");
-    };
+      // Handle WebSocket connection open event
+      socket.onopen = () => {
+        console.log("Connected to WebSocket server");
+      };
 
-    // Handle WebSocket message event
-    socket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      // console.log(data)
+      // Handle WebSocket message event
+      socket.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        // console.log(data)
 
-      if (Array.isArray(data.message)) {
-        setNotifications(data.message);
-      } else {
-        if (data.message?.status === "pending") {
-          audio.play();
-          toast(`Nouvelle commande reçue`, {
-            autoClose: 4000,
-            closeButton: true,
-          });
-          addNotification(data.message);
+        if (Array.isArray(data.message)) {
+          setNotifications(data.message);
         } else {
-          if (data.message) removeNotification(data.message.id)
+          if (data.message?.status === "pending") {
+            audio.play();
+            toast(`Nouvelle commande reçue`, {
+              autoClose: 4000,
+              closeButton: true,
+            });
+            addNotification(data.message);
+          } else {
+            if (data.message) removeNotification(data.message.id)
+          }
+
         }
+      };
 
-      }
-    };
+      // Handle WebSocket error event
+      socket.onerror = () => {
+        console.log("WebSocket Error");
+      };
 
-    // Handle WebSocket error event
-    socket.onerror = () => {
-      console.log("WebSocket Error");
-    };
+      // Handle WebSocket close event
+      socket.onclose = () => {
+        console.log("Disconnected from WebSocket server connecting .....");
+        reconnectTimeout = setTimeout(connectWebSocket, 5000)
+      };
+    }
 
-    // Handle WebSocket close event
-    socket.onclose = () => {
-      console.log("Disconnected from WebSocket server");
-    };
-
+    connectWebSocket();
     // Cleanup when the component unmounts
     return () => {
+      clearTimeout(reconnectTimeout);
       socket.close();
       console.log("WebSocket disconnected on cleanup");
     };

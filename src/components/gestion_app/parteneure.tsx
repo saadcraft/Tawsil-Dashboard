@@ -3,7 +3,6 @@
 import { Wilaya } from '@/lib/tools/named'
 import { handleInputChange } from '@/lib/tools/tools'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { FaRegCheckCircle, FaSearch } from 'react-icons/fa'
 import ActiveCompte from '../windows/chef_win/active-compte'
@@ -11,7 +10,6 @@ import { MdClose, MdOutlineDisabledByDefault } from 'react-icons/md'
 import { getGroup } from '@/lib/gestion_action'
 import { useSearchLoader } from '../options/useSearchLoader'
 import LoadingFirst from '../loading'
-// import ModifyUser from '../windows/gestion_win/modify_user'
 
 export default function Parteneure({ users }: { users: Partenaire[] }) {
 
