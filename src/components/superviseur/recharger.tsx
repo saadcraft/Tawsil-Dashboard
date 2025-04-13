@@ -12,8 +12,12 @@ import { useRouter } from 'next/navigation'
 import { RiLoader3Fill, RiCheckDoubleLine, RiCloseFill } from "react-icons/ri";
 import { TbCancel, TbCheck } from "react-icons/tb";
 import Annuler from '../windows/super_win/annuler'
+import { useSearchLoader } from '../options/useSearchLoader'
+import LoadingFirst from '../loading'
 
 export default function Recharge({ history }: { history: Demande[] }) {
+
+    const { isLoading, handleSearch } = useSearchLoader(['date']);
 
     const router = useRouter()
 
@@ -75,10 +79,10 @@ export default function Recharge({ history }: { history: Demande[] }) {
             </div>
             <div className='p-3 pb-20 md:pb-20 bg-white md:p-10 rounded-md shadow-md'>
                 <div className='flex lg:flex-row flex-col items-center justify-between mb-7 gap-5'>
-                    <form className='flex flex-col lg:flex-row items-center gap-5'>
+                    <form onSubmit={handleSearch} className='flex flex-col lg:flex-row items-center gap-5'>
                         <div className="relative">
                             <FaSearch className='absolute top-3 text-slate-500' />
-                            <input type="date" name="client" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                            <input type="date" name="date" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         </div>
                         <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherche</button>
                     </form>
@@ -122,6 +126,9 @@ export default function Recharge({ history }: { history: Demande[] }) {
                     <button onClick={() => setAnnuler(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
                     <Annuler onClose={setAnnuler} dm={annuler} />
                 </div>
+            }
+            {isLoading &&
+                <LoadingFirst />
             }
         </div>
     )

@@ -32,16 +32,6 @@ export default function ShowAgent({ results }: { results: Users[] }) {
         }
     }
 
-    // const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    //     event.preventDefault();
-    //     const formData = new FormData(event.currentTarget);
-    //     const cleint = formData.get('client') as string;
-    //     const wilaya = formData.get('wilaya') as string;
-    //     const groupe = formData.get('group') as string || "";
-
-    //     router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}&wilaya=${wilaya}&groupe=${groupe}`);
-    // }
-
     const result = results.map((pre, index) => {
         return (
             <tr key={index} className="bg-white border-b text-black hover:bg-gray-50">

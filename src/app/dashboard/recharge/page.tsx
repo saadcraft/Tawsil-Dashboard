@@ -11,15 +11,16 @@ export const metadata: Metadata = {
 };
 
 type props = {
-    searchParams: Promise<{ page?: string }>;
+    searchParams: Promise<{ page?: string, date?: string }>;
 }
 
 export default async function ApplePage({ searchParams }: props) {
 
-    const { page } = await searchParams;
+    const { page, date } = await searchParams;
     const pageNumber = page ?? "1";
+    const searchDate = date ?? "";
 
-    const data = await DemandePerSuper({ page: pageNumber })
+    const data = await DemandePerSuper({ page: pageNumber, date: searchDate })
 
     if (!data) notFound()
 

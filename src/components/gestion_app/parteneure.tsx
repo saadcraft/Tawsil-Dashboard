@@ -19,9 +19,6 @@ export default function Parteneure({ users }: { users: Partenaire[] }) {
 
     const [user, setUser] = useState<{ id: number, statue: boolean } | null>(null)
     const [group, setGroup] = useState<Groupes[] | null>(null)
-    // const [modify, setModify] = useState<Partenaire | null>(null)
-
-    // const hundelModify = (info: Partenaire) => setModify(info);
 
     const handleGroup = async ({ wilaya }: { wilaya: string }) => {
         try {
@@ -35,17 +32,6 @@ export default function Parteneure({ users }: { users: Partenaire[] }) {
             setGroup(null)
         }
     }
-
-    // const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    //     event.preventDefault();
-    //     const formData = new FormData(event.currentTarget);
-    //     const cleint = formData.get('client') as string;
-    //     const wilaya = formData.get('wilaya') as string;
-    //     const validation = formData.get('valide') as string;
-    //     const groupe = formData.get('group') as string;
-
-    //     router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}&wilaya=${wilaya}&is_active=${validation}&groupe=${groupe || ""}`);
-    // }
 
     const parteneur = users.map((pre, index) => {
         return (

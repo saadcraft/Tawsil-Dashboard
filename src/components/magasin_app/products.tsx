@@ -27,15 +27,6 @@ export default function Products({ products, cat, magasin }: { products: Produit
     const [modify, setModify] = useState<Produit | null>(null);
     const [page, setPage] = useState<number[] | null>(null);
 
-    // const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    //     event.preventDefault();
-    //     const formData = new FormData(event.currentTarget);
-    //     const cleint = formData.get('client') as string;
-    //     const categories = formData.get('catalogue_id') as string;
-
-    //     router.push(`?category=${categories}&name=${cleint}`);
-    // }
-
     const handleStatus = async (id: number, disponibilite: boolean) => {
         const loadingToastId = toast.loading('Submite update...');
 

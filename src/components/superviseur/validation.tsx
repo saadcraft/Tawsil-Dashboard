@@ -5,7 +5,6 @@ import React, { useState } from 'react'
 import { FaRegCheckCircle, FaSearch } from 'react-icons/fa'
 import { handleInputChange } from "@/lib/tools/tools"
 import Named, { Wilaya } from '@/lib/tools/named'
-import { useRouter } from "next/navigation"
 import { MdClose, MdGpsFixed, MdOutlineDisabledByDefault, MdOutlineQrCodeScanner, MdOutlineReport } from 'react-icons/md'
 import ActiveCompte from '../windows/chef_win/active-compte'
 import toast from 'react-hot-toast'
@@ -14,26 +13,18 @@ import SuperReport from '../windows/super_win/super_report'
 import Display from '../windows/gestion_win/display'
 import ModifieGeo from '../windows/super_win/modifie_goe'
 import QRcode from '../windows/magasin_win/qrcode'
+import { useSearchLoader } from '../options/useSearchLoader'
+import LoadingFirst from '../loading'
 
 export default function Validation({ users }: { users: Partenaire[] }) {
+
+    const { isLoading, handleSearch } = useSearchLoader(['search', 'wilaya', 'is_active']);
 
     const [user, setUser] = useState<{ id: number, statue: boolean } | null>(null);
     const [activePartnerId, setActivePartnerId] = useState<number | null>(null);
     const [show, setShow] = useState<Partenaire | null>(null);
     const [geo, setGeo] = useState<number | null>(null);
     const [qrCode, setQrCode] = useState<number | null>(null);
-
-    const router = useRouter();
-
-    const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const cleint = formData.get('client') as string;
-        const wilaya = formData.get('wilaya') as string;
-        const validation = formData.get('valide') as string;
-
-        router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}&wilaya=${wilaya}&is_active=${validation}`);
-    }
 
     const handleSubmite = async (id: number, event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -103,15 +94,15 @@ export default function Validation({ users }: { users: Partenaire[] }) {
                 <form onSubmit={handleSearch} className='mb-7 flex flex-col lg:flex-row items-center gap-5'>
                     <div className='relative'>
                         <FaSearch className='absolute top-3 text-slate-500' />
-                        <input onChange={handleInputChange} type="text" name="client" placeholder='Recherche par numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                        <input onChange={handleInputChange} type="text" name="search" placeholder='Recherche par numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                     </div>
                     <div className='flex gap-2'>
                         <div>
-                            <input type="radio" id="noValide" name="valide" defaultChecked value="false" className="peer hidden" />
+                            <input type="radio" id="noValide" name="is_active" defaultChecked value="false" className="peer hidden" />
                             <label htmlFor="noValide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> No valider</label>
                         </div>
                         <div>
-                            <input type="radio" id="valide" name="valide" value="true" className="peer hidden" />
+                            <input type="radio" id="valide" name="is_active" value="true" className="peer hidden" />
                             <label htmlFor="valide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> valider</label>
                         </div>
                     </div>
@@ -190,7 +181,9 @@ export default function Validation({ users }: { users: Partenaire[] }) {
                     <button onClick={() => setQrCode(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
                     <QRcode id={qrCode} />
                 </div>
-
+            }
+            {isLoading &&
+                <LoadingFirst />
             }
         </div>
     )

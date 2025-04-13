@@ -154,12 +154,12 @@ export async function ShowReport({ page }: { page: string }): Promise<apiRaport 
     }
 }
 
-export async function DemandePerSuper({ page }: { page: string }): Promise<apiDemande | null> {
+export async function DemandePerSuper({ page, date }: { page: string, date: string }): Promise<apiDemande | null> {
     try {
         const response = await apiRequest({
             method: "GET",
             url: "api/v1/superviseur/demmandes/flixsy",
-            params: { page }
+            params: { page, date }
         });
 
         if (response.code == 200) {

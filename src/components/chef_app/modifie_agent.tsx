@@ -23,15 +23,6 @@ export default function ModAgent({ results }: { results: Users[] }) {
 
     const hundelDisabled = (id: number) => setDisabled(id);
 
-    // const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    //     event.preventDefault();
-    //     const formData = new FormData(event.currentTarget);
-    //     const cleint = formData.get('client') as string;
-
-    //     router.push(`?search=${cleint.replace(/^0+(?=\d)/, '')}`);
-    // }
-
-
 
     const result = results.map((pre, index) => {
         return (
