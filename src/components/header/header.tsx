@@ -9,6 +9,7 @@ import Notification from "@/components/windows/notification"
 import { useNotificationStore, userInformation } from '@/lib/tools/store/web_socket';
 import DropDown from "@/components/windows/drop_down"
 import { toast } from 'react-toastify';
+import { checkInternet } from '../options/useNetwork';
 
 
 
@@ -44,6 +45,7 @@ export default function Header({ user, token }: { user: Users, token: string }) 
     const audio = new Audio("/notification.mp3");
     let socket: WebSocket; // Declare it in the parent scope
     let reconnectTimeout: NodeJS.Timeout;
+    let connectivityInterval: NodeJS.Timeout;
     // Create a new WebSocket connection
     const connectWebSocket = () => {
       socket = new WebSocket(`${process.env.WS_SERVER}/ws/commandes/magasin/?token=${token}`);
@@ -52,7 +54,16 @@ export default function Header({ user, token }: { user: Users, token: string }) 
 
       // Handle WebSocket connection open event
       socket.onopen = () => {
-        console.log("Connected to WebSocket server");
+        console.log("✅ Connected to WebSocket server");
+
+        // ✅ Start connectivity check every 20 seconds
+        connectivityInterval = setInterval(async () => {
+          const isOnline = await checkInternet();
+          if (!isOnline) {
+            socket.close(); // triggers onclose and reconnect
+            console.warn("❌ No internet connection, closing socket...");
+          }
+        }, 20000); // every 20 seconds
       };
 
       // Handle WebSocket message event
@@ -79,13 +90,14 @@ export default function Header({ user, token }: { user: Users, token: string }) 
 
       // Handle WebSocket error event
       socket.onerror = () => {
-        console.log("WebSocket Error");
+        console.error("❌ WebSocket error");
       };
 
       // Handle WebSocket close event
       socket.onclose = () => {
-        console.log("Disconnected from WebSocket server connecting .....");
-        reconnectTimeout = setTimeout(connectWebSocket, 5000)
+        console.warn("🔌 Disconnected from WebSocket. Reconnecting...");
+        clearInterval(connectivityInterval);
+        reconnectTimeout = setTimeout(connectWebSocket, 5000);
       };
     }
 
@@ -93,6 +105,7 @@ export default function Header({ user, token }: { user: Users, token: string }) 
     // Cleanup when the component unmounts
     return () => {
       clearTimeout(reconnectTimeout);
+      clearInterval(connectivityInterval);
       socket.close();
       console.log("WebSocket disconnected on cleanup");
     };
