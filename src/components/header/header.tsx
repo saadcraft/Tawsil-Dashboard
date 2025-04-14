@@ -28,7 +28,7 @@ export default function Header({ user, token }: { user: Users, token: string }) 
   const [show, setShow] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const { notifications, setNotifications, addNotification, removeNotification, setSocket } = useNotificationStore();
+  const { notifications, setNotifications, addNotification, removeNotification, setSocket, setIsConnected } = useNotificationStore();
 
   const { setUser } = userInformation()
 
@@ -46,6 +46,7 @@ export default function Header({ user, token }: { user: Users, token: string }) 
     let socket: WebSocket; // Declare it in the parent scope
     let reconnectTimeout: NodeJS.Timeout;
     let connectivityInterval: NodeJS.Timeout;
+    let loadingToastId: string | number | null = null;
     // Create a new WebSocket connection
     const connectWebSocket = () => {
       socket = new WebSocket(`${process.env.WS_SERVER}/ws/commandes/magasin/?token=${token}`);
@@ -55,6 +56,19 @@ export default function Header({ user, token }: { user: Users, token: string }) 
       // Handle WebSocket connection open event
       socket.onopen = () => {
         console.log("✅ Connected to WebSocket server");
+
+        if (loadingToastId) {
+          toast.update(loadingToastId, {
+            render: "Connexion réussie",
+            type: "success",
+            isLoading: false,
+            autoClose: 3000,
+            onClose: () => {
+              // ✅ Clean up after it's actually closed
+              loadingToastId = null;
+            },
+          });
+        }
 
         // ✅ Start connectivity check every 20 seconds
         connectivityInterval = setInterval(async () => {
@@ -90,14 +104,21 @@ export default function Header({ user, token }: { user: Users, token: string }) 
 
       // Handle WebSocket error event
       socket.onerror = () => {
-        console.error("❌ WebSocket error");
+        console.warn("❌ WebSocket error");
       };
 
       // Handle WebSocket close event
       socket.onclose = () => {
         console.warn("🔌 Disconnected from WebSocket. Reconnecting...");
+        if (!loadingToastId) {
+          loadingToastId = toast.loading("Reconnexion ...", {
+            position: "top-center",
+            hideProgressBar: true,
+          });
+        }
         clearInterval(connectivityInterval);
         reconnectTimeout = setTimeout(connectWebSocket, 5000);
+        setIsConnected(false)
       };
     }
 
@@ -109,7 +130,7 @@ export default function Header({ user, token }: { user: Users, token: string }) 
       socket.close();
       console.log("WebSocket disconnected on cleanup");
     };
-  }, [token, addNotification, setSocket, setNotifications, removeNotification]);
+  }, [token, addNotification, setSocket, setNotifications, removeNotification, setIsConnected]);
 
 
   return (

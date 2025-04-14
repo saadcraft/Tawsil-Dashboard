@@ -26,6 +26,8 @@ type NotificationStore = {
         wilaya: string;
     }) => void; // New function to send messages to WebSocket
     setSocket: (socket: WebSocket | null) => void; // Set the socket reference
+    isConnected: boolean;
+    setIsConnected: (value: boolean) => void;
 };
 
 export const useNotificationStore = create<NotificationStore>((set, get) => ({
@@ -77,6 +79,8 @@ export const useNotificationStore = create<NotificationStore>((set, get) => ({
         }
     },
     setSocket: (socket) => set({ socket }),
+    isConnected: false, // default to true
+    setIsConnected: (value: boolean) => set({ isConnected: value }),
 }));
 
 type UserInfo = {

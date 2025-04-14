@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { useRouter } from "next/navigation"
 import {
   MdOutlineFileUpload,
   MdModeEditOutline,
@@ -14,7 +13,7 @@ import getMagasin, { UpdateMagasin } from '@/lib/stores_api';
 import toast from 'react-hot-toast';
 import PictureMagasin from '../windows/dashboard_win/upload_win'
 import ModifieMagasin from '../windows/magasin_win/modifie_magasin'
-import { userInformation } from '@/lib/tools/store/web_socket'
+import { useNotificationStore, userInformation } from '@/lib/tools/store/web_socket'
 import LoadingFirst from '../loading'
 import AddGeo from '../windows/magasin_win/add_geolocation'
 import GlobleComment from '../windows/magasin_win/globle_comment'
@@ -29,8 +28,6 @@ import MapDz from './map-dz';
 
 export default function Dashboard({ data }: { data: Context | null }) {
 
-  const router = useRouter()
-
   const [types, setTypes] = useState<"background" | "profile" | null>(null);
   const [mody, setMody] = useState<boolean>(false);
   const [magasin, setMagasin] = useState<Magasin | null>(null);
@@ -41,6 +38,7 @@ export default function Dashboard({ data }: { data: Context | null }) {
 
 
   const { user } = userInformation()
+  const { isConnected, setIsConnected } = useNotificationStore();
 
   // console.log(data, staticData)
 
@@ -73,7 +71,7 @@ export default function Dashboard({ data }: { data: Context | null }) {
 
     if (updateStatus.code == 200) {
       toast.success(EtatOuverture ? "Ouvert" : "Fermé", { id: loadingToastId });
-      router.refresh();
+      setIsConnected(true)
     } else {
       toast.error(updateStatus, { id: loadingToastId });
     }
@@ -137,12 +135,12 @@ export default function Dashboard({ data }: { data: Context | null }) {
                   <input
                     type="checkbox"
                     className="sr-only peer"
-                    checked={magasin?.EtatOuverture || false} // Set from database
+                    checked={isConnected} // Set from database
                     onChange={(e) => magasin?.id !== undefined && handleStatusChange(magasin.id, e.target.checked)} // Function to update status
                   />
                   <div className="w-12 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-6 peer-checked:after:border-white after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-green-500"></div>
                   <span className="ml-3 text-sm font-medium text-gray-900">
-                    {magasin?.EtatOuverture ?
+                    {isConnected ?
                       <span className='text-green-700 font-bold'>Ouvert</span>
                       :
                       <span className='text-red-700 font-bold'>Farmé</span>

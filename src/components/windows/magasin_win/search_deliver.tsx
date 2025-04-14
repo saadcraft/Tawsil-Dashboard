@@ -19,7 +19,7 @@ export default function Search({ id, onEvent, livreur }: { id: number, onEvent: 
                             }
                         })}
                     </select>
-                    <button className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Submite</button>
+                    <button className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Confirmer</button>
                 </form>
             </div>
         </div>
