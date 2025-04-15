@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { getGroup } from '@/lib/gestion_action'
-import { Wilaya } from '@/lib/tools/named'
+import Named, { Wilaya } from '@/lib/tools/named'
 import React, { useState } from 'react'
 import {
   MdMailOutline,
@@ -60,7 +60,7 @@ export default function Group({ id, onEvent, onClose }: { id: Partenaire, onEven
               </div>
 
               <div className="flex-2 space-y-2 text-left">
-                <h2 className="text-lg font-semibold">{id.user.first_name} {id.user.last_name}</h2>
+                <h2 className="text-lg font-semibold">{Named(id.type_compte?.name)}</h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
                   <div className="flex items-center gap-2 justify-center md:justify-start">
