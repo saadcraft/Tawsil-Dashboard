@@ -40,7 +40,7 @@ export default function Dashboard({ data }: { data: Context | null }) {
   const { user } = userInformation()
   const { isConnected, setIsConnected } = useNotificationStore();
 
-  // console.log(data, staticData)
+
 
   // Fetch magasin on client side if user is a partener
   useEffect(() => {
@@ -62,7 +62,7 @@ export default function Dashboard({ data }: { data: Context | null }) {
   }, [user]);
 
 
-
+  console.log(magasin)
 
   const handleStatusChange = async (magasin_id: number, EtatOuverture: boolean) => {
     const loadingToastId = toast.loading('Submite update...');
@@ -302,7 +302,7 @@ export default function Dashboard({ data }: { data: Context | null }) {
       {geo &&
         <>
           <button onClick={() => setGeo(false)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-          <AddGeo onEvent={setGeo} />
+          <AddGeo id={magasin?.owner.id!} onEvent={setGeo} />
         </>
       }
       {review &&

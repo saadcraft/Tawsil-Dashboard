@@ -4,23 +4,33 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 // import { Wilaya } from '@/lib/tools/named';
 import { modifyGeo } from '@/lib/super_action';
+import { getCity } from '@/lib/tutorial_api';
+import { TbLoader3 } from 'react-icons/tb';
 
 export default function ModifieGeo({ id, onEvent }: { id: number, onEvent: (value: null) => void }) {
+    const [city, setCity] = useState<string | null>(null);
+    // const [code, setCode] = useState<string | null>(null);
     const [latitude, setLatitude] = useState<number | null>(null);
     const [longitude, setLongitude] = useState<number | null>(null);
-    // const [code, setCode] = useState<number | null>(null)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const router = useRouter()
 
     const handleGetLocation = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
-                (position) => {
+                async (position) => {
                     const { latitude, longitude } = position.coords;
                     setLatitude(latitude);
                     setLongitude(longitude);
 
-                    // const geocoder = new window.google.maps.Geocoder();
+                    const city = await getCity({ latitude, longitude })
+
+                    if (city) {
+                        setCity(city.city);
+                        // setCode(city.code);
+                        setIsLoading(true)
+                    }
                 },
                 () => {
                     toast.error('You have no permission.'); // Show an error message
@@ -50,7 +60,7 @@ export default function ModifieGeo({ id, onEvent }: { id: number, onEvent: (valu
 
         // console.log({ id: id, long: longitude!, lat: latitude!, wilaya: city, wilaya_code: Number(num) })
 
-        const res = await modifyGeo({ id: id, long: longitude!, lat: latitude! })
+        const res = await modifyGeo({ id: id, long: longitude!, lat: latitude!, wilaya: city! });
 
         if (res) {
             router.refresh();
@@ -58,16 +68,6 @@ export default function ModifieGeo({ id, onEvent }: { id: number, onEvent: (valu
         }
 
     }
-
-    // const handleWilayaChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    //     const selectedWilayaName = event.target.value; // Get the selected wilaya name
-    //     const selectedWilaya = Wilaya.find(wilaya => wilaya.name === selectedWilayaName); // Find the wilaya object
-    //     if (selectedWilaya) {
-    //         setCode(selectedWilaya.code); // Update the code state with the wilaya's id
-    //     } else {
-    //         setCode(null); // Reset code if no valid selection
-    //     }
-    // };
 
 
     return (
@@ -80,6 +80,9 @@ export default function ModifieGeo({ id, onEvent }: { id: number, onEvent: (valu
                         <input type='text' readOnly name='latitude' placeholder='Latitude' value={latitude || ""} className='p-2 w-full border rounded-lg' />
                         <input type='text' readOnly name='longitude' placeholder='Longitude' value={longitude || ""} className='p-2 border w-full  rounded-lg' />
                     </div>
+                    <div className='flex gap-2 flex-col sm:flex-row'>
+                        <input type='text' readOnly name='wilaya' placeholder='Wilaya' value={city || ""} className='p-2 w-full border rounded-lg' />
+                    </div>
                     {/* <p>Wilaya:</p>
                     <select name='wilaya' onChange={handleWilayaChange} className='border-b outline-none py-2 pl-7 focus:border-slate-950' >
                         <option value="">Selectioné wilaya</option>
@@ -90,7 +93,16 @@ export default function ModifieGeo({ id, onEvent }: { id: number, onEvent: (valu
                         })}
                     </select>
                     <input type='text' readOnly name='wilaya_code' placeholder='code wilaya' value={code || ""} className='p-2 border  rounded-lg' /> */}
-                    <button className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Submite</button>
+                    <button disabled={!isLoading} className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>
+                        {isLoading ?
+                            "Submite"
+                            :
+                            <div className={` bg-forth bg-opacity-50 text-xl flex justify-center items-center gap-3`}>
+                                <TbLoader3 className="animate-spin text-2xl" /> En attent ...
+                            </div>
+
+                        }
+                    </button>
                 </form>
             </div>
         </div>

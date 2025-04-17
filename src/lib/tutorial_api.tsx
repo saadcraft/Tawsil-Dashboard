@@ -32,3 +32,24 @@ export async function tutorialCatégorie(): Promise<Categories[] | null> {
         return null;
     }
 }
+
+export async function getCity({ latitude, longitude }: { latitude: number, longitude: number }): Promise<{ city: string, code: string } | null> {
+    const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
+
+    // const geocoder = new window.google.maps.Geocoder();
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data.address && data.address.city) {
+            return {
+                city: data.address.city,
+                code: data.address.postcode
+            }
+        } else {
+            return null;
+        }
+    } catch (error) {
+        return null;
+    }
+}
