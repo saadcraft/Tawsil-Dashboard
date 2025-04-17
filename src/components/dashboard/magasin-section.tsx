@@ -193,7 +193,7 @@ export default function MagasinSection({ magasin }: { magasin: Magasin }) {
             {geo &&
                 <>
                     <button onClick={() => setGeo(false)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-                    <AddGeo id={magasin?.owner.id!} onEvent={setGeo} />
+                    <AddGeo id={magasin.owner.id} onEvent={setGeo} />
                 </>
             }
             {review &&

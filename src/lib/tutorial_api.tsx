@@ -49,7 +49,7 @@ export async function getCity({ latitude, longitude }: { latitude: number, longi
         } else {
             return null;
         }
-    } catch (error) {
+    } catch {
         return null;
     }
 }
