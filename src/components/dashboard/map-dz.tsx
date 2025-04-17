@@ -39,3 +39,23 @@ export default function MapDz() {
         </div>
     )
 }
+
+export function MapGoogle({ latitude, longitude }: { latitude: string, longitude: string }) {
+    return (
+        <div className="mapouter">
+            <div className="gmap_canvas">
+                <iframe
+                    className="gmap_iframe"
+                    width="100%"
+                    frameBorder="0"
+                    scrolling="no"
+                    marginHeight={0}
+                    marginWidth={0}
+                    src={`https://maps.google.com/maps?width=200&height=150&hl=en&q=${latitude},${longitude}&t=&z=13&ie=UTF8&iwloc=B&output=embed`}
+                    title="Google Map"
+                ></iframe>
+                <a href="https://sprunkin.com/">Sprunki Game</a>
+            </div>
+        </div>
+    )
+}
