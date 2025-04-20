@@ -11,7 +11,7 @@ export default function ActionsCenter({ actions }: { actions: centerAction[] }) 
 
     const { isLoading, handleSearch } = useSearchLoader(['search', 'date']);
 
-    // console.log(actions)
+    console.log(actions)
 
     const action = actions.map((pre, index) => {
         return (
@@ -23,7 +23,7 @@ export default function ActionsCenter({ actions }: { actions: centerAction[] }) 
                     {FormatDate(pre.data_de_creation)}
                 </td>
                 <td className="px-6 py-4">
-                    {pre.centre_appel.username}
+                    {pre.centre_appel?.username}
                 </td>
                 <td className="px-6 py-4">
                     {pre.superviseur?.username}

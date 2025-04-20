@@ -146,3 +146,11 @@
   .splide__pagination li .is-active {
     @apply w-6 bg-third rounded-md;
   }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+  }

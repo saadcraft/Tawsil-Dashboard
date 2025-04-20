@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { FaSearch } from 'react-icons/fa'
 import { FaCommentDots, FaUserGroup } from "react-icons/fa6";
-import { MdClose } from "react-icons/md"
+import { MdClose, MdOutlineRefresh } from "react-icons/md"
 import Comment from "../windows/centre_win/comment"
 import { AddComment, UpdateGroup } from '@/lib/call_action'
 import ShowComment from '../windows/centre_win/show-comments'
@@ -53,6 +53,7 @@ export default function AppleCenter({ parteners }: Props) {
     const res = await AddComment({ id: id, comment: comment })
     if (res) {
       setActivePartnerId(null)
+      router.refresh()
     }
   }
 
@@ -93,7 +94,13 @@ export default function AppleCenter({ parteners }: Props) {
           {pre.user.is_active ? "true" : "false"}
         </td>
         <td className="px-6 py-4 text-center">
-          {pre.user.groupe ? pre.user.groupe :
+          {pre.user.groupe ?
+            <div className='flex gap-3 justify-center'>
+              {pre.user.groupe}
+              <button onClick={() => setResomble(pre)} className='text-2xl'><MdOutlineRefresh /></button>
+            </div>
+
+            :
             <>
               <button onClick={() => setResomble(pre)} className='text-2xl'><FaUserGroup /></button>
             </>

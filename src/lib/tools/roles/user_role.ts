@@ -5,7 +5,7 @@ export function Role(role: string) {
         case "chef_bureau":
             return ["/dashboard", "/dashboard/profile", "/dashboard/actions", "/dashboard/agent_administratif", "/dashboard/ajoute_agent", "/dashboard/apple_center", "/dashboard/caisses", "/dashboard/deliveries", "/dashboard/tutorial"];
         case "centre_appel":
-            return ["/dashboard", "/dashboard/profile", "/dashboard/apple_center", "/dashboard/demande", "/dashboard/center_actions", "/dashboard/groupes"];
+            return ["/dashboard", "/dashboard/profile", "/dashboard/apple_center", "/dashboard/groupes"];
         case "agent_administratif":
             return ["/dashboard", "/dashboard/profile", "/dashboard/apple_center", "/dashboard/deliveries", "/dashboard/tutorial"];
         case "superviseur":
@@ -13,7 +13,7 @@ export function Role(role: string) {
         case "gestion_commercial":
             return ["/dashboard", "/dashboard/profile", "/dashboard/modifie_superviseur", "/dashboard/agent_administratif", "/dashboard/ajoute_superviseur", "/dashboard/magasin", "/dashboard/partenaire"];
         case "validation_vtc":
-            return ["/dashboard", "/dashboard/profile", "/dashboard/courses", "/dashboard/vtc_rapide"];
+            return ["/dashboard", "/dashboard/profile", "/dashboard/courses", "/dashboard/vtc_rapide", "/dashboard/demande", "/dashboard/center_actions"];
         case "comptable":
             return ["/dashboard", "/dashboard/profile", "/dashboard/comptable", "/dashboard/group_actions"];
         case "partener":

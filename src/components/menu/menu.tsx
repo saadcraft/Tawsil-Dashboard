@@ -62,7 +62,7 @@ export default function Menu({ user, token }: props) {
 
 
     useEffect(() => {
-        if (!token || user?.role !== "centre_appel") {
+        if (!token || (user?.role !== "validation_vtc" && user?.role !== "centre_appel")) {
             setCountState(null);
             setCountPart(null);
             return;
@@ -87,8 +87,8 @@ export default function Menu({ user, token }: props) {
                 setCountPart(null)
             }
         }
-        fetchNoGroup();
-        fetchCount(); // Call the function to fetch count on pathname change
+        if (user?.role === "centre_appel") fetchNoGroup();
+        if (user?.role === "validation_vtc") fetchCount(); // Call the function to fetch count on pathname change
     }, [pathname, search, user, token]);
 
 
@@ -145,11 +145,11 @@ export default function Menu({ user, token }: props) {
                 <div className={`relative w-full h-1.5 bg-third transition-all duration-500 ${isMenuOpen ? 'top-3.5 -rotate-45' : ''} `}></div>
                 <div className={`w-full h-1.5 bg-third transition-all duration-500 ${isMenuOpen ? ' -rotate-45' : ''} `}></div>
                 <div className={`relative w-full h-1.5 bg-third transition-all duration-500 ${isMenuOpen ? '-top-3.5  rotate-45' : ''} `}></div>
-                {user?.role == "centre_appel" &&
+                {user?.role == "validation_vtc" &&
                     countState && countState != 0 || countPart && countPart != 0
                     ? (<span className='absolute -top-3 -right-3 py-0.5 px-2 text-sm rounded-full text-white font-bold bg-red-600' >{(countState || 0) + (countPart || 0)}</span>) : ""}
             </div>
-            <div className={`fixed z-40 text-white top-0 overflow-y-auto md:overflow-y-hidden left-0 bottom-0 transition-all md:-translate-x-0  ${isMenuOpen ? "" : "-translate-x-80"} ${user?.type_account === "premium" ? 'bg-gradient-to-r from-gold5 to-gold6' : 'bg-primer'}  w-80 px-5`}>
+            <div className={`fixed z-40 text-white top-0 overflow-y-auto no-scrollbar left-0 bottom-0 transition-all md:-translate-x-0  ${isMenuOpen ? "" : "-translate-x-80"} ${user?.type_account === "premium" ? 'bg-gradient-to-r from-gold5 to-gold6' : 'bg-primer'}  w-80 px-5`}>
                 <div onClick={() => handleMenu('/')} className='flex flex-col justify-center'>
                     <Image height={100} width={100} src="/tawsil-start.png" alt="Tawsil" className='w-40 cursor-pointer mx-auto' />
                 </div>
@@ -216,11 +216,6 @@ export default function Menu({ user, token }: props) {
                             {user.role == "centre_appel" &&
                                 <>
                                     <MenuParams title={`Groupes`} icon={<MdGroup />} onEvent={() => handleMenu("/dashboard/groupes")} />
-                                    <MenuParams title={`Actions`} icon={<MdOutlinePendingActions />} onEvent={() => handleMenu("/dashboard/center_actions")} />
-                                    <div className='relative'>
-                                        <MenuParams title={`Demandes`} icon={<MdOutlineRequestQuote />} onEvent={() => handleMenu("/dashboard/demande")} />
-                                        {countState && countState != 0 ? <span className='absolute top-3.5 right-10 py-0.5 px-2 text-sm rounded-full text-white font-bold bg-red-600' >{countState}</span> : ""}
-                                    </div>
                                 </>
                             }
                             {user.role == "superviseur" &&
@@ -244,6 +239,11 @@ export default function Menu({ user, token }: props) {
                                         <ul className='flex flex-col gap-2 p-3 ml-5'>
                                             <li className='flex items-center cursor-pointer text-slate-400 hover:text-slate-200 text-lg font-semibold gap-2'><div onClick={() => handleMenu("/dashboard/vtc_rapide")}> VTC par groupe</div></li>
                                         </ul>
+                                    </div>
+                                    <MenuParams title={`Actions`} icon={<MdOutlinePendingActions />} onEvent={() => handleMenu("/dashboard/center_actions")} />
+                                    <div className='relative'>
+                                        <MenuParams title={`Demandes`} icon={<MdOutlineRequestQuote />} onEvent={() => handleMenu("/dashboard/demande")} />
+                                        {countState && countState != 0 ? <span className='absolute top-3.5 right-10 py-0.5 px-2 text-sm rounded-full text-white font-bold bg-red-600' >{countState}</span> : ""}
                                     </div>
                                 </>
                             }
