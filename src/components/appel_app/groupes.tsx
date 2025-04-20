@@ -87,7 +87,7 @@ export default function Groupes({ groupe }: { groupe: Users[] }) {
                 <Link href="/dashboard" className='font-semibold text-third'>Tableau de bord /</Link>
                 <h1 className='font-bold'>Groupes</h1>
             </div>
-            <div className='p-10 pb-20 bg-white rounded-md shadow-md'>
+            <div className='p-3 md:p-10 pb-20 md:pb-20 bg-white rounded-md shadow-md'>
                 <form onSubmit={handleSearch} className='mb-7 flex flex-col lg:flex-row items-center gap-5'>
                     <div className='relative'>
                         <FaSearch className='absolute top-3 text-slate-500' />

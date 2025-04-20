@@ -162,12 +162,14 @@ export default function Vtc({ promise }: Props) {
                 <Link href="/dashboard" className='font-semibold text-third'>Tableau de bord /</Link>
                 <h1 className='font-bold text-xl'>VTC</h1>
             </div>
-            <div className='p-10 pb-20 bg-white rounded-md shadow-md'>
-                <div className='flex justify-between mb-7 items-center'>
-                    <form onSubmit={handleSearch} className='flex items-center gap-2'>
-                        <FaSearch className='absolute text-slate-500' />
-                        <input onChange={handleInputChange} type="text" name="search" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
-                        <div className='flex gap-2'>
+            <div className='p-3 pb-20 md:p-10 md:pb-20 bg-white rounded-md shadow-md'>
+                <div className='flex lg:flex-row flex-col items-center justify-between mb-7 gap-5'>
+                    <form onSubmit={handleSearch} className='flex flex-col lg:flex-row items-center gap-5'>
+                        <div className='relative'>
+                            <FaSearch className='absolute top-3 text-slate-500' />
+                            <input onChange={handleInputChange} type="text" name="search" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                        </div>
+                        <div className='flex gap-2 text-nowrap'>
                             <div>
                                 <input type="radio" id="noValide" name="valide" defaultChecked value="false" className="peer hidden" />
                                 <label htmlFor="noValide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> No valider</label>
@@ -185,9 +187,9 @@ export default function Vtc({ promise }: Props) {
                                 )
                             })}
                         </select>
-                        <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Rechercher</button>
+                        <button className='bg-blue-500 font-semibold w-full lg:w-auto hover:bg-third text-white p-2 rounded-lg'>Rechercher</button>
                     </form>
-                    <button onClick={handleValidate} disabled={selectedRows.length === 0 || new Set(selectedRows.map((row) => row.partener.user.id)).size > 1 ? true : false} className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>validé</button>
+                    <button onClick={handleValidate} disabled={selectedRows.length === 0 || new Set(selectedRows.map((row) => row.partener.user.id)).size > 1 ? true : false} className='bg-green-600 disabled:bg-opacity-20 w-full lg:w-auto px-4 py-2 text-white rounded-lg font-semibold'>validé</button>
                 </div>
                 <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table className="w-full text-sm text-left">
