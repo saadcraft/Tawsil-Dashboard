@@ -28,7 +28,7 @@ export default function MagasinSection({ magasin }: { magasin: Magasin }) {
 
         if (updateStatus.code == 200) {
             toast.success(EtatOuverture ? "Ouvert" : "Fermé", { id: loadingToastId });
-            setIsConnected(true)
+            setIsConnected(EtatOuverture ? true : false)
         } else {
             toast.error(updateStatus, { id: loadingToastId });
         }
@@ -77,7 +77,7 @@ export default function MagasinSection({ magasin }: { magasin: Magasin }) {
                             {isConnected ?
                                 <span className='text-green-700 font-bold'>Ouvert</span>
                                 :
-                                <span className='text-red-700 font-bold'>Farmé</span>
+                                <span className='text-red-700 font-bold'>Fermé</span>
                             }
                         </span>
                     </label>
