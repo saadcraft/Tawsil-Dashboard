@@ -30,7 +30,7 @@ export default function DropDown({ onClose }: { onClose: (value: false) => void 
             if (result) {
                 toast.success('Déconnecter avec succès', { id: loadingToastId });
                 setIsLoading(true)
-                router.push('/');
+                router.push('/login');
             } else {
                 toast.error('Probleme avec Déconnection', { id: loadingToastId });
                 // onClose(false)
