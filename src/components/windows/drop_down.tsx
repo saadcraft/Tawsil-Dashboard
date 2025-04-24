@@ -19,7 +19,7 @@ export default function DropDown({ onClose }: { onClose: (value: false) => void 
         if (isLoading) {
             onClose(false);
         }
-    }, [search, isLoading, onClose])
+    }, [search])
 
     const handleSubmit = async () => {
 
@@ -49,8 +49,8 @@ export default function DropDown({ onClose }: { onClose: (value: false) => void 
     return (
         <div>
             <div className='bg-gray-100 rounded-lg'>
-                <ul onClick={() => onClose(false)} className="flex flex-col gap-1 pt-4 pb-3 border-gray-200">
-                    <li className='border-b'>
+                <ul className="flex flex-col gap-1 pt-4 pb-3 border-gray-200">
+                    <li className='border-b' onClick={() => search != "/dashboard/profile" && setIsLoading(true)}>
                         <Link
                             href="/dashboard/profile"
                             className="flex items-center gap-3 px-3 py-2 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700"
