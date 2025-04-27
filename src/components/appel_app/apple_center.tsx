@@ -96,7 +96,7 @@ export default function AppleCenter({ parteners }: Props) {
         <td className="px-6 py-4 text-center">
           {pre.user.groupe ?
             <div className='flex gap-3 justify-center'>
-              {pre.user.groupe}
+              {pre.user.groupe_name || pre.user.groupe}
               <button onClick={() => setResomble(pre)} className='text-2xl'><MdOutlineRefresh /></button>
             </div>
 
