@@ -110,7 +110,7 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
           <input type='text' name='adresse' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le Adress' defaultValue={user.adresse || ''} />
           {user.type_compte.name == "magasin" &&
 
-            <div className="w-full flex flex-col">
+            <div className="w-full flex flex-col gap-4">
               <p className="flex items-center">RC <span className='text-red-600 text-2xl'>*</span></p>
               <input type='text' name='RC' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le NRC' defaultValue={user.RC || ''} />
               <p className="flex items-center">Nif <span className='text-red-600 text-2xl'>*</span></p>
