@@ -9,6 +9,7 @@ import ActiveCompte from "../windows/chef_win/active-compte"
 import { FormatDate, handleInputChange } from "@/lib/tools/tools"
 import { useSearchLoader } from "../options/useSearchLoader";
 import LoadingFirst from "../loading";
+import Named from "@/lib/tools/named";
 
 export default function CenterChef({ parteners }: { parteners: Partenaire[] }) {
 
@@ -37,6 +38,9 @@ export default function CenterChef({ parteners }: { parteners: Partenaire[] }) {
         </td>
         <td className="px-6 py-4">
           {pre.user.is_active ? "Activé" : "Désactivé"}
+        </td>
+        <td className="px-6 py-4">
+          {Named(pre.type_compte.name)}
         </td>
         <td className="px-6 py-4 text-right">
           {pre.user.is_active ? "Complité" : <button onClick={() => hundelModify(pre)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500'>Complité dossie</button>}
@@ -78,6 +82,9 @@ export default function CenterChef({ parteners }: { parteners: Partenaire[] }) {
                 </th>
                 <th className="px-6 py-3">
                   état
+                </th>
+                <th className="px-6 py-3">
+                  type
                 </th>
                 <th className="px-6 py-3 text-right">
                   dossie

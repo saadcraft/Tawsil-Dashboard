@@ -24,7 +24,9 @@ type UserData = {
 
 export default function ComplitDocument({ user, onsub }: { user: Partenaire, onsub: (value: null) => void }) {
 
-  const TypeChoices = ['Moto', 'Classique', 'Comfort', 'Black', 'Utilitaire', 'XXL', 'Harim']
+  const TypeChoices = ['Classique', 'Comfort', 'Black', 'Utilitaire', 'XXL', 'Harim'];
+
+  const TypeLivreur = ['Moto', 'Voiture_livreur'];
 
 
   const router = useRouter()
@@ -106,43 +108,58 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           <p className="flex items-center">Adress <span className='text-red-600 text-2xl'>*</span></p>
           <input type='text' name='adresse' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le Adress' defaultValue={user.adresse || ''} />
-          <p className="flex items-center">RC <span className='text-red-600 text-2xl'>*</span></p>
-          <input type='text' name='RC' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le NRC' defaultValue={user.RC || ''} />
-          <p className="flex items-center">Nif <span className='text-red-600 text-2xl'>*</span></p>
-          <input type='text' name='Nif' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le numéro de Nif' defaultValue={user.Nif || ''} />
-          <p className="flex items-center">Numero Act <span className='text-red-600 text-2xl'>*</span></p>
-          <input type='text' name='numero_act' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le Numéro Act' defaultValue={user.numero_act || ''} />
+          {user.type_compte.name == "magasin" &&
+
+            <div className="w-full flex flex-col">
+              <p className="flex items-center">RC <span className='text-red-600 text-2xl'>*</span></p>
+              <input type='text' name='RC' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le NRC' defaultValue={user.RC || ''} />
+              <p className="flex items-center">Nif <span className='text-red-600 text-2xl'>*</span></p>
+              <input type='text' name='Nif' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le numéro de Nif' defaultValue={user.Nif || ''} />
+              <p className="flex items-center">Numero Act <span className='text-red-600 text-2xl'>*</span></p>
+              <input type='text' name='numero_act' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le Numéro Act' defaultValue={user.numero_act || ''} />
+            </div>
+
+          }
           {/* <p className="flex items-center">RIB <span className='text-red-600 text-2xl'>*</span></p>
           <input type='text' name='num_de_carte_prenneur' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le Numéro Act' defaultValue={user.num_de_carte_prenneur || ''} /> */}
           <p className="flex items-center">Numéro de la carte national <span className='text-red-600 text-2xl'>*</span></p>
           <input type="text" name="card_number" className='p-2 border border-slate-300 rounded-md' placeholder='Entre ID cart' defaultValue={user.card_number || ''} />
           {user.vihucule?.type_vehicule &&
             <>
-              <p className="flex items-center">type Vihucule <span className='text-red-600 text-2xl'>*</span></p>
+              <p className="flex items-center">type Vehicule <span className='text-red-600 text-2xl'>*</span></p>
               <select name="type_vehicule" className='p-2 border border-slate-300 rounded-md' >
                 <option value={user.vihucule?.type_vehicule || ''} >{user.vihucule?.type_vehicule ? user.vihucule?.type_vehicule : 'Sélecte vihucule'}</option>
-                {TypeChoices.map((pre, index) => {
-                  if (user.vihucule?.type_vehicule != pre) {
-                    return (
-                      <option key={index} value={pre}>{pre}</option>
-                    )
-                  }
-                })}
+                {user.type_compte.name == "livreur" ?
+
+                  TypeLivreur.map((pre, index) => {
+                    if (user.vihucule?.type_vehicule != pre) {
+                      return (<option key={index} value={pre}>{pre}</option>)
+                    }
+                  })
+
+                  :
+
+                  TypeChoices.map((pre, index) => {
+                    if (user.vihucule?.type_vehicule != pre) {
+                      return (<option key={index} value={pre}>{pre}</option>)
+                    }
+                  })
+                }
               </select>
-              <p className="flex items-center">Vihucule <span className='text-red-600 text-2xl'>*</span></p>
-              <input type="text" name="modele" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.modele || ''} />
+              <p className="flex items-center">Vehicule <span className='text-red-600 text-2xl'>*</span></p>
+              <input type="text" name="modele" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Vehicule' defaultValue={user.vihucule?.modele || ''} />
               <p className="flex items-center">Numéro et date {`d'assurance`} <span className='text-red-600 text-2xl'>*</span></p>
               <div className="flex gap-3">
-                <input type="text" name="num_assurance" className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.num_assurance || ''} />
+                <input type="text" name="num_assurance" className='p-2 border border-slate-300 rounded-md w-full' placeholder="Entre Le Num d'assurance" defaultValue={user.vihucule?.num_assurance || ''} />
                 <input type="date" name="Date_expiration_assurance" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.Date_expiration_assurance ? new Date(user.vihucule.Date_expiration_assurance).toISOString().split('T')[0] : ""} />
               </div>
               <p className="flex items-center">Numéro et date scanner <span className='text-red-600 text-2xl'>*</span></p>
               <div className="flex gap-3">
-                <input type="text" name="num_scanner" className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.num_scanner || ''} />
+                <input type="text" name="num_scanner" className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre Le Num scanner' defaultValue={user.vihucule?.num_scanner || ''} />
                 <input type="date" name="Date_expiration_scanner" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.Date_expiration_scanner ? new Date(user.vihucule?.Date_expiration_scanner).toISOString().split('T')[0] : ""} />
               </div>
               <p className="flex items-center">Numéro de matricule <span className='text-red-600 text-2xl'>*</span></p>
-              <input type="text" name="matricule" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num commerce' defaultValue={user.vihucule?.matricule || ''} />
+              <input type="text" name="matricule" className='p-2 border border-slate-300 rounded-md' placeholder='Entre Le Num matricule' defaultValue={user.vihucule?.matricule || ''} />
             </>
           }
           <button className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Submite</button>

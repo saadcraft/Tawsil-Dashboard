@@ -24,6 +24,8 @@ export default function Named(role: string | null) {
             return "Chauffeur";
         case "comfort":
             return "Confort";
+        case "magasin":
+            return "Restaurant";
         // Add more roles as needed
         default:
             return role || "Guest"; // Default fallback
