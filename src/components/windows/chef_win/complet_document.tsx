@@ -104,15 +104,15 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
   return (
     <div className='fixed z-20 overflow-auto top-20 flex items-start bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
       <div className='xl:w-2/3 w-full mx-auto rounded-xl p-10 mt-10 bg-white'>
-        <h1 className='mb-5 text-xl text-center font-bold'>Completé le dossie</h1>
+        <h1 className='mb-5 text-xl text-center font-bold'>Completé le dossier</h1>
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
-          <p className="flex items-center">Adress <span className='text-red-600 text-2xl'>*</span></p>
+          <p className="flex items-center">Adresse <span className='text-red-600 text-2xl'>*</span></p>
           <input type='text' name='adresse' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le Adress' defaultValue={user.adresse || ''} />
           {user.type_compte.name == "magasin" &&
 
             <div className="w-full flex flex-col gap-4">
               <p className="flex items-center">RC <span className='text-red-600 text-2xl'>*</span></p>
-              <input type='text' name='RC' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le NRC' defaultValue={user.RC || ''} />
+              <input type='text' name='RC' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le numéro de RC' defaultValue={user.RC || ''} />
               <p className="flex items-center">Nif <span className='text-red-600 text-2xl'>*</span></p>
               <input type='text' name='Nif' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le numéro de Nif' defaultValue={user.Nif || ''} />
               <p className="flex items-center">Numero Act <span className='text-red-600 text-2xl'>*</span></p>
