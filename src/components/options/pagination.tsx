@@ -12,7 +12,7 @@ type props = {
     params: string;
 }
 
-export default function Pagination({ currentPage, pages, params }: props) {
+export default function Pagination({ currentPage, pages, params }: props) { // Globle Pagination
 
     const [isLoading, setIsLoading] = useState(false);
 

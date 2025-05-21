@@ -8,6 +8,8 @@ export default function ActiveCompte({ onClose, user }: { onClose: (result: null
 
     // console.log(user)
 
+    //disable or active accounte
+
     const handleActive = async (user_id: number) => {
 
         const res = await ActiveUser({ user_id })

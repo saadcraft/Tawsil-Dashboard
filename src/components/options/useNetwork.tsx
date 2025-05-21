@@ -1,5 +1,5 @@
 
-export async function checkInternet(): Promise<boolean> {
+export async function checkInternet(): Promise<boolean> { //Check network
     try {
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 3000); // timeout after 3s

@@ -11,7 +11,7 @@ type Agents = {
     result: Users[];
 }
 
-export default function Action({ actions, agents, total }: { actions: Actions[], agents: Agents, total: number }) {
+export default function Action({ actions, agents, total }: { actions: Actions[], agents: Agents, total: number }) { //Track activity of employer
 
     const { isLoading, handleSearch } = useSearchLoader(['search', 'date', 'agent']);
 

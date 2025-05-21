@@ -8,6 +8,7 @@ export default function LoadingFirst() {
         //         Loading... <TbLoader3 className="animate-spin text-4xl" />
         //     </h1>
         // </div>
+        //Laoding Generale
         <div className="fixed inset-0 bg-black bg-opacity-20 flex justify-center items-center z-50">
             <div className="text-center p-8 bg-white rounded-lg shadow-2xl transform transition-all duration-300 hover:scale-105">
                 <h1 className="text-3xl md:text-4xl font-bold text-gray-800 flex items-center justify-center gap-4">

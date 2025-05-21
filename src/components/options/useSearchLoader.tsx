@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-export function useSearchLoader(watchedParams: string[] = []) {
+export function useSearchLoader(watchedParams: string[] = []) { //Generale search for tables
     const router = useRouter();
     const searchParams = useSearchParams();
     const [isLoading, setIsLoading] = useState(false);
