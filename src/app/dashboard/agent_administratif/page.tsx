@@ -1,12 +1,6 @@
 import type { Metadata } from "next";
 import React from 'react'
-import ModAgent from "@/components/chef_app/modifie_agent"
-import { getAgents } from "@/lib/call_action";
-import Pagination from "@/components/options/pagination"
-import { notFound } from "next/navigation";
-import { getUser } from "@/lib/auth";
-import { getAllAgent } from "@/lib/gestion_action";
-import ShowAgent from "@/components/gestion_app/show_agent";
+import ClientAgent from "@/components/clinet_ajent";
 
 export const metadata: Metadata = {
   title: "Modifié Agent",
@@ -25,28 +19,27 @@ export default async function ModyAgentPage({ searchParams }: props) {
   const location = wilaya ?? "";
   const chef = groupe ?? "";
 
-  const user = await getUser();
+  // const user = await getUser();
 
-  let agents = null
+  // let agents = null
 
-  if (user) {
-    if (user.role === "chef_bureau") {
-      agents = await getAgents({ page: pageNumber, search: search_num });
-    }
-    else if (user.role === "gestion_commercial") {
-      agents = await getAllAgent({ role: "agent_administratif", page: pageNumber, search: search_num, wilaya: location, groupe: chef })
-    }
-  }
+  // if (user) {
+  //   if (user.role === "chef_bureau") {
+  //     agents = await getAgents({ page: pageNumber, search: search_num });
+  //   }
+  //   else if (user.role === "gestion_commercial") {
+  //     agents = await getAllAgent({ role: "agent_administratif", page: pageNumber, search: search_num, wilaya: location, groupe: chef })
+  //   }
+  // }
 
-  if (!agents) notFound();
-  const { result, totalAct } = agents;
+  // if (!agents) notFound();
+  // const { result, totalAct } = agents;
 
-  const totalPages = Math.ceil(totalAct / 20);
+  // const totalPages = Math.ceil(totalAct / 20);
 
   return (
     <div>
-      {user && user.role === "chef_bureau" ? <ModAgent results={result} /> : <ShowAgent results={result} />}
-      <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`search=${search_num}`} />
+      <ClientAgent groupe={chef} page={pageNumber} search={search_num} wilaya={location} />
     </div>
   );
 }

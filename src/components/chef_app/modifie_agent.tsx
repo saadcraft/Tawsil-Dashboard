@@ -11,7 +11,7 @@ import { handleInputChange } from '@/lib/tools/tools';
 import LoadingFirst from '../loading';
 import { useSearchLoader } from '../options/useSearchLoader';
 
-export default function ModAgent({ results }: { results: Users[] }) {
+export default function ModAgent({ results, refresh }: { results: Users[], refresh: () => void }) {
 
     const { isLoading, handleSearch } = useSearchLoader(['search']);
 
@@ -102,13 +102,13 @@ export default function ModAgent({ results }: { results: Users[] }) {
             {modify &&
                 <div>
                     <button onClick={() => setModify(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-                    <ModifieForm user={modify} onsub={setModify} />
+                    <ModifieForm user={modify} onsub={setModify} refresh={refresh} />
                 </div>
             }
             {disabled > 0 &&
                 <div>
                     <button onClick={() => setDisabled(0)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-                    <Disable onClose={setDisabled} user={disabled} />
+                    <Disable onClose={setDisabled} user={disabled} refresh={refresh} />
                 </div>
             }
             {isLoading &&

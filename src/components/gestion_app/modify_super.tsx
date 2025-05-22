@@ -10,6 +10,7 @@ import Disable from '../windows/chef_win/disable';
 import { handleInputChange } from '@/lib/tools/tools';
 import { useSearchLoader } from '../options/useSearchLoader';
 import LoadingFirst from '../loading';
+import { useRouter } from 'next/navigation';
 
 export default function ModSuper({ results }: { results: Users[] }) {
 
@@ -22,6 +23,8 @@ export default function ModSuper({ results }: { results: Users[] }) {
     const hundelModify = (info: Users) => setModify(info);
 
     const hundelDisabled = (id: number) => setDisabled(id);
+
+    const router = useRouter()
 
 
 
@@ -101,13 +104,13 @@ export default function ModSuper({ results }: { results: Users[] }) {
             {modify &&
                 <div>
                     <button onClick={() => setModify(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-                    <ModifieForm user={modify} onsub={setModify} />
+                    <ModifieForm user={modify} onsub={setModify} refresh={router.refresh} />
                 </div>
             }
             {disabled > 0 &&
                 <div>
                     <button onClick={() => setDisabled(0)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-                    <Disable onClose={setDisabled} user={disabled} />
+                    <Disable onClose={setDisabled} user={disabled} refresh={router.refresh} />
                 </div>
             }
             {isLoading &&

@@ -8,7 +8,7 @@ import PictureWin from '../windows/picture_win';
 import { MdClose, MdOutlineEdit } from 'react-icons/md';
 import ModifieForm from '../windows/chef_win/modifie_form';
 import { userInformation } from '@/lib/tools/store/web_socket';
-import { notFound } from 'next/navigation';
+import { notFound, useRouter } from 'next/navigation';
 import Named from '@/lib/tools/named';
 
 export default function Profile() {
@@ -16,6 +16,8 @@ export default function Profile() {
     const [pic, setPic] = useState<number | null>(null)
     const [modify, setmodify] = useState<string | null>(null)
     const { user } = userInformation()
+
+    const router = useRouter()
 
     if (!user) return notFound()
 
@@ -155,7 +157,7 @@ export default function Profile() {
             {modify &&
                 <>
                     <button onClick={() => setmodify(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-                    <ModifieForm user={user} onsub={setmodify} />
+                    <ModifieForm user={user} onsub={setmodify} refresh={router.refresh} />
                 </>
             }
         </div>

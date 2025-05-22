@@ -118,6 +118,24 @@ export async function BlockUser({ id }: { id: number }) {
     }
 }
 
+export async function BlockUser2({ id, bloque }: { id: number, bloque: boolean }) {
+    try {
+        const response = await apiRequest({
+            method: "PATCH",
+            url: "/api/v1/centreappel/bloque/partener",
+            data: { id, bloque }
+        });
+
+        if (response.code == 200) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch {
+        return false;
+    }
+}
+
 export async function sendForget(Data: DataType) {
     try {
 

@@ -16,6 +16,7 @@ import { useSearchLoader } from '../options/useSearchLoader';
 import LoadingFirst from '../loading';
 import DeleteReminder from '../windows/centre_win/block_user';
 import { BlockUser } from '@/lib/auth';
+import ShowCorbielle from '../windows/centre_win/show_user_blocker';
 
 type Props = {
   parteners: Partenaire[];
@@ -29,6 +30,7 @@ export default function AppleCenter({ parteners, refresh }: Props) {
 
   const [activePartnerId, setActivePartnerId] = useState<number | null>(null);
   const [showComment, setshowComment] = useState<number | null>(null);
+  const [showDetail, setShowDetail] = useState<boolean>(false);
   const [resomble, setResomble] = useState<Partenaire | null>(null);
   const [deleteConfirmation, setDeleteConfirmation] = useState<{
     isOpen: boolean,
@@ -153,7 +155,7 @@ export default function AppleCenter({ parteners, refresh }: Props) {
             }
             <FaCommentDots className='text-2xl' /></button>
         </td>
-        <td className="px-6 py-4 text-right flex gap-1">
+        <td className="px-6 py-4 text-right flex justify-end gap-1">
           <button onClick={() => handleCommentClick(pre.id)} className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Comment</button>
           <button onClick={() => openDeleteConfirmation(pre.user.id, pre.user.username)} className='bg-red-600 disabled:bg-opacity-20 p-2 text-white rounded-lg font-semibold'><MdBlock size={15} /></button>
         </td>
@@ -169,7 +171,7 @@ export default function AppleCenter({ parteners, refresh }: Props) {
         <h1 className='font-bold'>{`Centre d'appel`}</h1>
       </div>
       <div className='p-3 md:p-10 pb-20 md:pb-20 bg-white gap-10 rounded-md shadow-md'>
-        <div className='mb-7 flex justify-between items-center'>
+        <div className='mb-7 flex flex-col gap-2 md:flex-row justify-between items-center'>
           <form onSubmit={handleSearch} className='flex flex-col md:flex-row items-center gap-2'>
             <div className='relative'>
               <FaSearch className='absolute top-3 text-slate-500' />
@@ -177,7 +179,7 @@ export default function AppleCenter({ parteners, refresh }: Props) {
             </div>
             <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherche</button>
           </form>
-          <button className='bg-red-600 disabled:bg-opacity-20 w-full lg:w-auto px-4 py-2 text-white rounded-lg font-semibold'><FaTrashAlt /></button>
+          <button onClick={() => setShowDetail(true)} className='bg-red-600 disabled:bg-opacity-20 px-4 py-2 text-right text-white rounded-lg font-semibold'><FaTrashAlt /></button>
         </div>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left">
@@ -232,6 +234,9 @@ export default function AppleCenter({ parteners, refresh }: Props) {
       )}
       {deleteConfirmation.isOpen &&
         <DeleteReminder closeDelet={closeDeleteConfirmation} deleteConfirmation={deleteConfirmation} handleDelete={handleDelete} />
+      }
+      {showDetail &&
+        <ShowCorbielle closeCorbiel={() => setShowDetail(false)} refresh={refresh} />
       }
       {isLoading &&
         <LoadingFirst />

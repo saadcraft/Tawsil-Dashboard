@@ -10,6 +10,7 @@ import { MdClose, MdOutlineDisabledByDefault } from 'react-icons/md'
 import { getGroup } from '@/lib/gestion_action'
 import { useSearchLoader } from '../options/useSearchLoader'
 import LoadingFirst from '../loading'
+import { useRouter } from 'next/navigation'
 
 export default function Parteneure({ users }: { users: Partenaire[] }) {
 
@@ -17,6 +18,8 @@ export default function Parteneure({ users }: { users: Partenaire[] }) {
 
     const [user, setUser] = useState<{ id: number, statue: boolean } | null>(null)
     const [group, setGroup] = useState<Groupes[] | null>(null)
+
+    const router = useRouter()
 
     const handleGroup = async ({ wilaya }: { wilaya: string }) => {
         try {
@@ -142,7 +145,7 @@ export default function Parteneure({ users }: { users: Partenaire[] }) {
             {user &&
                 <div>
                     <button onClick={() => setUser(null)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
-                    <ActiveCompte onClose={setUser} user={user} />
+                    <ActiveCompte onClose={setUser} user={user} refresh={router.refresh} />
                 </div>
             }
             {/* {modify &&

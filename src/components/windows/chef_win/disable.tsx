@@ -1,11 +1,8 @@
 import React from 'react'
 import { BlockUser } from '@/lib/auth';
 import { toast } from "react-hot-toast";
-import { useRouter } from 'next/navigation';
 
-export default function Disable({ user, onClose }: { user: number, onClose: (id: number) => void }) {
-
-    const router = useRouter()
+export default function Disable({ user, onClose, refresh }: { user: number, onClose: (id: number) => void, refresh: () => void }) {
 
     const handleBlock = async (id: number) => {
 
@@ -13,7 +10,7 @@ export default function Disable({ user, onClose }: { user: number, onClose: (id:
         const res = await BlockUser({ id })
         if (res) {
             toast.success('Utilisateur supprimé avec succès', { id: loadingToastId });
-            router.refresh()
+            refresh()
             onClose(0)
         } else {
             toast.success('Problem connection', { id: loadingToastId });

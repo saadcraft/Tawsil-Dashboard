@@ -1,10 +1,7 @@
 import { toast } from "react-hot-toast"
 import { UpdateUser } from '@/lib/call_action';
-import { useRouter } from 'next/navigation'
 
-export default function ModifieForm({ user, onsub }: { user: Users, onsub: (value: null) => void }) {
-
-  const router = useRouter()
+export default function ModifieForm({ user, onsub, refresh }: { user: Users, onsub: (value: null) => void, refresh: () => void }) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,7 +30,7 @@ export default function ModifieForm({ user, onsub }: { user: Users, onsub: (valu
 
     const res = await UpdateUser(updatedUser)
     if (res) {
-      router.refresh()
+      refresh()
       onsub(null)
     }
   }

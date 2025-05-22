@@ -39,6 +39,26 @@ export async function getParteners({ page, search }: { page: string, search: str
     }
 }
 
+export async function getBlockedParteners({ page }: { page: string }): Promise<apiParteneur | null> {
+    try {
+        const response = await apiRequest({
+            method: "GET",
+            url: "/api/v1/partener/bloquers",
+            params: { page }
+        });
+        if (response.code == 200) {
+            return {
+                result: response.data.results,
+                totalAct: response.data.count
+            };
+        } else {
+            return null;
+        }
+    } catch {
+        return null;
+    }
+}
+
 export async function AddComment({ id, comment }: Comment) {
     const loadingToastId = toast.loading('Submite Commande...');
     try {

@@ -15,6 +15,7 @@ import ModifieGeo from '../windows/super_win/modifie_goe'
 import QRcode from '../windows/magasin_win/qrcode'
 import { useSearchLoader } from '../options/useSearchLoader'
 import LoadingFirst from '../loading'
+import { useRouter } from 'next/navigation'
 
 export default function Validation({ users }: { users: Partenaire[] }) {
 
@@ -25,6 +26,8 @@ export default function Validation({ users }: { users: Partenaire[] }) {
     const [show, setShow] = useState<Partenaire | null>(null);
     const [geo, setGeo] = useState<number | null>(null);
     const [qrCode, setQrCode] = useState<number | null>(null);
+
+    const router = useRouter()
 
     const handleSubmite = async (id: number, event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -155,7 +158,7 @@ export default function Validation({ users }: { users: Partenaire[] }) {
             {user &&
                 <div>
                     <button onClick={() => setUser(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-                    <ActiveCompte onClose={setUser} user={user} />
+                    <ActiveCompte onClose={setUser} user={user} refresh={router.refresh} />
                 </div>
             }
             {activePartnerId &&
