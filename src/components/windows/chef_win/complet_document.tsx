@@ -1,6 +1,5 @@
 import { toast } from "react-hot-toast"
 import { UpdateDocument } from '@/lib/call_action';
-import { useRouter } from 'next/navigation';
 
 type Vehicle = {
   modele?: string;
@@ -22,14 +21,11 @@ type UserData = {
   vihucule?: Vehicle;
 };
 
-export default function ComplitDocument({ user, onsub }: { user: Partenaire, onsub: (value: null) => void }) {
+export default function ComplitDocument({ user, onsub, refresh }: { user: Partenaire, onsub: (value: null) => void, refresh: () => void }) {
 
   const TypeChoices = ['Classique', 'Comfort', 'Black', 'Utilitaire', 'XXL', 'Harim'];
 
   const TypeLivreur = ['Moto', 'Voiture_livreur'];
-
-
-  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -96,7 +92,7 @@ export default function ComplitDocument({ user, onsub }: { user: Partenaire, ons
     // const updatedUser = { id: user.id.toString(), ...filteredData };
     const res = await UpdateDocument(filteredData)
     if (res) {
-      router.refresh()
+      refresh();
       onsub(null)
     }
   }

@@ -2,34 +2,60 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { FaSearch } from 'react-icons/fa'
+import { FaSearch, FaTrashAlt } from 'react-icons/fa'
 import { FaCommentDots, FaUserGroup } from "react-icons/fa6";
-import { MdClose, MdOutlineRefresh } from "react-icons/md"
+import { MdClose, MdOutlineRefresh, MdBlock } from "react-icons/md"
 import Comment from "../windows/centre_win/comment"
 import { AddComment, UpdateGroup } from '@/lib/call_action'
 import ShowComment from '../windows/centre_win/show-comments'
 import Group from '../windows/chef_win/group'
-import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast';
 import { RiCheckFill } from 'react-icons/ri';
 import { handleInputChange } from '@/lib/tools/tools';
 import { useSearchLoader } from '../options/useSearchLoader';
 import LoadingFirst from '../loading';
+import DeleteReminder from '../windows/centre_win/block_user';
+import { BlockUser } from '@/lib/auth';
 
 type Props = {
   parteners: Partenaire[];
-  chefs: Users[];
+  // chefs: Users[];
+  refresh: () => void
 };
 
-export default function AppleCenter({ parteners }: Props) {
+export default function AppleCenter({ parteners, refresh }: Props) {
 
   const { isLoading, handleSearch } = useSearchLoader(['search']);
-
-  const router = useRouter()
 
   const [activePartnerId, setActivePartnerId] = useState<number | null>(null);
   const [showComment, setshowComment] = useState<number | null>(null);
   const [resomble, setResomble] = useState<Partenaire | null>(null);
+  const [deleteConfirmation, setDeleteConfirmation] = useState<{
+    isOpen: boolean,
+    userId: number | null,
+    userName: string
+  }>({
+    isOpen: false,
+    userId: null,
+    userName: "",
+  })
+
+  const openDeleteConfirmation = (id: number, name: string) => {
+    setDeleteConfirmation({
+      isOpen: true,
+      userId: id,
+      userName: name,
+    })
+  }
+
+  const closeDeleteConfirmation = () => {
+    setDeleteConfirmation({
+      isOpen: false,
+      userId: null,
+      userName: "",
+    })
+  }
+
 
   const handleCommentClick = (id: number) => {
     setActivePartnerId(activePartnerId === id ? null : id); // Toggle visibility
@@ -53,7 +79,7 @@ export default function AppleCenter({ parteners }: Props) {
     const res = await AddComment({ id: id, comment: comment })
     if (res) {
       setActivePartnerId(null)
-      router.refresh()
+      refresh()
     }
   }
 
@@ -71,7 +97,19 @@ export default function AppleCenter({ parteners }: Props) {
     const res = await UpdateGroup({ id: id, groupe: add, wilaya: wilaya, code: code })
     if (res) {
       setResomble(null)
-      router.refresh()
+      refresh()
+    }
+  }
+
+  const handleDelete = async (id: number) => {
+    const loadingToastId = toast.loading("Supprimer en coure ...")
+    const res = await BlockUser({ id })
+    if (res) {
+      toast.success("Utilisateur Supprimé", { id: loadingToastId })
+      refresh()
+      closeDeleteConfirmation()
+    } else {
+      toast.error("Problem de connection", { id: loadingToastId });
     }
   }
 
@@ -115,8 +153,9 @@ export default function AppleCenter({ parteners }: Props) {
             }
             <FaCommentDots className='text-2xl' /></button>
         </td>
-        <td className="px-6 py-4 text-right">
+        <td className="px-6 py-4 text-right flex gap-1">
           <button onClick={() => handleCommentClick(pre.id)} className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Comment</button>
+          <button onClick={() => openDeleteConfirmation(pre.user.id, pre.user.username)} className='bg-red-600 disabled:bg-opacity-20 p-2 text-white rounded-lg font-semibold'><MdBlock size={15} /></button>
         </td>
       </tr>
     )
@@ -130,13 +169,16 @@ export default function AppleCenter({ parteners }: Props) {
         <h1 className='font-bold'>{`Centre d'appel`}</h1>
       </div>
       <div className='p-3 md:p-10 pb-20 md:pb-20 bg-white gap-10 rounded-md shadow-md'>
-        <form onSubmit={handleSearch} className='mb-7 flex flex-col md:flex-row items-center gap-2'>
-          <div className='relative'>
-            <FaSearch className='absolute top-3 text-slate-500' />
-            <input type="text" name="search" onChange={handleInputChange} placeholder='Recherche par numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
-          </div>
-          <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherche</button>
-        </form>
+        <div className='mb-7 flex justify-between items-center'>
+          <form onSubmit={handleSearch} className='flex flex-col md:flex-row items-center gap-2'>
+            <div className='relative'>
+              <FaSearch className='absolute top-3 text-slate-500' />
+              <input type="text" name="search" onChange={handleInputChange} placeholder='Recherche par numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+            </div>
+            <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherche</button>
+          </form>
+          <button className='bg-red-600 disabled:bg-opacity-20 w-full lg:w-auto px-4 py-2 text-white rounded-lg font-semibold'><FaTrashAlt /></button>
+        </div>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left">
             <thead className="text-xs text-gray-500 uppercase bg-primer">
@@ -188,6 +230,9 @@ export default function AppleCenter({ parteners }: Props) {
           <Group id={resomble} onEvent={hundleGroup} onClose={setResomble} />
         </div>
       )}
+      {deleteConfirmation.isOpen &&
+        <DeleteReminder closeDelet={closeDeleteConfirmation} deleteConfirmation={deleteConfirmation} handleDelete={handleDelete} />
+      }
       {isLoading &&
         <LoadingFirst />
       }

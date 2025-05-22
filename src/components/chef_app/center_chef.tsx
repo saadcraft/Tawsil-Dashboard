@@ -11,7 +11,7 @@ import { useSearchLoader } from "../options/useSearchLoader";
 import LoadingFirst from "../loading";
 import Named from "@/lib/tools/named";
 
-export default function CenterChef({ parteners }: { parteners: Partenaire[] }) {
+export default function CenterChef({ parteners, refresh }: { parteners: Partenaire[], refresh: () => void }) {
 
   const { isLoading, handleSearch } = useSearchLoader(['search']);
   // console.log(parteners)
@@ -100,13 +100,13 @@ export default function CenterChef({ parteners }: { parteners: Partenaire[] }) {
       {modify &&
         <div>
           <button onClick={() => setModify(null)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
-          <ComplitDocument user={modify} onsub={setModify} />
+          <ComplitDocument user={modify} onsub={setModify} refresh={refresh} />
         </div>
       }
       {user &&
         <div>
           <button onClick={() => setUser(null)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
-          <ActiveCompte onClose={setUser} user={user} />
+          <ActiveCompte onClose={setUser} user={user} refresh={refresh} />
         </div>
       }
       {isLoading &&

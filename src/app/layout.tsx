@@ -3,6 +3,7 @@ import "./globals.css";
 import ServerMenu from "@/components/server_layout";
 import { Toaster } from 'react-hot-toast';
 import { ToastContainer } from 'react-toastify';
+import { QueryProvider } from "@/components/providers/queryProvider";
 
 
 export const metadata: Metadata = {
@@ -21,10 +22,12 @@ export default function RootLayout({
         className={`antialiased bg-six`}
       >
         <Toaster position='top-center' reverseOrder={false}></Toaster>
-        <ServerMenu />
-        <main className='relative z-80 top-20 md:ml-80'>
-          {children}
-        </main>
+        <QueryProvider>
+          <ServerMenu />
+          <main className='relative z-80 top-20 md:ml-80'>
+            {children}
+          </main>
+        </QueryProvider>
         <ToastContainer position="bottom-right" />
       </body>
     </html>

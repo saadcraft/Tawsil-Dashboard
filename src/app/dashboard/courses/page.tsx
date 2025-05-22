@@ -3,7 +3,6 @@ import Pagination from '@/components/options/pagination';
 import { getCourses } from '@/lib/gestion_action';
 import { Metadata } from 'next';
 import React from 'react'
-// import useStore from '@/components/providers/SessionProvider'
 import { notFound } from 'next/navigation';
 
 export const metadata: Metadata = {

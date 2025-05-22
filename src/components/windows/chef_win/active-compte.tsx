@@ -1,10 +1,7 @@
 import React from 'react'
-import { useRouter } from 'next/navigation';
 import { ActiveUser, DisableUser } from '@/lib/call_action';
 
-export default function ActiveCompte({ onClose, user }: { onClose: (result: null) => void, user: { id: number, statue: boolean } }) {
-
-    const router = useRouter()
+export default function ActiveCompte({ onClose, user, refresh }: { onClose: (result: null) => void, user: { id: number, statue: boolean }, refresh: () => void }) {
 
     // console.log(user)
 
@@ -14,7 +11,7 @@ export default function ActiveCompte({ onClose, user }: { onClose: (result: null
 
         const res = await ActiveUser({ user_id })
         if (res) {
-            router.refresh()
+            refresh()
             onClose(null)
         }
     }
@@ -23,7 +20,7 @@ export default function ActiveCompte({ onClose, user }: { onClose: (result: null
 
         const res = await DisableUser({ id })
         if (res) {
-            router.refresh()
+            refresh()
             onClose(null)
         }
     }
