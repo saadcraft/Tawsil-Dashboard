@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Register from "@/components/auth/register";
-import ClientOnly from "@/components/providers/clientOnly";
 
 export const metadata: Metadata = {
     title: "Register",

@@ -92,7 +92,7 @@ export default function Login() {
                             }
                         </button>
                     </div>
-                    <Link href="/register" className="p-2 flex text-blue-700 justify-end hover:underline">s'inscrire à starshop ?</Link>
+                    <Link href="/register" className="p-2 flex text-blue-700 justify-end hover:underline">S&apos;inscrire à starshop ?</Link>
                 </form>
                 <div className="hidden xl:block border-l-2">
                     <div className="p-5 flex flex-col justify-center items-center">

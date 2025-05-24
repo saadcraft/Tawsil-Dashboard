@@ -94,7 +94,7 @@ export default function RegisterForm() {
             <div className='p-5 md:p-10 bg-white grid xl:grid-cols-2 gap-10 rounded-md shadow-md'>
                 <form onSubmit={handleSubmit} className='flex flex-col gap-1 py-5 px-2'>
                     <p className="text-slate-500 font-semibold">Tawsil Star</p>
-                    <h1 className="text-xl font-bold">S'inscrire à starshop</h1>
+                    <h1 className="text-xl font-bold">S&apos;inscrire à starshop</h1>
                     <div className='flex flex-col gap-2 lg:flex-row'>
                         <div className='flex flex-col gap-2 w-full'>
                             <label htmlFor="email">Nom</label>
