@@ -101,7 +101,7 @@ type Vehicule = {
 type typeCompte = {
   descprtion: string;
   id: number;
-  name: string
+  name: string;
   tax_tawsile: number;
 }
 

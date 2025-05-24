@@ -59,6 +59,29 @@ export async function SignIn({ username, password }: User) {
     }
 }
 
+export async function Register(data: DataType) {
+    try {
+        const response = await apiRequest({
+            method: 'POST',
+            url: '/api/v1/user/starshop/registre/',
+            data: data,
+        })
+        if (response.code == 201) {
+            return {
+                code: response.code,
+                data: response.data,
+            }
+        } else {
+            return {
+                code: response.code,
+                data: response.message
+            }
+        }
+    } catch {
+        return null
+    }
+}
+
 export async function SignOut() {
     const refresh = (await cookies()).get("refresh_token")?.value
     try {

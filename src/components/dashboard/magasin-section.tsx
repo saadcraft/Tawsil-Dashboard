@@ -19,6 +19,8 @@ export default function MagasinSection({ magasin }: { magasin: Magasin }) {
     const [qrCode, setQrCode] = useState<number | null>(null);
     const [mody, setMody] = useState<boolean>(false);
 
+    console.log(magasin)
+
     const { isConnected, setIsConnected } = useNotificationStore();
 
     const handleStatusChange = async (magasin_id: number, EtatOuverture: boolean) => {
@@ -63,25 +65,27 @@ export default function MagasinSection({ magasin }: { magasin: Magasin }) {
                 </div>
             </div>
             <div className='relative'>
-                <div className="absolute md:right-20 right-5 top-3 flex items-center space-x-3">
-                    <span className="font-bold">Status:</span>
-                    <label className="relative inline-flex items-center cursor-pointer">
-                        <input
-                            type="checkbox"
-                            className="sr-only peer"
-                            checked={isConnected} // Set from database
-                            onChange={(e) => magasin?.id !== undefined && handleStatusChange(magasin.id, e.target.checked)} // Function to update status
-                        />
-                        <div className="w-12 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-6 peer-checked:after:border-white after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-green-500"></div>
-                        <span className="ml-3 text-sm font-medium text-gray-900">
-                            {isConnected ?
-                                <span className='text-green-700 font-bold'>Ouvert</span>
-                                :
-                                <span className='text-red-700 font-bold'>Fermé</span>
-                            }
-                        </span>
-                    </label>
-                </div>
+                {magasin.owner.type_compte.name !== "starshop" &&
+                    <div className="absolute md:right-20 right-5 top-3 flex items-center space-x-3">
+                        <span className="font-bold">Status:</span>
+                        <label className="relative inline-flex items-center cursor-pointer">
+                            <input
+                                type="checkbox"
+                                className="sr-only peer"
+                                checked={isConnected} // Set from database
+                                onChange={(e) => magasin?.id !== undefined && handleStatusChange(magasin.id, e.target.checked)} // Function to update status
+                            />
+                            <div className="w-12 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-6 peer-checked:after:border-white after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-green-500"></div>
+                            <span className="ml-3 text-sm font-medium text-gray-900">
+                                {isConnected ?
+                                    <span className='text-green-700 font-bold'>Ouvert</span>
+                                    :
+                                    <span className='text-red-700 font-bold'>Fermé</span>
+                                }
+                            </span>
+                        </label>
+                    </div>
+                }
             </div>
             <div className='py-5 px-5 sm:px-16'>
                 <div className='relative top-10 p-3 bg-white md:p-10 rounded-md shadow-md'>
