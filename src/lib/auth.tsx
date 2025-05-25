@@ -278,8 +278,10 @@ export async function addProduct(Data: { magasin_id: number, [key: string]: unkn
         if (response.status == 201) {
             return { success: true, message: "Produit create Avec succès" }; // Return success message
         } else {
-            const errorData = await response.json(); // Assuming the server returns error details in JSON
-            return { success: false, message: errorData.message || "La mise à jour a échoué. Veuillez réessayer." };
+            const errorData = await response.json();
+            const firstField = Object.keys(errorData.message)[0];
+            const firstError = errorData.message[firstField][0];
+            return { success: false, message: firstError || "La mise à jour a échoué. Veuillez réessayer." };
         }
     } catch {
         return { success: false, message: "Probleme connection" };

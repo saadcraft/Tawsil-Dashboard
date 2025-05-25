@@ -1,11 +1,14 @@
 import { ModifieProduct } from '@/lib/auth';
 import { useRouter } from 'next/navigation';
-import React from 'react'
+import React, { useState } from 'react'
 import toast from 'react-hot-toast';
+import Image from 'next/image';
 
 export default function ModifyProduct({ pro, option, onsub }: { pro: Produit, option: Catalogue[], onsub: (value: null) => void }) {
 
     const router = useRouter()
+
+    const [image, setImage] = useState<File | null>(null)
 
     // console.log(option)
 
@@ -73,6 +76,17 @@ export default function ModifyProduct({ pro, option, onsub }: { pro: Produit, op
                             </div>
                         </div>
                     </div>
+                    <div className='flex gap-3 justify-start items-center'>
+                        <p>Select image</p>
+                        <label htmlFor='file' className='w-20 h-20 rounded-lg border-2 flex justify-center items-center cursor-pointer'>
+                            {image ?
+                                <Image height={100} width={100} src={URL.createObjectURL(image)} alt='product pucture' className='w-20 h-20 object-cover rounded-lg' />
+                                :
+                                <p className='pb-2 font-bold text-4xl'>+</p>
+                            }
+                        </label>
+                        <input type="file" onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} id='file' accept='images/*' name='image' className='hidden' />
+                    </div>
                     <p>catégorie</p>
                     <select name='catalogue_id' className='p-2 w-full border border-slate-300 rounded-md'>
                         <option value={pro.catalogue ? pro.catalogue : ""}>{pro.catalogue ? option.find(pre => pre.id === pro.catalogue)?.name : 'Sélectionné catégorie'}</option>
@@ -90,7 +104,6 @@ export default function ModifyProduct({ pro, option, onsub }: { pro: Produit, op
                     <input type='text' name='price' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le prix' defaultValue={pro.price} />
                     <p>description</p>
                     <input type='text' name='description' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le description' defaultValue={pro.description} />
-                    <input type="file" accept='images/*' name='image' />
                     <button className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Submite</button>
                 </form>
             </div>

@@ -4,7 +4,7 @@ import ServerMenu from "@/components/server_layout";
 import { Toaster } from 'react-hot-toast';
 import { ToastContainer } from 'react-toastify';
 import { QueryProvider } from "@/components/providers/queryProvider";
-import ClientOnly from "@/components/providers/clientOnly";
+// import ClientOnly from "@/components/providers/clientOnly";
 
 
 export const metadata: Metadata = {
@@ -23,16 +23,14 @@ export default function RootLayout({
         className={`antialiased bg-six`}
         suppressHydrationWarning
       >
-        <ClientOnly>
-          <Toaster position='top-center' reverseOrder={false} />
-          <ToastContainer position="bottom-right" />
-          <QueryProvider>
-            <ServerMenu />
-            <main className='relative z-80 top-20 md:ml-80'>
-              {children}
-            </main>
-          </QueryProvider>
-        </ClientOnly>
+        <Toaster position='top-center' reverseOrder={false} />
+        <ToastContainer position="bottom-right" />
+        <QueryProvider>
+          <ServerMenu />
+          <main className='relative z-80 top-20 md:ml-80'>
+            {children}
+          </main>
+        </QueryProvider>
       </body>
     </html >
   );

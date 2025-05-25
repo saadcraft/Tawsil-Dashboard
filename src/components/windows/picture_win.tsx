@@ -1,10 +1,15 @@
+"use client"
+
 import { UpdatePic } from '@/lib/auth'
 // import { UpdateUser } from '@/lib/call_action'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useState } from 'react'
 import toast from 'react-hot-toast'
+import Image from 'next/image'
 
 export default function PictureWin({ user, onsub }: { user: number, onsub: (value: null) => void }) {
+
+    const [image, setImage] = useState<File | null>(null)
 
     const router = useRouter()
 
@@ -53,7 +58,17 @@ export default function PictureWin({ user, onsub }: { user: number, onsub: (valu
             <div className='md:max-w-5xl max-w-full mx-auto rounded-xl p-5 mt-10 bg-white'>
                 <h1 className='mb-5 text-center'>upload une image</h1>
                 <form onSubmit={handleChange} className='flex flex-col gap-10' encType="multipart/form-data">
-                    <input type='file' name='image_url' className='p-2' placeholder='Entre le commentaire' accept="image/*" />
+                    <div className='flex gap-3 justify-start items-center'>
+                        <p>Select image</p>
+                        <label htmlFor='file' className='w-20 h-20 rounded-lg border-2 flex justify-center items-center cursor-pointer'>
+                            {image ?
+                                <Image height={100} width={100} src={URL.createObjectURL(image)} alt='product pucture' className='w-20 h-20 object-cover rounded-lg' />
+                                :
+                                <p className='pb-2 font-bold text-4xl'>+</p>
+                            }
+                        </label>
+                        <input type="file" onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} id='file' accept='images/*' name='image_url' className='hidden' />
+                    </div>
                     <button type="submit" className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Sauvegarder</button>
                 </form>
             </div>

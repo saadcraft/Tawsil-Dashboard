@@ -1,13 +1,17 @@
 import { addProduct } from '@/lib/auth';
 import { useRouter } from 'next/navigation';
-import React from 'react'
+import React, { useState } from 'react'
 import toast from 'react-hot-toast';
+import Image from 'next/image';
+import { handleInputChange } from '@/lib/tools/tools';
 
 export default function AjouterProduct({ option, maga, onsub }: { option: Catalogue[], maga: Magasin, onsub: (value: false) => void }) {
 
     const router = useRouter()
 
-    console.log(option)
+    const [image, setImage] = useState<File | null>(null)
+
+    // console.log(option)
 
     const handleCreate = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -50,6 +54,17 @@ export default function AjouterProduct({ option, maga, onsub }: { option: Catalo
             <div className='md:max-w-2xl w-full mx-auto p-5 mt-10 bg-white rounded-lg'>
                 <h1 className='mb-5 text-2xl font-bold text-center'>Ajoueté produit</h1>
                 <form onSubmit={handleCreate} className='flex flex-col gap-4' encType="multipart/form-data">
+                    <div className='flex gap-3 justify-start items-center'>
+                        <p>Select image</p>
+                        <label htmlFor='file' className='w-20 h-20 rounded-lg border-2 flex justify-center items-center cursor-pointer'>
+                            {image ?
+                                <Image height={100} width={100} src={URL.createObjectURL(image)} alt='product pucture' className='w-20 h-20 object-cover rounded-lg' />
+                                :
+                                <p className='pb-2 font-bold text-4xl'>+</p>
+                            }
+                        </label>
+                        <input type="file" onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} id='file' accept='images/*' name='image' className='hidden' />
+                    </div>
                     <p>catégorie</p>
                     <select name='catalogue_id' className='p-2 w-full border border-slate-300 rounded-md' >
                         <option value="">Sélectionné catégorie</option>
@@ -62,10 +77,9 @@ export default function AjouterProduct({ option, maga, onsub }: { option: Catalo
                     <p>Le nom de produit</p>
                     <input type='text' name='name' className='p-2 w-full border border-slate-300 rounded-md' placeholder='Entre le Nom de produit' />
                     <p>Price</p>
-                    <input type='text' name='price' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le prix' />
+                    <input onChange={handleInputChange} type='text' name='price' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le prix' />
                     <p>description</p>
                     <input type='text' name='description' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le description' />
-                    <input type="file" accept='images/*' name='image' />
                     <button className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Submite</button>
                 </form>
             </div>

@@ -1,11 +1,15 @@
+"use client"
+
 import { UpdateMagPic } from '@/lib/auth'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useState } from 'react'
 import toast from 'react-hot-toast'
+import Image from "next/image"
 
 export default function PictureMagasin({ type, onsub, maga }: { type: "background" | "profile", onsub: (value: null) => void, maga: Magasin | null }) {
 
     const router = useRouter()
+    const [image, setImage] = useState<File | null>(null)
 
     const handleChange = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -68,9 +72,29 @@ export default function PictureMagasin({ type, onsub, maga }: { type: "backgroun
                 <h1 className='mb-5 text-center'>upload une image</h1>
                 <form onSubmit={handleChange} className='flex flex-col gap-10' encType="multipart/form-data">
                     {type === "background" ?
-                        <input type='file' name='image_background' className='p-2' placeholder='Entre le commentaire' accept="image/*" />
+                        <div className='flex gap-3 justify-start items-center'>
+                            <p>Select image</p>
+                            <label htmlFor='file' className='w-20 h-20 rounded-lg border-2 flex justify-center items-center cursor-pointer'>
+                                {image ?
+                                    <Image height={100} width={100} src={URL.createObjectURL(image)} alt='product pucture' className='w-20 h-20 object-cover rounded-lg' />
+                                    :
+                                    <p className='pb-2 font-bold text-4xl'>+</p>
+                                }
+                            </label>
+                            <input type="file" onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} id='file' accept='images/*' name='image_background' className='hidden' />
+                        </div>
                         :
-                        <input type='file' name='image' className='p-2' placeholder='Entre le commentaire' accept="image/*" />
+                        <div className='flex gap-3 justify-start items-center'>
+                            <p>Select image</p>
+                            <label htmlFor='file' className='w-20 h-20 rounded-lg border-2 flex justify-center items-center cursor-pointer'>
+                                {image ?
+                                    <Image height={100} width={100} src={URL.createObjectURL(image)} alt='product pucture' className='w-20 h-20 object-cover rounded-lg' />
+                                    :
+                                    <p className='pb-2 font-bold text-4xl'>+</p>
+                                }
+                            </label>
+                            <input type="file" onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} id='file' accept='images/*' name='image' className='hidden' />
+                        </div>
                     }
                     <button type="submit" className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Sauvegarder</button>
                 </form>

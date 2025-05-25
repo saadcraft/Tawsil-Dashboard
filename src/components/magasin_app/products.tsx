@@ -145,10 +145,10 @@ export default function Products({ products, cat, magasin }: { products: Produit
             {add &&
                 <div>
                     <button onClick={() => setAdd(false)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-                    {pertner?.type_compte.name === 'starshop' ?
-                        <AjouterStar option={cat!} maga={magasin} onsub={setAdd} />
-                        :
+                    {pertner?.type_compte.name !== 'starshop' ?
                         <AjouterProduct option={cat!} maga={magasin} onsub={setAdd} />
+                        :
+                        <AjouterStar option={cat!} maga={magasin} onsub={setAdd} />
                     }
                 </div>
             }
