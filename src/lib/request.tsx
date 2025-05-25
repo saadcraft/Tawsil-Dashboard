@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 // Function to dynamically get the access token
 const getAccessToken = async (): Promise<string | undefined> => {
     const accessToken = (await cookies()).get("access_token")?.value;
+    // console.log('here', accessToken)
     return accessToken;
 };
 

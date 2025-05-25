@@ -25,6 +25,8 @@ export const refreshAccessToken = async (): Promise<TokenResponse | undefined> =
         const cookiesStore = await cookies();
         const refreshToken = cookiesStore.get("refresh_token")?.value;
 
+        console.log(refreshToken)
+
         if (!refreshToken) throw new Error("Refresh token is missing");
 
         try {

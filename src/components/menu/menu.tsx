@@ -27,6 +27,7 @@ import { toast } from "react-hot-toast";
 import { MenuParams } from "./params";
 import LoadingFirst from '../loading';
 import { getTotalDemande, getTotalNoGroup } from '@/lib/action_client';
+import { PartenaireInformation } from '@/lib/tools/store/pertnerStore';
 
 type props = {
     user: Users;
@@ -44,6 +45,8 @@ export default function Menu({ user, token }: props) {
     const [isLoading, setIsLoading] = useState(false);
     const [countState, setCountState] = useState<number | null>(null);
     const [countPart, setCountPart] = useState<number | null>(null);
+
+    const { pertner } = PartenaireInformation()
 
     const handleMenu = (url: string | null) => {
         setIsMenuOpen(!isMenuOpen);
@@ -150,9 +153,15 @@ export default function Menu({ user, token }: props) {
                     ? (<span className='absolute -top-3 -right-3 py-0.5 px-2 text-sm rounded-full text-white font-bold bg-red-600' >{(countState || 0) + (countPart || 0)}</span>) : ""}
             </div>
             <div className={`fixed z-40 text-white top-0 overflow-y-auto no-scrollbar left-0 bottom-0 transition-all md:-translate-x-0  ${isMenuOpen ? "" : "-translate-x-80"} ${user?.type_account === "premium" ? 'bg-gradient-to-r from-gold5 to-gold6' : 'bg-primer'}  w-80 px-5`}>
-                <div onClick={() => handleMenu('/')} className='flex flex-col justify-center'>
-                    <Image height={100} width={100} src="/tawsil-start.png" alt="Tawsil" className='w-40 cursor-pointer mx-auto' />
-                </div>
+                {pertner?.type_compte.name === "starshop" ?
+                    <div onClick={() => handleMenu('/')} className='flex flex-col justify-center'>
+                        <Image height={100} width={100} src="/logo_VQR.png" alt="Tawsil" className='w-40 cursor-pointer mx-auto' />
+                    </div>
+                    :
+                    <div onClick={() => handleMenu('/')} className='flex flex-col justify-center'>
+                        <Image height={100} width={100} src="/tawsil-start.png" alt="Tawsil" className='w-40 cursor-pointer mx-auto' />
+                    </div>
+                }
 
                 <div className='flex flex-col gap-2 py-3'>
                     {user &&

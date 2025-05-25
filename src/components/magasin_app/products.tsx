@@ -14,6 +14,8 @@ import toast from 'react-hot-toast'
 import ClientComment from '../windows/magasin_win/client_comment'
 import { useSearchLoader } from '../options/useSearchLoader'
 import LoadingFirst from '../loading'
+import { PartenaireInformation } from '@/lib/tools/store/pertnerStore'
+import AjouterStar from '../windows/magasin_win/star_add'
 
 export default function Products({ products, cat, magasin }: { products: Produit[], cat: Catalogue[], magasin: Magasin }) {
 
@@ -26,6 +28,8 @@ export default function Products({ products, cat, magasin }: { products: Produit
     const [delet, setDelet] = useState<number | null>(null);
     const [modify, setModify] = useState<Produit | null>(null);
     const [page, setPage] = useState<number[] | null>(null);
+
+    const { pertner } = PartenaireInformation()
 
     const handleStatus = async (id: number, disponibilite: boolean) => {
         const loadingToastId = toast.loading('Submite update...');
@@ -141,7 +145,11 @@ export default function Products({ products, cat, magasin }: { products: Produit
             {add &&
                 <div>
                     <button onClick={() => setAdd(false)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
-                    <AjouterProduct option={cat!} maga={magasin} onsub={setAdd} />
+                    {pertner?.type_compte.name === 'starshop' ?
+                        <AjouterStar option={cat!} maga={magasin} onsub={setAdd} />
+                        :
+                        <AjouterProduct option={cat!} maga={magasin} onsub={setAdd} />
+                    }
                 </div>
             }
             {delet &&

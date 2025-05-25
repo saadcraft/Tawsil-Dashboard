@@ -27,6 +27,10 @@ export async function SignIn({ username, password }: User) {
         if (data.code === 200) {
             const cookiesStore = await cookies();
 
+            if (!data.data.active) {
+                return "Compte désactivé"
+            }
+
             if (Role(data.data.role)) {
 
                 cookiesStore.set("access_token", data.data.access_token, {

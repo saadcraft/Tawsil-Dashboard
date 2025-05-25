@@ -3,7 +3,6 @@ import Menu from './menu/menu';
 import { getUser } from '@/lib/auth';
 import Header from './header/header';
 import ContactSupport from './contact/contact-support';
-import ClientOnly from './providers/clientOnly';
 
 export default async function ServerMenu() { //Layout server component for pass the information of user
 
@@ -22,11 +21,11 @@ export default async function ServerMenu() { //Layout server component for pass 
   }
 
   return (
-    <ClientOnly>
+    <div>
       <Menu user={users!} token={access!} />
       <Header user={users!} token={access!} />
       {users && <ContactSupport />}
-    </ClientOnly>
+    </div>
   )
 
 }

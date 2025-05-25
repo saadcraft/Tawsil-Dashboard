@@ -10,6 +10,7 @@ import Satistic from './statistic'
 import Chart from './chart';
 import MapDz from './map-dz';
 import MagasinSection from './magasin-section';
+import { PartenaireInformation } from '@/lib/tools/store/pertnerStore'
 
 
 
@@ -20,6 +21,7 @@ export default function Dashboard({ data }: { data: Context | null }) {
 
 
   const { user } = userInformation();
+  const { setPertner } = PartenaireInformation()
 
 
 
@@ -33,6 +35,7 @@ export default function Dashboard({ data }: { data: Context | null }) {
         } else {
           setMagasin(fetchedMagasin);
           setIsLoading(false);
+          setPertner(fetchedMagasin.owner)
         }
       } else {
         setIsLoading(false);
