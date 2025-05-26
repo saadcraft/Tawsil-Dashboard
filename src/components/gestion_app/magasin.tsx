@@ -82,13 +82,13 @@ export default function Magasin({ allMagasin }: { allMagasin: MagasinType[] }) {
             </div>
             {addMagasin &&
                 <div>
-                    <button onClick={() => setAddMagasin(false)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setAddMagasin(false)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <AddMagasin onSub={setAddMagasin} />
                 </div>
             }
             {modify &&
                 <div>
-                    <button onClick={() => setModify(null)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setModify(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <ModifyMagasinWin magasin={modify} onSub={setModify} />
                 </div>
             }

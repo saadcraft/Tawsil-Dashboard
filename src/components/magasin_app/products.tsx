@@ -144,7 +144,7 @@ export default function Products({ products, cat, magasin }: { products: Produit
             </div>
             {add &&
                 <div>
-                    <button onClick={() => setAdd(false)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setAdd(false)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     {pertner?.type_compte.name !== 'starshop' ?
                         <AjouterProduct option={cat!} maga={magasin} onsub={setAdd} />
                         :
@@ -154,19 +154,19 @@ export default function Products({ products, cat, magasin }: { products: Produit
             }
             {delet &&
                 <div>
-                    <button onClick={() => setDelet(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setDelet(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <DeleteProduit id={delet} onsub={setDelet} />
                 </div>
             }
             {modify &&
                 <div>
-                    <button onClick={() => setModify(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setModify(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <ModifyProduct pro={modify} option={cat!} onsub={setModify} />
                 </div>
             }
             {page &&
                 <div>
-                    <button onClick={() => setPage(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setPage(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <ClientComment comment={page} />
                 </div>
             }

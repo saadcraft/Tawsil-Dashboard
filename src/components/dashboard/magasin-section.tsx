@@ -196,31 +196,31 @@ export default function MagasinSection({ magasin }: { magasin: Magasin }) {
             </div>
             {geo &&
                 <>
-                    <button onClick={() => setGeo(false)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setGeo(false)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <AddGeo id={magasin.owner.id} onEvent={setGeo} />
                 </>
             }
             {review &&
                 <div>
-                    <button onClick={() => setReview(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setReview(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <GlobleComment comment={review} />
                 </div>
             }
             {qrCode &&
                 <div>
-                    <button onClick={() => setQrCode(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setQrCode(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <QRcode id={qrCode} />
                 </div>
             }
             {types &&
                 <>
-                    <button onClick={() => setTypes(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setTypes(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <PictureMagasin onsub={setTypes} type={types} maga={magasin} />
                 </>
             }
             {mody &&
                 <>
-                    <button onClick={() => setMody(false)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setMody(false)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <ModifieMagasin maga={magasin!} onsub={setMody} />
                 </>
             }

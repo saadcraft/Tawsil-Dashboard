@@ -117,13 +117,13 @@ export default function Recharge({ history }: { history: Demande[] }) {
             </div>
             {demande &&
                 <div>
-                    <button onClick={() => SetDemande(false)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => SetDemande(false)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <SuperDemande onEvent={handleSubmite} />
                 </div>
             }
             {annuler &&
                 <div>
-                    <button onClick={() => setAnnuler(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setAnnuler(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <Annuler onClose={setAnnuler} dm={annuler} />
                 </div>
             }

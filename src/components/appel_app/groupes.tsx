@@ -147,7 +147,7 @@ export default function Groupes({ groupe }: { groupe: Users[] }) {
             </div>
             {activePartnerId &&
                 <div>
-                    <button onClick={() => setActivePartnerId(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setActivePartnerId(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <UpdateGroupeName id={activePartnerId} onEvent={handleSubmit} onClose={setActivePartnerId} />
                 </div>
             }

@@ -131,13 +131,13 @@ export default function Demande({ dm }: { dm: Demande[] }) {
             </div>
             {reject &&
                 <div>
-                    <button onClick={() => SetReject(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => SetReject(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <Reject onClose={SetReject} dm={reject} />
                 </div>
             }
             {demande &&
                 <div>
-                    <button onClick={() => SetDemande(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => SetDemande(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <AcceptDemande onEvent={hundleClick} id={demande} />
                 </div>
             }

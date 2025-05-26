@@ -211,19 +211,19 @@ export default function Delivery({ promise }: Props) {
       </div>
       {isVisible === 1 ?
         <div>
-          <button onClick={handleClose} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+          <button onClick={handleClose} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
           <ValideCommande command={selectedRows} onEvent={handleSecond} onBack={handleClose} />
         </div>
         : ""}
       {isVisible === 2 ?
         <div>
-          <button onClick={handleClose} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+          <button onClick={handleClose} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
           <ValideSecond command={selectedRows} onEvent={handleThird} onBack={handleValidate} />
         </div>
         : ""}
       {isVisible === 3 ?
         <div>
-          <button onClick={handleClose} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+          <button onClick={handleClose} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
           <ValideThird command={selectedRows} onBack={handleSecond} onSub={hundleSubmite} user={user!} />
         </div>
         : ""}

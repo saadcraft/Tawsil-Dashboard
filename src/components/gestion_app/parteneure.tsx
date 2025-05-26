@@ -144,7 +144,7 @@ export default function Parteneure({ users }: { users: Partenaire[] }) {
             </div>
             {user &&
                 <div>
-                    <button onClick={() => setUser(null)} className='fixed z-50 top-20 right-10 text-white p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setUser(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <ActiveCompte onClose={setUser} user={user} refresh={router.refresh} />
                 </div>
             }

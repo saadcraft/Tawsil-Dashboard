@@ -97,7 +97,7 @@ export default function Caisses({ cass, total }: { cass: Result[], total: number
         <td className="px-6 py-4 text-right">
           {pre.etat ? "Ouver" :
             <p className='flex justify-end items-center gap-3'>
-              <span onClick={() => handelPrint(pre.resut, pre.prix_reale, pre.a_compte)} className=' text-xl border rounded-xl p-1 hover:border-third cursor-pointer'><FiPrinter /></span>
+              <span onClick={() => handelPrint(pre.resut, pre.prix_reale, pre.a_compte)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><FiPrinter /></span>
               Farmé
             </p>
           }
@@ -159,7 +159,7 @@ export default function Caisses({ cass, total }: { cass: Result[], total: number
       </div>
       {Close ?
         <div>
-          <button onClick={handleWindow} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+          <button onClick={handleWindow} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
           <ValideCasses onEvent={handleClose} user={user} total={total} />
         </div>
         : ""}

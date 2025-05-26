@@ -157,31 +157,31 @@ export default function Validation({ users }: { users: Partenaire[] }) {
             </div>
             {user &&
                 <div>
-                    <button onClick={() => setUser(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setUser(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <ActiveCompte onClose={setUser} user={user} refresh={router.refresh} />
                 </div>
             }
             {activePartnerId &&
                 <>
-                    <button onClick={() => setActivePartnerId(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setActivePartnerId(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <SuperReport onEvent={handleSubmite} id={activePartnerId} />
                 </>
             }
             {show &&
                 <>
-                    <button onClick={() => setShow(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setShow(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <Display document={show} />
                 </>
             }
             {geo &&
                 <>
-                    <button onClick={() => setGeo(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setGeo(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <ModifieGeo id={geo} onEvent={setGeo} />
                 </>
             }
             {qrCode &&
                 <div>
-                    <button onClick={() => setQrCode(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setQrCode(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <QRcode id={qrCode} />
                 </div>
             }

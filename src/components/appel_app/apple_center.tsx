@@ -216,19 +216,19 @@ export default function AppleCenter({ parteners, refresh }: Props) {
       </div>
       {activePartnerId !== null && (
         <div>
-          <button onClick={handleClose} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+          <button onClick={handleClose} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
           <Comment onEvent={hundleClick} id={activePartnerId} />
         </div>
       )}
       {showComment !== null && (
         <div>
-          <button onClick={handleShowClose} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+          <button onClick={handleShowClose} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
           <ShowComment id={showComment} />
         </div>
       )}
       {resomble && (
         <div>
-          <button onClick={() => setResomble(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+          <button onClick={() => setResomble(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
           <Group id={resomble} onEvent={hundleGroup} onClose={setResomble} />
         </div>
       )}

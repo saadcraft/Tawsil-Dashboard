@@ -237,25 +237,25 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
             }*/}
             {changeEtat &&
                 <div>
-                    <button onClick={() => setChnageEtat(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setChnageEtat(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <CancelCommande id={changeEtat.id} onsub={setChnageEtat} etat={changeEtat.etat} />
                 </div>
             }
             {show &&
                 <div>
-                    <button onClick={() => setShow(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setShow(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <OrderInfo id={show.id} total={show.total} />
                 </div>
             }
             {sendRq &&
                 <div>
-                    <button onClick={() => setSendRq(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setSendRq(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <Search id={sendRq} onEvent={handleAction} livreur={livreurs} />
                 </div>
             }
             {qrCode &&
                 <div>
-                    <button onClick={() => setQrCode(null)} className='fixed z-50 top-28 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setQrCode(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <QRcode id={qrCode} />
                 </div>
 

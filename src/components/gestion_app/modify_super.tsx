@@ -103,13 +103,13 @@ export default function ModSuper({ results }: { results: Users[] }) {
             </div>
             {modify &&
                 <div>
-                    <button onClick={() => setModify(null)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setModify(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <ModifieForm user={modify} onsub={setModify} refresh={router.refresh} />
                 </div>
             }
             {disabled > 0 &&
                 <div>
-                    <button onClick={() => setDisabled(0)} className='fixed z-50 top-20 right-10 text-third p-2 font-bold text-5xl'><MdClose /></button>
+                    <button onClick={() => setDisabled(0)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
                     <Disable onClose={setDisabled} user={disabled} refresh={router.refresh} />
                 </div>
             }
