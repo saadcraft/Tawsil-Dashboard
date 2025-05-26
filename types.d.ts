@@ -61,18 +61,6 @@ type Magasin = {
   rating: number;
 }
 
-type Produit = {
-  id: number;
-  image: string | null;
-  name: string;
-  description: string;
-  price: string; // Assuming price is a string to handle decimals and formatting
-  disponibilite: boolean;
-  rating: number;
-  magasin: number;
-  catalogue: number;
-};
-
 type Catalogue = {
   id: number;
   name: string;
@@ -255,6 +243,12 @@ type Order = {
   type_livraison: "classique" | "premium";
 }
 
+type Variant = {
+  id: number;
+  prix: number;
+  quantity: number;
+}
+
 type Article = {
   id: number;
   name: string;
@@ -265,7 +259,21 @@ type Article = {
   image: string;
   magasin: number;
   catalogue: number;
+  prixstar_shop: variant[];
 }
+
+type Produit = {
+  id: number;
+  image: string | null;
+  name: string;
+  description: string;
+  price: string; // Assuming price is a string to handle decimals and formatting
+  disponibilite: boolean;
+  rating: number;
+  magasin: number;
+  catalogue: number;
+  prixstar_shop: Variant[];
+};
 
 type OrderItem = {
   id: number;

@@ -4,6 +4,7 @@ import { useReactToPrint } from 'react-to-print';
 import { FiPrinter } from 'react-icons/fi';
 import PrinterQrMagasin from '@/lib/tools/printer_models/printer_qr_magasin';
 import { userInformation } from '@/lib/tools/store/web_socket';
+import jsPDF from 'jspdf';
 // import { FormatDate } from '@/lib/tools/tools';
 
 export default function QRcode({ id }: { id: number }) {
@@ -31,6 +32,51 @@ export default function QRcode({ id }: { id: number }) {
     // Convert the object to a JSON string
     const jsonData = JSON.stringify(qrData);
 
+    const handleDownloadPDF = () => {
+        const doc = new jsPDF({
+            orientation: 'landscape',
+            unit: 'mm',
+            format: 'a6', // Set the format to A6
+        });
+
+        const qrSVG = componentRef.current;
+
+        if (qrSVG) {
+            const svgElement = qrSVG.querySelector('svg');
+            const logo = new Image();
+            logo.src = '/logo_VQR.png'; // Replace with the actual path to your logo
+
+            logo.onload = () => {
+                if (svgElement) {
+                    const svgData = new XMLSerializer().serializeToString(svgElement);
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const img = new Image();
+
+                    img.onload = () => {
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        ctx?.drawImage(img, 0, 0);
+
+                        const imgData = canvas.toDataURL('image/png');
+
+                        // Add content in a flex-like layout
+                        doc.addImage(logo, 'PNG', 10, 10, 50, 50); // Logo on the left
+                        doc.text(`Tél:`, 10, 70); // Numbers below the logo
+                        doc.setFontSize(15); // Set font size to small
+                        doc.text(`+213 670 221 986`, 20, 70); // Numbers below the logo
+                        doc.text(`+213 670 234 564`, 20, 80); // Numbers below the logo
+                        doc.addImage(imgData, 'PNG', 65, 10, 80, 80); // QR Code on the right
+
+                        doc.save(`qrcode_magasine${id}.pdf`);
+                    };
+
+                    img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+                }
+            };
+        }
+    };
+
     return (
         <div className='fixed z-20 top-0 flex items-center bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
             <div className='max-w-5xl mx-auto p-5 mt-10 rounded-xl bg-white'>
@@ -51,7 +97,12 @@ export default function QRcode({ id }: { id: number }) {
                     </div>
                 </div>
                 {user?.role === "superviseur" &&
-                    <span onClick={PrintQR} className='mt-2 text-xl border rounded-xl p-1 hover:border-third cursor-pointer flex justify-center items-center gap-2'><FiPrinter /> Imprimer</span>
+                    <div>
+                        <span onClick={handleDownloadPDF} className='mt-2 text-xl border rounded-xl p-1 hover:border-third cursor-pointer flex justify-center items-center gap-2'>
+                            Télécharger PDF
+                        </span>
+                        <span onClick={PrintQR} className='mt-2 text-xl border rounded-xl p-1 hover:border-third cursor-pointer flex justify-center items-center gap-2'><FiPrinter /> Imprimer</span>
+                    </div>
                 }
             </div>
             <div style={{ display: 'none' }}>

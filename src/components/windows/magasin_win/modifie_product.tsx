@@ -3,10 +3,14 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 import Image from 'next/image';
+import { handleInputChange } from '@/lib/tools/tools';
 
 export default function ModifyProduct({ pro, option, onsub }: { pro: Produit, option: Catalogue[], onsub: (value: null) => void }) {
 
     const router = useRouter()
+    const [variants, setVariats] = useState<number>(pro.prixstar_shop.length || 1)
+
+    // console.log(pro)
 
     const [image, setImage] = useState<File | null>(null)
 
@@ -82,7 +86,7 @@ export default function ModifyProduct({ pro, option, onsub }: { pro: Produit, op
                             {image ?
                                 <Image height={100} width={100} src={URL.createObjectURL(image)} alt='product pucture' className='w-20 h-20 object-cover rounded-lg' />
                                 :
-                                <p className='pb-2 font-bold text-4xl'>+</p>
+                                <Image height={100} width={100} src={process.env.IMGS_DOMAIN + pro.image!} alt='product pucture' className='w-20 h-20 object-cover rounded-lg' />
                             }
                         </label>
                         <input type="file" onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} id='file' accept='images/*' name='image' className='hidden' />
@@ -102,6 +106,25 @@ export default function ModifyProduct({ pro, option, onsub }: { pro: Produit, op
                     <input type='text' name='name' className='p-2 w-full border border-slate-300 rounded-md' placeholder='Entre le Nom de produit' defaultValue={pro.name} />
                     <p>Price</p>
                     <input type='text' name='price' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le prix' defaultValue={pro.price} />
+                    {pro.prixstar_shop.length > 0 &&
+                        (
+                            <div className='flex flex-col gap-2'>
+                                <div className='flex justify-between'>
+                                    <p>Variant</p>
+                                    <div className='flex gap-2 cursor-pointer'>
+                                        <span onClick={() => setVariats(prev => (prev > 1 ? prev - 1 : prev))} className='px-2.5 text-white text-lg font-bold bg-red-500 rounded-full'>-</span>
+                                        <span onClick={() => setVariats(prev => prev + 1)} className='px-2 text-white text-lg font-bold bg-green-500 rounded-full' >+</span>
+                                    </div>
+                                </div>
+                                {Array.from({ length: variants }).map((val, index) => (
+                                    <div key={index} className='flex w-full gap-2'>
+                                        <input onChange={handleInputChange} type='text' name={`prix_starshop[quantity][${index}]`} className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre le quantity' defaultValue={pro.prixstar_shop[index]?.quantity!} />
+                                        <input onChange={handleInputChange} type='text' name={`prix_starshop[prix][${index}]`} className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre le prix' defaultValue={pro.prixstar_shop[index]?.prix!} />
+                                    </div>
+                                ))}
+                            </div>
+                        )
+                    }
                     <p>description</p>
                     <input type='text' name='description' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le description' defaultValue={pro.description} />
                     <button className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Submite</button>
