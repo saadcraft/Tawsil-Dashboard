@@ -118,8 +118,8 @@ export default function ModifyProduct({ pro, option, onsub }: { pro: Produit, op
                                 </div>
                                 {Array.from({ length: variants }).map((val, index) => (
                                     <div key={index} className='flex w-full gap-2'>
-                                        <input onChange={handleInputChange} type='text' name={`prix_starshop[quantity][${index}]`} className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre le quantity' defaultValue={pro.prixstar_shop[index]?.quantity!} />
-                                        <input onChange={handleInputChange} type='text' name={`prix_starshop[prix][${index}]`} className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre le prix' defaultValue={pro.prixstar_shop[index]?.prix!} />
+                                        <input onChange={handleInputChange} type='text' name={`prix_starshop[quantity][${index}]`} className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre le quantity' defaultValue={pro.prixstar_shop[index]?.quantity || ""} />
+                                        <input onChange={handleInputChange} type='text' name={`prix_starshop[prix][${index}]`} className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre le prix' defaultValue={pro.prixstar_shop[index]?.prix || ""} />
                                     </div>
                                 ))}
                             </div>
