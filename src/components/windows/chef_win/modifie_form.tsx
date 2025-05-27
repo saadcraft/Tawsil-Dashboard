@@ -15,9 +15,15 @@ export default function ModifieForm({ user, onsub, refresh }: { user: Users, ons
     }
 
 
+
     const filteredData = Object.fromEntries(
       Object.entries(formObject).filter(([, value]) => value !== "")
     );
+
+    if (filteredData.confirm_password !== filteredData.password) {
+      toast.error('Le mot de passe ne correspond pas.');
+      return;
+    }
 
     delete filteredData.confirm_password;
 
