@@ -161,7 +161,7 @@ export default function Products({ products, cat, magasin }: { products: Produit
             {modify &&
                 <div>
                     <button onClick={() => setModify(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
-                    <ModifyProduct pro={modify} option={cat!} onsub={setModify} />
+                    <ModifyProduct pro={modify} option={cat!} onsub={setModify} partner={pertner} />
                 </div>
             }
             {page &&

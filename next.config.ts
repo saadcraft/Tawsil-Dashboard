@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
     WS_SERVER: process.env.WS_SERVER,
   },
   images: {
-    domains: ['192.168.1.30:8000', '192.168.1.30', 'localhost', 'localhost:8000', '197.140.142.57:8000', '197.140.142.57'],
+    domains: ['192.168.1.30:8000', '192.168.1.30', 'localhost', 'localhost:8000', '197.140.142.57:8000', '197.140.142.57', "192.168.222.254"],
   },
   experimental: {
     serverActions: {

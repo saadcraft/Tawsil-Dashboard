@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import Image from 'next/image';
 import { handleInputChange } from '@/lib/tools/tools';
 
-export default function ModifyProduct({ pro, option, onsub }: { pro: Produit, option: Catalogue[], onsub: (value: null) => void }) {
+export default function ModifyProduct({ pro, option, onsub, partner }: { pro: Produit, option: Catalogue[], onsub: (value: null) => void, partner: Partenaire | null }) {
 
     const router = useRouter()
     const [variants, setVariats] = useState<number>(pro.prixstar_shop.length || 1)
@@ -14,7 +14,7 @@ export default function ModifyProduct({ pro, option, onsub }: { pro: Produit, op
 
     const [image, setImage] = useState<File | null>(null)
 
-    // console.log(option)
+    console.log(partner)
 
     const handleCreate = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -106,7 +106,7 @@ export default function ModifyProduct({ pro, option, onsub }: { pro: Produit, op
                     <input type='text' name='name' className='p-2 w-full border border-slate-300 rounded-md' placeholder='Entre le Nom de produit' defaultValue={pro.name} />
                     <p>Price</p>
                     <input type='text' name='price' className='p-2 border border-slate-300 rounded-md' placeholder='Entre le prix' defaultValue={pro.price} />
-                    {pro.prixstar_shop.length > 0 &&
+                    {partner?.type_compte?.name === "starshop" &&
                         (
                             <div className='flex flex-col gap-2'>
                                 <div className='flex justify-between'>
@@ -118,8 +118,13 @@ export default function ModifyProduct({ pro, option, onsub }: { pro: Produit, op
                                 </div>
                                 {Array.from({ length: variants }).map((val, index) => (
                                     <div key={index} className='flex w-full gap-2'>
-                                        <input onChange={handleInputChange} type='text' name={`prix_starshop[quantity][${index}]`} className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre le quantity' defaultValue={pro.prixstar_shop[index]?.quantity || ""} />
-                                        <input onChange={handleInputChange} type='text' name={`prix_starshop[prix][${index}]`} className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre le prix' defaultValue={pro.prixstar_shop[index]?.prix || ""} />
+                                        <input onChange={handleInputChange} type='text' name={`prix_starshop[${index}][quantity]`} className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre le quantity' defaultValue={pro.prixstar_shop[index]?.quantity || ""} />
+                                        <input onChange={handleInputChange} type='text' name={`prix_starshop[${index}][prix]`} className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre le prix' defaultValue={pro.prixstar_shop[index]?.prix || ""} />
+                                        {pro.prixstar_shop?.[index]?.id ?
+                                            <input readOnly name={`prix_starshop[${index}][id]`} className='hidden' placeholder='Entre le prix' value={pro.prixstar_shop?.[index]?.id || ""} />
+                                            :
+                                            null
+                                        }
                                     </div>
                                 ))}
                             </div>

@@ -10,6 +10,7 @@ import { useNotificationStore, userInformation } from '@/lib/tools/store/web_soc
 import DropDown from "@/components/windows/drop_down"
 import { toast } from 'react-toastify';
 import { checkInternet } from '../options/useNetwork';
+import { PartenaireInformation } from '@/lib/tools/store/pertnerStore';
 
 
 
@@ -23,7 +24,7 @@ import { checkInternet } from '../options/useNetwork';
 //   created_at: string;
 // };
 
-export default function Header({ user, token }: { user: Users, token: string }) {
+export default function Header({ user, token, mag }: { user: Users, token: string, mag: Magasin | null }) {
 
   const [show, setShow] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -31,6 +32,7 @@ export default function Header({ user, token }: { user: Users, token: string }) 
   const { notifications, setNotifications, addNotification, removeNotification, setSocket, setIsConnected } = useNotificationStore();
 
   const { setUser } = userInformation()
+  const { setPertner } = PartenaireInformation()
 
   useEffect(() => {
     // Initialize Zustand store with user data
@@ -42,6 +44,9 @@ export default function Header({ user, token }: { user: Users, token: string }) 
 
   useEffect(() => {
     if (!token || user?.role !== "partener") return; // Ensure token exists before establishing WebSocket connection
+    if (mag) {
+      setPertner(mag.owner)
+    }
     const audio = new Audio("/notification.mp3");
     let socket: WebSocket; // Declare it in the parent scope
     let reconnectTimeout: NodeJS.Timeout;
