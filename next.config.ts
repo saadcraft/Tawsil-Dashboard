@@ -17,6 +17,10 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '10mb', // Increase the limit to 10 MB
     },
   },
+  // Other configurations
+  devIndicators: {
+    buildActivity: true, // Example valid property
+  },
 };
 
 export default nextConfig;
