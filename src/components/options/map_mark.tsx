@@ -11,12 +11,12 @@ mapboxgl.accessToken =
 let isRTLPluginInitialized = false;
 
 interface MapProps {
-    onMapClick: (lng: number, lat: number) => void
+    // onMapClick: (lng: number, lat: number) => void
     localisation: number[]
     onSub: ({ latitude, longitude }: { latitude: number, longitude: number }) => void
 }
 
-export default function MapGl({ onMapClick, localisation, onSub }: MapProps) {
+export default function MapGl({ localisation, onSub }: MapProps) {
     const mapContainer = useRef<HTMLDivElement>(null);
     const map = useRef<mapboxgl.Map | null>(null);
     // const [mapLoaded, setMapLoaded] = useState(false)
@@ -62,7 +62,7 @@ export default function MapGl({ onMapClick, localisation, onSub }: MapProps) {
             // Handle map click to add a marker
             map.current.on("click", (e) => {
                 const { lng, lat } = e.lngLat
-                onMapClick(lng, lat) // Pass coordinates to the parent component if needed
+                // onMapClick(lng, lat) // Pass coordinates to the parent component if needed
                 updateMarker(lng, lat) // Add a marker on the map
             });
 
@@ -101,10 +101,6 @@ export default function MapGl({ onMapClick, localisation, onSub }: MapProps) {
             const { lng, lat } = marker.current.getLngLat()
             console.log(lng, lat)
             onSub({ latitude: lat, longitude: lng })
-
-        } else {
-            // Fallback if marker doesn't exist yet, use default location
-            onMapClick(localisation[0], localisation[1])
         }
     }
 

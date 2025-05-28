@@ -4,8 +4,6 @@ import { CookiesRemover } from "./cookies";
 import { cookies } from 'next/headers';
 import { apiRequest } from "./request";
 import { Role } from "./tools/roles/user_role";
-import { isAbsolute } from "path";
-import { isArray } from "@splidejs/splide/src/js/utils";
 
 
 type User = {
@@ -282,7 +280,7 @@ export async function addProduct(Data: { magasin_id: number, [key: string]: unkn
         } else {
             const errorData = await response.json();
             // const firstField = Object.keys(errorData.message)[0];
-            const firstError = isArray(errorData.message) ? errorData.message[0] : errorData.message;
+            const firstError = Array.isArray(errorData.message) ? errorData.message[0] : errorData.message;
             return { success: false, message: firstError || "La mise à jour a échoué. Veuillez réessayer." };
         }
     } catch {
