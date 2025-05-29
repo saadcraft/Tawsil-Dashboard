@@ -89,7 +89,7 @@ export default function ModifyProduct({ pro, option, onsub, partner }: { pro: Pr
                                 <Image height={100} width={100} src={process.env.IMGS_DOMAIN + pro.image!} alt='product pucture' className='w-20 h-20 object-cover rounded-lg' />
                             }
                         </label>
-                        <input type="file" onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} id='file' accept='images/*' name='image' className='hidden' />
+                        <input type="file" onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} id='file' accept='image/*' name='image' className='hidden' />
                     </div>
                     <p>catégorie</p>
                     <select name='catalogue_id' className='p-2 w-full border border-slate-300 rounded-md'>

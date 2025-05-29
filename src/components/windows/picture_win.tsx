@@ -67,7 +67,7 @@ export default function PictureWin({ user, onsub }: { user: number, onsub: (valu
                                 <p className='pb-2 font-bold text-4xl'>+</p>
                             }
                         </label>
-                        <input type="file" onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} id='file' accept='images/*' name='image_url' className='hidden' />
+                        <input type="file" onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} id='file' accept='image/*' name='image_url' className='hidden' />
                     </div>
                     <button type="submit" className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Sauvegarder</button>
                 </form>

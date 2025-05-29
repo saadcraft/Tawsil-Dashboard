@@ -28,7 +28,7 @@ export async function SignIn({ username, password }: User) {
             const cookiesStore = await cookies();
 
             if (!data.data.active) {
-                return "Compte désactivé"
+                return "Compte désactivé, Contacter support"
             }
 
             if (Role(data.data.role)) {

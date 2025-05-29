@@ -81,7 +81,7 @@ export default function PictureMagasin({ type, onsub, maga }: { type: "backgroun
                                     <p className='pb-2 font-bold text-4xl'>+</p>
                                 }
                             </label>
-                            <input type="file" onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} id='file' accept='images/*' name='image_background' className='hidden' />
+                            <input type="file" onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} id='file' accept='image/*' name='image_background' className='hidden' />
                         </div>
                         :
                         <div className='flex gap-3 justify-start items-center'>
@@ -93,7 +93,7 @@ export default function PictureMagasin({ type, onsub, maga }: { type: "backgroun
                                     <p className='pb-2 font-bold text-4xl'>+</p>
                                 }
                             </label>
-                            <input type="file" onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} id='file' accept='images/*' name='image' className='hidden' />
+                            <input type="file" onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} id='file' accept='image/*' name='image' className='hidden' />
                         </div>
                     }
                     <button type="submit" className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Sauvegarder</button>

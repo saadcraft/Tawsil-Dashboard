@@ -90,7 +90,7 @@ export default function AjouterStar({ option, maga, onsub }: { option: Catalogue
                                 <p className='pb-2 font-bold text-4xl'>+</p>
                             }
                         </label>
-                        <input type="file" onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} id='file' accept='images/*' name='image' className='hidden' />
+                        <input type="file" onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} id='file' accept='image/*' name='image' className='hidden' />
                     </div>
                     <p>catégorie</p>
                     <select name='catalogue_id' className='p-2 w-full border border-slate-300 rounded-md' >

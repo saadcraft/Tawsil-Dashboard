@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
     SERVER_LOCAL: process.env.SERVER_LOCAL,
     IMGS_DOMAIN: process.env.IMGS_DOMAIN,
     WS_SERVER: process.env.WS_SERVER,
+    MAPBOX_API_KEY: process.env.MAPBOX_API_KEY,
   },
   images: {
     domains: ['192.168.1.30:8000', '192.168.1.30', 'localhost', 'localhost:8000', '197.140.142.57:8000', '197.140.142.57', "192.168.222.254"],
@@ -18,9 +19,6 @@ const nextConfig: NextConfig = {
     },
   },
   // Other configurations
-  devIndicators: {
-    buildActivity: true, // Example valid property
-  },
 };
 
 export default nextConfig;
