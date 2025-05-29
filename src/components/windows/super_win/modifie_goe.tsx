@@ -149,7 +149,7 @@ export default function ModifieGeo({ id, onEvent }: { id: number, onEvent: (valu
                     <input type='text' readOnly name='wilaya_code' placeholder='code wilaya' value={code || ""} className='p-2 border  rounded-lg' /> */}
                     <button disabled={!isLoading} className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>
                         {isLoading ?
-                            "Submite"
+                            "Submit"
                             :
                             <div className={` bg-forth bg-opacity-50 text-xl flex justify-center items-center gap-3`}>
                                 <TbLoader3 className="animate-spin text-2xl" /> En attent ...

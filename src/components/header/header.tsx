@@ -47,7 +47,7 @@ export default function Header({ user, token, mag }: { user: Users, token: strin
     if (mag) {
       setPertner(mag.owner)
     }
-    const audio = new Audio("/notification.mp3");
+    const audio = new Audio("/notification2.mp3");
     let socket: WebSocket; // Declare it in the parent scope
     let reconnectTimeout: NodeJS.Timeout;
     let connectivityInterval: NodeJS.Timeout;
@@ -68,6 +68,7 @@ export default function Header({ user, token, mag }: { user: Users, token: strin
             type: "success",
             isLoading: false,
             autoClose: 3000,
+            closeButton: true,
             onClose: () => {
               // ✅ Clean up after it's actually closed
               loadingToastId = null;
