@@ -44,6 +44,8 @@ export default function QRcode({ id }: { id: number }) {
         if (qrSVG) {
             const svgElement = qrSVG.querySelector('svg');
             const logo = new Image();
+            const backgroud = new Image()
+            backgroud.src = '/test.png'
             logo.src = '/logo_VQR.png'; // Replace with the actual path to your logo
 
             logo.onload = () => {
@@ -61,12 +63,13 @@ export default function QRcode({ id }: { id: number }) {
                         const imgData = canvas.toDataURL('image/png');
 
                         // Add content in a flex-like layout
-                        doc.addImage(logo, 'PNG', 10, 10, 50, 50); // Logo on the left
-                        doc.text(`Tél:`, 10, 70); // Numbers below the logo
-                        doc.setFontSize(15); // Set font size to small
-                        doc.text(`+213 670 221 986`, 20, 70); // Numbers below the logo
-                        doc.text(`+213 670 234 564`, 20, 80); // Numbers below the logo
-                        doc.addImage(imgData, 'PNG', 65, 10, 80, 80); // QR Code on the right
+                        doc.addImage(backgroud, 'PNG', -10, 0, 170, 100)
+                        // doc.addImage(logo, 'PNG', 10, 10, 50, 50); // Logo on the left
+                        // doc.text(`Tél:`, 10, 70); // Numbers below the logo
+                        // doc.setFontSize(15); // Set font size to small
+                        // doc.text(`+213 670 221 986`, 20, 70); // Numbers below the logo
+                        // doc.text(`+213 670 234 564`, 20, 80); // Numbers below the logo
+                        doc.addImage(imgData, 'PNG', 15, 30, 40, 40); // QR Code on the right
 
                         doc.save(`qrcode_magasine${id}.pdf`);
                     };

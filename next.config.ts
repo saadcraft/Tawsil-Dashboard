@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
     MAPBOX_API_KEY: process.env.MAPBOX_API_KEY,
   },
   images: {
-    domains: ['192.168.1.30:8000', '192.168.1.30', 'localhost', 'localhost:8000', '197.140.142.57:8000', '197.140.142.57', "192.168.222.254"],
+    domains: ['192.168.1.30:8000', '192.168.1.30', 'localhost', 'localhost:8000', '197.140.142.57:8000', '197.140.142.57', "192.168.222.254", "platforme.tawsilstar.dz"],
   },
   experimental: {
     serverActions: {
