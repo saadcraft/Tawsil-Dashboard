@@ -1,7 +1,13 @@
+"use client"
+
 import { toast } from "react-hot-toast"
 import { UpdateUser } from '@/lib/call_action';
+import { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function ModifieForm({ user, onsub, refresh }: { user: Users, onsub: (value: null) => void, refresh: () => void }) {
+
+  const [showPass, setShowPass] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -63,13 +69,27 @@ export default function ModifieForm({ user, onsub, refresh }: { user: Users, ons
           <p>Lieux de naissance</p>
           <input type="Text" name="lieux" id="lieux" placeholder='Lieux de naissance' className='p-3 border border-slate-300 rounded-md' defaultValue={user.lieux!} />
           <div className="flex flex-col md:flex-row w-full gap-2">
-            <div className="w-full">
+            <div className="relative w-full">
               <p>Le mot de passe</p>
-              <input type="password" name="password" className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre nouvel password' />
+              <input type={showPass ? "text" : "password"} name="password" className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre nouvel password' />
+              <span onClick={() => setShowPass(pre => !pre)} className='absolute right-2 bottom-3 text-xl text-gray-500 cursor-pointer'>
+                {showPass ?
+                  <FaEye />
+                  :
+                  <FaEyeSlash />
+                }
+              </span>
             </div>
-            <div className="w-full">
+            <div className="relative w-full">
               <p>Confirmé le mot de passe</p>
-              <input type="password" name="confirm_password" className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre verifé password' />
+              <input type={showPass ? "text" : "password"} name="confirm_password" className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre verifé password' />
+              <span onClick={() => setShowPass(pre => !pre)} className='absolute right-2 bottom-3 text-xl text-gray-500 cursor-pointer'>
+                {showPass ?
+                  <FaEye />
+                  :
+                  <FaEyeSlash />
+                }
+              </span>
             </div>
           </div>
           <button className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Submite</button>

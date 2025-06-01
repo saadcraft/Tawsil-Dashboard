@@ -16,6 +16,8 @@ import Search from '../windows/magasin_win/search_deliver'
 import QRcode from '../windows/magasin_win/qrcode'
 import { useSearchLoader } from '../options/useSearchLoader'
 import LoadingFirst from '../loading'
+import { PartenaireInformation } from '@/lib/tools/store/pertnerStore'
+import ConfirmationReminder from '../windows/starshop_win/alert_confirmation'
 
 
 type ChangeEtat = {
@@ -29,6 +31,9 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
 
     const router = useRouter()
     const { sendMessage, socket } = useNotificationStore();
+    const { pertner } = PartenaireInformation()
+
+    console.log(commande)
 
     // console.log(commande)
 
@@ -59,6 +64,31 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
     const [changeEtat, setChnageEtat] = useState<ChangeEtat | null>(null);
     const [sendRq, setSendRq] = useState<number | null>(null)
     const [qrCode, setQrCode] = useState<number | null>(null)
+    const [confirmation, setConfirmation] = useState<{
+        isOpen: boolean,
+        orderId: number | null,
+        orderUser: string
+    }>({
+        isOpen: false,
+        orderId: null,
+        orderUser: "",
+    })
+
+    const openConfirmation = (id: number, name: string) => {
+        setConfirmation({
+            isOpen: true,
+            orderId: id,
+            orderUser: name,
+        })
+    }
+
+    const closeConfirmation = () => {
+        setConfirmation({
+            isOpen: false,
+            orderId: null,
+            orderUser: "",
+        })
+    }
 
     const handleAction = async (id: number, event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -121,7 +151,14 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
                     {FormatDate(pre.created_at)}
                 </td>
                 <td className="px-6 py-4">
-                    {pre.livreur?.partenneur.user.phone_number_1 || "En cours"}
+                    {pertner?.type_compte.name ?
+                        pertner?.type_compte.name === "starshop" ?
+                            pre.confirmation ? pre.client_info.phone_number_1 : "**********"
+                            :
+                            pre.livreur?.partenneur.user.phone_number_1 || "En cours"
+                        :
+                        "Loading ..."
+                    }
                 </td>
                 <td className="px-6 py-4">
                     {pre.status == "pending" && <p className='text-gray-500 font-semibold flex items-center gap-1'><RiLoader3Fill className='animate-spin mt-0.5' />En attente</p>}
@@ -138,26 +175,45 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
                     {pre.total_price}
                 </td>
                 <td className="px-3 py-4 flex justify-end gap-1 text-right">
-                    {pre.status === "pending" &&
-                        <>
-                            <button onClick={() => setChnageEtat({ id: pre.id, etat: "canceled" })} className='bg-red-700 text-white p-1 px-3 rounded-md hover:bg-red-500' title='annulé'><MdBlock /></button>
-                            <button onClick={() => setSendRq(pre.id)} className='bg-green-700 text-white p-1 px-3 rounded-md hover:bg-green-500' title='accepté'><FaRegCheckCircle /></button>
-                        </>
-                    }
-                    {pre.status === "search" &&
-                        <>
-                            <button className='bg-gray-200 text-black p-1 px-1.5 border-1 rounded-md hover:bg-gray-500 hover:text-white' title='désactiver'><RiLoader3Fill className='animate-spin mt-0.5' /></button>
-                        </>
-                    }
-                    {pre.status === "confirmed" &&
-                        <>
-                            <button onClick={() => setChnageEtat({ id: pre.id, etat: "ready" })} className='bg-green-700 flex items-center text-white p-1 rounded-md hover:bg-green-500' title='désactiver'><FaRegCheckCircle />Prét</button>
-                        </>
-                    }
-                    {pre.status === "ready" &&
-                        <>
-                            <button onClick={() => setQrCode(pre.magasin)} className='bg-gray-200 text-black p-1 px-1.5 border-1 rounded-md hover:bg-gray-500 hover:text-white' title='QR code'><MdOutlineQrCodeScanner className='mt-0.5' /></button>
-                        </>
+
+                    {pertner?.type_compte.name ?
+                        pertner?.type_compte.name === "starshop" ?
+                            !pre.confirmation ?
+                                <button className='bg-green-700 text-white p-1 px-3 rounded-md hover:bg-green-500' title='confirmé'>Confirmé</button>
+                                :
+                                pre.status === "pending" ?
+                                    <>
+                                        <button onClick={() => setChnageEtat({ id: pre.id, etat: "canceled" })} className='bg-red-700 text-white p-1 px-3 rounded-md hover:bg-red-500' title='annulé'><MdBlock /></button>
+                                        <button onClick={() => setSendRq(pre.id)} className='bg-green-700 text-white p-1 px-3 rounded-md hover:bg-green-500' title='accepté'><FaRegCheckCircle /></button>
+                                    </>
+                                    :
+                                    null
+                            :
+                            pre.status === "pending" ?
+                                <>
+                                    <button onClick={() => setChnageEtat({ id: pre.id, etat: "canceled" })} className='bg-red-700 text-white p-1 px-3 rounded-md hover:bg-red-500' title='annulé'><MdBlock /></button>
+                                    <button onClick={() => setSendRq(pre.id)} className='bg-green-700 text-white p-1 px-3 rounded-md hover:bg-green-500' title='accepté'><FaRegCheckCircle /></button>
+                                </>
+                                :
+
+                                pre.status === "search" ?
+                                    <>
+                                        <button className='bg-gray-200 text-black p-1 px-1.5 border-1 rounded-md hover:bg-gray-500 hover:text-white' title='désactiver'><RiLoader3Fill className='animate-spin mt-0.5' /></button>
+                                    </>
+                                    :
+                                    pre.status === "confirmed" ?
+                                        <>
+                                            <button onClick={() => setChnageEtat({ id: pre.id, etat: "ready" })} className='bg-green-700 flex items-center text-white p-1 rounded-md hover:bg-green-500' title='désactiver'><FaRegCheckCircle />Prét</button>
+                                        </>
+                                        :
+                                        pre.status === "ready" &&
+                                        <>
+                                            <button onClick={() => setQrCode(pre.magasin)} className='bg-gray-200 text-black p-1 px-1.5 border-1 rounded-md hover:bg-gray-500 hover:text-white' title='QR code'><MdOutlineQrCodeScanner className='mt-0.5' /></button>
+                                        </>
+                        :
+
+                        "Loading ..."
+
                     }
                     {/*   :
                         <button onClick={() => handleStatus(pre.id, true)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500' title='activé'><FaRegCheckCircle /></button>
@@ -210,7 +266,11 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
                                     Date
                                 </th>
                                 <th className="px-6 py-3">
-                                    Livreur
+                                    {pertner?.type_compte.name === "starshop" ?
+                                        "Télephone"
+                                        :
+                                        "Livreur"
+                                    }
                                 </th>
                                 <th className="px-6 py-3">
                                     Status
@@ -262,6 +322,9 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
             }
             {isLoading &&
                 <LoadingFirst />
+            }
+            {confirmation.isOpen &&
+                <ConfirmationReminder closeDelet={closeConfirmation} handleSubmit={() => console.log("wailAtay")} confirmation={confirmation} />
             }
         </div>
     )

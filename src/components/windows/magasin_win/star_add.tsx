@@ -112,6 +112,10 @@ export default function AjouterStar({ option, maga, onsub }: { option: Catalogue
                             <span onClick={() => setVariats(prev => prev + 1)} className='px-2 text-white text-lg font-bold bg-green-500 rounded-full' >+</span>
                         </div>
                     </div>
+                    <span className='flex justify-between'>
+                        <p className='w-full'>Quantité</p>
+                        <p className='w-full'>Prix</p>
+                    </span>
                     {Array.from({ length: variants }).map((val, index) => (
                         <div key={index} className='flex w-full gap-2'>
                             <input onChange={handleInputChange} type='text' name={`prix_starshop[quantity][${index}]`} className='p-2 border border-slate-300 rounded-md w-full' placeholder='Entre le quantity' />

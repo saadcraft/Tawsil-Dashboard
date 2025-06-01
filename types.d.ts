@@ -229,7 +229,8 @@ type centerAction = {
 
 type Order = {
   id: number;
-  client: Users;
+  confirmation: boolean;
+  client_info: Users;
   magasin: number;
   livreur: Livreur;
   total_price: string;
