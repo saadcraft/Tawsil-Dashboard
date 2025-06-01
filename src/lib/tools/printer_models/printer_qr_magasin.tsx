@@ -7,9 +7,9 @@ interface PrinterQrMagasinProps {
 
 const PrinterQrMagasin: React.FC<PrinterQrMagasinProps> = ({ qrCode: QrCodeComponent }) => {
     return (
-        <div className="qr-style flex w-full items-center justify-between p-6 border rounded-lg bg-white">
+        <div className="qr-style flex w-full items-center justify-end  border rounded-lg bg-white">
             {/* Left Side: Logo & Info */}
-            <div className="w-full">
+            {/* <div className="w-full">
                 <div className="logo-qr mb-4"></div>
                 <div className="text-lg space-y-3">
                     <ul className="list-none space-y-2">
@@ -22,11 +22,11 @@ const PrinterQrMagasin: React.FC<PrinterQrMagasinProps> = ({ qrCode: QrCodeCompo
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div> */}
 
             {/* Right Side: QR Code */}
-            <div className="w-1/2 bg-white flex justify-center">
-                <div className="qr_code p-4 border bg-gray-100">
+            <div className="qr-code">
+                <div className="">
                     {QrCodeComponent}
                 </div>
             </div>

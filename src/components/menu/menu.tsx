@@ -155,7 +155,7 @@ export default function Menu({ user, token }: props) {
             <div className={`fixed z-40 text-white top-0 overflow-y-auto no-scrollbar left-0 bottom-0 transition-all md:-translate-x-0  ${isMenuOpen ? "" : "-translate-x-80"} ${user?.type_account === "premium" ? 'bg-gradient-to-r from-gold5 to-gold6' : 'bg-primer'}  w-80 px-5`}>
                 {pertner?.type_compte.name === "starshop" ?
                     <div onClick={() => handleMenu('/')} className='flex flex-col justify-center'>
-                        <Image height={100} width={100} src="/logo_white.png" alt="Tawsil" className='w-40 cursor-pointer mx-auto' />
+                        <Image height={100} width={100} src="/logo_star_white.png" alt="Tawsil" className='w-40 cursor-pointer mx-auto' />
                     </div>
                     :
                     <div onClick={() => handleMenu('/')} className='flex flex-col justify-center'>

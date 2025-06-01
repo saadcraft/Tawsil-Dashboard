@@ -43,12 +43,12 @@ export default function QRcode({ id }: { id: number }) {
 
         if (qrSVG) {
             const svgElement = qrSVG.querySelector('svg');
-            const logo = new Image();
+            // const logo = new Image();
             const backgroud = new Image()
-            backgroud.src = '/test.png'
-            logo.src = '/logo_VQR.png'; // Replace with the actual path to your logo
+            backgroud.src = '/imprimer_bg.png'
+            // logo.src = '/logo_VQR.png'; // Replace with the actual path to your logo
 
-            logo.onload = () => {
+            backgroud.onload = () => {
                 if (svgElement) {
                     const svgData = new XMLSerializer().serializeToString(svgElement);
                     const canvas = document.createElement('canvas');
@@ -58,19 +58,22 @@ export default function QRcode({ id }: { id: number }) {
                     img.onload = () => {
                         canvas.width = img.width;
                         canvas.height = img.height;
-                        ctx?.drawImage(img, 0, 0);
+
+                        if (ctx) {
+                            // Draw circular clip
+                            ctx.beginPath();
+                            ctx.roundRect(0, 0, img.width, img.height, 6); // 6 is border-radius
+                            ctx.clip();
+
+                            // Draw the image inside the circle
+                            ctx.drawImage(img, 0, 0);
+                        }
 
                         const imgData = canvas.toDataURL('image/png');
 
-                        // Add content in a flex-like layout
-                        doc.addImage(backgroud, 'PNG', -10, 0, 170, 100)
-                        // doc.addImage(logo, 'PNG', 10, 10, 50, 50); // Logo on the left
-                        // doc.text(`Tél:`, 10, 70); // Numbers below the logo
-                        // doc.setFontSize(15); // Set font size to small
-                        // doc.text(`+213 670 221 986`, 20, 70); // Numbers below the logo
-                        // doc.text(`+213 670 234 564`, 20, 80); // Numbers below the logo
-                        doc.addImage(imgData, 'PNG', 15, 30, 40, 40); // QR Code on the right
-
+                        // Draw background, logo, etc.
+                        doc.addImage(backgroud, 'PNG', 0, 0, 150, 110);
+                        doc.addImage(imgData, 'PNG', 84, 38, 48, 48); // Rounded QR Code
                         doc.save(`qrcode_magasine${id}.pdf`);
                     };
 
@@ -95,6 +98,7 @@ export default function QRcode({ id }: { id: number }) {
                                     dark: '#000',
                                     light: '#FFF',
                                 },
+
                             }}
                         />
                     </div>
@@ -114,8 +118,8 @@ export default function QRcode({ id }: { id: number }) {
                         text={jsonData}
 
                         options={{
-                            margin: 2,
-                            width: 250,
+                            margin: 1,
+                            width: 160,
                             color: {
                                 dark: '#000',
                                 light: '#FFF',

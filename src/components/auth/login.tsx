@@ -7,11 +7,13 @@ import { toast } from "react-hot-toast"
 import React, { useState } from 'react';
 import LoadingFirst from '../loading';
 import { TbLoader3 } from 'react-icons/tb';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Login() {
 
     const [isLoading, setLoading] = useState<boolean>(false);
-    const [isClicked, seIsClicked] = useState<boolean>(false)
+    const [isClicked, seIsClicked] = useState<boolean>(false);
+    const [showPass, setShowPass] = useState<boolean>(false);
 
     const router = useRouter();
 
@@ -76,9 +78,16 @@ export default function Login() {
                         <label htmlFor="email">Nom d&apos;utilisateur</label>
                         <input type="Text" name="username" id="username" placeholder="Entrer le nom d'utilisateur" className='p-3 border border-slate-300 rounded-md' />
                     </div>
-                    <div className='flex flex-col gap-2 p-2'>
+                    <div className='relative flex flex-col gap-2 p-2'>
                         <label htmlFor="password">Mot de passe</label>
-                        <input type="password" name="password" id="password" placeholder='Entrer le mot de passe' className='p-3 border border-slate-300 rounded-md' />
+                        <input type={showPass ? "text" : "password"} name="password" id="password" placeholder='Entrer le mot de passe' className='p-3 border border-slate-300 rounded-md' />
+                        <span onClick={() => setShowPass(pre => !pre)} className='absolute right-4 bottom-6 text-xl text-gray-500 cursor-pointer'>
+                            {showPass ?
+                                <FaEye />
+                                :
+                                <FaEyeSlash />
+                            }
+                        </span>
                     </div>
                     <Link href="/forget" className="p-2 hover:underline">Oublier le mot de passe ?</Link>
                     <div className="p-2">
