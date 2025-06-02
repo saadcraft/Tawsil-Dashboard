@@ -4,6 +4,7 @@ import { CookiesRemover } from "./cookies";
 import { cookies } from 'next/headers';
 import { apiRequest } from "./request";
 import { Role } from "./tools/roles/user_role";
+import * as Sentry from "@sentry/nextjs";
 
 
 type User = {
@@ -248,7 +249,8 @@ export async function UpdatePic(Data: UpdateData): Promise<{ success: boolean; m
             const errorData = await response.json(); // Assuming the server returns error details in JSON
             return { success: false, message: errorData.message || "La mise à jour a échoué. Veuillez réessayer." };
         }
-    } catch {
+    } catch (error) {
+        Sentry.captureException(error);
         return { success: false, message: "Probleme connection" };
     }
 }
@@ -283,7 +285,8 @@ export async function addProduct(Data: { magasin_id: number, [key: string]: unkn
             const firstError = Array.isArray(errorData.message) ? errorData.message[0] : errorData.message;
             return { success: false, message: firstError || "La mise à jour a échoué. Veuillez réessayer." };
         }
-    } catch {
+    } catch (error) {
+        Sentry.captureException(error);
         return { success: false, message: "Probleme connection" };
     }
 }
@@ -316,7 +319,8 @@ export async function ModifieProduct(Data: { id: number, [key: string]: unknown 
             const errorData = await response.json(); // Assuming the server returns error details in JSON
             return { success: false, message: errorData.message || "La mise à jour a échoué. Veuillez réessayer." };
         }
-    } catch {
+    } catch (error) {
+        Sentry.captureException(error);
         return { success: false, message: "Probleme connection" };
     }
 }
@@ -353,7 +357,8 @@ export async function UpdateMagPic(Data: { magasin_id: string; image_background?
             const errorData = await response.json(); // Assuming the server returns error details in JSON
             return { success: false, message: errorData.message || "La mise à jour a échoué. Veuillez réessayer." };
         }
-    } catch {
+    } catch (error) {
+        Sentry.captureException(error);
         return { success: false, message: "Probleme connection" };
     }
 }

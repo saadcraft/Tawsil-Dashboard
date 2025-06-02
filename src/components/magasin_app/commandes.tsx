@@ -236,10 +236,12 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
                             <MdOutlineWorkspacePremium />
                         </span>
                     }
-                    {pre.status == "ready" &&
+                    {pre.status == "ready" && pertner?.type_compte.name === "starshop" ?
                         <span className='bg-green-600 text-white p-1 px-1.5 text-lg rounded-md hover:bg-green-500 cursor-pointer' title='rejecté'>
                             <RiTruckFill />
                         </span>
+                        :
+                        null
                     }
                 </td>
             </tr>

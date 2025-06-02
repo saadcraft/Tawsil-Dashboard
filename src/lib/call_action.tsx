@@ -9,7 +9,7 @@ type Comment = {
     comment: string;
 }
 
-type apiRequest = {
+type apiRequestType = {
     result: Users[];
     totalAct: number;
 }
@@ -26,16 +26,13 @@ export async function getParteners({ page, search }: { page: string, search: str
             url: "/api/v1/centreappel/parteners",
             params: { page, search }
         });
-        if (response.code == 200) {
-            return {
-                result: response.data.results,
-                totalAct: response.data.count
-            };
-        } else {
-            return null;
+
+        return {
+            result: response.data.results,
+            totalAct: response.data.count
         }
     } catch {
-        return null;
+        return null
     }
 }
 
@@ -74,13 +71,13 @@ export async function AddComment({ id, comment }: Comment) {
             toast.error(data.message, { id: loadingToastId });
             return false;
         }
-    } catch {
+    } catch (error) {
         toast.error("Problem de connection", { id: loadingToastId });
-        return false;
+        return false
     }
 }
 
-export const getCommant = async (id: number): Promise<CommentaireData[]> => {
+export const getCommant = async (id: number): Promise<CommentaireData[] | null> => {
     try {
         const data = await apiRequest({
             url: `/api/v1/centre_appel/Comentaires/partener`,
@@ -88,11 +85,8 @@ export const getCommant = async (id: number): Promise<CommentaireData[]> => {
             params: { id },
         });
         return data.data.data;
-    } catch (error) {
-        if (error instanceof Error) {
-            throw new Error(error.message || "An error occurred");
-        }
-        throw new Error("Unexpected error");
+    } catch {
+        return null
     }
 };
 
@@ -103,20 +97,16 @@ export async function getChefCentre({ page, search }: { page: string, search: st
             method: "GET",
             params: { page, search }
         });
-        if (data.code == 200) {
-            return {
-                result: data.data.results,
-                totalAct: data.data.count
-            };
-        } else {
-            return null
-        }
+        return {
+            result: data.data.results,
+            totalAct: data.data.count
+        };
     } catch {
         return null
     }
 }
 
-export async function getAgents({ page, search }: { page: string, search: string }): Promise<apiRequest | null> {
+export async function getAgents({ page, search }: { page: string, search: string }): Promise<apiRequestType | null> {
     try {
         const data = await apiRequest({
             url: `/api/v1/chefbureux/employers`,
@@ -209,21 +199,17 @@ export async function UpdateGroup({ id, groupe, wilaya, code }: { id: number, gr
     }
 }
 
-export async function getAllChef({ page, search, wilaya, groupe }: { page: string, search: string, wilaya: string, groupe: string }): Promise<apiRequest | null> {
+export async function getAllChef({ page, search, wilaya, groupe }: { page: string, search: string, wilaya: string, groupe: string }): Promise<apiRequestType | null> {
     try {
         const data = await apiRequest({
             url: `/api/v1/user/chefbureux`,
             method: "GET",
             params: { page, search, wilaya, groupe }
         });
-        if (data.code == 200) {
-            return {
-                result: data.data.results,
-                totalAct: data.data.count
-            };
-        } else {
-            return null
-        }
+        return {
+            result: data.data.results,
+            totalAct: data.data.count
+        };
     } catch {
         return null
     }
