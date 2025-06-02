@@ -71,7 +71,7 @@ export async function AddComment({ id, comment }: Comment) {
             toast.error(data.message, { id: loadingToastId });
             return false;
         }
-    } catch (error) {
+    } catch {
         toast.error("Problem de connection", { id: loadingToastId });
         return false
     }

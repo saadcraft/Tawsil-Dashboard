@@ -14,7 +14,7 @@ export default function ShowComment({ id }: { id: number }) {
         const fetchComments = async () => {
             try {
                 const data = await getCommant(id);
-                setComments(data);
+                setComments(data!);
                 setIsLoading(false)
             } catch (err) {
                 setError((err as Error).message || "Failed to load comments.");
