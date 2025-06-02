@@ -145,13 +145,13 @@ export async function getComInfo(commande_id: number): Promise<OrderItem[] | nul
     }
 }
 
-export async function changeStatus({ commande_id, status }: { commande_id: number, status: "pending" | "confirmed" | "search" | "ready" | "delivered" | "canceled" | "in_progress" }) {
+export async function changeStatus({ commande_id, status, confirmation }: { commande_id: number, status?: "pending" | "confirmed" | "search" | "ready" | "delivered" | "canceled" | "in_progress", confirmation?: boolean }) {
     const loadingToastId = toast.loading("changer d'état en cours...");
     try {
         const response = await apiRequest({
             method: "PATCH",
             url: "api/v1/commande/update",
-            data: { commande_id, status }
+            data: { commande_id, ...(status ? { status } : {}), ...(confirmation ? { confirmation } : {}) }
         })
 
         if (response.code == 200) {

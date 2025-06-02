@@ -20,9 +20,9 @@ export default function ConfirmationReminder({ closeDelet, confirmation, handleS
             <div className="relative bg-white dark:bg-gray-700 rounded-lg shadow-lg max-w-md w-full mx-4 z-9999">
                 <div className="bg-white dark:bg-gray-700 rounded-lg shadow-lg max-w-md w-full mx-4 overflow-hidden">
                     <div className="p-4 sm:p-6">
-                        <div className="flex items-center gap-3 text-red-600 mb-4">
+                        <div className="flex items-center gap-3 mb-4">
                             <GoAlertFill className="h-6 w-6" />
-                            <h3 className="text-lg font-medium">Confirm Deletion</h3>
+                            <h3 className="text-lg font-medium">Confirmer la commande</h3>
                         </div>
 
                         <p className="text-gray-700 dark:text-white mb-6">
@@ -39,7 +39,7 @@ export default function ConfirmationReminder({ closeDelet, confirmation, handleS
                             </button>
                             <button
                                 onClick={() => confirmation.orderId && handleSubmit(confirmation.orderId)}
-                                className="px-4 py-2 rounded-md border border-transparent bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                                className="px-4 py-2 rounded-md border border-transparent bg-green-600 text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
                             >
                                 Oui, confirmé
                             </button>

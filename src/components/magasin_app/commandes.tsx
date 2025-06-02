@@ -6,7 +6,7 @@ import { MdBlock, MdClose, MdOutlineWorkspacePremium, MdOutlineQrCodeScanner, Md
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { FormatDate } from '@/lib/tools/tools'
-import { RiCheckDoubleLine, RiCheckFill, RiLoader3Fill } from 'react-icons/ri'
+import { RiCheckDoubleLine, RiCheckFill, RiLoader3Fill, RiTruckFill } from 'react-icons/ri'
 import { TbCancel } from 'react-icons/tb'
 import OrderInfo from '../windows/magasin_win/order_info'
 import CancelCommande from '../windows/magasin_win/cancel_order'
@@ -18,6 +18,7 @@ import { useSearchLoader } from '../options/useSearchLoader'
 import LoadingFirst from '../loading'
 import { PartenaireInformation } from '@/lib/tools/store/pertnerStore'
 import ConfirmationReminder from '../windows/starshop_win/alert_confirmation'
+import { changeStatus } from '@/lib/stores_api'
 
 
 type ChangeEtat = {
@@ -138,6 +139,16 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
         }
     };
 
+    const handleConfirme = async (commande_id: number) => {
+
+        const res = await changeStatus({ commande_id, confirmation: true })
+        if (res) {
+            router.refresh()
+            closeConfirmation();
+        }
+
+    }
+
     const Products = commande.map((pre, index) => {
         return (
             <tr key={index} className="bg-white border-b text-black hover:bg-gray-50">
@@ -179,12 +190,12 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
                     {pertner?.type_compte.name ?
                         pertner?.type_compte.name === "starshop" ?
                             !pre.confirmation ?
-                                <button className='bg-green-700 text-white p-1 px-3 rounded-md hover:bg-green-500' title='confirmé'>Confirmé</button>
+                                <button onClick={() => openConfirmation(pre.id, pre.client_info.first_name + pre.client_info.last_name)} className='bg-green-700 text-white p-1 px-3 rounded-md hover:bg-green-500' title='confirmé'>Confirmé</button>
                                 :
                                 pre.status === "pending" ?
                                     <>
                                         <button onClick={() => setChnageEtat({ id: pre.id, etat: "canceled" })} className='bg-red-700 text-white p-1 px-3 rounded-md hover:bg-red-500' title='annulé'><MdBlock /></button>
-                                        <button onClick={() => setSendRq(pre.id)} className='bg-green-700 text-white p-1 px-3 rounded-md hover:bg-green-500' title='accepté'><FaRegCheckCircle /></button>
+                                        <button onClick={() => setChnageEtat({ id: pre.id, etat: "ready" })} className='bg-green-700 text-white p-1 px-3 rounded-md hover:bg-green-500' title='accepté'><FaRegCheckCircle /></button>
                                     </>
                                     :
                                     null
@@ -223,6 +234,11 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
                     {pre.type_livraison === "premium" &&
                         <span className='bg-yellow-600 text-white p-1 px-1.5 text-lg rounded-md hover:bg-yellow-500 cursor-pointer' title='Premium commande'>
                             <MdOutlineWorkspacePremium />
+                        </span>
+                    }
+                    {pre.status == "ready" &&
+                        <span className='bg-green-600 text-white p-1 px-1.5 text-lg rounded-md hover:bg-green-500 cursor-pointer' title='rejecté'>
+                            <RiTruckFill />
                         </span>
                     }
                 </td>
@@ -324,7 +340,7 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
                 <LoadingFirst />
             }
             {confirmation.isOpen &&
-                <ConfirmationReminder closeDelet={closeConfirmation} handleSubmit={() => console.log("wailAtay")} confirmation={confirmation} />
+                <ConfirmationReminder closeDelet={closeConfirmation} handleSubmit={handleConfirme} confirmation={confirmation} />
             }
         </div>
     )

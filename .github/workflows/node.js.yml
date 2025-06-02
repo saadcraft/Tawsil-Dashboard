@@ -17,6 +17,9 @@ jobs:
       SERVER_DOMAIN: ${{secrets.SERVER_DOMAIN}}
       IMGS_DOMAIN: ${{secrets.IMGS_DOMAIN}}
       WS_SERVER: ${{secrets.WS_SERVER}}
+      SENTRY_AUTH_TOKEN: ${{secrets.SENTRY_AUTH_TOKEN}}
+      SENTRY_DSN: ${{secrets.SENTRY_DSN}}
+      MAPBOX_API_KEY: ${{secrets.MAPBOX_API_KEY}}
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
