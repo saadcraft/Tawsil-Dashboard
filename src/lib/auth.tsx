@@ -235,7 +235,7 @@ export async function UpdatePic(Data: UpdateData): Promise<{ success: boolean; m
             formData.append("id", Data.id);
         }
 
-        const response = await fetch(`${process.env.SERVER_DOMAIN}/api/v1/uploaduser`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/api/v1/uploaduser`, {
             method: "PUT",
             body: formData,
             headers: {
@@ -269,7 +269,7 @@ export async function addProduct(Data: { magasin_id: number, [key: string]: unkn
                 formData.append(key, String(value)); // Convert other values to string
             }
         });
-        const response = await fetch(`${process.env.SERVER_DOMAIN}/api/v1/magasin/create/produis`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/api/v1/magasin/create/produis`, {
             method: "POST",
             body: formData,
             headers: {
@@ -305,7 +305,7 @@ export async function ModifieProduct(Data: { id: number, [key: string]: unknown 
                 formData.append(key, String(value)); // Convert other values to string
             }
         });
-        const response = await fetch(`${process.env.SERVER_DOMAIN}/api/v1/produis/update`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/api/v1/produis/update`, {
             method: "PUT",
             body: formData,
             headers: {
@@ -343,7 +343,7 @@ export async function UpdateMagPic(Data: { magasin_id: string; image_background?
 
         // console.log(formData);
 
-        const response = await fetch(`${process.env.SERVER_DOMAIN}/api/v1/platfome/magasin/uploadimages`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/api/v1/platfome/magasin/uploadimages`, {
             method: "PUT",
             body: formData,
             headers: {

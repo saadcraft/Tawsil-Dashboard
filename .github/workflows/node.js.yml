@@ -14,12 +14,12 @@ jobs:
         node-version: [22.12.0]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     env:
-      SERVER_DOMAIN: ${{secrets.SERVER_DOMAIN}}
-      IMGS_DOMAIN: ${{secrets.IMGS_DOMAIN}}
-      WS_SERVER: ${{secrets.WS_SERVER}}
+      NEXT_PUBLIC_SERVER_DOMAIN: ${{secrets.SERVER_DOMAIN}}
+      NEXT_PUBLIC_IMGS_DOMAIN: ${{secrets.IMGS_DOMAIN}}
+      NEXT_PUBLIC_WS_SERVER: ${{secrets.WS_SERVER}}
       SENTRY_AUTH_TOKEN: ${{secrets.SENTRY_AUTH_TOKEN}}
       SENTRY_DSN: ${{secrets.SENTRY_DSN}}
-      MAPBOX_API_KEY: ${{secrets.MAPBOX_API_KEY}}
+      NEXT_PUBLIC_MAPBOX_API_KEY: ${{secrets.MAPBOX_API_KEY}}
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
@@ -28,6 +28,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
+    - run: npm dedupe
     - run: npm run build --if-present
 
     - name: Change Directory

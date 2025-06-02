@@ -63,7 +63,7 @@ export async function getCity({
     latitude: number;
     longitude: number;
 }): Promise<{ city: string; code: string | null } | null> {
-    const accessToken = process.env.MAPBOX_API_KEY;
+    const accessToken = process.env.NEXT_PUBLIC_MAPBOX_API_KEY;
 
     const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${accessToken}&types=place`;
 

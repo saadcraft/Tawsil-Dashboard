@@ -55,7 +55,7 @@ export default function VideoTutorials({ tutorials, categories }: { tutorials: V
                         {/* Thumbnail */}
                         <div className="relative aspect-video overflow-hidden">
                             <Image
-                                src={process.env.IMGS_DOMAIN + tutorial.image || "/placeholder.svg"}
+                                src={process.env.NEXT_PUBLIC_IMGS_DOMAIN + tutorial.image || "/placeholder.svg"}
                                 alt={tutorial.name}
                                 fill
                                 className="object-cover transition-transform group-hover:scale-105"

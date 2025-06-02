@@ -54,7 +54,7 @@ export default function Header({ user, token, mag }: { user: Users, token: strin
     let loadingToastId: string | number | null = null;
     // Create a new WebSocket connection
     const connectWebSocket = () => {
-      socket = new WebSocket(`${process.env.WS_SERVER}/ws/commandes/magasin/?token=${token}`);
+      socket = new WebSocket(`${process.env.NEXT_PUBLIC_WS_SERVER}/ws/commandes/magasin/?token=${token}`);
 
       setSocket(socket);
 
@@ -166,7 +166,7 @@ export default function Header({ user, token, mag }: { user: Users, token: strin
                 <Image
                   width={44}
                   height={44}
-                  src={user.image_url ? `${process.env.IMGS_DOMAIN}${user.image_url}` : "/placeholder.svg"}
+                  src={user.image_url ? `${process.env.NEXT_PUBLIC_IMGS_DOMAIN}${user.image_url}` : "/placeholder.svg"}
                   alt="User"
                   className='object-cover h-full'
                 />

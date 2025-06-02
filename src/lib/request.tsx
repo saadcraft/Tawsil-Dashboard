@@ -13,7 +13,7 @@ const getAccessToken = async (): Promise<string | undefined> => {
 
 // Create an Axios instance
 const api: AxiosInstance = axios.create({
-    baseURL: process.env.SERVER_DOMAIN,
+    baseURL: process.env.NEXT_PUBLIC_SERVER_DOMAIN,
     headers: {
         'Content-Type': 'application/json',
     },

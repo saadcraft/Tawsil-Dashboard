@@ -47,7 +47,7 @@ export default function ClientComment({ comment }: { comment: number[] }) {
                                 <Image
                                     width={100}
                                     height={100}
-                                    src={comment.client.image_url ? `${process.env.IMGS_DOMAIN}${comment.client.image_url}` : "/placeholder.svg"}
+                                    src={comment.client.image_url ? `${process.env.NEXT_PUBLIC_IMGS_DOMAIN}${comment.client.image_url}` : "/placeholder.svg"}
                                     alt={`${comment.client.first_name}'s avatar`}
                                     className="w-10 h-10 rounded-full object-cover"
                                 />

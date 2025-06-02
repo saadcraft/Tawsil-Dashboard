@@ -55,7 +55,7 @@ export default function Products({ products, cat, magasin }: { products: Produit
                 </td>
                 <td className="px-2 py-4">
                     {pre.image &&
-                        <Image src={`${process.env.IMGS_DOMAIN}${pre.image}`} width={50} height={50} alt='product image' className='w-12 h-12 object-cover rounded-md' />
+                        <Image src={`${process.env.NEXT_PUBLIC_IMGS_DOMAIN}${pre.image}`} width={50} height={50} alt='product image' className='w-12 h-12 object-cover rounded-md' />
                     }
                 </td>
                 <td className="px-4 py-4">

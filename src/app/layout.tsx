@@ -1,3 +1,5 @@
+export const runtime = 'nodejs'
+
 import type { Metadata } from "next";
 import "./globals.css";
 import ServerMenu from "@/components/server_layout";

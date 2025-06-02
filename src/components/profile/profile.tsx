@@ -35,7 +35,7 @@ export default function Profile() {
                                 <Image
                                     width={80}
                                     height={80}
-                                    src={user.image_url ? `${process.env.IMGS_DOMAIN}${user.image_url}` : "/placeholder.svg"}
+                                    src={user.image_url ? `${process.env.NEXT_PUBLIC_IMGS_DOMAIN}${user.image_url}` : "/placeholder.svg"}
                                     alt="user"
                                     className='object-cover h-full'
                                 />

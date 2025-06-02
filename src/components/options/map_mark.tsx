@@ -5,7 +5,7 @@ import mapboxgl from "mapbox-gl"
 import "mapbox-gl/dist/mapbox-gl.css"
 
 // Replace with your actual Mapbox access token
-mapboxgl.accessToken = process.env.MAPBOX_API_KEY;
+mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_API_KEY;
 
 let isRTLPluginInitialized = false;
 

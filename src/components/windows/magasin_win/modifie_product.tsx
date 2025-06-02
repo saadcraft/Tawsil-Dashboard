@@ -86,7 +86,7 @@ export default function ModifyProduct({ pro, option, onsub, partner }: { pro: Pr
                             {image ?
                                 <Image height={100} width={100} src={URL.createObjectURL(image)} alt='product pucture' className='w-20 h-20 object-cover rounded-lg' />
                                 :
-                                <Image height={100} width={100} src={process.env.IMGS_DOMAIN + pro.image!} alt='product pucture' className='w-20 h-20 object-cover rounded-lg' />
+                                <Image height={100} width={100} src={process.env.NEXT_PUBLIC_IMGS_DOMAIN + pro.image!} alt='product pucture' className='w-20 h-20 object-cover rounded-lg' />
                             }
                         </label>
                         <input type="file" onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} id='file' accept='image/*' name='image' className='hidden' />

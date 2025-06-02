@@ -41,14 +41,14 @@ export default function MagasinSection({ magasin }: { magasin: Magasin }) {
             <div className='relative w-full'>
                 <div className='w-full h-52 overflow-hidden'>
                     {magasin?.image_background ?
-                        <Image width={500} height={500} src={`${process.env.IMGS_DOMAIN}${magasin.image_background}`} alt='image cover' className='object-cover w-full h-full' />
+                        <Image width={500} height={500} src={`${process.env.NEXT_PUBLIC_IMGS_DOMAIN}${magasin.image_background}`} alt='image cover' className='object-cover w-full h-full' />
                         :
                         <Image width={500} height={500} src="/placeholder.svg" alt='image cover' className='object-cover w-full h-full' />
                     }
                 </div>
                 <div className='absolute left-12 top-36 md:top-24'>
                     {magasin?.image ?
-                        <Image width={150} height={150} src={`${process.env.IMGS_DOMAIN}${magasin.image}`} alt="image profile" className=' w-24 h-24 md:w-36 md:h-36 border-2 border-[#10c5f1] rounded-full object-cover bg-white shadow-md' />
+                        <Image width={150} height={150} src={`${process.env.NEXT_PUBLIC_IMGS_DOMAIN}${magasin.image}`} alt="image profile" className=' w-24 h-24 md:w-36 md:h-36 border-2 border-[#10c5f1] rounded-full object-cover bg-white shadow-md' />
                         :
                         <Image width={150} height={150} src={`/placeholder.svg`} alt="image profile" className=' w-24 h-24 md:w-36 md:h-36 border-2 border-[#10c5f1] rounded-full bg-white shadow-md' />
                     }

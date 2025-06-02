@@ -19,7 +19,9 @@ export default async function ReportPage({ searchParams }: props) {
     const { page } = await searchParams;
     const pageNumber = page ?? "1";
     const show = await ShowReport({ page: pageNumber });
-    if (!show) notFound()
+
+    if (!show) notFound();
+
     const { result, totalAct } = show
 
     const totalPages = Math.ceil(totalAct / 20);

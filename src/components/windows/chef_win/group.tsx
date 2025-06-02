@@ -53,7 +53,7 @@ export default function Group({ id, onEvent, onClose }: { id: Partenaire, onEven
                 <Image
                   height={50}
                   width={50}
-                  src={id.user.image_url ? `${process.env.IMGS_DOMAIN}${id.user.image_url}` : "/placeholder.svg"}
+                  src={id.user.image_url ? `${process.env.NEXT_PUBLIC_IMGS_DOMAIN}${id.user.image_url}` : "/placeholder.svg"}
                   alt={id.user.username}
                   className="h-full w-full object-cover"
                 />
