@@ -49,8 +49,9 @@ export const apiRequest = async (config: AxiosRequestConfig) => {
             data: response.data
         }
     } catch (error) {
-        Sentry.captureException(error);
+        const codeErrors = [401, 400, 406]
         if (axios.isAxiosError(error)) {
+            if (!codeErrors.includes(error.response?.status!)) Sentry.captureException(error);
             return {
                 code: error.response?.status,
                 message: error.response?.data?.message || error.message

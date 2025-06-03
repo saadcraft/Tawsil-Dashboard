@@ -269,6 +269,7 @@ type Produit = {
   name: string;
   description: string;
   price: string; // Assuming price is a string to handle decimals and formatting
+  quantity_stock: number;
   disponibilite: boolean;
   rating: number;
   magasin: number;
