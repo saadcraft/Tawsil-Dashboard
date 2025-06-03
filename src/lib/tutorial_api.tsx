@@ -1,5 +1,10 @@
 import { apiRequest } from "./request";
 
+type apiCommand = {
+    result: Order[];
+    totalAct: number;
+}
+
 
 export async function tutorialVideo(): Promise<Video[] | null> {
     try {
@@ -32,29 +37,6 @@ export async function tutorialCatégorie(): Promise<Categories[] | null> {
         return null;
     }
 }
-
-// export async function getCity({ latitude, longitude }: { latitude: number, longitude: number }): Promise<{ city: string, code: string } | null> {
-//     const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
-
-//     console.log("khra")
-
-//     // const geocoder = new window.google.maps.Geocoder();
-
-//     try {
-//         const response = await fetch(url);
-//         const data = await response.json();
-//         if (data.address && data.address.city) {
-//             return {
-//                 city: data.address.city,
-//                 code: data.address.postcode
-//             }
-//         } else {
-//             return null;
-//         }
-//     } catch {
-//         return null;
-//     }
-// }
 
 export async function getCity({
     latitude,
@@ -93,5 +75,25 @@ export async function getCity({
     } catch (error) {
         console.error("Mapbox reverse geocoding error:", error);
         return null;
+    }
+}
+
+export async function centreAppelConfirmation({ page, confirmation, search }: { page: string, confirmation: string, search: string }): Promise<apiCommand | null> {
+    try {
+        const response = await apiRequest({
+            method: "GET",
+            url: "/api/v1/centre/centreappel/commande",
+            params: { page, confirmation, search }
+        })
+        if (response.code == 200) {
+            return {
+                result: response.data.data,
+                totalAct: response.data.count
+            }
+        } else {
+            return null
+        }
+    } catch {
+        return null
     }
 }

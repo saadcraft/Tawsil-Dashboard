@@ -2,21 +2,16 @@
 
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { MdBlock, MdClose, MdOutlineWorkspacePremium, MdOutlineQrCodeScanner, MdDeliveryDining } from 'react-icons/md'
+import { MdBlock, MdClose, MdOutlineWorkspacePremium, MdDeliveryDining } from 'react-icons/md'
 import { useRouter } from 'next/navigation'
-import toast from 'react-hot-toast'
 import { FormatDate } from '@/lib/tools/tools'
-import { RiCheckDoubleLine, RiCheckFill, RiLoader3Fill, RiTruckFill } from 'react-icons/ri'
+import { RiCheckDoubleLine, RiCheckFill, RiLoader3Fill } from 'react-icons/ri'
 import { TbCancel } from 'react-icons/tb'
 import OrderInfo from '../windows/magasin_win/order_info'
 import CancelCommande from '../windows/magasin_win/cancel_order'
-import { useNotificationStore } from '@/lib/tools/store/web_socket'
-import { FaRegCheckCircle } from 'react-icons/fa'
-import Search from '../windows/magasin_win/search_deliver'
-import QRcode from '../windows/magasin_win/qrcode'
+import { FaSearch } from 'react-icons/fa'
 import { useSearchLoader } from '../options/useSearchLoader'
 import LoadingFirst from '../loading'
-import { PartenaireInformation } from '@/lib/tools/store/pertnerStore'
 import ConfirmationReminder from '../windows/starshop_win/alert_confirmation'
 import { changeStatus } from '@/lib/stores_api'
 
@@ -26,45 +21,19 @@ type ChangeEtat = {
     etat: "search" | "pending" | "confirmed" | "ready" | "delivered" | "canceled" | "in_progress";
 }
 
-export default function Commande({ commande, magasin, livreurs }: { commande: Order[], magasin: Magasin, livreurs: LivreurMagasine[] }) {
+export default function CommandeCentre({ commande }: { commande: Order[] }) {
 
     const { isLoading, handleSearch } = useSearchLoader(['etat']);
 
     const router = useRouter()
-    const { sendMessage, socket } = useNotificationStore();
-    const { pertner } = PartenaireInformation()
 
     console.log(commande)
 
     // console.log(commande)
 
 
-    useEffect(() => {
-        if (!socket) return;
-        const handleMessage = (event: MessageEvent) => {
-            try {
-                const data = JSON.parse(event.data);
-                // if (data.message?.status === "confirmed" || data.message?.status === "canceled" || data.message?.status == "pending" || data.message?.status == "in_progress") {
-                if (data) {
-                    router.refresh(); // Refresh the page
-                }
-            } catch (error) {
-                console.error('Error parsing WebSocket message:', error);
-            }
-        };
-
-        // Attach the message event listener
-        socket.addEventListener('message', handleMessage);
-
-        // Clean up the event listener when the component unmounts
-        return () => socket.removeEventListener('message', handleMessage);
-    }, [socket, router]);
-
-
     const [show, setShow] = useState<{ id: number; total: number } | null>(null);
     const [changeEtat, setChnageEtat] = useState<ChangeEtat | null>(null);
-    const [sendRq, setSendRq] = useState<number | null>(null)
-    const [qrCode, setQrCode] = useState<number | null>(null)
     const [confirmation, setConfirmation] = useState<{
         isOpen: boolean,
         orderId: number | null,
@@ -91,53 +60,6 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
         })
     }
 
-    const handleAction = async (id: number, event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const loadingToastId = toast.loading("changer d'état en cours...");
-
-        const formData = new FormData(event.currentTarget);
-        const livreur = formData.get("livreur") as string | null;
-
-        let message;
-
-        if (livreur) {
-            message = {
-                type: "assigne",
-                livreur_id: livreur,
-                commande_id: id
-            }
-
-        } else {
-
-            message = {
-                type: "broadcast",
-                commande_id: id,
-                wilaya: magasin.wilaya
-                // additional data if needed
-            };
-        }
-
-        // console.log(message)
-
-        try {
-
-            const send = await sendMessage(message) as unknown as { success: string };
-
-            if (send?.success) {
-                setSendRq(null); // Reset the send request state
-                // Optionally, you can set a success message or perform other actions
-                toast.success(send.success, { id: loadingToastId });
-                router.refresh()
-            } else {
-                toast.error("Problem network", { id: loadingToastId });
-            }
-            // Handle success
-        } catch {
-            // Handle any errors that occur during the sendMessage call
-            toast.error("Problem network", { id: loadingToastId });
-            // Optionally, you can set an error message or perform other actions
-        }
-    };
 
     const handleConfirme = async (commande_id: number) => {
 
@@ -162,14 +84,7 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
                     {FormatDate(pre.created_at)}
                 </td>
                 <td className="px-6 py-4">
-                    {pertner?.type_compte.name ?
-                        pertner?.type_compte.name === "starshop" ?
-                            pre.confirmation ? pre.client_info.phone_number_1 : "**********"
-                            :
-                            pre.livreur?.partenneur.user.phone_number_1 || "En cours"
-                        :
-                        "Loading ..."
-                    }
+                    {pre.client_info.phone_number_1}
                 </td>
                 <td className="px-6 py-4">
                     {pre.status == "pending" && <p className='text-gray-500 font-semibold flex items-center gap-1'><RiLoader3Fill className='animate-spin mt-0.5' />En attente</p>}
@@ -187,46 +102,11 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
                 </td>
                 <td className="px-3 py-4 flex justify-end gap-1 text-right">
 
-                    {pertner?.type_compte.name ?
-                        pertner?.type_compte.name === "starshop" ?
-                            !pre.confirmation ?
-                                <button onClick={() => openConfirmation(pre.id, pre.client_info.first_name + pre.client_info.last_name)} className='bg-green-700 text-white p-1 px-3 rounded-md hover:bg-green-500' title='confirmé'>Confirmé</button>
-                                :
-                                pre.status === "pending" ?
-                                    <>
-                                        <button onClick={() => setChnageEtat({ id: pre.id, etat: "canceled" })} className='bg-red-700 text-white p-1 px-3 rounded-md hover:bg-red-500' title='annulé'><MdBlock /></button>
-                                        <button onClick={() => setChnageEtat({ id: pre.id, etat: "ready" })} className='bg-green-700 text-white p-1 px-3 rounded-md hover:bg-green-500' title='accepté'><FaRegCheckCircle /></button>
-                                    </>
-                                    :
-                                    null
-                            :
-                            pre.status === "pending" ?
-                                <>
-                                    <button onClick={() => setChnageEtat({ id: pre.id, etat: "canceled" })} className='bg-red-700 text-white p-1 px-3 rounded-md hover:bg-red-500' title='annulé'><MdBlock /></button>
-                                    <button onClick={() => setSendRq(pre.id)} className='bg-green-700 text-white p-1 px-3 rounded-md hover:bg-green-500' title='accepté'><FaRegCheckCircle /></button>
-                                </>
-                                :
-
-                                pre.status === "search" ?
-                                    <>
-                                        <button className='bg-gray-200 text-black p-1 px-1.5 border-1 rounded-md hover:bg-gray-500 hover:text-white' title='désactiver'><RiLoader3Fill className='animate-spin mt-0.5' /></button>
-                                        {/* <button onClick={() => setChnageEtat({ id: pre.id, etat: "pending" })} className='bg-red-700 text-white p-1 px-3 rounded-md hover:bg-red-500' title='annulé'><MdCancel /></button> */}
-                                        <button onClick={() => setChnageEtat({ id: pre.id, etat: "canceled" })} className='bg-red-700 text-white p-1 px-3 rounded-md hover:bg-red-500' title='annulé'><MdBlock /></button>
-                                    </>
-                                    :
-                                    pre.status === "confirmed" ?
-                                        <>
-                                            <button onClick={() => setChnageEtat({ id: pre.id, etat: "ready" })} className='bg-green-700 flex items-center text-white p-1 rounded-md hover:bg-green-500' title='désactiver'><FaRegCheckCircle />Prét</button>
-                                        </>
-                                        :
-                                        pre.status === "ready" &&
-                                        <>
-                                            <button onClick={() => setQrCode(pre.magasin)} className='bg-gray-200 text-black p-1 px-1.5 border-1 rounded-md hover:bg-gray-500 hover:text-white' title='QR code'><MdOutlineQrCodeScanner className='mt-0.5' /></button>
-                                        </>
-                        :
-
-                        "Loading ..."
-
+                    {!pre.confirmation && pre.status === "pending" &&
+                        <div className='flex gap-1'>
+                            <button onClick={() => openConfirmation(pre.id, pre.client_info.first_name + pre.client_info.last_name)} className='bg-green-700 text-white p-1 px-3 rounded-md hover:bg-green-500' title='confirmé'>Confirmé</button>
+                            <button onClick={() => setChnageEtat({ id: pre.id, etat: "canceled" })} className='bg-red-700 text-white p-1 px-3 rounded-md hover:bg-red-500' title='annulé'><MdBlock /></button>
+                        </div>
                     }
                     {/*   :
                         <button onClick={() => handleStatus(pre.id, true)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500' title='activé'><FaRegCheckCircle /></button>
@@ -238,13 +118,6 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
                             <MdOutlineWorkspacePremium />
                         </span>
                     }
-                    {pre.status == "ready" && pertner?.type_compte.name === "starshop" ?
-                        <span className='bg-green-600 text-white p-1 px-1.5 text-lg rounded-md hover:bg-green-500 cursor-pointer' title='rejecté'>
-                            <RiTruckFill />
-                        </span>
-                        :
-                        null
-                    }
                 </td>
             </tr>
         )
@@ -254,16 +127,16 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
         <div className='py-5 px-5 sm:px-16'>
             <div className='flex items-center gap-2 px-5 pb-5'>
                 <Link href="/dashboard" className='font-semibold text-third'>Tableau de bord /</Link>
-                <h1 className='font-semibold text-xl'>Commandes</h1>
+                <h1 className='font-semibold text-xl'>Confirmation de commande</h1>
             </div>
             <div className='p-3 md:p-10 pb-20 md:pb-20 bg-white rounded-md shadow-md'>
                 <div className='flex lg:flex-row flex-col items-center justify-between mb-7 gap-5'>
                     <form onSubmit={handleSearch} className='flex flex-col lg:flex-row items-center gap-5'>
-                        {/* <div className='relative'>
+                        <div className='relative'>
                             <FaSearch className='absolute top-3 text-slate-500' />
                             <input type="text" name="client" placeholder='Recherche par Produit' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
-                        </div> */}
-                        <select name='etat' className='p-2 w-full border border-slate-300 rounded-md' >
+                        </div>
+                        {/* <select name='etat' className='p-2 w-full border border-slate-300 rounded-md' >
                             <option value="">Sélectionné Status</option>
                             <option value="pending">En attente</option>
                             <option value="search">En cours</option>
@@ -271,7 +144,7 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
                             <option value="confirmed">en préparation</option>
                             <option value="delivered">livré</option>
                             <option value="canceled">annulé</option>
-                        </select>
+                        </select> */}
                         <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherche</button>
                     </form>
                 </div>
@@ -286,11 +159,7 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
                                     Date
                                 </th>
                                 <th className="px-6 py-3">
-                                    {pertner?.type_compte.name === "starshop" ?
-                                        "Télephone"
-                                        :
-                                        "Livreur"
-                                    }
+                                    Télephone
                                 </th>
                                 <th className="px-6 py-3">
                                     Status
@@ -327,24 +196,11 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
                     <OrderInfo id={show.id} total={show.total} />
                 </div>
             }
-            {sendRq &&
-                <div>
-                    <button onClick={() => setSendRq(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
-                    <Search id={sendRq} onEvent={handleAction} livreur={livreurs} />
-                </div>
-            }
-            {qrCode &&
-                <div>
-                    <button onClick={() => setQrCode(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
-                    <QRcode id={qrCode} />
-                </div>
-
+            {confirmation.isOpen &&
+                <ConfirmationReminder closeDelet={closeConfirmation} handleSubmit={handleConfirme} confirmation={confirmation} />
             }
             {isLoading &&
                 <LoadingFirst />
-            }
-            {confirmation.isOpen &&
-                <ConfirmationReminder closeDelet={closeConfirmation} handleSubmit={handleConfirme} confirmation={confirmation} />
             }
         </div>
     )

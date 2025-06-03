@@ -2,22 +2,7 @@
 
 import { Result } from "./type_module/casses_type"
 import { apiRequest } from "./request";
-import { DateTime } from "next-auth/providers/kakao";
 import { toast } from "react-hot-toast";
-
-export type Data = {
-    last_name: string;
-    first_name: string;
-    username: string;
-    date_de_naissance: DateTime;
-    lieux: string;
-    email: string;
-    sexe: string;
-    phone_number_1: string;
-    phone_number_2: string;
-    pass: string;
-    password: string;
-}
 
 type apiCasses = {
     result: Result[];

@@ -5,7 +5,7 @@ export function Role(role: string) {
         case "chef_bureau":
             return ["/dashboard", "/dashboard/profile", "/dashboard/actions", "/dashboard/agent_administratif", "/dashboard/ajoute_agent", "/dashboard/apple_center", "/dashboard/caisses", "/dashboard/deliveries", "/dashboard/tutorial"];
         case "centre_appel":
-            return ["/dashboard", "/dashboard/profile", "/dashboard/apple_center", "/dashboard/groupes"];
+            return ["/dashboard", "/dashboard/profile", "/dashboard/apple_center", "/dashboard/groupes", "/dashboard/confirmation"];
         case "agent_administratif":
             return ["/dashboard", "/dashboard/profile", "/dashboard/apple_center", "/dashboard/deliveries", "/dashboard/tutorial"];
         case "superviseur":

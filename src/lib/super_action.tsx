@@ -1,4 +1,3 @@
-import { DateTime } from "next-auth/providers/kakao";
 import { apiRequest } from "./request";
 import { Report } from '@/lib/type_module/center_type'
 import { toast } from "react-hot-toast"
@@ -25,7 +24,7 @@ export type Data = {
     last_name: string;
     first_name: string;
     username: string;
-    date_de_naissance: DateTime;
+    date_de_naissance: string;
     lieux: string;
     email: string;
     sexe: string;

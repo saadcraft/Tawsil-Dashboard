@@ -1,17 +1,28 @@
 import { changeStatus } from '@/lib/stores_api';
+import { useNotificationStore } from '@/lib/tools/store/web_socket';
 import { useRouter } from 'next/navigation';
-import React from 'react'
+import React, { useEffect } from 'react'
 
 export default function CancelCommande({ id, etat, onsub }: { id: number, etat: "pending" | "confirmed" | "search" | "ready" | "delivered" | "canceled" | "in_progress", onsub: (value: null) => void }) {
 
     const router = useRouter()
 
+    // const { setIsNotif, notifme } = useNotificationStore();
+
+    // useEffect(() => {
+    //     setIsNotif(false)
+    // }, [])
+
+    // console.log(notifme)
+
     const handleDelete = async (commande_id: number) => {
+
 
         const res = await changeStatus({ commande_id, status: etat })
         if (res) {
             router.refresh()
             onsub(null)
+
         }
     }
 
@@ -20,7 +31,10 @@ export default function CancelCommande({ id, etat, onsub }: { id: number, etat: 
             <div className='max-w-3xl rounded-xl mx-auto p-5 mt-10 bg-white'>
                 <h1 className='mb-5 font-bold text-center text-3xl'>
                     {etat === "canceled" ?
-                        "est ce que vous êtes sur de annuler ce commande" : "est ce que vous sûr d'avoir préparé cette demande"
+                        "est ce que vous êtes sur de annuler ce commande"
+                        :
+                        etat === "pending" ?
+                            "est ce que vous êtes sur de annuler la recheche" : "est ce que vous sûr d'avoir préparé cette demande"
                     }
 
                 </h1>

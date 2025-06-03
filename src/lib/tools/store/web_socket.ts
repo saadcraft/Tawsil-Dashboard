@@ -13,6 +13,7 @@ type Notification = {
 type NotificationStore = {
     notifications: Notification[];
     socket: WebSocket | null;
+    notifme: boolean;
     setNotifications: (notifications: Notification[]) => void;
     addNotification: (notification: Notification) => void;
     removeNotification: (notificationId: number) => void;
@@ -28,11 +29,13 @@ type NotificationStore = {
     setSocket: (socket: WebSocket | null) => void; // Set the socket reference
     isConnected: boolean;
     setIsConnected: (value: boolean) => void;
+    setIsNotif: (value: boolean) => void;
 };
 
 export const useNotificationStore = create<NotificationStore>((set, get) => ({
     notifications: [],
     socket: null,
+    notifme: true,
     setNotifications: (notifications) => set({ notifications }),
     addNotification: (notification) => set((state) => {
         if (!notification?.id) return state;  // Prevent processing if id is undefined
@@ -81,6 +84,7 @@ export const useNotificationStore = create<NotificationStore>((set, get) => ({
     setSocket: (socket) => set({ socket }),
     isConnected: false, // default to true
     setIsConnected: (value: boolean) => set({ isConnected: value }),
+    setIsNotif: (value: boolean) => set({ notifme: value }),
 }));
 
 type UserInfo = {

@@ -17,7 +17,8 @@ import {
     MdOutlineRequestQuote,
     MdOutlineShoppingBasket,
     MdGroup,
-    MdVideoSettings
+    MdVideoSettings,
+    MdOutlineConfirmationNumber
 } from "react-icons/md";
 import { TbRecharging } from "react-icons/tb";
 import { GrValidate, GrUserWorker } from "react-icons/gr";
@@ -225,6 +226,7 @@ export default function Menu({ user, token }: props) {
                             {user.role == "centre_appel" &&
                                 <>
                                     <MenuParams title={`Groupes`} icon={<MdGroup />} onEvent={() => handleMenu("/dashboard/groupes")} />
+                                    <MenuParams title={`Confirmation`} icon={<MdOutlineConfirmationNumber />} onEvent={() => handleMenu("/dashboard/confirmation")} />
                                 </>
                             }
                             {user.role == "superviseur" &&

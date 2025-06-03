@@ -16,8 +16,6 @@ type DataType = {
     [key: string | number]: unknown
 }
 
-const codeError = [400, 401, 406]
-
 export async function SignIn({ username, password }: User) {
     try {
         const data = await apiRequest({
@@ -252,9 +250,7 @@ export async function UpdatePic(Data: UpdateData): Promise<{ success: boolean; m
             return { success: false, message: errorData.message || "La mise à jour a échoué. Veuillez réessayer." };
         }
     } catch (error) {
-        if (error instanceof Error && !codeError.includes((error as any)?.response?.status!)) {
-            Sentry.captureException(error);
-        }
+        Sentry.captureException(error);
         return { success: false, message: "Probleme connection" };
     }
 }
@@ -290,9 +286,7 @@ export async function addProduct(Data: { magasin_id: number, [key: string]: unkn
             return { success: false, message: firstError || "La mise à jour a échoué. Veuillez réessayer." };
         }
     } catch (error) {
-        if (error instanceof Error && !codeError.includes((error as any)?.response?.status!)) {
-            Sentry.captureException(error);
-        }
+        Sentry.captureException(error);
         return { success: false, message: "Probleme connection" };
     }
 }
@@ -326,9 +320,7 @@ export async function ModifieProduct(Data: { id: number, [key: string]: unknown 
             return { success: false, message: errorData.message || "La mise à jour a échoué. Veuillez réessayer." };
         }
     } catch (error) {
-        if (error instanceof Error && !codeError.includes((error as any)?.response?.status!)) {
-            Sentry.captureException(error);
-        }
+        Sentry.captureException(error);
         return { success: false, message: "Probleme connection" };
     }
 }
@@ -366,9 +358,7 @@ export async function UpdateMagPic(Data: { magasin_id: string; image_background?
             return { success: false, message: errorData.message || "La mise à jour a échoué. Veuillez réessayer." };
         }
     } catch (error) {
-        if (error instanceof Error && !codeError.includes((error as any)?.response?.status!)) {
-            Sentry.captureException(error);
-        }
+        Sentry.captureException(error);
         return { success: false, message: "Probleme connection" };
     }
 }
