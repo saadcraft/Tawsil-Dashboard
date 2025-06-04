@@ -153,7 +153,7 @@ export default function CommandeCentre({ commande }: { commande: Order[] }) {
                                 />
                                 <label
                                     htmlFor="confirmed"
-                                    className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-transparent rounded-md cursor-pointer transition-all duration-200 ease-in-out hover:text-gray-900 peer-checked:bg-white peer-checked:text-blue-600 peer-checked:shadow-sm"
+                                    className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-500 bg-transparent rounded-md cursor-pointer transition-all duration-200 ease-in-out hover:text-gray-900 peer-checked:bg-green-400 peer-checked:text-white peer-checked:shadow-sm"
                                 >
                                     Confirmé
                                 </label>
@@ -169,7 +169,7 @@ export default function CommandeCentre({ commande }: { commande: Order[] }) {
                                 />
                                 <label
                                     htmlFor="not-confirmed"
-                                    className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-transparent rounded-md cursor-pointer transition-all duration-200 ease-in-out hover:text-gray-900 peer-checked:bg-white peer-checked:text-blue-600 peer-checked:shadow-sm"
+                                    className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-500 bg-transparent rounded-md cursor-pointer transition-all duration-200 ease-in-out hover:text-gray-900 peer-checked:bg-red-400 peer-checked:text-white peer-checked:shadow-sm"
                                 >
                                     No Confirmé
                                 </label>

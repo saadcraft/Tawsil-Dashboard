@@ -26,7 +26,7 @@ type Props = {
 
 export default function AppleCenter({ parteners, refresh }: Props) {
 
-  const { isLoading, handleSearch } = useSearchLoader(['search']);
+  const { isLoading, handleSearch } = useSearchLoader(['search', 'groupe']);
 
   const [activePartnerId, setActivePartnerId] = useState<number | null>(null);
   const [showComment, setshowComment] = useState<number | null>(null);
@@ -176,6 +176,40 @@ export default function AppleCenter({ parteners, refresh }: Props) {
             <div className='relative'>
               <FaSearch className='absolute top-3 text-slate-500' />
               <input type="text" name="search" onChange={handleInputChange} placeholder='Recherche par numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+            </div>
+            <div className="inline-flex bg-gray-100 rounded-lg p-1">
+              <div className="relative">
+                <input
+                  type="radio"
+                  id="confirmed"
+                  name="groupe"
+                  value="True"
+                  defaultChecked
+                  className="peer sr-only"
+                />
+                <label
+                  htmlFor="confirmed"
+                  className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-500 bg-transparent rounded-md cursor-pointer transition-all duration-200 ease-in-out hover:text-gray-900 peer-checked:bg-green-400 peer-checked:text-white peer-checked:shadow-sm"
+                >
+                  Groupé
+                </label>
+              </div>
+
+              <div className="relative">
+                <input
+                  type="radio"
+                  id="not-confirmed"
+                  name="groupe"
+                  value="False"
+                  className="peer sr-only"
+                />
+                <label
+                  htmlFor="not-confirmed"
+                  className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-500 bg-transparent rounded-md cursor-pointer transition-all duration-200 ease-in-out hover:text-gray-900 peer-checked:bg-red-400 peer-checked:text-white peer-checked:shadow-sm"
+                >
+                  No groupé
+                </label>
+              </div>
             </div>
             <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherche</button>
           </form>

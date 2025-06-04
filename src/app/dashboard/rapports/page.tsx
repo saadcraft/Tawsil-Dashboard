@@ -20,7 +20,7 @@ export default async function ReportPage({ searchParams }: props) {
     const pageNumber = page ?? "1";
     const show = await ShowReport({ page: pageNumber });
 
-    if (!show) notFound();
+    if (!show?.result) notFound();
 
     const { result, totalAct } = show
 

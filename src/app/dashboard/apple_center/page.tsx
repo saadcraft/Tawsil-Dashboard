@@ -15,20 +15,21 @@ export const metadata: Metadata = {
 };
 
 type props = {
-  searchParams: Promise<{ page?: string, search?: string }>;
+  searchParams: Promise<{ page?: string, search?: string, groupe?: string }>;
 }
 
 
 export default async function ApplePage({ searchParams }: props) {
 
-  const { page, search } = await searchParams;
+  const { page, search, groupe } = await searchParams;
   const pageNumber = page ?? "1";
   const search_num = search ?? "";
+  const Checkgroupe = groupe ?? "";
 
 
   return (
     <div>
-      <ClientAppel page={pageNumber} search={search_num} />
+      <ClientAppel page={pageNumber} search={search_num} groupe={Checkgroupe} />
     </div>
   );
 }

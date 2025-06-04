@@ -169,14 +169,24 @@ export default function Vtc({ promise }: Props) {
                             <FaSearch className='absolute top-3 text-slate-500' />
                             <input onChange={handleInputChange} type="text" name="search" placeholder='Search with Number' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         </div>
-                        <div className='flex gap-2 text-nowrap'>
-                            <div>
-                                <input type="radio" id="noValide" name="valide" defaultChecked value="false" className="peer hidden" />
-                                <label htmlFor="noValide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> No valider</label>
+                        <div className="inline-flex bg-gray-100 rounded-lg p-1">
+                            <div className='relative'>
+                                <input type="radio" id="valide" name="valide" defaultChecked value="true" className="peer hidden" />
+                                <label
+                                    htmlFor="valide"
+                                    className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-500 bg-transparent rounded-md cursor-pointer transition-all duration-200 ease-in-out hover:text-gray-900 peer-checked:bg-green-400 peer-checked:text-white peer-checked:shadow-sm"
+                                >
+                                    Valider
+                                </label>
                             </div>
-                            <div>
-                                <input type="radio" id="valide" name="valide" value="true" className="peer hidden" />
-                                <label htmlFor="valide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> valider</label>
+                            <div className='relative'>
+                                <input type="radio" id="noValide" name="valide" value="false" className="peer hidden" />
+                                <label
+                                    htmlFor="noValide"
+                                    className="inline-flex whitespace-nowrap items-center justify-center px-4 py-2 text-sm font-medium text-gray-500 bg-transparent rounded-md cursor-pointer transition-all duration-200 ease-in-out hover:text-gray-900 peer-checked:bg-red-400 peer-checked:text-white peer-checked:shadow-sm"
+                                >
+                                    No valider
+                                </label>
                             </div>
                         </div>
                         <select name="wilaya" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>

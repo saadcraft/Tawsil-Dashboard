@@ -19,12 +19,12 @@ type apiParteneur = {
     totalAct: number;
 }
 
-export async function getParteners({ page, search }: { page: string, search: string }): Promise<apiParteneur | null> {
+export async function getParteners({ page, search, groupe }: { page: string, search: string, groupe: string }): Promise<apiParteneur | null> {
     try {
         const response = await apiRequest({
             method: "GET",
             url: "/api/v1/centreappel/parteners",
-            params: { page, search }
+            params: { page, search, groupe }
         });
 
         return {

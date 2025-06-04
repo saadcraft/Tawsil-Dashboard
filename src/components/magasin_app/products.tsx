@@ -15,7 +15,7 @@ import ClientComment from '../windows/magasin_win/client_comment'
 import { useSearchLoader } from '../options/useSearchLoader'
 import LoadingFirst from '../loading'
 import { PartenaireInformation } from '@/lib/tools/store/pertnerStore'
-import AjouterStar from '../windows/magasin_win/star_add'
+import AjouterStar from '../windows/starshop_win/star_add'
 
 export default function Products({ products, cat, magasin }: { products: Produit[], cat: Catalogue[], magasin: Magasin }) {
 

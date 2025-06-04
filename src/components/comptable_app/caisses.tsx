@@ -80,14 +80,24 @@ export default function Caisses({ promise }: { promise: Caisses[] }) {
                             <input type="text" name="search" onChange={handleInputChange} placeholder='Search with Number' className='border-b outline-none py-2 pl-5 focus:border-slate-950' />
                         </div>
                         <input type="date" name="date" className='border-b outline-none py-2 pl-1 focus:border-slate-950' />
-                        <div className='flex gap-2'>
-                            <div>
-                                <input type="radio" id="noValide" name="approvie" defaultChecked value="False" className="peer hidden" />
-                                <label htmlFor="noValide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> False</label>
+                        <div className="inline-flex bg-gray-100 rounded-lg p-1">
+                            <div className='relative'>
+                                <input type="radio" id="valide" name="approvie" defaultChecked value="True" className="peer hidden" />
+                                <label
+                                    htmlFor="valide"
+                                    className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-500 bg-transparent rounded-md cursor-pointer transition-all duration-200 ease-in-out hover:text-gray-900 peer-checked:bg-green-400 peer-checked:text-white peer-checked:shadow-sm"
+                                >
+                                    True
+                                </label>
                             </div>
-                            <div>
-                                <input type="radio" id="valide" name="approvie" value="True" className="peer hidden" />
-                                <label htmlFor="valide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> True</label>
+                            <div className='relative'>
+                                <input type="radio" id="noValide" name="approvie" value="False" className="peer hidden" />
+                                <label
+                                    htmlFor="noValide"
+                                    className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-500 bg-transparent rounded-md cursor-pointer transition-all duration-200 ease-in-out hover:text-gray-900 peer-checked:bg-red-400 peer-checked:text-white peer-checked:shadow-sm"
+                                >
+                                    False
+                                </label>
                             </div>
                         </div>
                         <select name="wilaya" onChange={(e) => handleGroup({ wilaya: e.target.value })} className='border-b outline-none py-2 pl-1 focus:border-slate-950'>

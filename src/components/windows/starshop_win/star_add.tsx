@@ -25,14 +25,45 @@ export default function AjouterStar({ option, maga, onsub }: { option: Catalogue
 
         // console.log(formObject);
 
+        const quantities = [];
+        const prices = [];
 
+        // Extract quantities and prices by index
+        for (let i = 0; i < variants; i++) {
+            const qty = parseFloat(formData.get(`prix_starshop[quantity][${i}]`) as string);
+            const prx = parseFloat(formData.get(`prix_starshop[prix][${i}]`) as string);
+
+            if (!isNaN(qty) && !isNaN(prx)) {
+                quantities.push(qty);
+                prices.push(prx);
+            }
+        }
+
+        // Check if quantity ↑ means price ↓
+        let isValid = true;
+        for (let i = 1; i < quantities.length; i++) {
+            if (quantities[i] > quantities[i - 1] && prices[i] >= prices[i - 1]) {
+                isValid = false;
+                break;
+            }
+
+            if (quantities[i] < quantities[i - 1] && prices[i] <= prices[i - 1]) {
+                isValid = false;
+                break;
+            }
+        }
+
+        if (!isValid) {
+            toast.error("Logique de tarification non valide : une quantité plus élevée devrait avoir un prix plus bas.", { id: loadingToastId });
+            return;
+        }
 
 
         const filteredData = Object.fromEntries(
             Object.entries(formObject).filter(([, value]) => value !== "")
         );
 
-        const requiredFields = ['name', 'price', 'catalogue_id', 'description']; // Add the names of the fields you want to check
+        const requiredFields = ['name', 'price', 'catalogue_id', 'description', 'quantity_stock']; // Add the names of the fields you want to check
         const missingFields = requiredFields.filter(field => !formObject[field]);
         if (missingFields.length > 0) {
             // Handle the case where required fields are empty

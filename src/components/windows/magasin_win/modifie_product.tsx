@@ -36,6 +36,41 @@ export default function ModifyProduct({ pro, option, onsub, partner }: { pro: Pr
             delete filteredData.image;
         }
 
+        const quantities = [];
+        const prices = [];
+
+
+        if (partner?.type_compte?.name === "starshop") {
+            // Extract quantities and prices by index
+            for (let i = 0; i < variants; i++) {
+                const qty = parseFloat(formData.get(`prix_starshop[${i}][quantity]`) as string);
+                const prx = parseFloat(formData.get(`prix_starshop[${i}][prix]`) as string);
+
+                if (!isNaN(qty) && !isNaN(prx)) {
+                    quantities.push(qty);
+                    prices.push(prx);
+                }
+            }
+
+            // Check if quantity ↑ means price ↓
+            let isValid = true;
+            for (let i = 1; i < quantities.length; i++) {
+                if (quantities[i] > quantities[i - 1] && prices[i] >= prices[i - 1]) {
+                    isValid = false;
+                    break;
+                }
+
+                if (quantities[i] < quantities[i - 1] && prices[i] <= prices[i - 1]) {
+                    isValid = false;
+                    break;
+                }
+            }
+
+            if (!isValid) {
+                toast.error("Logique de tarification non valide : une quantité plus élevée devrait avoir un prix plus bas.", { id: loadingToastId });
+                return;
+            }
+        }
         // const requiredFields = ['name', 'price', 'catalogue_id', 'description']; // Add the names of the fields you want to check
         // const missingFields = requiredFields.filter(field => !formObject[field]);
         // if (missingFields.length > 0) {
@@ -66,17 +101,27 @@ export default function ModifyProduct({ pro, option, onsub, partner }: { pro: Pr
             <div className='md:max-w-2xl w-full mx-auto p-5 mt-10 bg-white rounded-lg'>
                 <h1 className='mb-5 text-2xl font-bold text-center'>Modifie produit</h1>
                 <form onSubmit={handleCreate} className='flex flex-col gap-4' encType="multipart/form-data">
-                    <div className='flex gap-3'>
+                    <div className='flex items-center gap-3'>
                         <p>Status:</p>
                         {pro.disponibilite ? <span className='text-green-700 font-bold'>Disponible</span> : <span className='text-red-700 font-bold'>Pas disponible</span>}
-                        <div className='flex md:gap-2 md:flex-row flex-col gap-5'>
-                            <div>
-                                <input type="radio" id="noValide" name="is_available" value="true" className="peer hidden" defaultChecked={pro.disponibilite === true} />
-                                <label htmlFor="noValide" className='cursor-pointer border-2 rounded-lg text-slate-400 peer-checked:text-green-700 text-nowrap peer-checked:border-green-700 p-2'> Activé</label>
+                        <div className="inline-flex bg-gray-100 rounded-lg p-1">
+                            <div className='relative'>
+                                <input type="radio" id="valide" name="is_available" defaultChecked value="true" className="peer hidden" />
+                                <label
+                                    htmlFor="valide"
+                                    className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-500 bg-transparent rounded-md cursor-pointer transition-all duration-200 ease-in-out hover:text-gray-900 peer-checked:bg-green-400 peer-checked:text-white peer-checked:shadow-sm"
+                                >
+                                    Activé
+                                </label>
                             </div>
-                            <div>
-                                <input type="radio" id="valide" name="is_available" value="false" className="peer hidden" defaultChecked={pro.disponibilite === false} />
-                                <label htmlFor="valide" className='cursor-pointer border-2 rounded-lg text-slate-400 peer-checked:text-red-700 peer-checked:border-red-700 p-2'>Désactiver</label>
+                            <div className='relative'>
+                                <input type="radio" id="noValide" name="is_available" value="false" className="peer hidden" />
+                                <label
+                                    htmlFor="noValide"
+                                    className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-500 bg-transparent rounded-md cursor-pointer transition-all duration-200 ease-in-out hover:text-gray-900 peer-checked:bg-red-400 peer-checked:text-white peer-checked:shadow-sm"
+                                >
+                                    Désactiver
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -107,12 +152,12 @@ export default function ModifyProduct({ pro, option, onsub, partner }: { pro: Pr
                     <div className='flex gap-2 flex-col md:flex-row'>
                         <div className='w-full'>
                             <p>Price</p>
-                            <input type='text' name='price' className='p-2 border w-full border-slate-300 rounded-md' placeholder='Entre le prix' defaultValue={pro.price} />
+                            <input onChange={handleInputChange} type='text' name='price' className='p-2 border w-full border-slate-300 rounded-md' placeholder='Entre le prix' defaultValue={pro.price} />
                         </div>
                         {partner?.type_compte?.name === "starshop" &&
                             <div className='w-full'>
-                                <p>Quantité</p>
-                                <input type='text' name='quantity_stock' className='p-2 border w-full border-slate-300 rounded-md' placeholder='Entre le prix' defaultValue={pro.quantity_stock} />
+                                <p>Ajouter quantité</p>
+                                <input onChange={handleInputChange} type='text' name='quantity_stock' className='p-2 border w-full border-slate-300 rounded-md' placeholder='ajouté quantity' />
                             </div>
                         }
                     </div>

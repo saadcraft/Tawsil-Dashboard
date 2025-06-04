@@ -10,20 +10,20 @@ import { useQuery } from '@tanstack/react-query'
 import LoadingFirst from './loading'
 import { notFound } from 'next/navigation'
 
-export default function ClientAppel({ page, search }: { page: string, search: string }) {
+export default function ClientAppel({ page, search, groupe }: { page: string, search: string, groupe: string }) {
 
     const { user } = userInformation()
 
     const fetchFn = async () => {
         if (user?.role === 'centre_appel' || user?.role === 'admin') {
-            return await getParteners({ page, search });
+            return await getParteners({ page, search, groupe });
         } else {
             return await getChefCentre({ page, search });
         }
     };
 
     const { data, isLoading, isError, refetch } = useQuery({
-        queryKey: ['appel-data', user?.role, page, search],
+        queryKey: ['appel-data', user?.role, page, search, groupe],
         queryFn: fetchFn,
         enabled: !!user?.role, // prevent premature call
     });

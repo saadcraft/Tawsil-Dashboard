@@ -77,14 +77,24 @@ export default function Parteneure({ users }: { users: Partenaire[] }) {
                         <FaSearch className='absolute top-3 text-slate-500' />
                         <input onChange={handleInputChange} type="text" name="search" placeholder='Recherche par numéro' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                     </div>
-                    <div className='flex gap-2'>
-                        <div>
-                            <input type="radio" id="noValide" name="is_active" defaultChecked value="false" className="peer hidden" />
-                            <label htmlFor="noValide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> Désactivé</label>
+                    <div className="inline-flex bg-gray-100 rounded-lg p-1">
+                        <div className='relative'>
+                            <input type="radio" id="valide" name="is_active" defaultChecked value="true" className="peer hidden" />
+                            <label
+                                htmlFor="valide"
+                                className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-500 bg-transparent rounded-md cursor-pointer transition-all duration-200 ease-in-out hover:text-gray-900 peer-checked:bg-green-400 peer-checked:text-white peer-checked:shadow-sm"
+                            >
+                                Valider
+                            </label>
                         </div>
-                        <div>
-                            <input type="radio" id="valide" name="is_active" value="true" className="peer hidden" />
-                            <label htmlFor="valide" className='cursor-pointer border rounded-lg text-slate-400 peer-checked:text-third peer-checked:border-third p-2'> Activé</label>
+                        <div className='relative'>
+                            <input type="radio" id="noValide" name="is_active" value="false" className="peer hidden" />
+                            <label
+                                htmlFor="noValide"
+                                className="inline-flex items-center whitespace-nowrap justify-center px-4 py-2 text-sm font-medium text-gray-500 bg-transparent rounded-md cursor-pointer transition-all duration-200 ease-in-out hover:text-gray-900 peer-checked:bg-red-400 peer-checked:text-white peer-checked:shadow-sm"
+                            >
+                                No valider
+                            </label>
                         </div>
                     </div>
                     <select onChange={(e) => handleGroup({ wilaya: e.target.value })} name="wilaya" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
