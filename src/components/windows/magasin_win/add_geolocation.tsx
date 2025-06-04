@@ -77,7 +77,7 @@ export default function AddGeo({ id, onEvent }: { id: number, onEvent: (value: f
     };
 
     const handleManual = async ({ latitude, longitude }: { latitude: number, longitude: number }) => {
-        console.log("here", latitude, longitude)
+        // console.log("here", latitude, longitude)
         try {
             setLatitude(latitude);
             setLongitude(longitude);

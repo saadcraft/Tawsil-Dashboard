@@ -26,8 +26,6 @@ export default function Annuler({ onClose, dm }: { onClose: (result: null) => vo
         }
     }
 
-    console.log(dm.etat)
-
     return (
         <div className='fixed z-20 top-0 flex items-center bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
             <div className='max-w-2xl rounded-xl mx-auto p-5 mt-10 bg-white'>

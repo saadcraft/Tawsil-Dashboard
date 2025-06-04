@@ -13,29 +13,6 @@ export default function AjouterStar({ option, maga, onsub }: { option: Catalogue
     const [variants, setVariats] = useState<number>(1)
     const [image, setImage] = useState<File | null>(null)
 
-    console.log(maga)
-
-    // const addValue = (variantIndex: number) => {
-    //     setVariats((prev) => {
-    //         const updated = prev + 1
-    //         return updated;
-    //     });
-    // };
-
-    // const removeValue = (variantIndex: number) => {
-    //     setVariats((prev) => {
-    //         const updated = [...prev];
-    //         const current = updated[variantIndex];
-    //         if (current.values > 1) {
-    //             updated[variantIndex] = {
-    //                 ...current,
-    //                 values: current.values - 1,
-    //             };
-    //         }
-    //         return updated;
-    //     });
-    // };
-
     const handleCreate = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -46,7 +23,7 @@ export default function AjouterStar({ option, maga, onsub }: { option: Catalogue
         // const catal = formData.get('catalogue');
 
 
-        console.log(formObject);
+        // console.log(formObject);
 
 
 

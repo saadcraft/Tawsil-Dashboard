@@ -98,7 +98,7 @@ export default function MapGl({ localisation, onSub }: MapProps) {
     const handleButtonClick = () => {
         if (marker.current) {
             const { lng, lat } = marker.current.getLngLat()
-            console.log(lng, lat)
+            // console.log(lng, lat)
             onSub({ latitude: lat, longitude: lng })
         }
     }

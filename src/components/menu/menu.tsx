@@ -29,6 +29,7 @@ import { MenuParams } from "./params";
 import LoadingFirst from '../loading';
 import { getTotalDemande, getTotalNoGroup } from '@/lib/action_client';
 import { PartenaireInformation } from '@/lib/tools/store/pertnerStore';
+import { getTotalNoConfirmed } from '@/lib/tutorial_api';
 
 type props = {
     user: Users;
@@ -46,6 +47,7 @@ export default function Menu({ user, token }: props) {
     const [isLoading, setIsLoading] = useState(false);
     const [countState, setCountState] = useState<number | null>(null);
     const [countPart, setCountPart] = useState<number | null>(null);
+    const [countConfirmation, setCountConfirmation] = useState<number | null>(null);
 
     const { pertner } = PartenaireInformation()
 
@@ -91,7 +93,18 @@ export default function Menu({ user, token }: props) {
                 setCountPart(null)
             }
         }
-        if (user?.role === "centre_appel") fetchNoGroup();
+
+        const fetchNoConfirme = async () => {
+            try {
+                const total = await getTotalNoConfirmed()
+                setCountConfirmation(total)
+            } catch (error) {
+                console.error('Failed to fetch total:', error);
+                setCountConfirmation(null)
+            }
+        }
+
+        if (user?.role === "centre_appel") fetchNoGroup(); fetchNoConfirme();
         if (user?.role === "validation_vtc") fetchCount(); // Call the function to fetch count on pathname change
     }, [pathname, search, user, token]);
 
@@ -226,7 +239,10 @@ export default function Menu({ user, token }: props) {
                             {user.role == "centre_appel" &&
                                 <>
                                     <MenuParams title={`Groupes`} icon={<MdGroup />} onEvent={() => handleMenu("/dashboard/groupes")} />
-                                    <MenuParams title={`Confirmation`} icon={<MdOutlineConfirmationNumber />} onEvent={() => handleMenu("/dashboard/confirmation")} />
+                                    <div className='relative'>
+                                        <MenuParams title={`Confirmation`} icon={<MdOutlineConfirmationNumber />} onEvent={() => handleMenu("/dashboard/confirmation")} />
+                                        {countConfirmation && countConfirmation != 0 ? <span className='absolute top-3.5 right-10 py-0.5 px-2 text-sm rounded-full text-white font-bold bg-red-600' >{countConfirmation}</span> : ""}
+                                    </div>
                                 </>
                             }
                             {user.role == "superviseur" &&
@@ -282,10 +298,12 @@ export default function Menu({ user, token }: props) {
                         </ul>
                     </div>
                 </div>
-            </div>
-            {isMenuOpen && <div onClick={() => handleMenu(null)} className='fixed top-0 left-0 bottom-0 right-0 z-30 bg-slate-600 bg-opacity-50 md:hidden' ></div>}
+            </div >
+            {isMenuOpen && <div onClick={() => handleMenu(null)} className='fixed top-0 left-0 bottom-0 right-0 z-30 bg-slate-600 bg-opacity-50 md:hidden' ></div>
+            }
 
-            {isLoading &&
+            {
+                isLoading &&
                 <LoadingFirst />
             }
         </>

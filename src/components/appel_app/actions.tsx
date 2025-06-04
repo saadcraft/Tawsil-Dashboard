@@ -11,7 +11,7 @@ export default function ActionsCenter({ actions }: { actions: centerAction[] }) 
 
     const { isLoading, handleSearch } = useSearchLoader(['search', 'date']);
 
-    console.log(actions)
+    // console.log(actions)
 
     const action = actions.map((pre, index) => {
         return (

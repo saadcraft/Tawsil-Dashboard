@@ -88,10 +88,27 @@ export async function centreAppelConfirmation({ page, confirmation, search }: { 
         if (response.code == 200) {
             return {
                 result: response.data.data,
-                totalAct: response.data.count
+                totalAct: response.data.total_pages
             }
         } else {
             return null
+        }
+    } catch {
+        return null
+    }
+}
+
+export async function getTotalNoConfirmed() {
+    try {
+        const response = await apiRequest({
+            method: "GET",
+            url: "/api/commande/starshop/noconfimated",
+        })
+
+        if (response.code == 200) {
+            return response.data.count
+        } else {
+            return null;
         }
     } catch {
         return null

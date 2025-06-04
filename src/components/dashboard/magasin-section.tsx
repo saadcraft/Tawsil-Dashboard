@@ -19,7 +19,7 @@ export default function MagasinSection({ magasin }: { magasin: Magasin }) {
     const [qrCode, setQrCode] = useState<number | null>(null);
     const [mody, setMody] = useState<boolean>(false);
 
-    console.log(magasin)
+    // console.log(magasin)
 
     const { isConnected, setIsConnected } = useNotificationStore();
 

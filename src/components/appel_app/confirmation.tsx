@@ -23,7 +23,7 @@ type ChangeEtat = {
 
 export default function CommandeCentre({ commande }: { commande: Order[] }) {
 
-    const { isLoading, handleSearch } = useSearchLoader(['etat']);
+    const { isLoading, handleSearch } = useSearchLoader(['search', 'confirmation']);
 
     const router = useRouter()
 
@@ -102,11 +102,16 @@ export default function CommandeCentre({ commande }: { commande: Order[] }) {
                 </td>
                 <td className="px-3 py-4 flex justify-end gap-1 text-right">
 
-                    {!pre.confirmation && pre.status === "pending" &&
-                        <div className='flex gap-1'>
-                            <button onClick={() => openConfirmation(pre.id, pre.client_info.first_name + pre.client_info.last_name)} className='bg-green-700 text-white p-1 px-3 rounded-md hover:bg-green-500' title='confirmé'>Confirmé</button>
-                            <button onClick={() => setChnageEtat({ id: pre.id, etat: "canceled" })} className='bg-red-700 text-white p-1 px-3 rounded-md hover:bg-red-500' title='annulé'><MdBlock /></button>
-                        </div>
+                    {pre.status === "pending" ?
+                        !pre.confirmation ?
+                            <div className='flex gap-1'>
+                                <button onClick={() => openConfirmation(pre.id, pre.client_info.first_name + pre.client_info.last_name)} className='bg-green-700 text-white p-1 px-3 rounded-md hover:bg-green-500' title='confirmé'>Confirmé</button>
+                                <button onClick={() => setChnageEtat({ id: pre.id, etat: "canceled" })} className='bg-red-700 text-white p-1 px-3 rounded-md hover:bg-red-500' title='annulé'><MdBlock /></button>
+                            </div>
+                            :
+                            <p className='text-green-500 text-lg font-bold'>confirmed</p>
+                        :
+                        null
                     }
                     {/*   :
                         <button onClick={() => handleStatus(pre.id, true)} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500' title='activé'><FaRegCheckCircle /></button>
@@ -134,17 +139,42 @@ export default function CommandeCentre({ commande }: { commande: Order[] }) {
                     <form onSubmit={handleSearch} className='flex flex-col lg:flex-row items-center gap-5'>
                         <div className='relative'>
                             <FaSearch className='absolute top-3 text-slate-500' />
-                            <input type="text" name="client" placeholder='Recherche par Produit' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
+                            <input type="text" name="search" placeholder='Recherche par Produit' className='border-b outline-none py-2 pl-7 focus:border-slate-950' />
                         </div>
-                        {/* <select name='etat' className='p-2 w-full border border-slate-300 rounded-md' >
-                            <option value="">Sélectionné Status</option>
-                            <option value="pending">En attente</option>
-                            <option value="search">En cours</option>
-                            <option value="ready">Prét</option>
-                            <option value="confirmed">en préparation</option>
-                            <option value="delivered">livré</option>
-                            <option value="canceled">annulé</option>
-                        </select> */}
+                        <div className="inline-flex bg-gray-100 rounded-lg p-1">
+                            <div className="relative">
+                                <input
+                                    type="radio"
+                                    id="confirmed"
+                                    name="confirmation"
+                                    value="True"
+                                    defaultChecked
+                                    className="peer sr-only"
+                                />
+                                <label
+                                    htmlFor="confirmed"
+                                    className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-transparent rounded-md cursor-pointer transition-all duration-200 ease-in-out hover:text-gray-900 peer-checked:bg-white peer-checked:text-blue-600 peer-checked:shadow-sm"
+                                >
+                                    Confirmé
+                                </label>
+                            </div>
+
+                            <div className="relative">
+                                <input
+                                    type="radio"
+                                    id="not-confirmed"
+                                    name="confirmation"
+                                    value="False"
+                                    className="peer sr-only"
+                                />
+                                <label
+                                    htmlFor="not-confirmed"
+                                    className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-transparent rounded-md cursor-pointer transition-all duration-200 ease-in-out hover:text-gray-900 peer-checked:bg-white peer-checked:text-blue-600 peer-checked:shadow-sm"
+                                >
+                                    No Confirmé
+                                </label>
+                            </div>
+                        </div>
                         <button className='bg-blue-500 font-semibold hover:bg-third text-white p-2 rounded-lg'>Recherche</button>
                     </form>
                 </div>

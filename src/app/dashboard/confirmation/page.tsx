@@ -25,15 +25,15 @@ export default async function CondirmationPage({ searchParams }: props) {
 
     if (!data) notFound();
 
+    // console.log(data)
+
 
     const { result, totalAct } = data;
-
-    const totalPages = Math.ceil(totalAct / 20);
 
     return (
         <div>
             <CommandeCentre commande={result} />
-            <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`confirmation=${confirme}&search=${searchName}`} />
+            <Pagination pages={totalAct} currentPage={Number(pageNumber)} params={`confirmation=${confirme}&search=${searchName}`} />
         </div>
     )
 }

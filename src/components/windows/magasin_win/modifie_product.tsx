@@ -14,7 +14,7 @@ export default function ModifyProduct({ pro, option, onsub, partner }: { pro: Pr
 
     const [image, setImage] = useState<File | null>(null)
 
-    console.log(partner)
+    // console.log(partner)
 
     const handleCreate = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
