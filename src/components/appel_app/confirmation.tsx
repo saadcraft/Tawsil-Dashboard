@@ -1,7 +1,7 @@
 "use client"
 
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { MdBlock, MdClose, MdOutlineWorkspacePremium, MdDeliveryDining } from 'react-icons/md'
 import { useRouter } from 'next/navigation'
 import { FormatDate } from '@/lib/tools/tools'

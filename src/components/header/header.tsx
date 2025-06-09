@@ -11,6 +11,7 @@ import DropDown from "@/components/windows/drop_down"
 import { toast } from 'react-toastify';
 import { checkInternet } from '../options/useNetwork';
 import { PartenaireInformation } from '@/lib/tools/store/pertnerStore';
+import { UpdateMagasin } from '@/lib/stores_api';
 
 
 
@@ -29,7 +30,7 @@ export default function Header({ user, token, mag }: { user: Users, token: strin
   const [show, setShow] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const { notifications, setNotifications, addNotification, removeNotification, setSocket, setIsConnected } = useNotificationStore();
+  const { notifications, setNotifications, addNotification, removeNotification, setSocket, setIsConnected, isConnected } = useNotificationStore();
 
   const { setUser } = userInformation()
   const { setPertner } = PartenaireInformation()
@@ -42,6 +43,8 @@ export default function Header({ user, token, mag }: { user: Users, token: strin
   }, [user, setUser]);
 
 
+  let loadingToastId: string | number | null = null;
+
   useEffect(() => {
     if (!token || user?.role !== "partener") return; // Ensure token exists before establishing WebSocket connection
     if (mag) {
@@ -51,7 +54,6 @@ export default function Header({ user, token, mag }: { user: Users, token: strin
     let socket: WebSocket; // Declare it in the parent scope
     let reconnectTimeout: NodeJS.Timeout;
     let connectivityInterval: NodeJS.Timeout;
-    let loadingToastId: string | number | null = null;
     // Create a new WebSocket connection
     const connectWebSocket = () => {
       socket = new WebSocket(`${process.env.NEXT_PUBLIC_WS_SERVER}/ws/commandes/magasin/?token=${token}`);
@@ -138,6 +140,32 @@ export default function Header({ user, token, mag }: { user: Users, token: strin
     };
   }, [token, addNotification, setSocket, setNotifications, removeNotification, setIsConnected]);
 
+  const handleStatusChange = async (magasin_id: number, EtatOuverture: boolean) => {
+    loadingToastId = toast.loading("Submite ...", {
+      position: "bottom-right",
+      hideProgressBar: true,
+    });
+
+    const updateStatus = await UpdateMagasin({ magasin_id, EtatOuverture })
+
+    if (updateStatus.code == 200) {
+      toast.update(loadingToastId, {
+        render: EtatOuverture ? "Ouvert" : "Fermé",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+        closeButton: true,
+        onClose: () => {
+          // ✅ Clean up after it's actually closed
+          loadingToastId = null;
+        },
+      });
+      setIsConnected(EtatOuverture ? true : false)
+    } else {
+      toast.error(updateStatus);
+    }
+  }
+
 
   return (
     <header className={`fixed top-0 z-30 w-full bg-white  bg-gradient-to-r ${user?.type_account === "premium" ? "from-gold5 via-gold2 to-gold5" : "from-primer to-second"} shadow-md`}>
@@ -145,17 +173,36 @@ export default function Header({ user, token, mag }: { user: Users, token: strin
         <Image src="/tawsil.png" className="w-16 ml-10 cursor-pointer" alt="Tawsil" width={100} height={100} />
         <div className='flex items-center gap-2'>
           {user && user.role === "partener" ?
-            <button
-              className="relative dropdown-toggle flex items-center justify-center text-white transition-colors border border-gray-200 rounded-full hover:text-gray-700 h-11 w-11 hover:bg-gray-100"
-              onClick={() => setShow(true)}
-            >
-              {notifications.length > 0 &&
-                <p className='absolute rounded-full text-sm bg-red-600 w-5 h-5 text-center -top-1.5 text-white -right-1.5'>{notifications.length}</p>
-              }
-              <span className={`${notifications.length > 0 && "absolute inline-flex w-full h-full bg-orange-400 rounded-full opacity-75 animate-ping"}`}></span>
-              <FaShoppingBag />
-            </button>
-            : ""
+            <>
+              <span className="ml-3 text-sm font-medium text-gray-900">
+                {isConnected ?
+                  <span className='text-green-700 font-bold'>Ouvert</span>
+                  :
+                  <span className='text-red-700 font-bold'>Fermé</span>
+                }
+              </span>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  className="sr-only peer"
+                  checked={isConnected} // Set from database
+                  onChange={(e) => mag?.id !== undefined && handleStatusChange(mag.id, e.target.checked)} // Function to update status
+                />
+                <div className="w-12 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-6 peer-checked:after:border-white after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-green-500"></div>
+
+              </label>
+              <button
+                className="relative dropdown-toggle flex items-center justify-center text-white transition-colors border border-gray-200 rounded-full hover:text-gray-700 h-11 w-11 hover:bg-gray-100"
+                onClick={() => setShow(true)}
+              >
+                {notifications.length > 0 &&
+                  <p className='absolute rounded-full text-sm bg-red-600 w-5 h-5 text-center -top-1.5 text-white -right-1.5'>{notifications.length}</p>
+                }
+                <span className={`${notifications.length > 0 && "absolute inline-flex w-full h-full bg-orange-400 rounded-full opacity-75 animate-ping"}`}></span>
+                <FaShoppingBag />
+              </button>
+            </>
+            : null
           }
           {user ?
             <button
