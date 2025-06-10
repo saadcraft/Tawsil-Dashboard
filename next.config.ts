@@ -1,4 +1,3 @@
-import { withSentryConfig } from "@sentry/nextjs";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
@@ -27,24 +26,10 @@ const nextConfig: NextConfig = {
     return config;
   },
   // Other configurations
-  sentry: {
-    hideSourceMaps: false,
-    autoInstrumentServerFunctions: true,
-  },
+  // sentry: {
+  //   hideSourceMaps: false,
+  //   autoInstrumentServerFunctions: true,
+  // },
 };
-
-module.exports = withSentryConfig(
-  nextConfig,
-  {
-    telemetry: false,
-    // Combined Sentry config
-    silent: false, // Logging for debugging
-    authToken: process.env.SENTRY_AUTH_TOKEN,
-    project: "starshop",
-    widenClientFileUpload: true,
-    tunnelRoute: '/monitoring',
-    disableLogger: false,
-  }
-);
 
 export default nextConfig;

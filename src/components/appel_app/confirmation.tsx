@@ -27,8 +27,6 @@ export default function CommandeCentre({ commande }: { commande: Order[] }) {
 
     const router = useRouter()
 
-    console.log(commande)
-
     // console.log(commande)
 
 

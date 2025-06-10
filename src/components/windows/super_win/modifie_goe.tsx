@@ -73,7 +73,7 @@ export default function ModifieGeo({ id, onEvent }: { id: number, onEvent: (valu
     };
 
     const handleManual = async ({ latitude, longitude }: { latitude: number, longitude: number }) => {
-        console.log("here", latitude, longitude)
+        // console.log("here", latitude, longitude)
         try {
             setLatitude(latitude);
             setLongitude(longitude);

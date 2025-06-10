@@ -34,8 +34,6 @@ export default function Commande({ commande, magasin, livreurs }: { commande: Or
     const { sendMessage, socket } = useNotificationStore();
     const { pertner } = PartenaireInformation()
 
-    console.log(commande)
-
     // console.log(commande)
 
 
