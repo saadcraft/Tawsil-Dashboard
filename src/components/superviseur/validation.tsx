@@ -16,7 +16,7 @@ import QRcode from '../windows/magasin_win/qrcode'
 import { useSearchLoader } from '../options/useSearchLoader'
 import LoadingFirst from '../loading'
 
-export default function Validation({ users, refresh, utilisateur }: { users: Partenaire[], refresh: () => void, utilisateur: Users }) {
+export default function Validation({ users, refresh, utilisateur, wilaya }: { users: Partenaire[], refresh: () => void, utilisateur: Users, wilaya: string }) {
 
     const { isLoading, handleSearch } = useSearchLoader(['search', 'wilaya', 'is_active']);
 
@@ -125,7 +125,7 @@ export default function Validation({ users, refresh, utilisateur }: { users: Par
                             </label>
                         </div>
                     </div>
-                    <select name="wilaya" className='border-b outline-none py-2 pl-7 focus:border-slate-950'>
+                    <select name="wilaya" className='border-b outline-none py-2 pl-7 focus:border-slate-950' defaultValue={wilaya ? Number(wilaya) : undefined} >
                         <option value="">Sélection Wilaya</option>
                         {Wilaya.map(pre => {
                             return (
