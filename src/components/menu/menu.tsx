@@ -242,6 +242,7 @@ export default function Menu({ user, token }: props) {
                                     <div className='relative'>
                                         <MenuParams title={`Confirmation`} icon={<MdOutlineConfirmationNumber />} onEvent={() => handleMenu("/dashboard/confirmation")} />
                                         {countConfirmation && countConfirmation != 0 ? <span className='absolute top-3.5 right-10 py-0.5 px-2 text-sm rounded-full text-white font-bold bg-red-600' >{countConfirmation}</span> : ""}
+                                        <MenuParams title={`Validation`} icon={<GrValidate />} onEvent={() => handleMenu("/dashboard/validation")} />
                                     </div>
                                 </>
                             }

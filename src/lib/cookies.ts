@@ -30,7 +30,7 @@ export const refreshAccessToken = async (): Promise<TokenResponse | undefined> =
         if (!refreshToken) throw new Error("Refresh token is missing");
 
         try {
-                const response = await fetch(`${process.env.SERVER_DOMAIN}/api/token/refresh/`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/api/token/refresh/`, {
                         method: "POST",
                         credentials: "include",
                         body: JSON.stringify({ 'refresh': refreshToken }),

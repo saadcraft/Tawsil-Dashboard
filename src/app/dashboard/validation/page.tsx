@@ -1,3 +1,4 @@
+import ClientValidation from '@/components/client_validation';
 import Pagination from '@/components/options/pagination';
 import Validation from '@/components/superviseur/validation'
 import { getValidation } from '@/lib/super_action';
@@ -16,24 +17,9 @@ export default async function ValidationPage({ searchParams }: props) {
     const location = wilaya ?? "";
     const active = is_active ?? "";
 
-    let result: Partenaire[] = []
-    let totalAct = 0
-
-    const data = await getValidation({ page: pageNumber, search: search_num, wilaya: location, is_active: active, groupe: "" });
-
-    if (!data) notFound()
-
-    if (wilaya) {
-        totalAct = data.totalAct;
-        result = data.result;
-    }
-
-    const totalPages = Math.ceil(totalAct / 20);
-
     return (
         <div>
-            <Validation users={result} />
-            <Pagination pages={totalPages} currentPage={Number(pageNumber)} params={`search=${search_num}&wilaya=${location}&is_active=${active}`} />
+            <ClientValidation page={pageNumber} search={search_num} wilaya={location} is_active={active} groupe="" />
         </div>
     )
 }

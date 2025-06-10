@@ -15,9 +15,8 @@ import ModifieGeo from '../windows/super_win/modifie_goe'
 import QRcode from '../windows/magasin_win/qrcode'
 import { useSearchLoader } from '../options/useSearchLoader'
 import LoadingFirst from '../loading'
-import { useRouter } from 'next/navigation'
 
-export default function Validation({ users }: { users: Partenaire[] }) {
+export default function Validation({ users, refresh }: { users: Partenaire[], refresh: () => void }) {
 
     const { isLoading, handleSearch } = useSearchLoader(['search', 'wilaya', 'is_active']);
 
@@ -26,8 +25,6 @@ export default function Validation({ users }: { users: Partenaire[] }) {
     const [show, setShow] = useState<Partenaire | null>(null);
     const [geo, setGeo] = useState<number | null>(null);
     const [qrCode, setQrCode] = useState<number | null>(null);
-
-    const router = useRouter()
 
     const handleSubmite = async (id: number, event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -168,7 +165,7 @@ export default function Validation({ users }: { users: Partenaire[] }) {
             {user &&
                 <div>
                     <button onClick={() => setUser(null)} className='fixed z-50 top-28 right-10 bg-white shadow-md rounded-full text-third p-2 font-bold text-4xl'><MdClose /></button>
-                    <ActiveCompte onClose={setUser} user={user} refresh={router.refresh} />
+                    <ActiveCompte onClose={setUser} user={user} refresh={refresh} />
                 </div>
             }
             {activePartnerId &&
