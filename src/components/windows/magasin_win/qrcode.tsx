@@ -103,13 +103,15 @@ export default function QRcode({ id }: { id: number }) {
                         />
                     </div>
                 </div>
-                {user?.role === "superviseur" &&
+                {user?.role === "superviseur" || user?.role === "centre_appel" ?
                     <div>
                         <span onClick={handleDownloadPDF} className='mt-2 text-xl border rounded-xl p-1 hover:border-third cursor-pointer flex justify-center items-center gap-2'>
                             Télécharger PDF
                         </span>
                         <span onClick={PrintQR} className='mt-2 text-xl border rounded-xl p-1 hover:border-third cursor-pointer flex justify-center items-center gap-2'><FiPrinter /> Imprimer</span>
                     </div>
+                    :
+                    null
                 }
             </div>
             <div style={{ display: 'none' }}>

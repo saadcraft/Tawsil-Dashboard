@@ -1,3 +1,4 @@
+import { withSentryConfig } from "@sentry/nextjs";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
@@ -9,9 +10,9 @@ const nextConfig: NextConfig = {
     //   IMGS_DOMAIN: process.env.IMGS_DOMAIN,
     //   WS_SERVER: process.env.WS_SERVER,
     //   MAPBOX_API_KEY: process.env.MAPBOX_API_KEY,
-    //   SENTRY_DSN: process.env.SENTRY_DSN,
-    //   SENTRY_AUTH_TOKEN: process.env.SENTRY_AUTH_TOKEN,
-    //   SENTRY_TELEMETRY: process.env.SENTRY_TELEMETRY,
+    SENTRY_DSN: process.env.SENTRY_DSN,
+    SENTRY_AUTH_TOKEN: process.env.SENTRY_AUTH_TOKEN,
+    SENTRY_TELEMETRY: process.env.SENTRY_TELEMETRY || "0",
   },
   images: {
     domains: ['192.168.1.30:8000', '192.168.1.30', 'localhost', 'localhost:8000', '197.140.142.57:8000', '197.140.142.57', "192.168.222.254", "platforme.tawsilstar.dz"],
@@ -26,6 +27,24 @@ const nextConfig: NextConfig = {
     return config;
   },
   // Other configurations
+  sentry: {
+    hideSourceMaps: false,
+    autoInstrumentServerFunctions: true,
+  },
 };
+
+module.exports = withSentryConfig(
+  nextConfig,
+  {
+    telemetry: false,
+    // Combined Sentry config
+    silent: false, // Logging for debugging
+    authToken: process.env.SENTRY_AUTH_TOKEN,
+    project: "starshop",
+    widenClientFileUpload: true,
+    tunnelRoute: '/monitoring',
+    disableLogger: false,
+  }
+);
 
 export default nextConfig;

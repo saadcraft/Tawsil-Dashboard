@@ -16,7 +16,7 @@ import QRcode from '../windows/magasin_win/qrcode'
 import { useSearchLoader } from '../options/useSearchLoader'
 import LoadingFirst from '../loading'
 
-export default function Validation({ users, refresh }: { users: Partenaire[], refresh: () => void }) {
+export default function Validation({ users, refresh, utilisateur }: { users: Partenaire[], refresh: () => void, utilisateur: Users }) {
 
     const { isLoading, handleSearch } = useSearchLoader(['search', 'wilaya', 'is_active']);
 
@@ -64,17 +64,26 @@ export default function Validation({ users, refresh }: { users: Partenaire[], re
                     {Named(pre.type_compte?.name)}
                 </td>
                 <td className="px-4 py-4 flex mt-1 gap-2 justify-center">
-                    {pre.user.is_active ?
-                        <button onClick={() => setUser({ id: pre.user.id, statue: pre.user.is_active })} className='bg-red-700 text-white p-1 rounded-md hover:bg-red-500 flex items-center'>Désactivé <MdOutlineDisabledByDefault /></button> :
-                        <button onClick={() => setUser({ id: pre.user.id, statue: pre.user.is_active })} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500 flex items-center'>Activé <FaRegCheckCircle /></button>
+                    {utilisateur ?
+                        utilisateur.role === "superviseur" ?
+                            pre.user.is_active ?
+                                <button onClick={() => setUser({ id: pre.user.id, statue: pre.user.is_active })} className='bg-red-700 text-white p-1 rounded-md hover:bg-red-500 flex items-center'>Désactivé <MdOutlineDisabledByDefault /></button> :
+                                <button onClick={() => setUser({ id: pre.user.id, statue: pre.user.is_active })} className='bg-green-700 text-white p-1 rounded-md hover:bg-green-500 flex items-center'>Activé <FaRegCheckCircle /></button>
+                            :
+                            pre.user.is_active ?
+                                <p className='text-green-600 font-bold'>Activé</p>
+                                :
+                                <p className='text-red-600 font-bold'>Désactivé</p>
+                        :
+                        <p>Loading ....</p>
                     }
-                    <button onClick={() => setActivePartnerId(pre.id)} className='bg-red-700 text-white p-1 px-2 rounded-md hover:bg-red-500 inline-flex items-center'><MdOutlineReport /></button>
+                    {utilisateur && utilisateur.role === "superviseur" ? <button onClick={() => setActivePartnerId(pre.id)} className='bg-red-700 text-white p-1 px-2 rounded-md hover:bg-red-500 inline-flex items-center'><MdOutlineReport /></button> : null}
                 </td>
                 <td className="px-4 py-4 text-right">
                     <div className='flex gap-1 justify-end'>
                         {pre.type_compte?.name === "magasin" &&
                             <>
-                                <button onClick={() => setGeo(pre.id)} className='p-1 px-2 rounded-md border-blue-800 border hover:text-white hover:bg-blue-800 inline-flex items-center text-nowrap'><MdGpsFixed /></button>
+                                {utilisateur && utilisateur.role === "superviseur" ? <button onClick={() => setGeo(pre.id)} className='p-1 px-2 rounded-md border-blue-800 border hover:text-white hover:bg-blue-800 inline-flex items-center text-nowrap'><MdGpsFixed /></button> : null}
                                 <button onClick={() => setQrCode(pre.magasin_id ? Number(pre.magasin_id) : (toast.error("n'a pas magasin"), null))} className='p-1 px-2 rounded-md border-blue-800 border hover:text-white hover:bg-blue-800 inline-flex items-center text-nowrap'><MdOutlineQrCodeScanner className='mt-0.5' /></button>
                             </>
                         }

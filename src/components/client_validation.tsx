@@ -38,7 +38,7 @@ export default function ClientValidation({ page, search, wilaya, is_active, grou
 
     return (
         <div>
-            <Validation users={result} refresh={refetch} />
+            <Validation users={result} refresh={refetch} utilisateur={user!} />
             <Pagination pages={totalPages} currentPage={Number(page)} params={`search=${search}&wilaya=${wilaya}&is_active=${is_active}`} />
         </div>
     )
