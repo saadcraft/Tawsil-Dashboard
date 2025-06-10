@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaRegUser, FaShoppingBag } from "react-icons/fa";
@@ -42,8 +42,8 @@ export default function Header({ user, token, mag }: { user: Users, token: strin
     }
   }, [user, setUser]);
 
+  const loadingId = useRef<string | number | null>(null);
 
-  let loadingToastId: string | number | null = null;
 
   useEffect(() => {
     if (!token || user?.role !== "partener") return; // Ensure token exists before establishing WebSocket connection
@@ -54,6 +54,7 @@ export default function Header({ user, token, mag }: { user: Users, token: strin
     let socket: WebSocket; // Declare it in the parent scope
     let reconnectTimeout: NodeJS.Timeout;
     let connectivityInterval: NodeJS.Timeout;
+    let loadingToastId: string | number | null = null;
     // Create a new WebSocket connection
     const connectWebSocket = () => {
       socket = new WebSocket(`${process.env.NEXT_PUBLIC_WS_SERVER}/ws/commandes/magasin/?token=${token}`);
@@ -141,7 +142,7 @@ export default function Header({ user, token, mag }: { user: Users, token: strin
   }, [token, addNotification, setSocket, setNotifications, removeNotification, setIsConnected]);
 
   const handleStatusChange = async (magasin_id: number, EtatOuverture: boolean) => {
-    loadingToastId = toast.loading("Submite ...", {
+    loadingId.current = toast.loading("Submite ...", {
       position: "bottom-right",
       hideProgressBar: true,
     });
@@ -149,7 +150,7 @@ export default function Header({ user, token, mag }: { user: Users, token: strin
     const updateStatus = await UpdateMagasin({ magasin_id, EtatOuverture })
 
     if (updateStatus.code == 200) {
-      toast.update(loadingToastId, {
+      toast.update(loadingId.current, {
         render: EtatOuverture ? "Ouvert" : "Fermé",
         type: "success",
         isLoading: false,
@@ -157,7 +158,7 @@ export default function Header({ user, token, mag }: { user: Users, token: strin
         closeButton: true,
         onClose: () => {
           // ✅ Clean up after it's actually closed
-          loadingToastId = null;
+          loadingId.current = null;
         },
       });
       setIsConnected(EtatOuverture ? true : false)

@@ -1,8 +1,4 @@
 import ClientValidation from '@/components/client_validation';
-import Pagination from '@/components/options/pagination';
-import Validation from '@/components/superviseur/validation'
-import { getValidation } from '@/lib/super_action';
-import { notFound } from 'next/navigation';
 import React from 'react'
 
 type props = {
