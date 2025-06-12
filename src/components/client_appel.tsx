@@ -43,7 +43,7 @@ export default function ClientAppel({ page, search, groupe }: { page: string, se
                 :
                 <CenterChef parteners={data.result} refresh={refetch} />
             }
-            <Pagination pages={totalPages} currentPage={Number(page)} params={`search=${search}`} />
+            <Pagination pages={totalPages} currentPage={Number(page)} params={`search=${search}&groupe=${groupe}`} />
         </div>
     )
 }
