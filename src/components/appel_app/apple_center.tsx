@@ -21,10 +21,11 @@ import ShowCorbielle from '../windows/centre_win/show_user_blocker';
 type Props = {
   parteners: Partenaire[];
   // chefs: Users[];
-  refresh: () => void
+  refresh: () => void;
+  group: string;
 };
 
-export default function AppleCenter({ parteners, refresh }: Props) {
+export default function AppleCenter({ parteners, refresh, group }: Props) {
 
   const { isLoading, handleSearch } = useSearchLoader(['search', 'groupe']);
 
@@ -184,7 +185,7 @@ export default function AppleCenter({ parteners, refresh }: Props) {
                   id="confirmed"
                   name="groupe"
                   value="True"
-                  defaultChecked
+                  defaultChecked={group === "True"}
                   className="peer sr-only"
                 />
                 <label
@@ -201,6 +202,7 @@ export default function AppleCenter({ parteners, refresh }: Props) {
                   id="not-confirmed"
                   name="groupe"
                   value="False"
+                  defaultChecked={group === "False"}
                   className="peer sr-only"
                 />
                 <label

@@ -16,7 +16,7 @@ import QRcode from '../windows/magasin_win/qrcode'
 import { useSearchLoader } from '../options/useSearchLoader'
 import LoadingFirst from '../loading'
 
-export default function Validation({ users, refresh, utilisateur, wilaya }: { users: Partenaire[], refresh: () => void, utilisateur: Users, wilaya: string }) {
+export default function Validation({ users, refresh, utilisateur, wilaya, active }: { users: Partenaire[], refresh: () => void, utilisateur: Users, wilaya: string, active: string }) {
 
     const { isLoading, handleSearch } = useSearchLoader(['search', 'wilaya', 'is_active']);
 
@@ -107,7 +107,7 @@ export default function Validation({ users, refresh, utilisateur, wilaya }: { us
                     </div>
                     <div className="inline-flex bg-gray-100 rounded-lg p-1">
                         <div className='relative'>
-                            <input type="radio" id="valide" name="is_active" defaultChecked value="true" className="peer hidden" />
+                            <input type="radio" id="valide" name="is_active" defaultChecked={active === "true"} value="true" className="peer hidden" />
                             <label
                                 htmlFor="valide"
                                 className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-500 bg-transparent rounded-md cursor-pointer transition-all duration-200 ease-in-out hover:text-gray-900 peer-checked:bg-green-400 peer-checked:text-white peer-checked:shadow-sm"
@@ -116,7 +116,7 @@ export default function Validation({ users, refresh, utilisateur, wilaya }: { us
                             </label>
                         </div>
                         <div className='relative'>
-                            <input type="radio" id="noValide" name="is_active" value="false" className="peer hidden" />
+                            <input type="radio" id="noValide" name="is_active" defaultChecked={active === "false"} value="false" className="peer hidden" />
                             <label
                                 htmlFor="noValide"
                                 className="inline-flex items-center whitespace-nowrap justify-center px-4 py-2 text-sm font-medium text-gray-500 bg-transparent rounded-md cursor-pointer transition-all duration-200 ease-in-out hover:text-gray-900 peer-checked:bg-red-400 peer-checked:text-white peer-checked:shadow-sm"

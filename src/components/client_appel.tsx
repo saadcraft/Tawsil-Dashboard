@@ -39,7 +39,7 @@ export default function ClientAppel({ page, search, groupe }: { page: string, se
     return (
         <div>
             {user?.role === "centre_appel" || user?.role === "admin" ?
-                <AppleCenter parteners={data.result} refresh={refetch} />
+                <AppleCenter parteners={data.result} refresh={refetch} group={groupe} />
                 :
                 <CenterChef parteners={data.result} refresh={refetch} />
             }
