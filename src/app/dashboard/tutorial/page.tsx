@@ -9,7 +9,8 @@ export default async function PageTutorial() {
 
     const categiry = await tutorialCatégorie()
 
-    if (!videos) notFound()
+
+    if (!videos || !categiry) notFound()
 
 
     return (

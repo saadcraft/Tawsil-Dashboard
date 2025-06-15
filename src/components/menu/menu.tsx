@@ -288,6 +288,12 @@ export default function Menu({ user, token }: props) {
                                     <MenuParams title={`Commandes`} icon={<MdOutlineShoppingBasket />} onEvent={() => handleMenu("/dashboard/commandes")} />
                                 </>
                             }
+                            {
+                                user.role == "admin" || user.role == "centre_appel" ?
+                                    <MenuParams title={`Tutorial`} icon={<MdVideoSettings />} onEvent={() => handleMenu("/dashboard/tutorial")} />
+                                    :
+                                    null
+                            }
                         </>}
                     <div onClick={() => handleClick(0)} className='flex justify-between p-3 items-center font-bold hover:bg-slate-600 text-xl cursor-pointer'>
                         <h1 className='flex items-center gap-2'><MdLogin /> Authentication</h1>
