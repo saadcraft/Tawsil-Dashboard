@@ -87,7 +87,7 @@ export default function AjouterStar({ option, maga, onsub }: { option: Catalogue
     return (
         <div className='fixed z-20 overflow-auto top-20 flex items-start bottom-0 right-0 left-0 md:left-80 p-5 bg-opacity-50 bg-slate-700'>
             <div className='md:max-w-2xl w-full mx-auto p-5 mt-10 bg-white rounded-lg'>
-                <h1 className='mb-5 text-2xl font-bold text-center'>Ajoueté produit star</h1>
+                <h1 className='mb-5 text-2xl font-bold text-center'>Ajouter produit star</h1>
                 <form onSubmit={handleCreate} className='flex flex-col gap-4' encType="multipart/form-data">
                     <div className='flex gap-3 justify-start items-center'>
                         <p>Select image</p>
