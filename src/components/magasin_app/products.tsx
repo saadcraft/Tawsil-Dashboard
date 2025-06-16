@@ -67,6 +67,11 @@ export default function Products({ products, cat, magasin }: { products: Produit
                 <td className="px-4 py-4">
                     {pre.price}
                 </td>
+                {magasin?.owner.type_compte.name === "starshop" &&
+                    <td className="px-4 py-4">
+                        {pre.quantity_stock}
+                    </td>
+                }
                 <td className="px-4 py-4">
                     {pre.disponibilite ? <span className='text-green-700 font-bold'>Disponible</span> : <span className='text-red-700 font-bold'>Pas disponible</span>}
                 </td>
@@ -128,6 +133,11 @@ export default function Products({ products, cat, magasin }: { products: Produit
                                 <th className="px-4 py-3">
                                     Price
                                 </th>
+                                {magasin?.owner.type_compte.name === "starshop" &&
+                                    <th className="px-4 py-3">
+                                        Quantité
+                                    </th>
+                                }
                                 <th className="px-4 py-3">
                                     Status
                                 </th>
