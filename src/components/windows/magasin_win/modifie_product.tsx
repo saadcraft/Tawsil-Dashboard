@@ -156,7 +156,7 @@ export default function ModifyProduct({ pro, option, onsub, partner }: { pro: Pr
                         </div>
                         {partner?.type_compte?.name === "starshop" &&
                             <div className='w-full'>
-                                <p>Ajouter quantité</p>
+                                <span className='flex gap-2'><p>Ajouter quantité </p><p className='text-green-500'>{pro.quantity_stock} Piece</p></span>
                                 <input onChange={handleInputChange} type='text' name='quantity_stock' className='p-2 border w-full border-slate-300 rounded-md' placeholder='ajouté quantity' />
                             </div>
                         }
