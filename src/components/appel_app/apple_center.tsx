@@ -11,7 +11,7 @@ import ShowComment from '../windows/centre_win/show-comments'
 import Group from '../windows/chef_win/group'
 import toast from 'react-hot-toast';
 import { RiCheckFill } from 'react-icons/ri';
-import { handleInputChange } from '@/lib/tools/tools';
+import { FormatDate, handleInputChange } from '@/lib/tools/tools';
 import { useSearchLoader } from '../options/useSearchLoader';
 import LoadingFirst from '../loading';
 import DeleteReminder from '../windows/centre_win/block_user';
@@ -122,19 +122,19 @@ export default function AppleCenter({ parteners, refresh, group }: Props) {
   const pertener = parteners.map((pre, index) => {
     return (
       <tr key={index} className="bg-white border-b text-black hover:bg-gray-50">
-        <td className="px-6 py-4">
+        <td className="px-3 py-4">
           {pre.id}
         </td>
-        <td className="px-6 py-4 max-w-52 text-wrap overflow-hidden">
+        <td className="px-3 py-4 max-w-52 text-wrap overflow-hidden">
           {pre.user.username}
         </td>
-        <td className="px-6 py-4">
+        <td className="px-3 py-4">
           {pre.user.phone_number_1}
         </td>
-        <td className="px-6 py-4">
+        <td className="px-3 py-4">
           {pre.user.is_active ? "true" : "false"}
         </td>
-        <td className="px-6 py-4 text-center">
+        <td className="px-3 py-4 text-center">
           {pre.user.groupe ?
             <div className='flex gap-3 justify-center'>
               {pre.user.groupe_name || pre.user.groupe}
@@ -147,7 +147,7 @@ export default function AppleCenter({ parteners, refresh, group }: Props) {
             </>
           }
         </td>
-        <td className="relative px-6 py-4 text-center">
+        <td className="relative px-3 py-4 text-center">
           <button onClick={() => handleShowClick(pre.id)}>
             {pre.pre_en_charge &&
               <div className='absolute top-3 bg-green-600 p-0.5 rounded-full ml-4'>
@@ -156,7 +156,11 @@ export default function AppleCenter({ parteners, refresh, group }: Props) {
             }
             <FaCommentDots className='text-2xl' /></button>
         </td>
-        <td className="px-6 py-4 text-right flex justify-end gap-1">
+        <td className="px-3 py-1 text-center">
+          {FormatDate(pre.user.date_joined).split(', ')[0]}<br />
+          {FormatDate(pre.user.date_joined).split(', ')[1]}
+        </td>
+        <td className="px-3 py-4 text-right flex justify-end gap-1">
           <button onClick={() => handleCommentClick(pre.id)} className='bg-green-600 disabled:bg-opacity-20 px-4 py-2 text-white rounded-lg font-semibold'>Comment</button>
           <button onClick={() => openDeleteConfirmation(pre.user.id, pre.user.username)} className='bg-red-600 disabled:bg-opacity-20 p-2 text-white rounded-lg font-semibold'><MdBlock size={15} /></button>
         </td>
@@ -221,25 +225,28 @@ export default function AppleCenter({ parteners, refresh, group }: Props) {
           <table className="w-full text-sm text-left">
             <thead className="text-xs text-gray-500 uppercase bg-primer">
               <tr>
-                <th className="px-6 py-3">
+                <th className="px-3 py-3">
                   ID
                 </th>
-                <th className="px-6 py-3">
+                <th className="px-3 py-3">
                   Partner
                 </th>
-                <th className="px-6 py-3">
+                <th className="px-3 py-3">
                   Numero
                 </th>
-                <th className="px-6 py-3">
+                <th className="px-3 py-3">
                   Action
                 </th>
-                <th className="px-6 py-3 text-center">
+                <th className="px-3 py-3 text-center">
                   Groupe
                 </th>
-                <th className="px-6 py-3 text-center">
+                <th className="px-3 py-3 text-center">
                   commentaire
                 </th>
-                <th className="px-6 py-3 text-right">
+                <th className="px-3 py-3 text-center">
+                  Date inscription
+                </th>
+                <th className="px-3 py-3 text-right">
                   commenter
                 </th>
               </tr>
