@@ -4,7 +4,6 @@ import { CookiesRemover } from "./cookies";
 import { cookies } from 'next/headers';
 import { apiRequest } from "./request";
 import { Role } from "./tools/roles/user_role";
-import * as Sentry from "@sentry/nextjs";
 
 
 type User = {
@@ -250,7 +249,6 @@ export async function UpdatePic(Data: UpdateData): Promise<{ success: boolean; m
             return { success: false, message: errorData.message || "La mise à jour a échoué. Veuillez réessayer." };
         }
     } catch (error) {
-        Sentry.captureException(error);
         return { success: false, message: "Probleme connection" };
     }
 }
@@ -286,7 +284,6 @@ export async function addProduct(Data: { magasin_id: number, [key: string]: unkn
             return { success: false, message: firstError || "La mise à jour a échoué. Veuillez réessayer." };
         }
     } catch (error) {
-        Sentry.captureException(error);
         return { success: false, message: "Probleme connection" };
     }
 }
@@ -320,7 +317,6 @@ export async function ModifieProduct(Data: { id: number, [key: string]: unknown 
             return { success: false, message: errorData.message || "La mise à jour a échoué. Veuillez réessayer." };
         }
     } catch (error) {
-        Sentry.captureException(error);
         return { success: false, message: "Probleme connection" };
     }
 }
@@ -358,7 +354,6 @@ export async function UpdateMagPic(Data: { magasin_id: string; image_background?
             return { success: false, message: errorData.message || "La mise à jour a échoué. Veuillez réessayer." };
         }
     } catch (error) {
-        Sentry.captureException(error);
         return { success: false, message: "Probleme connection" };
     }
 }

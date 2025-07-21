@@ -2,7 +2,6 @@
 
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosError, InternalAxiosRequestConfig } from "axios";
 import { cookies } from "next/headers";
-import * as Sentry from "@sentry/nextjs";
 
 // Function to dynamically get the access token
 const getAccessToken = async (): Promise<string | undefined> => {
@@ -49,9 +48,7 @@ export const apiRequest = async (config: AxiosRequestConfig) => {
             data: response.data
         }
     } catch (error) {
-        const codeErrors = [401, 400, 406]
         if (axios.isAxiosError(error)) {
-            if (!codeErrors.includes(error.response?.status ?? 502)) Sentry.captureException(error);
             return {
                 code: error.response?.status,
                 message: error.response?.data?.message || error.message
