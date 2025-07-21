@@ -248,7 +248,7 @@ export async function UpdatePic(Data: UpdateData): Promise<{ success: boolean; m
             const errorData = await response.json(); // Assuming the server returns error details in JSON
             return { success: false, message: errorData.message || "La mise à jour a échoué. Veuillez réessayer." };
         }
-    } catch (error) {
+    } catch {
         return { success: false, message: "Probleme connection" };
     }
 }
@@ -283,7 +283,7 @@ export async function addProduct(Data: { magasin_id: number, [key: string]: unkn
             const firstError = Array.isArray(errorData.message) ? errorData.message[0] : errorData.message;
             return { success: false, message: firstError || "La mise à jour a échoué. Veuillez réessayer." };
         }
-    } catch (error) {
+    } catch {
         return { success: false, message: "Probleme connection" };
     }
 }
@@ -316,7 +316,7 @@ export async function ModifieProduct(Data: { id: number, [key: string]: unknown 
             const errorData = await response.json(); // Assuming the server returns error details in JSON
             return { success: false, message: errorData.message || "La mise à jour a échoué. Veuillez réessayer." };
         }
-    } catch (error) {
+    } catch {
         return { success: false, message: "Probleme connection" };
     }
 }
@@ -353,7 +353,7 @@ export async function UpdateMagPic(Data: { magasin_id: string; image_background?
             const errorData = await response.json(); // Assuming the server returns error details in JSON
             return { success: false, message: errorData.message || "La mise à jour a échoué. Veuillez réessayer." };
         }
-    } catch (error) {
+    } catch {
         return { success: false, message: "Probleme connection" };
     }
 }
