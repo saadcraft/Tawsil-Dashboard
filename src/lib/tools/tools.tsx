@@ -1,10 +1,10 @@
 
 // Define or import the FormatDate function
-export const FormatDate = (dateString: string, locale: string = 'en-US', timeZone: string = 'Africa/Algiers') => {
+export const FormatDate = (dateString: string, locale: string = 'en-GB', timeZone: string = 'Africa/Algiers') => {
   const options: Intl.DateTimeFormatOptions = {
     year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
+    day: '2-digit',
+    month: '2-digit',
     hour: 'numeric',
     minute: 'numeric',
     timeZone: timeZone,
