@@ -40,7 +40,7 @@ export async function middleware(req: NextRequest) {
 
         if (newTokens) {
           // Assuming refreshAccessToken returns an object with new access and refresh tokens
-          const { access: newAccessToken, refresh: newRefreshToken } = newTokens;
+          const { access: newAccessToken, refresh: newRefreshToken, user: user } = newTokens;
 
           // Set the new tokens in cookies
           const res = NextResponse.next();
@@ -58,6 +58,13 @@ export async function middleware(req: NextRequest) {
           });
 
           if (isPublicRoute) {
+            return NextResponse.redirect(new URL('/dashboard', req.url));
+          }
+
+          const urls = Role(user.role)
+          const isDisallowedRolePath = path.startsWith('/dashboard') && !urls?.includes(path);
+          if (isPublicRoute || isDisallowedRolePath) {
+            // Redirect to a default route if the user doesn't have access
             return NextResponse.redirect(new URL('/dashboard', req.url));
           }
 

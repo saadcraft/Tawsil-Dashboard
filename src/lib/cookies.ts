@@ -18,6 +18,7 @@ export async function CookiesRemover() {
 type TokenResponse = {
         access: string;
         refresh: string;
+        user: Users;
 };
 
 export const refreshAccessToken = async (): Promise<TokenResponse | undefined> => {
@@ -62,10 +63,21 @@ export const refreshAccessToken = async (): Promise<TokenResponse | undefined> =
                         //         secure: process.env.NODE_ENV === "production",
                         //         sameSite: "strict",
                         // });
-                        return {
-                                access: newAccessToken,
-                                refresh: newRefreshToken
-                        };
+                        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/api/v1/user`, {
+                                method: 'Get',
+                                headers: {
+                                        'Content-Type': 'application/json',
+                                        Authorization: `Bearer ${newAccessToken}`
+                                },
+                        });
+                        if (res.ok) {
+                                const user = await res.json()
+                                return {
+                                        access: newAccessToken,
+                                        refresh: newRefreshToken,
+                                        user: user
+                                };
+                        }
                 }
         } catch (error) {
                 if (axios.isAxiosError(error)) {
