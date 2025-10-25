@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
     SENTRY_TELEMETRY: process.env.SENTRY_TELEMETRY || "0",
   },
   images: {
-    domains: ['192.168.1.30:8000', '192.168.1.30', 'localhost', 'localhost:8000', '197.140.142.57:8000', '197.140.142.57', "192.168.222.254", "platforme.tawsilstar.dz"],
+    domains: ['192.168.1.30:8000', 'unadjunctively-naissant-calvin.ngrok-free.dev', '192.168.1.30', 'localhost', 'localhost:8000', '197.140.142.57:8000', '197.140.142.57', "192.168.222.254", "platforme.tawsilstar.dz"],
   },
   experimental: {
     serverActions: {
